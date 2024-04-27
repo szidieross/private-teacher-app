@@ -4,13 +4,14 @@ CREATE DATABASE private_teacher_app;
 
 CREATE TABLE Users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
     username VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     phone VARCHAR(20),
+    profile_picture VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
     role ENUM('user', 'teacher') NOT NULL
 );
 

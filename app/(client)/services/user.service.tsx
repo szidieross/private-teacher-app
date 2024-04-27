@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { api } from "@/app/api/utils/api.util";
+import { api } from "@/app/(client)/utils/api.util";
 import { UserModel } from "@/app/api/models/user.model";
 
 const useUsersService = () => {

@@ -7,6 +7,7 @@ const toUserModel = (dto: UserDto): UserModel => ({
   password: dto.password,
   email: dto.email,
   phone: dto.phone,
+  profilePicture: dto.profile_picture,
   createdAt: dto.created_at,
   firstName: dto.first_name,
   lastName: dto.last_name,
