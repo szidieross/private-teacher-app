@@ -59,12 +59,9 @@ export const getUsers = async (): Promise<UserModel[]> => {
 
 // export const getUserById = async (userId: number): Promise<UserModel | null> => {
 //     try {
-//         const users = await getUsers(); // Felhasználók lekérése
-//         // console.log(users)
-//         const user = users.find(user => user.userId == userId); // Felhasználó keresése
-//         // console.log("UserId:", userId);
-//         // console.log(user)
-//         return user || null; // Felhasználó visszaadása, ha találtunk, egyébként null
+//         const users = await getUsers();
+//         const user = users.find(user => user.userId == userId);
+//         return user || null;
 //     } catch (error) {
 //         console.error('Error fetching user:', error);
 //         throw error;
@@ -79,7 +76,7 @@ export const getUserById = async (userId: number
         const query = 'SELECT * FROM users WHERE user_id = ?';
         const [rows] = await db.execute(query, [userId]);
         db.release();
-        
+
         if (!Array.isArray(rows)) {
             throw new Error('Query result is not an array');
         }

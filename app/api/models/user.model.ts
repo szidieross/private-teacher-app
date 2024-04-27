@@ -9,16 +9,3 @@ export interface UserModel {
     lastName: string;
     role: string;
 }
-
-// export interface TokensRequestModel {
-//   chainId: number;
-//   tokenAddress: string;
-//   ownerAddress: string;
-// }
-
-// export interface CollectionInfo {
-//   collectionId: number;
-//   collectionName: string;
-//   chainId: number;
-//   smartContractAddress: string;
-// }

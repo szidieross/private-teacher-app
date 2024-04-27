@@ -34,13 +34,10 @@ import { UserModel } from "../../models/user.model";
 
 export const GET = async () => {
     try {
-        // Felhasználók lekérése az adatbázisból
         const users: UserModel[] = await getUsers();
 
-        // Válaszként visszaadjuk a felhasználók listáját
         return NextResponse.json(users);
     } catch (error) {
-        // Hiba esetén hibaüzenet küldése
         console.error('Error fetching users:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }

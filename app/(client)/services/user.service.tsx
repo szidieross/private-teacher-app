@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-// import { api } from "../../utils/api.util";
 import { api } from "@/app/api/utils/api.util";
 import { UserModel } from "@/app/api/models/user.model";
 

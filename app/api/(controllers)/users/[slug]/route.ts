@@ -13,27 +13,6 @@ export const GET = async (request: NextRequest, context: { params: { slug: numbe
     }
 };
 
-// export const GET = async (request: NextRequest, context: any) => {
-//     try {
-//         const { params } = context || {}; // Vizsgáljuk, hogy a context objektum tartalmazza-e a params tulajdonságot
-//         if (!params || !params.slug) {
-//             throw new Error('Slug parameter is missing');
-//         }
-//         const userId = params.slug;
-        
-//         // Felhasználó lekérése az adatbázisból az azonosító alapján
-//         const user: UserModel = await getUserById(userId);
-
-//         // Válaszként visszaadjuk a felhasználót
-//         return NextResponse.json(user);
-//     } catch (error) {
-//         // Hiba esetén hibaüzenet küldése
-//         console.error('Error fetching user:', error);
-//         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-//     }
-// };
-
-
 // export async function GET(
 //     request:  NextRequest,
 //     { params }: { params: { slug: string } }
