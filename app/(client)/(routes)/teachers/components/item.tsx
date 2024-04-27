@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Item = () => {
+  console.log("hello")
   return (
     <div>Item</div>
   )
