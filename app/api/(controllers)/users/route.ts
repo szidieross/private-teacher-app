@@ -32,7 +32,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getUsers } from "../../services/user.service";
 import { UserModel } from "../../models/user.model";
 
-export const GET = async (request: NextRequest, context: any) => {
+export const GET = async () => {
     try {
         // Felhasználók lekérése az adatbázisból
         const users: UserModel[] = await getUsers();
