@@ -45,7 +45,7 @@ CREATE TABLE Lessons (
     FOREIGN KEY (category_id) REFERENCES Categories(category_id)
 );
 
-CREATE TABLE Available_Time_Slots (
+CREATE TABLE Appointments (
     time_slot_id INT AUTO_INCREMENT PRIMARY KEY,
     teacher_id INT,
     lesson_id INT,
