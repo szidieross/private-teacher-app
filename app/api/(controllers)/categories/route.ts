@@ -4,11 +4,10 @@ import { getCategories } from "../../services/category.service";
 
 export const GET = async (request: NextRequest) => {
     try {
-        const users: CategoryModel[] = await getCategories();
-
-        return NextResponse.json(users);
+        const categories: CategoryModel[] = await getCategories();
+        return NextResponse.json(categories);
     } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching categories:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 };

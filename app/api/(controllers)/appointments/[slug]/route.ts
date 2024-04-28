@@ -3,12 +3,12 @@ import { getAppointmentById } from "@/app/api/services/appointment.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (request: NextRequest, context: { params: { slug: number } }) => {
-    const userId = context.params.slug;
+    const appointmentId = context.params.slug;
     try {
-        const users: AppointmentModel | null = await getAppointmentById(userId);
-        return NextResponse.json(users);
+        const appointment: AppointmentModel | null = await getAppointmentById(appointmentId);
+        return NextResponse.json(appointment);
     } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching appointment:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 };
