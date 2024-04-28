@@ -1,18 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import pool from "@/app/libs/mysql";
+import { AppointmentModel } from "../../models/appointment.model";
+import { getAppointments } from "../../services/appointment.service";
 
-export async function GET(
-    request: NextRequest,) {
+export const GET = async (request: NextRequest) => {
     try {
-        const db = await pool.getConnection()
-        const query = 'select * from users'
-        const [rows] = await db.execute(query)
-        db.release()
+        const users: AppointmentModel[] = await getAppointments();
 
-        return NextResponse.json(rows)
+        return NextResponse.json(users);
     } catch (error) {
-        return NextResponse.json({
-            error: error
-        }, { status: 500 })
+        console.error('Error fetching users:', error);
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
-}
+};

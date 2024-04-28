@@ -1,4 +1,3 @@
-import { NextRequest, NextResponse } from "next/server";
 import pool from "@/app/libs/mysql";
 import { UserModel } from "../models/user.model"
 import { UserDto } from "../dtos/user.dto";
