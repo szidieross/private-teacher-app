@@ -33,7 +33,42 @@ const useUsersService = () => {
     []
   );
 
-  return { getUsers, getUserById };
+  const createUser = useCallback(
+    async (
+      username: string,
+      password: string,
+      email: string,
+      phone: string,
+      profilePicture: string,
+      firstName: string,
+      lastName: string,
+      role: string
+    ): Promise<UserModel | null> => {
+      try {
+        const { data } = await api.post<UserModel>(
+          `/signup`,
+          {
+            username,
+            password,
+            email,
+            phone,
+            profilePicture,
+            firstName,
+            lastName,
+            role,
+          },
+          "Error while creating user!"
+        );
+        return data;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    []
+  );
+
+  return { getUsers, getUserById,createUser };
 };
 
 export default useUsersService;
