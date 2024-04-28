@@ -18,6 +18,7 @@ CREATE TABLE Users (
 CREATE TABLE Teachers (
     teacher_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
+    price INT,
     bio TEXT,
     qualification VARCHAR(100),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)

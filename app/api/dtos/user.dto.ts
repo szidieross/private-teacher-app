@@ -1,5 +1,3 @@
-import { RowDataPacket } from "mysql2";
-
 export interface UserDto {
     user_id: number;
     username: string;
