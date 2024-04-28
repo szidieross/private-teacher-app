@@ -1,5 +1,5 @@
 import { AppointmentModel } from "@/app/api/models/appointment.model";
-import { getAppointmentByUserId } from "@/app/api/services/appointment.service";
+import { getAppointmentByTeacherId } from "@/app/api/services/appointment.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -8,9 +8,8 @@ export const GET = async (
 ) => {
   const appointmentId = context.params.slug;
   try {
-    const appointment: AppointmentModel | null = await getAppointmentByUserId(
-      appointmentId
-    );
+    const appointment: AppointmentModel | null =
+      await getAppointmentByTeacherId(appointmentId);
     return NextResponse.json(appointment);
   } catch (error) {
     console.error("Error fetching appointment:", error);

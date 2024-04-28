@@ -28,7 +28,7 @@ export const getCategories = async (): Promise<CategoryModel[]> => {
 
         return categories;
     } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching categories:', error);
         return [];
     }
 };
@@ -58,7 +58,7 @@ export const getCategoryById = async (categoryId: number
 
         return category;
     } catch (error) {
-        console.error('Error fetching user:', error);
+        console.error('Error fetching category:', error);
         throw error;
     }
 };

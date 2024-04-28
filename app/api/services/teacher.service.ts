@@ -115,7 +115,7 @@ export const getTeacherById = async (teacherId: number
 
         return teacher;
     } catch (error) {
-        console.error('Error fetching user:', error);
+        console.error('Error fetching teacher:', error);
         throw error;
     }
 };
