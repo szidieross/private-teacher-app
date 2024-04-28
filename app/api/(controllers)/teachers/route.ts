@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUsers } from "../../services/user.service";
-import { UserModel } from "../../models/user.model";
 import { getTeachers } from "../../services/teacher.service";
 import { TeacherModel } from "../../models/teacher.model";
 

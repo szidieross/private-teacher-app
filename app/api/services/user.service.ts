@@ -3,7 +3,6 @@ import pool from "@/app/libs/mysql";
 import { UserModel } from "../models/user.model"
 import { UserDto } from "../dtos/user.dto";
 import { toUserModel } from "../mappers/user.mapper";
-import { RowDataPacket } from "mysql2";
 
 // export async function GET(
 //     request: NextRequest,) {

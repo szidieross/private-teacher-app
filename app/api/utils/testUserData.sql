@@ -17,23 +17,25 @@ INSERT INTO Teachers (user_id, price, bio, qualification)
 SELECT user_id, 50, 'Experienced teacher with a passion for education.', 'Bachelor of Education'
 FROM Users
 WHERE role = 'teacher' AND username = 'teacher1';
--- INSERT INTO Teachers (user_id, price, bio, qualification)
--- SELECT LAST_INSERT_ID(), 50, 'Experienced teacher with a passion for education.', 'Bachelor of Education' WHERE role = 'teacher' AND username = 'teacher1';
 
 -- Insert users with role 'teacher2'
--- INSERT INTO Users (first_name, last_name, username, password, email, phone, profile_picture, role)
--- VALUES 
---     ('Sarah', 'Miller', 'teacher2', 'password2', 'teacher2@example.com', '+777888999', 'profile5.jpg', 'teacher');
+INSERT INTO Users (first_name, last_name, username, password, email, phone, profile_picture, role)
+VALUES 
+    ('Sarah', 'Miller', 'teacher2', 'password2', 'teacher2@example.com', '+777888999', 'profile5.jpg', 'teacher');
 
 -- Insert teacher2 record into Teachers table
--- INSERT INTO Teachers (user_id, price, bio, qualification)
--- SELECT LAST_INSERT_ID(), 60, 'Highly qualified teacher specializing in mathematics.', 'Master of Science in Mathematics' WHERE role = 'teacher' AND username = 'teacher2';
+INSERT INTO Teachers (user_id, price, bio, qualification)
+SELECT user_id, 60, 'Highly qualified teacher specializing in mathematics.', 'Master of Science in Mathematics'
+FROM Users
+WHERE role = 'teacher' AND username = 'teacher1';
 
 -- -- Insert users with role 'teacher3'
--- INSERT INTO Users (first_name, last_name, username, password, email, phone, profile_picture, role)
--- VALUES 
---     ('Emma', 'Wilson', 'teacher3', 'password3', 'teacher3@example.com', '+101010101', 'profile6.jpg', 'teacher');
+INSERT INTO Users (first_name, last_name, username, password, email, phone, profile_picture, role)
+VALUES 
+    ('Emma', 'Wilson', 'teacher3', 'password3', 'teacher3@example.com', '+101010101', 'profile6.jpg', 'teacher');
 
 -- -- Insert teacher3 record into Teachers table
--- INSERT INTO Teachers (user_id, price, bio, qualification)
--- SELECT LAST_INSERT_ID(), 55, 'Dedicated teacher with expertise in English literature.', 'Bachelor of Arts in English' WHERE role = 'teacher' AND username = 'teacher3';
+INSERT INTO Teachers (user_id, price, bio, qualification)
+SELECT user_id, 60, 'Dedicated teacher with expertise in English literature.', 'Bachelor of Arts in English'
+FROM Users
+WHERE role = 'teacher' AND username = 'teacher1';

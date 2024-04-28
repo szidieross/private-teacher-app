@@ -2,6 +2,8 @@ DROP DATABASE IF EXISTS private_teacher_app;
 
 CREATE DATABASE private_teacher_app;
 
+USE private_teacher_app;
+
 CREATE TABLE Users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50),
@@ -18,6 +20,7 @@ CREATE TABLE Users (
 CREATE TABLE Teachers (
     teacher_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
+    price INT,
     bio TEXT,
     qualification VARCHAR(100),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
@@ -25,17 +28,7 @@ CREATE TABLE Teachers (
 
 CREATE TABLE Categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
-    parent_category_id INT,
-    name VARCHAR(100) NOT NULL,
-    FOREIGN KEY (parent_category_id) REFERENCES Categories(category_id)
-);
-
-CREATE TABLE Teacher_Category (
-    teacher_category_id INT AUTO_INCREMENT PRIMARY KEY,
-    teacher_id INT NOT NULL,
-    category_id INT NOT NULL,
-    FOREIGN KEY (teacher_id) REFERENCES Teachers(teacher_id),
-    FOREIGN KEY (category_id) REFERENCES Categories(category_id)
+    name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Lessons (

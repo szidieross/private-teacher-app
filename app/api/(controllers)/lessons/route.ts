@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CategoryModel } from "../../models/category.model";
-import { getCategories } from "../../services/category.service";
+import { LessonModel } from "../../models/lesson.model";
+import { getLessons } from "../../services/lesson.service";
 
 export const GET = async (request: NextRequest) => {
     try {
-        const users: CategoryModel[] = await getCategories();
+        const users: LessonModel[] = await getLessons();
 
         return NextResponse.json(users);
     } catch (error) {

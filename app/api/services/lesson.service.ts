@@ -1,9 +1,9 @@
 import pool from "@/app/libs/mysql";
-import { TeacherModel } from "../models/teacher.model";
-import { TeacherDto } from "../dtos/teacher.dto";
-import { toTeacherModel } from "../mappers/teacher.mapper";
+import { LessonModel } from "../models/lesson.model";
+import { LessonDto } from "../dtos/lesson.dto";
+import { toLessonModel } from "../mappers/lesson.mapper";
 
-export const getTeachers = async (): Promise<TeacherModel[]> => {
+export const getLessons = async (): Promise<LessonModel[]> => {
     try {
         const db = await pool.getConnection();
         const query = `
@@ -27,7 +27,7 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
             throw new Error('Query result is not an array');
         }
 
-        const data: TeacherDto[] = (rows as any).map((row: any) => {
+        const data: LessonDto[] = (rows as any).map((row: any) => {
             return {
                 user_data: {
                     user_id: row.user_id,
@@ -49,19 +49,19 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
             };
         });
 
-        const teachers: TeacherModel[] = data.map((row: TeacherDto) => {
-            return toTeacherModel(row);
+        const lessons: LessonModel[] = data.map((row: LessonDto) => {
+            return toLessonModel(row);
         });
 
-        return teachers;
+        return lessons;
     } catch (error) {
         console.error('Error fetching teachers:', error);
         throw error;
     }
 };
 
-export const getTeacherById = async (teacherId: number
-): Promise<TeacherModel> => {
+export const getLessonById = async (teacherId: number
+): Promise<LessonModel> => {
     try {
         const db = await pool.getConnection();
 
@@ -89,7 +89,7 @@ export const getTeacherById = async (teacherId: number
             throw new Error('Query result is not an array');
         }
 
-        const data: TeacherDto[] = (rows as any).map((row: any) => {
+        const data: LessonDto[] = (rows as any).map((row: any) => {
             return {
                 user_data: {
                     user_id: row.user_id,
@@ -111,9 +111,9 @@ export const getTeacherById = async (teacherId: number
             };
         });
 
-        const teacher: TeacherModel = toTeacherModel(data[0]);
+        const lesson: LessonModel = toLessonModel(data[0]);
 
-        return teacher;
+        return lesson;
     } catch (error) {
         console.error('Error fetching user:', error);
         throw error;
