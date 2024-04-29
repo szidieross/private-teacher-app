@@ -1,22 +1,27 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "@/app/globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Metadata } from "next";
+import MenuBar from "../components/menu-bar/menu-bar";
+// import FooterBar from "../components/footer-bar/footer-bar.component";
 
 export const metadata: Metadata = {
   title: "Private Teacher App",
   description: "Private teacher app",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <script
+          src="https://www.google.com/recaptcha/api.js?render=6LfAjcYeAAAAAJTxnTgx_JVndCSmQgU1gqzEIwoL"
+          defer
+        />
+        {/* <Providers environments={environments}> */}
+          <MenuBar />
+          {children}
+          {/* <FooterBar /> */}
+        {/* </Providers> */}
+      </body>
     </html>
   );
 }

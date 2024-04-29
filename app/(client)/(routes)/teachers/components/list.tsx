@@ -9,10 +9,14 @@ const List = () => {
   const { getUsers, getUserById, createUser,verifyUser } = useUsersService();
   const [users, setUsers] = useState<UserModel[] | null>(null);
 
-  const login = (username: string, password: string) => {
+  const handleLogin = (username: string, password: string) => {
     console.log("hello login")
     verifyUser(username, password);
     console.log("goodbye login")
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userData');
   };
 
   useEffect(() => {
@@ -46,7 +50,10 @@ const List = () => {
   return (
     <div>
       <div>
-        <button onClick={() => login("tess", "123456")}>Click</button>
+        <button onClick={() => handleLogin("tess", "123456")}>Login</button>
+      </div>
+      <div>
+        <button onClick={() => handleLogout()}>Logout</button>
       </div>
       return{" "}
       <div>{users && users.map((user, index) => <Item key={index} />)}</div>
