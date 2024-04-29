@@ -1,7 +1,7 @@
 import pool from "@/app/libs/mysql";
-import { UserModel } from "../models/user.model";
-import { UserDto } from "../dtos/user.dto";
-import { toUserModel } from "../mappers/user.mapper";
+import { SimpleUserModel, UserModel } from "../models/user.model";
+import { SimpleUserDto, UserDto } from "../dtos/user.dto";
+import { toSimpleUserModel, toUserModel } from "../mappers/user.mapper";
 
 // export async function GET(
 //     request: NextRequest,) {
@@ -243,3 +243,34 @@ export const createUser = async (
     }
   };
   
+  export const verifyUser = async (username: string, password: string) => {
+    try {
+      console.log("In route");
+      const db = await pool.getConnection();
+      const query = `
+        SELECT username, password FROM Users 
+        WHERE username = ? AND password = ?
+      `;
+  
+      const [rows] = await db.execute(query, [username, password]);
+      db.release();
+  
+      if (!Array.isArray(rows) || rows.length === 0) {
+        throw new Error("Query result is not an array");
+      }
+  
+      const data: SimpleUserDto[] = (rows as any).map((row: any) => {
+        return {
+          username: row.username,
+          password: row.password,
+        };
+      });
+  
+      const user: SimpleUserModel = toSimpleUserModel(data[0]);
+  
+      return user;
+    } catch (error) {
+      console.error("Error verifying user:", error);
+      throw error;
+    }
+  };

@@ -10,3 +10,9 @@ export interface UserDto {
     last_name: string;
     role: string;
 }
+
+
+export interface SimpleUserDto {
+    username: string;
+    password: string;
+}

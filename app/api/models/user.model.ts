@@ -10,3 +10,8 @@ export interface UserModel {
     lastName: string;
     role: string;
 }
+
+export interface SimpleUserModel {
+    username: string;
+    password: string;
+}

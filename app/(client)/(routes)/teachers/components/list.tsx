@@ -6,24 +6,30 @@ import useUsersService from "@/app/(client)/services/user.service";
 import { UserModel } from "@/app/api/models/user.model";
 
 const List = () => {
-  const { getUsers, getUserById,createUser } = useUsersService();
+  const { getUsers, getUserById, createUser,verifyUser } = useUsersService();
   const [users, setUsers] = useState<UserModel[] | null>(null);
+
+  const login = (username: string, password: string) => {
+    console.log("hello login")
+    verifyUser(username, password);
+    console.log("goodbye login")
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const fetchedUsers = await getUsers();
-        const fetchedUser = await getUserById(1);
-        const user = await createUser(
-          "Anna",
-          "123456",
-          "anna@gmail.com",
-          "1234567890",
-          "pic1.jpg",
-          "Anna",
-          "Hall",
-          "user"
-        );
+        // const fetchedUser = await getUserById(1);
+        // const user = await createUser(
+        //   "charlie",
+        //   "jkialtchb",
+        //   "charlie@gmail.com",
+        //   "1234567890",
+        //   "pic2.jpg",
+        //   "Charlie",
+        //   "Adams",
+        //   "user"
+        // );
 
         // console.log(fetchedUsers);
         // console.log(teachers);
@@ -37,7 +43,15 @@ const List = () => {
     fetchData();
   }, [getUsers]);
 
-  return <>{users && users.map((user, index) => <Item key={index} />)}</>;
+  return (
+    <div>
+      <div>
+        <button onClick={() => login("tess", "123456")}>Click</button>
+      </div>
+      return{" "}
+      <div>{users && users.map((user, index) => <Item key={index} />)}</div>
+    </div>
+  );
 };
 
 export default List;

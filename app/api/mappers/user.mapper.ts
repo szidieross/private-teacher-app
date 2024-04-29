@@ -1,5 +1,5 @@
-import { UserDto } from "../dtos/user.dto";
-import { UserModel } from "../models/user.model";
+import { SimpleUserDto, UserDto } from "../dtos/user.dto";
+import { SimpleUserModel, UserModel } from "../models/user.model";
 
 const toUserModel = (dto: UserDto): UserModel => ({
   userId: dto.user_id,
@@ -14,4 +14,9 @@ const toUserModel = (dto: UserDto): UserModel => ({
   role: dto.role,
 });
 
-export { toUserModel };
+const toSimpleUserModel = (dto: SimpleUserDto): SimpleUserModel => ({
+  username: dto.username,
+  password: dto.password,
+});
+
+export { toUserModel, toSimpleUserModel };

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { api } from "@/app/(client)/utils/api.util";
-import { UserModel } from "@/app/api/models/user.model";
+import { SimpleUserModel, UserModel } from "@/app/api/models/user.model";
 
 const useUsersService = () => {
   const getUsers = useCallback(async (): Promise<UserModel[]> => {
@@ -68,7 +68,31 @@ const useUsersService = () => {
     []
   );
 
-  return { getUsers, getUserById,createUser };
+  const verifyUser = useCallback(
+    async (
+      username: string,
+      password: string,
+    ): Promise<SimpleUserModel | null> => {
+      try {
+        const { data } = await api.post<UserModel>(
+          `/login`,
+          {
+            username,
+            password,
+          },
+          "Couldn't login.!"
+        );
+        localStorage.setItem("userData", JSON.stringify(data));
+        return data;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    []
+  );
+
+  return { getUsers, getUserById,createUser,verifyUser };
 };
 
 export default useUsersService;
