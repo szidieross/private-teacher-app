@@ -2,8 +2,9 @@
 
 import { Box, Toolbar } from "@mui/material";
 import { FC } from "react";
-import Mobile from "../mobile/mobile";
-import Desktop from "../desktop/desktop";
+import Mobile from "./mobile/mobile";
+import Desktop from "./desktop/desktop";
+import  "./menu-bar.scss";
 
 const MenuBar: FC = () => {
   return (

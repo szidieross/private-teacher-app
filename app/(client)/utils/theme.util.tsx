@@ -1,6 +1,5 @@
 import { PaletteOptions, Theme, ThemeOptions } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
-import { customBreakpoints } from "./breakpoints.utils";
 
 declare module "@mui/material/styles" {
     interface Palette {
@@ -14,11 +13,8 @@ declare module "@mui/material/styles" {
 const generalThemeConfig: ThemeOptions = {
     palette: {
         white: {
-            main: "#ffffff",
+            main: "red",
         },
-    },
-    breakpoints: {
-        values: customBreakpoints,
     },
 };
 

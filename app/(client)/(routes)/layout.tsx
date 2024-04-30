@@ -1,14 +1,17 @@
 import { Metadata } from "next";
 import MenuBar from "../components/menu-bar/menu-bar";
-// import FooterBar from "../components/footer-bar/footer-bar.component";
+import FooterBar from "../components/footer/footer-bar";
 
 export const metadata: Metadata = {
   title: "Private Teacher App",
   description: "Private teacher app",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
@@ -17,9 +20,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           defer
         />
         {/* <Providers environments={environments}> */}
-          <MenuBar />
-          {children}
-          {/* <FooterBar /> */}
+        <MenuBar />
+        {children}
+        <FooterBar />
         {/* </Providers> */}
       </body>
     </html>

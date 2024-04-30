@@ -1,23 +1,24 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Item from "./item";
+import Item from "../item/item";
 import useUsersService from "@/app/(client)/services/user.service";
 import { UserModel } from "@/app/api/models/user.model";
+import { Grid } from "@mui/material";
 
 const List = () => {
-  const { getUsers, getUserById, createUser,verifyUser } = useUsersService();
+  const { getUsers, getUserById, createUser, verifyUser } = useUsersService();
   const [users, setUsers] = useState<UserModel[] | null>(null);
 
   const handleLogin = (username: string, password: string) => {
-    console.log("hello login")
+    console.log("hello login");
     verifyUser(username, password);
-    console.log("goodbye login")
+    console.log("goodbye login");
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('userData');
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("userData");
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,11 +53,20 @@ const List = () => {
       <div>
         <button onClick={() => handleLogin("tess", "123456")}>Login</button>
       </div>
-      <div>
+      {/* <div>
         <button onClick={() => handleLogout()}>Logout</button>
-      </div>
+      </div> */}
       return{" "}
-      <div>{users && users.map((user, index) => <Item key={index} />)}</div>
+      <div>
+        <Grid container>
+          {users &&
+            users.map((user, index) => (
+              <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
+                <Item />
+              </Grid>
+            ))}
+        </Grid>
+      </div>
     </div>
   );
 };

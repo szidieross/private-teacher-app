@@ -7,6 +7,7 @@ import React, { FC, ReactNode, useState } from "react";
 // import StyledWrapper from "./mobile.style";
 // import WalletButton from "../wallet-button/wallet-button.component";
 // import SearchBar from "../searchbar/searchbar.component";
+import "./mobile.scss";
 
 const Mobile: FC = () => {
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
@@ -25,7 +26,7 @@ const Mobile: FC = () => {
               onClick={() => setMenuOpened((prev) => !prev)}
               disableTouchRipple
             >
-                hello
+              hello
               {/* {activeTheme?.palette.mode === "light" ? (
                 <>{menuOpened ? <UpIcon /> : <MenuIcon />}</>
               ) : (
