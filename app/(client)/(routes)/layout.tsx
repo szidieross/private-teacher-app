@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import MenuBar from "../components/menu-bar/menu-bar";
 import FooterBar from "../components/footer/footer-bar";
 import "./globals.scss";
+import { Container } from "@mui/material";
 
 export const metadata: Metadata = {
   title: "Private Teacher App",
@@ -22,7 +23,9 @@ export default async function RootLayout({
         />
         {/* <Providers environments={environments}> */}
         <MenuBar />
-        {children}
+        <Container sx={{ p: 0, m: "100px 0", minHeight: "60vh" }}>
+          {children}
+        </Container>
         <FooterBar />
         {/* </Providers> */}
       </body>

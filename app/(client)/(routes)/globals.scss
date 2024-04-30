@@ -88,6 +88,9 @@ body {
 body {
   background-color: rgb(254, 255, 223);
 }
+body.menu-open {
+  overflow: hidden;
+}
 
 a {
   color: inherit;

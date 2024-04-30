@@ -8,7 +8,7 @@ import  "./menu-bar.scss";
 
 const MenuBar: FC = () => {
   return (
-    <Box>
+    <Box sx={{position:"fixed"}}>
       <Toolbar className="menu-bar--toolbar">
         <Mobile/>
         <Desktop />
