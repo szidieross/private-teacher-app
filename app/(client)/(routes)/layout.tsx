@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import MenuBar from "../components/menu-bar/menu-bar";
 import FooterBar from "../components/footer/footer-bar";
+import "./globals.scss";
 
 export const metadata: Metadata = {
   title: "Private Teacher App",
