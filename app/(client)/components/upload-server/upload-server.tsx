@@ -21,6 +21,8 @@ export default function ServerUploadPage() {
     // console.log(`open ${path} to see the uploaded file`)
     const publicFolderPath = join(process.cwd(), "public/images", file.name);
 
+    console.log("file.name",file.name)
+
     const writeStream = createWriteStream(publicFolderPath);
     writeStream.write(buffer);
     writeStream.end();

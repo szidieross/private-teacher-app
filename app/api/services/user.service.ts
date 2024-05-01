@@ -263,35 +263,69 @@ import fs from 'fs-extra';
 //   }
 // };
 
-  
-  export const verifyUser = async (username: string, password: string) => {
-    try {
-      console.log("In route");
-      const db = await pool.getConnection();
-      const query = `
-        SELECT username, password FROM Users 
-        WHERE username = ? AND password = ?
-      `;
-  
-      const [rows] = await db.execute(query, [username, password]);
-      db.release();
-  
-      if (!Array.isArray(rows) || rows.length === 0) {
-        throw new Error("Query result is not an array");
-      }
-  
-      const data: SimpleUserDto[] = (rows as any).map((row: any) => {
-        return {
-          username: row.username,
-          password: row.password,
-        };
-      });
-  
-      const user: SimpleUserModel = toSimpleUserModel(data[0]);
-  
-      return user;
-    } catch (error) {
-      console.error("Error verifying user:", error);
-      throw error;
+
+export const verifyUser = async (username: string, password: string) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+      SELECT username, password FROM Users 
+      WHERE username = ? AND password = ?
+    `;
+
+    const [rows] = await db.execute(query, [username, password]);
+    db.release();
+
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return null; // Ha a felhasználó nem található az adatbázisban, null-t adunk vissza
     }
-  };
+
+    const data: SimpleUserDto[] = (rows as any).map((row: any) => {
+      return {
+        username: row.username,
+        password: row.password,
+      };
+    });
+
+    const user: SimpleUserModel = toSimpleUserModel(data[0]);
+
+    return user;
+  } catch (error) {
+    console.error("Error verifying user:", error);
+    throw error;
+  }
+};
+
+  
+  // export const verifyUser = async (username: string, password: string) => {
+  //   try {
+  //     console.log("In route");
+  //     const db = await pool.getConnection();
+  //     const query = `
+  //       SELECT username, password FROM Users 
+  //       WHERE username = ? AND password = ?
+  //     `;
+  
+  //     const [rows] = await db.execute(query, [username, password]);
+  //     db.release();
+  
+  //     if (!Array.isArray(rows) || rows.length === 0) {
+  //       throw new Error("Query result is not an array");
+  //     }
+
+  //     // if(!rows) return
+  
+  //     const data: SimpleUserDto[] = (rows as any).map((row: any) => {
+  //       return {
+  //         username: row.username,
+  //         password: row.password,
+  //       };
+  //     });
+  
+  //     const user: SimpleUserModel = toSimpleUserModel(data[0]);
+  
+  //     return user;
+  //   } catch (error) {
+  //     console.error("Error verifying user:", error);
+  //     throw error;
+  //   }
+  // };

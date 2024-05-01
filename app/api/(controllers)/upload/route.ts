@@ -15,6 +15,8 @@ export async function POST(request: NextRequest) {
   const buffer = Buffer.from(bytes);
 
   const publicFolderPath = join(process.cwd(), "public/images", file.name);
+  
+  console.log("file.name",file.name)
 
   const writeStream = createWriteStream(publicFolderPath);
   writeStream.write(buffer);
