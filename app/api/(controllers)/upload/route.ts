@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import pool from "@/app/libs/mysql";
-import { createUser } from "../../services/user.service";
 import { join } from "path";
 import { writeFile } from "fs/promises";
+import { createReadStream, createWriteStream } from "fs";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
@@ -15,9 +14,13 @@ export async function POST(request: NextRequest) {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  const path = join("/", "tmp", file.name);
-  await writeFile(path, buffer);
-  console.log("open ", path);
+  const publicFolderPath = join(process.cwd(), "public/images", file.name);
+
+  const writeStream = createWriteStream(publicFolderPath);
+  writeStream.write(buffer);
+  writeStream.end();
+
+  console.log("File saved to public folder:", publicFolderPath);
 
   return NextResponse.json({ success: true });
 }
