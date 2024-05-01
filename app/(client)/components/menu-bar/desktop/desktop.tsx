@@ -1,4 +1,5 @@
 import {
+  Button,
   Container,
   Grid,
   IconButton,
@@ -10,6 +11,7 @@ import React, { useState } from "react";
 import "./desktop.scss";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { colors } from "@/app/(client)/constants/color.constant";
+import LogoutForm from "../../logout-form/logout-form";
 
 const Desktop = () => {
   const { to } = useNavigation();
@@ -54,7 +56,7 @@ const Desktop = () => {
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item>
           <Typography
-          onClick={handleTitleClick}
+            onClick={handleTitleClick}
             style={{ color: colors.secondary }}
             className="desktop-title"
           >
@@ -62,6 +64,7 @@ const Desktop = () => {
           </Typography>
         </Grid>
         <Grid item>
+          <Button onClick={() => to("/login")}>Login</Button>
           <IconButton
             onClick={handleOpenMenu}
             edge="start"
@@ -98,7 +101,9 @@ const Desktop = () => {
         >
           <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
           <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          <MenuItem onClick={handleLogout}>
+            <LogoutForm />
+          </MenuItem>
         </Menu>
       </Grid>
     </Container>
