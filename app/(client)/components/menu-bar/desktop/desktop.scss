@@ -1,8 +1,13 @@
-.desktop-wrapper {
+.desktop-container {
   background-color: rgb(105, 105, 122);
-}
+  .desktop-title {
+    font-size: 30px;
+  }
 
-.profile-img {
-  height: 60px;
-  border-radius: 50%;
+  .profile-img {
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 }

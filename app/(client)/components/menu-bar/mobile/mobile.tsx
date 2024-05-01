@@ -17,6 +17,7 @@ import {
   makeStyles,
   Menu,
   MenuItem,
+  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { pink } from "@mui/material/colors";
@@ -119,7 +120,9 @@ const Mobile: FC = () => {
         {/* Add more menu items as needed */}
       </Menu>
       <Grid item>
-        <h1 style={{ color: colors.secondary }}>Private Teacher App</h1>
+        <Typography style={{ color: colors.secondary }}>
+          Private Teacher App
+        </Typography>
       </Grid>
     </Container>
   );

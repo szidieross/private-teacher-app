@@ -1,23 +1,21 @@
 import {
-  Button,
   Container,
   Grid,
   IconButton,
-  List,
   Menu,
   MenuItem,
+  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
 import "./desktop.scss";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { colors } from "@/app/(client)/constants/color.constant";
 
 const Desktop = () => {
   const { to } = useNavigation();
-  const handleLogout = () => {
-    localStorage.removeItem("userData");
-    handleCloseMenu();
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
   };
 
   const handleProfileClick = () => {
@@ -25,9 +23,19 @@ const Desktop = () => {
     to("/profile");
   };
 
+  const handleTitleClick = () => {
+    handleCloseMenu();
+    to("/");
+  };
+
   const handleSettingsClick = () => {
     handleCloseMenu();
     to("/profile/settings");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+    handleCloseMenu();
   };
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -37,47 +45,52 @@ const Desktop = () => {
     document.body.classList.add("menu-open");
   };
 
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <Container
+      className="desktop-container"
       style={{ backgroundColor: colors.primary }}
       sx={{ display: { xs: "none", sm: "block" } }}
     >
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item>
-          <h1 style={{ color: colors.secondary }}>Private Teacher App</h1>
+          <Typography
+          onClick={handleTitleClick}
+            style={{ color: colors.secondary }}
+            className="desktop-title"
+          >
+            Private Teacher App
+          </Typography>
         </Grid>
-        <IconButton
-          onClick={handleOpenMenu}
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          disableTouchRipple
-        >
-          <img
-            src="images/test-image.jpg"
-            alt="Profile"
-            className="profile-img"
-          />
-        </IconButton>
+        <Grid item>
+          <IconButton
+            onClick={handleOpenMenu}
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            disableRipple
+          >
+            {" "}
+            <img
+              src="/images/test-image.jpg"
+              alt="Profile"
+              className="profile-img"
+            />
+          </IconButton>
+        </Grid>
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleCloseMenu}
           anchorOrigin={{
             vertical: "bottom",
-            horizontal: "left",
+            horizontal: "right",
           }}
           transformOrigin={{
             vertical: "top",
-            horizontal: "left",
+            horizontal: "right",
           }}
           PaperProps={{
             style: {
-              // maxWidth: 300,
               backgroundColor: "pink",
             },
           }}

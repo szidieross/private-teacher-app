@@ -62,7 +62,7 @@ const List = () => {
           {users &&
             users.map((user, index) => (
               <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-                <Item />
+                <Item user={user} />
               </Grid>
             ))}
         </Grid>
