@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { pink } from "@mui/material/colors";
+import DrawerMenu from "../drawer-menu/drawer-menu";
 
 const Mobile: FC = () => {
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
@@ -82,26 +83,8 @@ const Mobile: FC = () => {
           </List>
         </div>
       </Drawer>
-      {/* <Drawer
-        anchor="top"
-        open={isProfileDrawerOpen}
-        onClose={toggleProfileDrawer}
-        PaperProps={{ style: { maxWidth: 300 } }}
-      >
-        <div>
-          <IconButton onClick={toggleProfileDrawer}>
-            <MenuIcon />
-          </IconButton>
-          <List>
-            <ListItem button onClick={toggleProfileDrawer}>
-              <ListItemText primary="Menu Item 1Menu Item 1" />
-            </ListItem>
-            <ListItem button onClick={toggleProfileDrawer}>
-              <ListItemText primary="Menu Item 2" />
-            </ListItem>
-          </List>
-        </div>
-      </Drawer> */}
+
+      {/* <DrawerMenu toggleDrawer={toggleDrawer} isDrawerOpen={isDrawerOpen} /> */}
 
       <IconButton
         onClick={handleOpenMenu}

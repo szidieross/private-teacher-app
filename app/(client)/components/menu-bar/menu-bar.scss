@@ -1,4 +1,10 @@
-.menu-bar--toolbar {
-  max-width: 1200px;
-  margin: 0 auto;
+.menu-bar--box {
+  width: 100vw;
+  height: 80px;
+  margin: 0;
+  padding: 0;
+  .menu-bar--toolbar {
+    // max-width: 1200px;
+    // margin: 0 auto;
+  }
 }

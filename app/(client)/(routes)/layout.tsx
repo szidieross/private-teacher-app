@@ -17,13 +17,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <script
+        {/* <script
           src="https://www.google.com/recaptcha/api.js?render=6LfAjcYeAAAAAJTxnTgx_JVndCSmQgU1gqzEIwoL"
           defer
-        />
+        /> */}
         {/* <Providers environments={environments}> */}
         <MenuBar />
-        <Container sx={{ p: 0, m: "100px 0", minHeight: "60vh" }}>
+        <Container className="layout-container">
           {children}
         </Container>
         <FooterBar />
