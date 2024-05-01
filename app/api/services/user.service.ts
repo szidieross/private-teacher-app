@@ -242,6 +242,27 @@ export const createUser = async (
       throw error;
     }
   };
+
+// services/user.service.ts
+
+import fs from 'fs-extra';
+
+// export const createImage = async (file: File): Promise<string> => {
+//   try {
+//     const uploadDir = 'public/images'; // Képek tárolásának mappaútvonala
+//     const newPath = `${uploadDir}/${file.name}`; // Új fájl útvonala
+
+//     // Fájl mozgatása a célhelyre
+//     await fs.move(file.path, newPath);
+
+//     // A feltöltött fájl elérési útvonala visszatérési értékként
+//     return newPath;
+//   } catch (error) {
+//     console.error('Error creating image:', error);
+//     throw error;
+//   }
+// };
+
   
   export const verifyUser = async (username: string, password: string) => {
     try {
