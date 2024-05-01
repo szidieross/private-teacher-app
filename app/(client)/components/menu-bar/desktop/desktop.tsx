@@ -12,6 +12,7 @@ import "./desktop.scss";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { colors } from "@/app/(client)/constants/color.constant";
 import LogoutForm from "../../logout-form/logout-form";
+import Image from "next/image";
 
 const Desktop = () => {
   const { to } = useNavigation();
@@ -73,7 +74,14 @@ const Desktop = () => {
             disableRipple
           >
             {" "}
-            <img
+            {/* <img
+              src="/images/test-image.jpg"
+              alt="Profile"
+              className="profile-img"
+            /> */}
+            <Image
+              width={60}
+              height={60}
               src="/images/test-image.jpg"
               alt="Profile"
               className="profile-img"
