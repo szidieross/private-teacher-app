@@ -6,6 +6,8 @@ export async function POST(request: NextRequest) {
     const { username, password } = await request.json();
     const result = await verifyUser(username, password);
 
+    if (!result) return;
+    
     return NextResponse.json({ username: result.username }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 500 });

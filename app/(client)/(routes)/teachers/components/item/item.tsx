@@ -11,14 +11,14 @@ const Item: FC<Props> = ({ user }) => {
     <Box>
       <Typography>
         {user.firstName} {user.lastName}
-        {user.profilePicture && (
-          <img
-            src="/images/test-image.jpg"
-            alt="Profile"
-            className="profile-img"
-          />
-        )}
       </Typography>
+      {user.profilePicture && (
+        <img
+          src="/images/test-image.jpg"
+          alt="Profile"
+          className="profile-img"
+        />
+      )}
     </Box>
   );
 };
