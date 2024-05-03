@@ -73,12 +73,6 @@ const Desktop = () => {
             aria-label="menu"
             disableRipple
           >
-            {" "}
-            {/* <img
-              src="/images/test-image.jpg"
-              alt="Profile"
-              className="profile-img"
-            /> */}
             <Image
               width={60}
               height={60}
