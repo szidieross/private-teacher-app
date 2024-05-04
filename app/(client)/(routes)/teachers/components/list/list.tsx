@@ -5,10 +5,25 @@ import Item from "../item/item";
 import useUsersService from "@/app/(client)/services/user.service";
 import { UserModel } from "@/app/api/models/user.model";
 import { Grid } from "@mui/material";
+import { getSession } from "@/app/api/utils/actions";
+import { redirect } from "next/navigation";
 
 const List = () => {
   const { getUsers, getUserById, createUser, verifyUser } = useUsersService();
   const [users, setUsers] = useState<UserModel[] | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    const checkSession = async () => {
+        const session = await getSession();
+        if (session.isLoggedIn) {
+            console.log(session.username)
+        }
+    };
+
+    checkSession();
+}, []);
+  
 
   const handleLogin = (username: string, password: string) => {
     console.log("hello login");
@@ -24,7 +39,7 @@ const List = () => {
     const fetchData = async () => {
       try {
         const fetchedUsers = await getUsers();
-        // const fetchedUser = await getUserById(1);
+        const fetchedUser = await getUserById(4);
         // const user = await createUser(
         //   "charlie",
         //   "jkialtchb",
@@ -40,6 +55,7 @@ const List = () => {
         // console.log(teachers);
         // console.log(fetchedUser);
         setUsers(fetchedUsers);
+        console.log(fetchedUser)
       } catch (error) {
         console.error("Error fetching users:", error);
       }

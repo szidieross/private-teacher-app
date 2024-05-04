@@ -5,7 +5,8 @@ import { getIronSession } from "iron-session";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { verifyUser } from "./api/services/user.service";
+import { UserModel } from "@/app/api/models/user.model";
+import { verifyUser } from "@/app/api/services/user.service";
 
 let username = "john";
 let isPro = true;
@@ -39,7 +40,7 @@ export const login = async (
 
   console.log(formUsername, formPassword);
 
-  const user = await verifyUser(formUsername, formPassword);
+  const user: UserModel | null = await verifyUser(formUsername, formPassword);
   console.log("USERRRRRRRRRRRRRRRRRRRRRRRRR", user);
 
   // if (formUsername !== username) {
@@ -51,7 +52,8 @@ export const login = async (
     return;
   }
 
-  session.userId = "1";
+  // session.userId = "1";
+  session.userId = formUsername;
   session.username = formUsername;
   session.isPro = isPro;
   session.isLoggedIn = true;

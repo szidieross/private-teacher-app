@@ -33,6 +33,22 @@ const useUsersService = () => {
     []
   );
 
+  const getUserByUserame = useCallback(
+    async (userId: number): Promise<UserModel | null> => {
+      try {
+        const { data } = await api.get<UserModel>(
+          `/users/${userId}`,
+          "The request for user failed, please reload the page!"
+        );
+        return Promise.resolve(data);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    []
+  );
+
   const createUser = useCallback(
     async (
       username: string,
@@ -72,7 +88,7 @@ const useUsersService = () => {
     async (
       username: string,
       password: string,
-    ): Promise<SimpleUserModel | null> => {
+    ): Promise<UserModel | null> => {
       try {
         const { data } = await api.post<UserModel>(
           `/login`,
