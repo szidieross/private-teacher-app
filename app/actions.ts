@@ -46,10 +46,7 @@ export const login = async (
   // CHECK USER IN THE DB
   // const user = await db.getUser({username,password})
 
-  console.log(formUsername, formPassword);
-
   const user = await verifyUser(formUsername, formPassword);
-  console.log("USERRRRRRRRRRRRRRRRRRRRRRRRR", user);
 
   // if (formUsername !== username) {
   //   return { error: "Wrong Credentials!" };

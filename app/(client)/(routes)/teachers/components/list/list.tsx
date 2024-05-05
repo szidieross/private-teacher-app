@@ -15,9 +15,7 @@ const List = () => {
   const [teachers, setTeachers] = useState<TeacherModel[] | null>(null);
 
   const handleLogin = (username: string, password: string) => {
-    console.log("hello login");
     verifyUser(username, password);
-    console.log("goodbye login");
   };
 
   // const handleLogout = () => {
@@ -42,11 +40,7 @@ const List = () => {
         //   "user"
         // );
 
-        // console.log(fetchedUsers);
-        console.log(fetchedTeachers);
         setTeachers(fetchedTeachers);
-        // console.log(fetchedUser);
-        // setUsers(fetchedUsers);
       } catch (error) {
         console.error("Error fetching users:", error);
       }

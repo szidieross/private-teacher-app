@@ -43,7 +43,6 @@ const Mobile: FC = () => {
     const fetchData = async () => {
       try {
         const categories = await getCategories();
-        console.log(categories);
         setCategories(categories);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -71,7 +70,6 @@ const Mobile: FC = () => {
   const { to } = useNavigation();
   const { isLoggedIn } = useUserContext();
 
-  console.log("isLoggedIn", isLoggedIn);
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
