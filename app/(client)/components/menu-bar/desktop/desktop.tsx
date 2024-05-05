@@ -24,7 +24,7 @@ const Desktop = () => {
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
 
-console.log(isLoggedIn)
+  console.log(isLoggedIn);
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
@@ -64,6 +64,11 @@ console.log(isLoggedIn)
 
   const handleCloseCatMenu = () => {
     setAnchorElCat(null);
+  };
+
+  const handleAppointmentsClick = () => {
+    handleCloseMenu();
+    to("/profile/appointments");
   };
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -173,6 +178,9 @@ console.log(isLoggedIn)
               disableScrollLock={false}
             >
               <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+              <MenuItem onClick={handleAppointmentsClick}>
+                My Appointments
+              </MenuItem>
               <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
               <MenuItem onClick={handleLogout}>
                 <LogoutForm />

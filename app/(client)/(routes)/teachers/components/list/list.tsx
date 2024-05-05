@@ -1,46 +1,31 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Item from "../item/item";
 import useUsersService from "@/app/(client)/services/user.service";
 import { UserModel } from "@/app/api/models/user.model";
 import { Grid } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
-import { getSession } from "@/app/actions";
-import { redirect } from "next/navigation";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 
-const List = () => {
-  const { getUsers, getUserById, createUser, verifyUser } = useUsersService();
+type Props = {
+  isSession: boolean;
+};
+
+const List: FC<Props> = ({ isSession }) => {
   const { getTeachers } = useTeachersService();
   const { setIsLoggedIn } = useUserContext();
-  const [users, setUsers] = useState<UserModel[] | null>(null);
   const [teachers, setTeachers] = useState<TeacherModel[] | null>(null);
 
-  // const handleLogin = (username: string, password: string) => {
-  //   verifyUser(username, password);
-  // };
-
   useEffect(() => {
-    const fetchData = async () => {
-      const session = await getSession();
-
-      setIsLoggedIn(session.isLoggedIn);
-    };
-    fetchData();
-  }, [getSession]);
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem("userData");
-  // };
+    setIsLoggedIn(isSession);
+  }, [isSession]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const fetchedUsers = await getUsers();
         const fetchedTeachers = await getTeachers();
-        // console.log(fetchedTeachers);
         // const fetchedUser = await getUserById(1);
         // const user = await createUser(
         //   "charlie",
@@ -60,32 +45,17 @@ const List = () => {
     };
 
     fetchData();
-  }, [getUsers]);
+  }, [getTeachers]);
 
   return (
-    <div>
-      {/* <div>
-        <button onClick={() => handleLogin("tess", "123456")}>Login</button>
-      </div> */}
-      <div>
-        <Grid container>
-          {teachers &&
-            teachers.map((teacher, index) => (
-              <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-                <Item teacher={teacher} />
-              </Grid>
-            ))}
-        </Grid>
-        {/* <Grid container>
-          {users &&
-            users.map((user, index) => (
-              <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-                <Item user={user} />
-              </Grid>
-            ))}
-        </Grid> */}
-      </div>
-    </div>
+    <Grid container>
+      {teachers &&
+        teachers.map((teacher, index) => (
+          <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
+            <Item teacher={teacher} />
+          </Grid>
+        ))}
+    </Grid>
   );
 };
 

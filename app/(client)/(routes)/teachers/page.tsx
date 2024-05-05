@@ -1,9 +1,12 @@
+import { isLoggedIn } from "@/app/actions";
 import List from "./components/list/list";
 
-export default function Home() {
+export default async function Home() {
+  const isSession = await isLoggedIn();
+
   return (
     <main>
-      <List />
+      <List isSession={isSession} />
     </main>
   );
 }

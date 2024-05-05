@@ -17,6 +17,46 @@ const pages: PageModel[] = [
             "",
         keywords: ["idk", "stb",],
     },
+    {
+        label: "Signup",
+        route: "/signup",
+        title: "",
+        description:
+            "",
+        keywords: ["idk", "stb",],
+    },
+    {
+        label: "Login",
+        route: "/login",
+        title: "",
+        description:
+            "",
+        keywords: ["idk", "stb",],
+    },
+    {
+        label: "Profile",
+        route: "/profile",
+        title: "",
+        description:
+            "",
+        keywords: ["idk", "stb",],
+    },
+    {
+        label: "Settings",
+        route: "/profile/settings",
+        title: "",
+        description:
+            "",
+        keywords: ["idk", "stb",],
+    },
+    {
+        label: "My Appointments",
+        route: "/profile/appointments",
+        title: "",
+        description:
+            "",
+        keywords: ["idk", "stb",],
+    },
 ];
 
 const unknowPage: PageModel = {

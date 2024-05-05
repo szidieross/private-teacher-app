@@ -5,5 +5,5 @@ import UploadForm from "../components/upload-form/upload-form";
 
 export default function Home() {
   redirect("/teachers");
-  return <main>Home</main>;
+  // return <main>Home</main>;
 }

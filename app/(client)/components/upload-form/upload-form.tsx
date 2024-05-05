@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 
-const UploadForm = () => {
+const UploadForm: FC = () => {
   const [file, setfile] = useState<File>();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

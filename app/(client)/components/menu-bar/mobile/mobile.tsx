@@ -1,20 +1,15 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
-// import { useStoreContext, useThemeContext } from "@/app/(client)/hooks/context.hook";
+import React, { FC, useEffect, useState } from "react";
 // import SearchBar from "../searchbar/searchbar.component";
 import "./mobile.scss";
 import { colors } from "@/app/(client)/constants/color.constant";
 import {
-  Box,
   Container,
   Grid,
-  AppBar,
-  Toolbar,
   IconButton,
   Drawer,
   List,
   ListItem,
   ListItemText,
-  makeStyles,
   Menu,
   MenuItem,
   Typography,
@@ -22,13 +17,14 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { pink } from "@mui/material/colors";
-import DrawerMenu from "../drawer-menu/drawer-menu";
+import DrawerMenu from "./drawer-menu/drawer-menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
 import LogoutForm from "../../logout-form/logout-form";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
+import "./mobile.scss";
 
 const Mobile: FC = () => {
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
@@ -70,7 +66,6 @@ const Mobile: FC = () => {
   const { to } = useNavigation();
   const { isLoggedIn } = useUserContext();
 
-
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
@@ -90,6 +85,11 @@ const Mobile: FC = () => {
     to("/teachers");
   };
 
+  const handleAppointmentsClick = () => {
+    handleCloseMenu();
+    to("/profile/appointments");
+  };
+
   const handleSettingsClick = () => {
     handleCloseMenu();
     to("/profile/settings");
@@ -102,7 +102,7 @@ const Mobile: FC = () => {
 
   return (
     <Container
-      className="mobile-wrapper"
+      className="mobile-container"
       sx={{ display: { xs: "block", sm: "none" } }}
     >
       <Grid container alignItems="center" justifyContent="space-between">
@@ -128,7 +128,7 @@ const Mobile: FC = () => {
                   <ListItem
                     button
                     onClick={toggleDrawer}
-                    sx={{ flexDirection: "column",alignItems:"flex-start" }}
+                    sx={{ flexDirection: "column", alignItems: "flex-start" }}
                   >
                     <ListItemText primary="Categories" />
                     <List>
@@ -196,6 +196,9 @@ const Mobile: FC = () => {
               disableScrollLock={false}
             >
               <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+              <MenuItem onClick={handleAppointmentsClick}>
+                My Appointments
+              </MenuItem>
               <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
               <MenuItem onClick={handleLogout}>
                 <LogoutForm />

@@ -19,6 +19,11 @@ const DropdownMenu: FC<Props> = () => {
     to("/profile");
   };
 
+  const handleAppointmentsClick = () => {
+    handleCloseMenu();
+    to("/profile/settings");
+  };
+
   const handleSettingsClick = () => {
     handleCloseMenu();
     to("/profile/settings");
@@ -56,6 +61,7 @@ const DropdownMenu: FC<Props> = () => {
       disableScrollLock={false}
     >
       <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+      <MenuItem onClick={handleAppointmentsClick}>My Appointments</MenuItem>
       <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
