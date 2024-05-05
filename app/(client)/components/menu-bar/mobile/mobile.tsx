@@ -68,10 +68,6 @@ const Mobile: FC = () => {
     document.body.classList.add("menu-open");
   };
 
-  // const handleCloseMenu = () => {
-  //   setAnchorEl(null);
-  // };
-
   const { to } = useNavigation();
   const { isLoggedIn } = useUserContext();
 
@@ -105,13 +101,6 @@ const Mobile: FC = () => {
     localStorage.removeItem("userData");
     handleCloseMenu();
   };
-
-  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  // const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget);
-  //   document.body.classList.add("menu-open");
-  // };
 
   return (
     <Container
@@ -172,7 +161,7 @@ const Mobile: FC = () => {
             Private Teacher App
           </Typography>
         </Grid>
-        {!isLoggedIn ? (
+        {isLoggedIn ? (
           <Grid item xl={2}>
             <IconButton
               onClick={handleOpenMenu}

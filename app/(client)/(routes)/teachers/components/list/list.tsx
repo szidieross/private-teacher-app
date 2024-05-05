@@ -57,13 +57,9 @@ const List = () => {
 
   return (
     <div>
-      <div>
-        <button onClick={() => handleLogin("tess", "123456")}>Login</button>
-      </div>
       {/* <div>
-        <button onClick={() => handleLogout()}>Logout</button>
+        <button onClick={() => handleLogin("tess", "123456")}>Login</button>
       </div> */}
-      return{" "}
       <div>
         <Grid container>
           {teachers &&

@@ -15,10 +15,14 @@ import LogoutForm from "../../logout-form/logout-form";
 import Image from "next/image";
 import { isLoggedIn } from "@/app/actions";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
+import useCategoriesService from "@/app/(client)/services/category.service";
+import { CategoryModel } from "@/app/api/models/category.model";
 
 const Desktop = () => {
   const { to } = useNavigation();
   const { isLoggedIn } = useUserContext();
+  const { getCategories } = useCategoriesService();
+  const [categories, setCategories] = useState<CategoryModel[] | null>(null);
 
   console.log("isLoggedIn", isLoggedIn);
 
@@ -68,6 +72,20 @@ const Desktop = () => {
     document.body.classList.add("menu-open");
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const categories = await getCategories();
+        console.log(categories);
+        setCategories(categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <Container
       className="desktop-container"
@@ -75,7 +93,7 @@ const Desktop = () => {
       sx={{ display: { xs: "none", sm: "block" } }}
     >
       <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item xl={10}>
+        <Grid item xl={8}>
           <Typography
             onClick={handleTitleClick}
             style={{ color: colors.secondary }}
@@ -84,10 +102,10 @@ const Desktop = () => {
             Private Teacher App
           </Typography>
         </Grid>
-        <Grid item xl={10}>
+        <Grid item xl={1}>
           <Typography onClick={handleTeachersClick}>Teachers</Typography>
         </Grid>
-        <Grid item xl={10}>
+        <Grid item xl={1}>
           <Typography onClick={handleOpenCatMenu}>Categories</Typography>
           <Menu
             anchorEl={anchorElCat}
@@ -109,9 +127,18 @@ const Desktop = () => {
             disableScrollLock={false}
           >
             <MenuItem onClick={handleCloseCatMenu}>Category1</MenuItem>
+            {categories &&
+              categories.map((category) => (
+                <MenuItem
+                  key={category.categoryId}
+                  onClick={handleCloseCatMenu}
+                >
+                  {category.name}
+                </MenuItem>
+              ))}
           </Menu>
         </Grid>
-        {!isLoggedIn ? (
+        {isLoggedIn ? (
           <Grid item xl={2}>
             <IconButton
               onClick={handleOpenMenu}
@@ -156,7 +183,7 @@ const Desktop = () => {
           </Grid>
         ) : (
           <>
-            <Grid item xl={1}>
+            <Grid item xl={2}>
               <Button onClick={() => to("/login")}>Login</Button>
               <Button onClick={() => to("/signup")}>Signup</Button>
             </Grid>
