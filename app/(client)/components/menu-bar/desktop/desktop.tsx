@@ -20,13 +20,7 @@ const Desktop = () => {
   const { to } = useNavigation();
   const { isLoggedIn } = useUserContext();
 
-  console.log("userSettings", isLoggedIn);
-
-  // const logIsLoggedIn = async () => {
-  //   console.log(await isLoggedIn());
-  // };
-
-  // logIsLoggedIn();
+  console.log("isLoggedIn", isLoggedIn);
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -42,6 +36,11 @@ const Desktop = () => {
     to("/");
   };
 
+  const handleTeachersClick = () => {
+    handleCloseMenu();
+    to("/teachers");
+  };
+
   const handleSettingsClick = () => {
     handleCloseMenu();
     to("/profile/settings");
@@ -53,6 +52,16 @@ const Desktop = () => {
   };
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorElCat, setAnchorElCat] = useState<null | HTMLElement>(null);
+
+  const handleOpenCatMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorElCat(event.currentTarget);
+    document.body.classList.add("menu-open");
+  };
+
+  const handleCloseCatMenu = () => {
+    setAnchorElCat(null);
+  };
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -75,51 +84,84 @@ const Desktop = () => {
             Private Teacher App
           </Typography>
         </Grid>
-        <Grid item xl={1}>
-          <Button onClick={() => to("/login")}>Login</Button>
+        <Grid item xl={10}>
+          <Typography onClick={handleTeachersClick}>Teachers</Typography>
         </Grid>
-        <Grid item xl={1}>
-          <IconButton
-            onClick={handleOpenMenu}
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            disableRipple
+        <Grid item xl={10}>
+          <Typography onClick={handleOpenCatMenu}>Categories</Typography>
+          <Menu
+            anchorEl={anchorElCat}
+            open={Boolean(anchorElCat)}
+            onClose={handleCloseCatMenu}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            PaperProps={{
+              style: {
+                backgroundColor: "pink",
+              },
+            }}
+            disableScrollLock={false}
           >
-            <Image
-              width={60}
-              height={60}
-              src="/images/test-image.jpg"
-              alt="Profile"
-              className="profile-img"
-            />
-          </IconButton>
+            <MenuItem onClick={handleCloseCatMenu}>Category1</MenuItem>
+          </Menu>
         </Grid>
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleCloseMenu}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          PaperProps={{
-            style: {
-              backgroundColor: "pink",
-            },
-          }}
-          disableScrollLock={false}
-        >
-          <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-          <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
-          <MenuItem onClick={handleLogout}>
-            <LogoutForm />
-          </MenuItem>
-        </Menu>
+        {isLoggedIn ? (
+          <Grid item xl={2}>
+            <IconButton
+              onClick={handleOpenMenu}
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              disableRipple
+            >
+              <Image
+                width={60}
+                height={60}
+                src="/images/test-image.jpg"
+                alt="Profile"
+                className="profile-img"
+              />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleCloseMenu}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              PaperProps={{
+                style: {
+                  backgroundColor: "pink",
+                },
+              }}
+              disableScrollLock={false}
+            >
+              <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+              <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
+              <MenuItem onClick={handleLogout}>
+                <LogoutForm />
+              </MenuItem>
+            </Menu>
+          </Grid>
+        ) : (
+          <>
+            <Grid item xl={1}>
+              <Button onClick={() => to("/login")}>Login</Button>
+              <Button onClick={() => to("/signup")}>Signup</Button>
+            </Grid>
+          </>
+        )}
       </Grid>
     </Container>
   );
