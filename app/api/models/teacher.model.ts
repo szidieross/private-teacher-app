@@ -7,4 +7,5 @@ export interface TeacherModel {
     price: number;
     bio: string;
     qualification: string;
+    location:string;
 }

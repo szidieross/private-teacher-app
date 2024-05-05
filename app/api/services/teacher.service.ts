@@ -25,7 +25,7 @@ async function createTeacher(
       bio,
       qualification,
     ]);
-    console.log("result creating teacher",result);
+    console.log("result creating teacher", result);
   } catch (error) {
     console.error("Error creating teacher", error);
     throw error;
@@ -38,16 +38,13 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
     const query = `
             SELECT
                 u.*,
-                t.teacher_id,
-                t.price,
-                t.bio,
-                t.qualification
+                t.*
             FROM
                 Users u
             INNER JOIN
                 Teachers t ON u.user_id = t.user_id
             WHERE
-                u.role = 'teacher'
+                u.role = "teacher"
         `;
     const [rows] = await db.execute(query);
     db.release();
@@ -75,6 +72,7 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
         price: row.price,
         bio: row.bio,
         qualification: row.qualification,
+        location: row.location,
       };
     });
 
