@@ -1,11 +1,12 @@
 import { useCallback } from "react";
 import { api } from "@/app/(client)/utils/api.util";
 import { TeacherModel } from "@/app/api/models/teacher.model";
+import { CategoryModel } from "@/app/api/models/category.model";
 
 const useCategoriesService = () => {
-  const getCategories = useCallback(async (): Promise<TeacherModel[]> => {
+  const getCategories = useCallback(async (): Promise<CategoryModel[]> => {
     try {
-      const { data } = await api.get<TeacherModel[]>(
+      const { data } = await api.get<CategoryModel[]>(
         "/categories",
         "The request for categories failed, please reload the page!"
       );
@@ -18,9 +19,9 @@ const useCategoriesService = () => {
   }, []);
 
   const getCategoryById = useCallback(
-    async (categoryId: number): Promise<TeacherModel | null> => {
+    async (categoryId: number): Promise<CategoryModel | null> => {
       try {
-        const { data } = await api.get<TeacherModel>(
+        const { data } = await api.get<CategoryModel>(
           `/categories/${categoryId}`,
           "The request for categoriy failed, please reload the page!"
         );

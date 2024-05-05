@@ -33,7 +33,7 @@ const Desktop = () => {
 
   const handleTitleClick = () => {
     handleCloseMenu();
-    to("/");
+    to("/teachers");
   };
 
   const handleTeachersClick = () => {
@@ -111,7 +111,7 @@ const Desktop = () => {
             <MenuItem onClick={handleCloseCatMenu}>Category1</MenuItem>
           </Menu>
         </Grid>
-        {isLoggedIn ? (
+        {!isLoggedIn ? (
           <Grid item xl={2}>
             <IconButton
               onClick={handleOpenMenu}
