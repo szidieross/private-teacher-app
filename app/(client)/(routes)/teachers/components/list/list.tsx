@@ -22,14 +22,14 @@ const List = () => {
   //   verifyUser(username, password);
   // };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const session = await getSession();
+  useEffect(() => {
+    const fetchData = async () => {
+      const session = await getSession();
 
-  //     setIsLoggedIn(session.isLoggedIn);
-  //   };
-  //   fetchData();
-  // }, [getSession]);
+      setIsLoggedIn(session.isLoggedIn);
+    };
+    fetchData();
+  }, [getSession]);
 
   // const handleLogout = () => {
   //   localStorage.removeItem("userData");

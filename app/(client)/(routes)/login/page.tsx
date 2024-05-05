@@ -6,7 +6,7 @@ const LoginPage = async () => {
   const session = await getSession()
 
   if(session.isLoggedIn){
-    redirect("/")
+    redirect("/teachers")
   }
   return (
     <div className="login">
