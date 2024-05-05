@@ -205,7 +205,7 @@ export const createUser = async (
     password: string,
     email: string,
     phone: string,
-    profilePicture: string,
+    // profilePicture: string,
     firstName: string,
     lastName: string,
     role: string
@@ -218,19 +218,18 @@ export const createUser = async (
           password,
           email,
           phone,
-          profile_picture,
           first_name,
           last_name,
           role)  
         VALUES
-          (?, ?, ?, ?, ?, ?, ?, ?)
+          (?, ?, ?, ?, ?, ?, ?)
       `;
       const [result] = await db.execute(query, [
         username,
         password,
         email,
         phone,
-        profilePicture,
+        // profilePicture,
         firstName,
         lastName,
         role,

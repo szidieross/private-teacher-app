@@ -39,7 +39,6 @@ const useUsersService = () => {
       password: string,
       email: string,
       phone: string,
-      profilePicture: string,
       firstName: string,
       lastName: string,
       role: string
@@ -52,7 +51,6 @@ const useUsersService = () => {
             password,
             email,
             phone,
-            profilePicture,
             firstName,
             lastName,
             role,

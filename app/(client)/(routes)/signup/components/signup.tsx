@@ -22,7 +22,7 @@ export interface ContactUsRequest {
   password: string;
   email: string;
   phone: string;
-  profilePicture: string;
+//   profilePicture: string;
   role: string;
   price?: number;
   bio?: string;
@@ -37,7 +37,7 @@ const initContactForm: ContactUsRequest = {
   password: "",
   email: "",
   phone: "",
-  profilePicture: "",
+//   profilePicture: "",
   role: "",
 };
 
@@ -90,7 +90,7 @@ const Signup = () => {
         form.password,
         form.email,
         form.phone,
-        form.profilePicture,
+        // form.profilePicture,
         form.firstName,
         form.lastName,
         form.role
@@ -199,7 +199,7 @@ const Signup = () => {
               onChange={(e) => handleContactFormChange("phone", e.target.value)}
             />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <TextField
               type="file"
               label="Profile Picture"
@@ -210,7 +210,7 @@ const Signup = () => {
                 handleContactFormChange("profilePicture", e.target.value)
               }
             />
-          </Grid>
+          </Grid> */}
           {isTeacher && (
             <>
               <Grid item xs={6}>

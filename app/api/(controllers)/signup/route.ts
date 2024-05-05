@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       password,
       email,
       phone,
-      profilePicture,
+      // profilePicture,
       firstName,
       lastName,
       role,
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       password,
       email,
       phone,
-      profilePicture,
+      // profilePicture,
       firstName,
       lastName,
       role
