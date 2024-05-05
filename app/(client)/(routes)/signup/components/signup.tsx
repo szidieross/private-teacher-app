@@ -14,6 +14,7 @@ import "./signup.scss";
 import useUsersService from "@/app/(client)/services/user.service";
 import { UserModel } from "@/app/api/models/user.model";
 import { TeacherModel } from "@/app/api/models/teacher.model";
+import { getUserById } from "@/app/api/services/user.service";
 
 export interface ContactUsRequest {
   username: string;
@@ -22,7 +23,7 @@ export interface ContactUsRequest {
   password: string;
   email: string;
   phone: string;
-//   profilePicture: string;
+  //   profilePicture: string;
   role: string;
   price?: number;
   bio?: string;
@@ -37,8 +38,12 @@ const initContactForm: ContactUsRequest = {
   password: "",
   email: "",
   phone: "",
-//   profilePicture: "",
+  //   profilePicture: "",
   role: "",
+  price: 0,
+  bio: "",
+  qualification: "",
+  location: "",
 };
 
 const Signup = () => {
@@ -85,16 +90,38 @@ const Signup = () => {
 
     try {
       setLoading(true);
-      const result = await createUser(
-        form.username,
-        form.password,
-        form.email,
-        form.phone,
-        // form.profilePicture,
-        form.firstName,
-        form.lastName,
-        form.role
-      );
+      let result=null;
+      if (form.price && form.bio && form.qualification && form.location) {
+        result = await createUser(
+          form.username,
+          form.password,
+          form.email,
+          form.phone,
+          // form.profilePicture,
+          form.firstName,
+          form.lastName,
+          isTeacher ? "teacher" : "user",
+          // form.price,
+          // form.bio,
+          // form.qualification,
+          // form.location
+        );
+      } else {
+        const result = await createUser(
+          form.username,
+          form.password,
+          form.email,
+          form.phone,
+          // form.profilePicture,
+          form.firstName,
+          form.lastName,
+          isTeacher ? "teacher" : "user",
+          // form.price,
+          // form.bio,
+          // form.qualification,
+          // form.location
+        );
+      }
       if (result) {
         console.log("User registered successfully:", result);
       } else {

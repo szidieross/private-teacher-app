@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { api } from "@/app/(client)/utils/api.util";
 import { SimpleUserModel, UserModel } from "@/app/api/models/user.model";
+import { TeacherModel } from "@/app/api/models/teacher.model";
 
 const useUsersService = () => {
   const getUsers = useCallback(async (): Promise<UserModel[]> => {
@@ -41,8 +42,12 @@ const useUsersService = () => {
       phone: string,
       firstName: string,
       lastName: string,
-      role: string
-    ): Promise<UserModel | null> => {
+      role: string,
+      // price?: number,
+      // bio?: string,
+      // qualification?: string,
+      // location?: string
+    ): Promise<UserModel | TeacherModel | null> => {
       try {
         const { data } = await api.post<UserModel>(
           `/signup`,
@@ -69,7 +74,7 @@ const useUsersService = () => {
   const verifyUser = useCallback(
     async (
       username: string,
-      password: string,
+      password: string
     ): Promise<SimpleUserModel | null> => {
       try {
         const { data } = await api.post<UserModel>(
@@ -90,7 +95,7 @@ const useUsersService = () => {
     []
   );
 
-  return { getUsers, getUserById,createUser,verifyUser };
+  return { getUsers, getUserById, createUser, verifyUser };
 };
 
 export default useUsersService;
