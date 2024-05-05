@@ -19,6 +19,7 @@ const toTeacherModel = (dto: TeacherDto): TeacherModel => ({
     price: dto.price,
     bio: dto.bio,
     qualification: dto.qualification,
+    location: dto.location,
 });
 
 export { toTeacherModel };

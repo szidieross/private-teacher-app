@@ -23,6 +23,7 @@ CREATE TABLE Teachers (
     price INT,
     bio TEXT,
     qualification VARCHAR(100),
+    location VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
@@ -51,9 +52,9 @@ CREATE TABLE Appointments (
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
-SELECT
-    l.*
-FROM
-    Lessons l
-WHERE
-    teacher_id = ?
+-- SELECT
+--     l.*
+-- FROM
+--     Lessons l
+-- WHERE
+--     teacher_id = ?

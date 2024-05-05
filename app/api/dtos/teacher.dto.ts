@@ -7,4 +7,5 @@ export interface TeacherDto {
     price: number;
     bio: string;
     qualification: string;
+    location: string;
 }
