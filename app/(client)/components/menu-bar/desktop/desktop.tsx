@@ -24,7 +24,7 @@ const Desktop = () => {
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
 
-
+console.log(isLoggedIn)
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };

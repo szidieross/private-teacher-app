@@ -7,16 +7,29 @@ import { UserModel } from "@/app/api/models/user.model";
 import { Grid } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
+import { getSession } from "@/app/actions";
+import { redirect } from "next/navigation";
+import { useUserContext } from "@/app/(client)/hooks/context.hook";
 
 const List = () => {
   const { getUsers, getUserById, createUser, verifyUser } = useUsersService();
   const { getTeachers } = useTeachersService();
+  const { setIsLoggedIn } = useUserContext();
   const [users, setUsers] = useState<UserModel[] | null>(null);
   const [teachers, setTeachers] = useState<TeacherModel[] | null>(null);
 
-  const handleLogin = (username: string, password: string) => {
-    verifyUser(username, password);
-  };
+  // const handleLogin = (username: string, password: string) => {
+  //   verifyUser(username, password);
+  // };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const session = await getSession();
+
+  //     setIsLoggedIn(session.isLoggedIn);
+  //   };
+  //   fetchData();
+  // }, [getSession]);
 
   // const handleLogout = () => {
   //   localStorage.removeItem("userData");

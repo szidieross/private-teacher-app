@@ -63,7 +63,7 @@ export const login = async (
   session.isLoggedIn = true;
 
   await session.save();
-  redirect("/");
+  // redirect("/");
 };
 
 export const logout = async () => {

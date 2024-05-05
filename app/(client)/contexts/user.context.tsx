@@ -1,3 +1,4 @@
+import { getSession } from "@/app/actions";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import { UserModel } from "@/app/api/models/user.model";
 import {
@@ -6,6 +7,7 @@ import {
   ReactNode,
   SetStateAction,
   createContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -39,6 +41,14 @@ const UserProvider: FC<Props> = ({ children }) => {
   const [data, setData] = useState<UserModel | TeacherModel | undefined>(
     undefined
   );
+  useEffect(() => {
+    const fetchData = async () => {
+      const session = await getSession();
+
+      setIsLoggedIn(session.isLoggedIn);
+    };
+    fetchData();
+  }, [getSession]);
 
   return (
     <UserContext.Provider

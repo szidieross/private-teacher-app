@@ -3,6 +3,7 @@ import MenuBar from "../components/menu-bar/menu-bar";
 import FooterBar from "../components/footer/footer-bar";
 import "./globals.scss";
 import { Container } from "@mui/material";
+import Providers from "../utils/providers.util";
 
 export const metadata: Metadata = {
   title: "Private Teacher App",
@@ -21,13 +22,13 @@ export default async function RootLayout({
           src="https://www.google.com/recaptcha/api.js?render=6LfAjcYeAAAAAJTxnTgx_JVndCSmQgU1gqzEIwoL"
           defer
         /> */}
-        {/* <Providers environments={environments}> */}
+        <Providers>
         <MenuBar />
         <Container className="layout-container">
           {children}
         </Container>
         <FooterBar />
-        {/* </Providers> */}
+        </Providers>
       </body>
     </html>
   );
