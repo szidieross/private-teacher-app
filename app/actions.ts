@@ -25,6 +25,15 @@ export const getSession = async () => {
   return session;
 };
 
+export const isLoggedIn = async () => {
+  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+
+  if (!session.isLoggedIn) {
+    return false;
+  }
+  return true;
+};
+
 export const login = async (
   prevState: { error: undefined | string },
   formData: FormData

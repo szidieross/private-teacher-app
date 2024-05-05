@@ -7,15 +7,26 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./desktop.scss";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { colors } from "@/app/(client)/constants/color.constant";
 import LogoutForm from "../../logout-form/logout-form";
 import Image from "next/image";
+import { isLoggedIn } from "@/app/actions";
+import { useUserContext } from "@/app/(client)/hooks/context.hook";
 
 const Desktop = () => {
   const { to } = useNavigation();
+  const { isLoggedIn } = useUserContext();
+
+  console.log("userSettings", isLoggedIn);
+
+  // const logIsLoggedIn = async () => {
+  //   console.log(await isLoggedIn());
+  // };
+
+  // logIsLoggedIn();
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -55,7 +66,7 @@ const Desktop = () => {
       sx={{ display: { xs: "none", sm: "block" } }}
     >
       <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item>
+        <Grid item xl={10}>
           <Typography
             onClick={handleTitleClick}
             style={{ color: colors.secondary }}
@@ -64,8 +75,10 @@ const Desktop = () => {
             Private Teacher App
           </Typography>
         </Grid>
-        <Grid item>
+        <Grid item xl={1}>
           <Button onClick={() => to("/login")}>Login</Button>
+        </Grid>
+        <Grid item xl={1}>
           <IconButton
             onClick={handleOpenMenu}
             edge="start"

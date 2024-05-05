@@ -3,6 +3,7 @@
 import { ReactNode, FC } from "react";
 import SearchProvider from "../contexts/search.context";
 import StoreProvider from "../contexts/store.context";
+import UserProvider from "../contexts/user.context";
 
 type Props = {
   children: ReactNode;
@@ -10,9 +11,11 @@ type Props = {
 
 const Providers: FC<Props> = ({ children }) => {
   return (
-    <StoreProvider>
-      <SearchProvider> {children}</SearchProvider>
-    </StoreProvider>
+    <UserProvider>
+      <StoreProvider>
+        <SearchProvider> {children}</SearchProvider>
+      </StoreProvider>
+    </UserProvider>
   );
 };
 
