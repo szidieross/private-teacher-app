@@ -46,7 +46,7 @@ const Mobile: FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [getCategories]);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);

@@ -8,6 +8,7 @@ import { Grid } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
+import useNavigation from "@/app/(client)/hooks/navigation.hook";
 
 type Props = {
   isSession: boolean;
@@ -16,11 +17,12 @@ type Props = {
 const List: FC<Props> = ({ isSession }) => {
   const { getTeachers } = useTeachersService();
   const { setIsLoggedIn } = useUserContext();
+  const { to } = useNavigation();
   const [teachers, setTeachers] = useState<TeacherModel[] | null>(null);
 
   useEffect(() => {
     setIsLoggedIn(isSession);
-  }, [isSession]);
+  }, [isSession, setIsLoggedIn]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,7 +53,16 @@ const List: FC<Props> = ({ isSession }) => {
     <Grid container>
       {teachers &&
         teachers.map((teacher, index) => (
-          <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
+          <Grid
+            key={index}
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            // lg={3}
+            // xl={2}
+            onClick={() => to(`/teachers/${teacher.teacherId}`)}
+          >
             <Item teacher={teacher} />
           </Grid>
         ))}

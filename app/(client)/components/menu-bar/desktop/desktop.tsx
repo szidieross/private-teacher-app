@@ -87,7 +87,7 @@ const Desktop = () => {
     };
 
     fetchData();
-  }, []);
+  }, [getCategories]);
 
   return (
     <Container
