@@ -1,35 +1,33 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Item from "../item/item";
 import useUsersService from "@/app/(client)/services/user.service";
 import { UserModel } from "@/app/api/models/user.model";
 import { Grid } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
+import { useUserContext } from "@/app/(client)/hooks/context.hook";
+import useNavigation from "@/app/(client)/hooks/navigation.hook";
 
-const List = () => {
-  const { getUsers, getUserById, createUser, verifyUser } = useUsersService();
+type Props = {
+  isSession: boolean;
+};
+
+const List: FC<Props> = ({ isSession }) => {
   const { getTeachers } = useTeachersService();
-  const [users, setUsers] = useState<UserModel[] | null>(null);
+  const { setIsLoggedIn } = useUserContext();
+  const { to } = useNavigation();
   const [teachers, setTeachers] = useState<TeacherModel[] | null>(null);
 
-  const handleLogin = (username: string, password: string) => {
-    console.log("hello login");
-    verifyUser(username, password);
-    console.log("goodbye login");
-  };
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem("userData");
-  // };
+  useEffect(() => {
+    setIsLoggedIn(isSession);
+  }, [isSession, setIsLoggedIn]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const fetchedUsers = await getUsers();
         const fetchedTeachers = await getTeachers();
-        // console.log(fetchedTeachers);
         // const fetchedUser = await getUserById(1);
         // const user = await createUser(
         //   "charlie",
@@ -42,47 +40,33 @@ const List = () => {
         //   "user"
         // );
 
-        // console.log(fetchedUsers);
-        console.log(fetchedTeachers);
         setTeachers(fetchedTeachers);
-        // console.log(fetchedUser);
-        // setUsers(fetchedUsers);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
 
     fetchData();
-  }, [getUsers]);
+  }, [getTeachers]);
 
   return (
-    <div>
-      <div>
-        <button onClick={() => handleLogin("tess", "123456")}>Login</button>
-      </div>
-      {/* <div>
-        <button onClick={() => handleLogout()}>Logout</button>
-      </div> */}
-      return{" "}
-      <div>
-        <Grid container>
-          {teachers &&
-            teachers.map((teacher, index) => (
-              <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-                <Item teacher={teacher} />
-              </Grid>
-            ))}
-        </Grid>
-        {/* <Grid container>
-          {users &&
-            users.map((user, index) => (
-              <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-                <Item user={user} />
-              </Grid>
-            ))}
-        </Grid> */}
-      </div>
-    </div>
+    <Grid container>
+      {teachers &&
+        teachers.map((teacher, index) => (
+          <Grid
+            key={index}
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            // lg={3}
+            // xl={2}
+            onClick={() => to(`/teachers/${teacher.teacherId}`)}
+          >
+            <Item teacher={teacher} />
+          </Grid>
+        ))}
+    </Grid>
   );
 };
 

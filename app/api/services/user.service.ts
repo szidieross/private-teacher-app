@@ -2,6 +2,7 @@ import pool from "@/app/libs/mysql";
 import { SimpleUserModel, UserModel } from "../models/user.model";
 import { SimpleUserDto, UserDto } from "../dtos/user.dto";
 import { toSimpleUserModel, toUserModel } from "../mappers/user.mapper";
+import { createTeacher } from "./teacher.service";
 
 // export async function GET(
 //     request: NextRequest,) {
@@ -169,7 +170,7 @@ export const getUserById = async (userId: number): Promise<UserModel> => {
 //   try {
 //     const db = await pool.getConnection();
 //     const query = `
-//         INSERT INTO Users 
+//         INSERT INTO Users
 //             (username,
 //             password,
 //             email,
@@ -177,7 +178,7 @@ export const getUserById = async (userId: number): Promise<UserModel> => {
 //             profile_picture,
 //             first_name,
 //             last_name,
-//             role)  
+//             role)
 //         VALUES
 //             (?, ?, ?, ?, ?, ?, ?, ?)
 //       `;
@@ -201,51 +202,82 @@ export const getUserById = async (userId: number): Promise<UserModel> => {
 // };
 
 export const createUser = async (
-    username: string,
-    password: string,
-    email: string,
-    phone: string,
-    profilePicture: string,
-    firstName: string,
-    lastName: string,
-    role: string
-  ) => {
-    try {
-      const db = await pool.getConnection();
-      const query = `
+  username: string,
+  password: string,
+  email: string,
+  phone: string,
+  // profilePicture: string,
+  firstName: string,
+  lastName: string,
+  role: string,
+  // price?: number,
+  // bio?: string,
+  // qualification?: string,
+  // location?: string
+) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
         INSERT INTO Users 
           (username,
           password,
           email,
           phone,
-          profile_picture,
           first_name,
           last_name,
           role)  
         VALUES
-          (?, ?, ?, ?, ?, ?, ?, ?)
+          (?, ?, ?, ?, ?, ?, ?)
       `;
-      const [result] = await db.execute(query, [
-        username,
-        password,
-        email,
-        phone,
-        profilePicture,
-        firstName,
-        lastName,
-        role,
-      ]);
-      db.release();
-      console.log("User created successfully. Result:", result);
-    } catch (error) {
-      console.error("Error creating user:", error);
-      throw error;
-    }
-  };
+    const [result] = await db.execute(query, [
+      username,
+      password,
+      email,
+      phone,
+      // profilePicture,
+      firstName,
+      lastName,
+      role,
+    ]);
+    // db.release();
+    console.log("User created successfully. Result:", result);
+
+    // console.log("PRICE",price)
+
+    // if (role === "teacher" && price && bio && qualification && location) {
+    //   const selectQuery = `
+    //   SELECT user_id
+    //   FROM Users
+    //   WHERE username = ?
+    // `;
+    //   const [rows] = await db.execute(selectQuery, [username]);
+    //   const userId: number[] = (rows as any).map((row: any) => {
+    //     return {
+    //       user_id: row.user_id,
+    //     };
+    //   });
+    //   // db.release();
+
+    //   const teacher =await createTeacher(
+    //     userId[0],
+    //     price,
+    //     bio,
+    //     qualification,
+    //     location
+    //   );
+
+    //   console.log("user idgdfgfdgfgfghfghfg:", userId);
+    //   console.log("Teacher created successfully", teacher);
+    // }
+    console.log("User created successfully. UserId:", result);
+    return result;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+};
 
 // services/user.service.ts
-
-import fs from 'fs-extra';
 
 // export const createImage = async (file: File): Promise<string> => {
 //   try {
@@ -262,7 +294,6 @@ import fs from 'fs-extra';
 //     throw error;
 //   }
 // };
-
 
 export const verifyUser = async (username: string, password: string) => {
   try {
@@ -295,37 +326,36 @@ export const verifyUser = async (username: string, password: string) => {
   }
 };
 
-  
-  // export const verifyUser = async (username: string, password: string) => {
-  //   try {
-  //     console.log("In route");
-  //     const db = await pool.getConnection();
-  //     const query = `
-  //       SELECT username, password FROM Users 
-  //       WHERE username = ? AND password = ?
-  //     `;
-  
-  //     const [rows] = await db.execute(query, [username, password]);
-  //     db.release();
-  
-  //     if (!Array.isArray(rows) || rows.length === 0) {
-  //       throw new Error("Query result is not an array");
-  //     }
+// export const verifyUser = async (username: string, password: string) => {
+//   try {
+//     console.log("In route");
+//     const db = await pool.getConnection();
+//     const query = `
+//       SELECT username, password FROM Users
+//       WHERE username = ? AND password = ?
+//     `;
 
-  //     // if(!rows) return
-  
-  //     const data: SimpleUserDto[] = (rows as any).map((row: any) => {
-  //       return {
-  //         username: row.username,
-  //         password: row.password,
-  //       };
-  //     });
-  
-  //     const user: SimpleUserModel = toSimpleUserModel(data[0]);
-  
-  //     return user;
-  //   } catch (error) {
-  //     console.error("Error verifying user:", error);
-  //     throw error;
-  //   }
-  // };
+//     const [rows] = await db.execute(query, [username, password]);
+//     db.release();
+
+//     if (!Array.isArray(rows) || rows.length === 0) {
+//       throw new Error("Query result is not an array");
+//     }
+
+//     // if(!rows) return
+
+//     const data: SimpleUserDto[] = (rows as any).map((row: any) => {
+//       return {
+//         username: row.username,
+//         password: row.password,
+//       };
+//     });
+
+//     const user: SimpleUserModel = toSimpleUserModel(data[0]);
+
+//     return user;
+//   } catch (error) {
+//     console.error("Error verifying user:", error);
+//     throw error;
+//   }
+// };

@@ -25,6 +25,15 @@ export const getSession = async () => {
   return session;
 };
 
+export const isLoggedIn = async () => {
+  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+
+  if (!session.isLoggedIn) {
+    return false;
+  }
+  return true;
+};
+
 export const login = async (
   prevState: { error: undefined | string },
   formData: FormData
@@ -37,10 +46,7 @@ export const login = async (
   // CHECK USER IN THE DB
   // const user = await db.getUser({username,password})
 
-  console.log(formUsername, formPassword);
-
   const user = await verifyUser(formUsername, formPassword);
-  console.log("USERRRRRRRRRRRRRRRRRRRRRRRRR", user);
 
   // if (formUsername !== username) {
   //   return { error: "Wrong Credentials!" };
@@ -57,13 +63,12 @@ export const login = async (
   session.isLoggedIn = true;
 
   await session.save();
-  redirect("/");
 };
 
 export const logout = async () => {
   const session = await getSession();
   session.destroy();
-  redirect("/");
+  // redirect("/");
 };
 
 export const changePremium = async () => {

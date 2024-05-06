@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 
-export default function UploadForm() {
+const UploadForm: FC = () => {
   const [file, setfile] = useState<File>();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,4 +34,6 @@ export default function UploadForm() {
       </form>
     </main>
   );
-}
+};
+
+export default UploadForm;

@@ -1,27 +1,37 @@
 import { TeacherModel } from "@/app/api/models/teacher.model";
-import { UserModel } from "@/app/api/models/user.model";
-import { Box, Typography } from "@mui/material";
+import { Typography, Card, CardContent, CardMedia } from "@mui/material";
 import React, { FC } from "react";
+import "./item.scss";
 
 type Props = {
-  // user: UserModel;
   teacher: TeacherModel;
 };
 
 const Item: FC<Props> = ({ teacher }) => {
   return (
-    <Box>
-      <Typography>
-        {teacher.userData.firstName} {teacher.userData.lastName} {teacher.location}
-      </Typography>
+    <Card sx={{ maxWidth: 345 }}>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {teacher.userData.firstName} {teacher.userData.lastName}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Qualification: {teacher.qualification}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Location: {teacher.location}
+        </Typography>
+      </CardContent>
       {teacher.userData.profilePicture && (
-        <img
-          src="/images/test-image.jpg"
+        <CardMedia
+          component="img"
+          height="360"
+          // width="360"
+          width="100%"
+          image="/images/test-image.jpg"
           alt="Profile"
-          className="profile-img"
         />
       )}
-    </Box>
+    </Card>
   );
 };
 

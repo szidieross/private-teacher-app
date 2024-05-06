@@ -13,10 +13,14 @@ export async function POST(request: NextRequest) {
       password,
       email,
       phone,
-      profilePicture,
+      // profilePicture,
       firstName,
       lastName,
       role,
+      // price,
+      // bio,
+      // qualification,
+      // location,
     } = await request.json();
 
     const result = createUser(
@@ -24,10 +28,14 @@ export async function POST(request: NextRequest) {
       password,
       email,
       phone,
-      profilePicture,
+      // profilePicture,
       firstName,
       lastName,
-      role
+      role,
+      // price,
+      // bio,
+      // qualification,
+      // location
     );
 
     // // Adatbáziskapcsolat létrehozása

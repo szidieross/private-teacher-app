@@ -9,7 +9,6 @@ export const getLessons = async (): Promise<LessonModel[]> => {
     const query = `SELECT * FROM lessons`;
     const [rows] = await db.execute(query);
     db.release();
-    console.log(rows);
 
     if (!Array.isArray(rows)) {
       throw new Error("Query result is not an array");

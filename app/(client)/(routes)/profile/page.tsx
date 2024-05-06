@@ -5,7 +5,7 @@ const ProfilePage = async () => {
   const session = await getSession();
 
   if(!session.isLoggedIn){
-    redirect("/")
+    redirect("/teachers")
   }
 
   return (
