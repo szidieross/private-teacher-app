@@ -114,12 +114,27 @@ const Item: FC<Props> = ({ teacherId }) => {
                 <Typography variant="body1" color="textSecondary" gutterBottom>
                   Qualification: {teacher.qualification}
                 </Typography>
-                <Typography variant="body1" color="textSecondary" gutterBottom>
-                  Email: {teacher.userData.email}
-                </Typography>
-                <Typography variant="body1" color="textSecondary" gutterBottom>
-                  Phone: {teacher.userData.phone}
-                </Typography>
+                <a
+                  href={`mailto:${teacher.userData.email}`}
+                  title="Send an email"
+                >
+                  <Typography
+                    variant="body1"
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Email: {teacher.userData.email}
+                  </Typography>
+                </a>
+                <a href={`tel:${teacher.userData.phone}`} title="Make a call">
+                  <Typography
+                    variant="body1"
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Phone: {teacher.userData.phone}
+                  </Typography>
+                </a>
               </CardContent>
             </Card>
           </Grid>
