@@ -48,8 +48,7 @@ const UserProvider: FC<Props> = ({ children }) => {
       setIsLoggedIn(session.isLoggedIn);
     };
     fetchData();
-  }, []);
-
+  }, [getSession]);
 
   return (
     <UserContext.Provider
