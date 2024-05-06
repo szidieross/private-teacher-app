@@ -11,9 +11,10 @@ export const createTeacher = async (
   location: string
 ) => {
   try {
+    console.log("userId: number,", userId );
     const teacherData = {
-      teacher_id: 1, // This should typically be omitted since it's an AUTO_INCREMENT field
-      user_id: 1,
+      // teacher_id: 1, // This should typically be omitted since it's an AUTO_INCREMENT field
+      user_id: userId,
       price: 100,
       bio: "Some bio",
       qualification: "Some qualification",

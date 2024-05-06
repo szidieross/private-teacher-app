@@ -133,7 +133,10 @@ export const createUser = async (
         };
       });
 
-      const user_id = data[0];
+      // const user_id = (data[0]);
+      // const userId = +user_id;
+
+      const user_id = data[0]?.user_id;
 
       console.log("userId for teacher", user_id);
       db.release();
