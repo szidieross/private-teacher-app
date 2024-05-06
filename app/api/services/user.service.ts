@@ -4,6 +4,10 @@ import { SimpleUserDto, UserDto } from "../dtos/user.dto";
 import { toSimpleUserModel, toUserModel } from "../mappers/user.mapper";
 import { createTeacher } from "./teacher.service";
 
+interface UserId {
+  user_id: number;
+}
+
 export const getUsers = async (): Promise<UserModel[]> => {
   try {
     const db = await pool.getConnection();
@@ -127,7 +131,7 @@ export const createUser = async (
     `;
 
       const [rows] = await db.execute(selectQuery, [username]);
-      const data: number[] = (rows as any).map((row: any) => {
+      const data: UserId[] = (rows as any).map((row: any) => {
         return {
           user_id: row.user_id,
         };
