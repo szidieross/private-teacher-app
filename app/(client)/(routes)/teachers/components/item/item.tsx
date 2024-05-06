@@ -15,6 +15,9 @@ const Item: FC<Props> = ({ teacher }) => {
           {teacher.userData.firstName} {teacher.userData.lastName}
         </Typography>
         <Typography variant="body2" color="text.secondary">
+          Qualification: {teacher.qualification}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
           Location: {teacher.location}
         </Typography>
       </CardContent>
