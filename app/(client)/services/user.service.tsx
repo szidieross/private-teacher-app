@@ -76,11 +76,11 @@ const useUsersService = () => {
     []
   );
 
-  const verifyUser = useCallback(
+  const loginUser = useCallback(
     async (
       username: string,
       password: string
-    ): Promise<SimpleUserModel | null> => {
+    ): Promise<UserModel | null> => {
       try {
         const { data } = await api.post<UserModel>(
           `/login`,
@@ -100,7 +100,7 @@ const useUsersService = () => {
     []
   );
 
-  return { getUsers, getUserById, createUser, verifyUser };
+  return { getUsers, getUserById, createUser, loginUser };
 };
 
 export default useUsersService;

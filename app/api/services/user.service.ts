@@ -85,7 +85,6 @@ export const createUser = async (
   password: string,
   email: string,
   phone: string,
-  // profilePicture: string,
   firstName: string,
   lastName: string,
   role: string,
@@ -113,23 +112,18 @@ export const createUser = async (
       password,
       email,
       phone,
-      // profilePicture,
       firstName,
       lastName,
       role,
     ]);
     // db.release();
-    console.log("User created successfully. Result:", result);
-
-    console.log("PRICE", price);
 
     if (role === "teacher" && price && bio && qualification && location) {
       const selectQuery = `
-      SELECT user_id
-      FROM Users
-      WHERE username = ?
-    `;
-
+          SELECT user_id
+          FROM Users
+          WHERE username = ?
+        `;
       const [rows] = await db.execute(selectQuery, [username]);
       const data: UserId[] = (rows as any).map((row: any) => {
         return {
@@ -137,12 +131,7 @@ export const createUser = async (
         };
       });
 
-      // const user_id = (data[0]);
-      // const userId = +user_id;
-
       const user_id = data[0]?.user_id;
-
-      console.log("userId for teacher", user_id);
       db.release();
 
       const teacher = await createTeacher(
@@ -153,16 +142,6 @@ export const createUser = async (
         location
       );
       console.log(teacher);
-      // const teacher = await createTeacher(
-      //   userId[0],
-      //   price,
-      //   bio,
-      //   qualification,
-      //   location
-      // );
-
-      // console.log("user idgdfgfdgfgfghfghfg:", userId);
-      // console.log("Teacher created successfully", teacher);
       return user_id;
     }
     console.log("User created successfully. UserId:", result);
@@ -172,11 +151,11 @@ export const createUser = async (
   }
 };
 
-export const verifyUser = async (username: string, password: string) => {
+export const loginUser = async (username: string, password: string) => {
   try {
     const db = await pool.getConnection();
     const query = `
-      SELECT username, password FROM Users 
+      SELECT * FROM Users
       WHERE username = ? AND password = ?
     `;
 
@@ -184,17 +163,25 @@ export const verifyUser = async (username: string, password: string) => {
     db.release();
 
     if (!Array.isArray(rows) || rows.length === 0) {
-      return null; // Ha a felhasználó nem található az adatbázisban, null-t adunk vissza
+      return null;
     }
 
-    const data: SimpleUserDto[] = (rows as any).map((row: any) => {
+    const data: UserDto[] = (rows as any).map((row: any) => {
       return {
+        user_id: row.user_id,
         username: row.username,
         password: row.password,
+        email: row.email,
+        phone: row.phone,
+        profile_picture: row.profile_picture,
+        created_at: row.created_at,
+        first_name: row.first_name,
+        last_name: row.last_name,
+        role: row.role,
       };
     });
 
-    const user: SimpleUserModel = toSimpleUserModel(data[0]);
+    const user: UserModel = toUserModel(data[0]);
 
     return user;
   } catch (error) {

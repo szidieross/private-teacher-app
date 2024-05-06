@@ -1,13 +1,21 @@
 "use client";
 
 import { Box, Toolbar } from "@mui/material";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import Mobile from "./mobile/mobile";
 import Desktop from "./desktop/desktop";
 import "./menu-bar.scss";
 import { colors } from "../../constants/color.constant";
+import { isLoggedIn } from "@/app/actions";
 
 const MenuBar: FC = () => {
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      await isLoggedIn();
+    };
+    checkLoggedIn();
+  }, [isLoggedIn]);
+
   return (
     <Box
       sx={{ position: "fixed", backgroundColor: colors.primary }}
