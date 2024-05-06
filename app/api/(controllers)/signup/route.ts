@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/app/libs/mysql";
 import { createUser } from "../../services/user.service";
+import { createTeacher } from "../../services/teacher.service";
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,13 +18,15 @@ export async function POST(request: NextRequest) {
       firstName,
       lastName,
       role,
-      // price,
-      // bio,
-      // qualification,
-      // location,
+      price,
+      bio,
+      qualification,
+      location,
     } = await request.json();
 
-    const result = createUser(
+    console.log("route price", price);
+
+    const result = await createUser(
       username,
       password,
       email,
@@ -32,11 +35,19 @@ export async function POST(request: NextRequest) {
       firstName,
       lastName,
       role,
-      // price,
-      // bio,
-      // qualification,
-      // location
+      price,
+      bio,
+      qualification,
+      location
     );
+
+
+    // const id=result
+
+    // console.log("result", result.user_id);
+    // // const user_id=result
+
+    // const teacher = await createTeacher();
 
     // // Adatbáziskapcsolat létrehozása
     // const db = await pool.getConnection();

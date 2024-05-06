@@ -3,6 +3,19 @@ import { api } from "@/app/(client)/utils/api.util";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 
 const useTeachersService = () => {
+  // const createTeacher = useCallback(async (): Promise<TeacherModel[]> => {
+  //   try {
+  //     const { data } = await api.get<TeacherModel[]>(
+  //       "/teachers",
+  //       "The request for teachers failed, please reload the page!"
+  //     );
+  //     return data;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+
+  //   return Promise.resolve([]);
+  // }, []);
   const getTeachers = useCallback(async (): Promise<TeacherModel[]> => {
     try {
       const { data } = await api.get<TeacherModel[]>(
