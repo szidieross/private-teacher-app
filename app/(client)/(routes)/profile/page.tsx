@@ -10,7 +10,7 @@ const ProfilePage = async () => {
 
   return (
     <div className="profile">
-      <h1>Welcome to the ProfilePage</h1>
+      <h1>Welcome to the {session.role} ProfilePage</h1>
       <p>
         Welcome, <b>{session.username}</b>
       </p>

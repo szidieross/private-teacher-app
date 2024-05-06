@@ -26,6 +26,7 @@ export const getSession = async () => {
 };
 
 export const isLoggedIn = async () => {
+  // const session = await getIronSession<SessionData>(cookies(), sessionOptions);
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
 
   if (!session.isLoggedIn) {
@@ -52,15 +53,17 @@ export const login = async (
   //   return { error: "Wrong Credentials!" };
   // }
 
-  console.log(JSON.stringify(user))
+  console.log(JSON.stringify(user));
 
   if (user === null) {
     ("Wrong credentials. Try again.");
     return;
   }
+  const userId = user.userId && user.userId.toString();
 
-  session.userId = "1";
+  session.userId = userId ? userId : "1";
   session.username = formUsername;
+  session.role = user.role;
   session.isPro = isPro;
   session.isLoggedIn = true;
 
