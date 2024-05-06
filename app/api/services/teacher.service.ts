@@ -28,16 +28,11 @@ export const createTeacher = async (
         VALUES (?, ?, ?, ?, ?)
       `;
     const [result] = await db.execute(query, [
-      // userId,
-      // price,
-      // bio,
-      // qualification,
-      // location,
-      teacherData.user_id,
-      teacherData.price,
-      teacherData.bio,
-      teacherData.qualification,
-      teacherData.location,
+      userId,
+      price,
+      bio,
+      qualification,
+      location,
     ]);
 
     console.log("Teacher created successfully.");
