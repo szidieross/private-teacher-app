@@ -30,7 +30,7 @@ const UploadForm: FC = () => {
           name="file"
           onChange={(e) => setfile(e.target.files?.[0])}
         />
-        <input type="submit" value="Upload" />
+        <input type="submit" value="Upload image" />
       </form>
     </main>
   );

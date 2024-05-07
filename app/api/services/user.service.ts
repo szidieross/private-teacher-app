@@ -189,3 +189,44 @@ export const loginUser = async (username: string, password: string) => {
     throw error;
   }
 };
+
+export const updateUserImage = async (userId: number, title: string) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+        UPDATE Users
+        SET profile_picture = ?
+        WHERE user_id = ?
+    `;
+
+    const [rows] = await db.execute(query, [title, userId]);
+    db.release();
+
+    // if (!Array.isArray(rows) || rows.length === 0) {
+    //   throw new Error('User image path update failed');
+    //   // return null;
+    // }
+
+    // const data: UserDto[] = (rows as any).map((row: any) => {
+    //   return {
+    //     user_id: row.user_id,
+    //     username: row.username,
+    //     password: row.password,
+    //     email: row.email,
+    //     phone: row.phone,
+    //     profile_picture: row.profile_picture,
+    //     created_at: row.created_at,
+    //     first_name: row.first_name,
+    //     last_name: row.last_name,
+    //     role: row.role,
+    //   };
+    // });
+
+    // const user: UserModel = toUserModel(data[0]);
+
+    console.log('User image path updated successfully');
+  } catch (error) {
+    console.error("Error verifying user:", error);
+    throw error;
+  }
+};

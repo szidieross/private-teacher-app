@@ -67,6 +67,8 @@ export const login = async (
   session.isPro = isPro;
   session.isLoggedIn = true;
 
+  console.log("session.userId",session.userId)
+
   await session.save();
 };
 

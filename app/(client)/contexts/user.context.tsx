@@ -46,6 +46,7 @@ const UserProvider: FC<Props> = ({ children }) => {
       const session = await getSession();
 
       setIsLoggedIn(session.isLoggedIn);
+      console.log("session.userId",session.userId)
     };
     fetchData();
   }, [getSession]);

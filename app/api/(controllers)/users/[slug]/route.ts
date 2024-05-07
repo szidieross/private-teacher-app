@@ -13,6 +13,22 @@ export const GET = async (request: NextRequest, context: { params: { slug: numbe
     }
 };
 
+
+// export const POST = async (request: NextRequest, context: { params: { slug: number } }) =>{
+//     const userId = context.params.slug;
+//     try {
+//         const data = await request.body.json();
+//         const imagePath = data.imagePath; // Feltételezzük, hogy a kép elérési útvonala a request body-ban van
+
+//         // Feltételezzük, hogy a updateUserImagePath függvény a felhasználó képének útvonalát frissíti az adatbázisban
+//         await updateUserImage(userId, imagePath);
+
+//         return NextResponse.json({ success: true });
+//     } catch (error) {
+//         console.error('Error updating user image path:', error);
+//         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+//     }
+// };
 // export async function GET(
 //     request:  NextRequest,
 //     { params }: { params: { slug: string } }
