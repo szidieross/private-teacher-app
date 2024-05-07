@@ -4,6 +4,19 @@ import { TeacherModel } from "@/app/api/models/teacher.model";
 import { CategoryModel } from "@/app/api/models/category.model";
 
 const useCategoriesService = () => {
+  // const createCategory = useCallback(async (): Promise<CategoryModel[]> => {
+  //   try {
+  //     const { data } = await api.get<CategoryModel[]>(
+  //       "/categories",
+  //       "The request for categories failed, please reload the page!"
+  //     );
+  //     return data;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+
+  //   return Promise.resolve([]);
+  // }, []);
   const getCategories = useCallback(async (): Promise<CategoryModel[]> => {
     try {
       const { data } = await api.get<CategoryModel[]>(
