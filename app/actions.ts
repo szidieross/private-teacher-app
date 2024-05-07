@@ -5,7 +5,7 @@ import { getIronSession } from "iron-session";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { verifyUser } from "./api/services/user.service";
+import { loginUser } from "./api/services/user.service";
 
 let username = "john";
 let isPro = true;
@@ -26,6 +26,7 @@ export const getSession = async () => {
 };
 
 export const isLoggedIn = async () => {
+  // const session = await getIronSession<SessionData>(cookies(), sessionOptions);
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
 
   if (!session.isLoggedIn) {
@@ -46,19 +47,23 @@ export const login = async (
   // CHECK USER IN THE DB
   // const user = await db.getUser({username,password})
 
-  const user = await verifyUser(formUsername, formPassword);
+  const user = await loginUser(formUsername, formPassword);
 
   // if (formUsername !== username) {
   //   return { error: "Wrong Credentials!" };
   // }
 
+  console.log(JSON.stringify(user));
+
   if (user === null) {
     ("Wrong credentials. Try again.");
     return;
   }
+  const userId = user.userId && user.userId.toString();
 
-  session.userId = "1";
+  session.userId = userId ? userId : "1";
   session.username = formUsername;
+  session.role = user.role;
   session.isPro = isPro;
   session.isLoggedIn = true;
 

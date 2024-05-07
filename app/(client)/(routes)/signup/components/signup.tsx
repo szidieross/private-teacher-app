@@ -25,10 +25,10 @@ export interface ContactUsRequest {
   phone: string;
   //   profilePicture: string;
   role: string;
-  price?: number;
-  bio?: string;
-  qualification?: string;
-  location?: string;
+  price: number;
+  bio: string;
+  qualification: string;
+  location: string;
 }
 
 const initContactForm: ContactUsRequest = {
@@ -49,16 +49,26 @@ const initContactForm: ContactUsRequest = {
 const Signup = () => {
   const [isTeacher, setIsTeacher] = useState<boolean>(false);
   const { createUser } = useUsersService();
+  const [form, setContactForm] = useState<ContactUsRequest | null>(null);
 
-  const handleAlignment = (
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
+
+  const handleToggeleButtonChange = (
     event: React.MouseEvent<HTMLElement>,
     newType: boolean
   ) => {
     setIsTeacher(newType);
+    handleContactFormChange("role", newType ? "teacher" : "user");
   };
-  const [loading, setLoading] = useState<boolean>(false);
 
-  const [form, setContactForm] = useState<ContactUsRequest | null>(null);
+  // const handleAlignment = (
+  //   event: React.MouseEvent<HTMLElement>,
+  //   newType: boolean
+  // ) => {
+  //   setIsTeacher(newType);
+  // };
 
   const handleContactFormChange = (
     property: keyof ContactUsRequest,
@@ -89,8 +99,7 @@ const Signup = () => {
     if (!form) return;
 
     try {
-      setLoading(true);
-      let result=null;
+      let result = null;
       if (form.price && form.bio && form.qualification && form.location) {
         result = await createUser(
           form.username,
@@ -101,10 +110,10 @@ const Signup = () => {
           form.firstName,
           form.lastName,
           isTeacher ? "teacher" : "user",
-          // form.price,
-          // form.bio,
-          // form.qualification,
-          // form.location
+          form.price,
+          form.bio,
+          form.qualification,
+          form.location
         );
       } else {
         const result = await createUser(
@@ -116,10 +125,10 @@ const Signup = () => {
           form.firstName,
           form.lastName,
           isTeacher ? "teacher" : "user",
-          // form.price,
-          // form.bio,
-          // form.qualification,
-          // form.location
+          0,
+          "",
+          "",
+          ""
         );
       }
       if (result) {
@@ -130,7 +139,6 @@ const Signup = () => {
     } catch (error) {
       console.error("Error registering user:", error);
     } finally {
-      setLoading(false);
     }
   };
 
@@ -142,7 +150,10 @@ const Signup = () => {
             <ToggleButtonGroup
               value={isTeacher}
               exclusive
-              onChange={handleAlignment}
+              onChange={handleToggeleButtonChange}
+              // onChange={(e) =>
+              //   handleContactFormChange("firstName", e.target.value)
+              // }
               aria-label="user-type"
             >
               <ToggleButton

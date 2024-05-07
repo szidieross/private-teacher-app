@@ -43,11 +43,12 @@ const useUsersService = () => {
       firstName: string,
       lastName: string,
       role: string,
-      // price?: number,
-      // bio?: string,
-      // qualification?: string,
-      // location?: string
+      price: number,
+      bio: string,
+      qualification: string,
+      location: string
     ): Promise<UserModel | TeacherModel | null> => {
+      console.log("client price", price);
       try {
         const { data } = await api.post<UserModel>(
           `/signup`,
@@ -59,6 +60,10 @@ const useUsersService = () => {
             firstName,
             lastName,
             role,
+            price,
+            bio,
+            qualification,
+            location,
           },
           "Error while creating user!"
         );
@@ -71,11 +76,11 @@ const useUsersService = () => {
     []
   );
 
-  const verifyUser = useCallback(
+  const loginUser = useCallback(
     async (
       username: string,
       password: string
-    ): Promise<SimpleUserModel | null> => {
+    ): Promise<UserModel | null> => {
       try {
         const { data } = await api.post<UserModel>(
           `/login`,
@@ -95,7 +100,7 @@ const useUsersService = () => {
     []
   );
 
-  return { getUsers, getUserById, createUser, verifyUser };
+  return { getUsers, getUserById, createUser, loginUser };
 };
 
 export default useUsersService;
