@@ -1,7 +1,9 @@
 import { SessionOptions } from "iron-session";
+import { UserModel } from "./api/models/user.model";
 
 export interface SessionData {
-  userId?: string;
+  userData?:UserModel;
+  userId?: number;
   username?: string;
   img?: string;
   role?: string;

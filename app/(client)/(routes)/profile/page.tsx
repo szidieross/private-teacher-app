@@ -1,5 +1,6 @@
 import { changePremium, changeUsername, getSession } from "@/app/actions";
 import { redirect } from "next/navigation";
+import Profile from "./components/profile/profile";
 // import NewCategoryForm from "./category/category";
 
 const ProfilePage = async () => {
@@ -31,7 +32,7 @@ const ProfilePage = async () => {
         />
         <button>Update</button>
       </form>
-
+      <Profile userId={session.userId} />
       {/* <NewCategoryForm /> */}
     </div>
   );
