@@ -67,6 +67,13 @@ type Props = {
 const Item: FC<Props> = ({ teacherId }) => {
   const { getTeacherById } = useTeachersService();
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
+  const [image, setImage] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (teacher && teacher.userData.profilePicture) {
+      setImage(`/images/${teacher.userData.profilePicture}`);
+    }
+  }, [teacher]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,7 +98,7 @@ const Item: FC<Props> = ({ teacherId }) => {
                 component="img"
                 height="360"
                 width="auto"
-                image="/images/test-image.jpg"
+                image={image}
                 alt="Profile"
               />
             </Card>
