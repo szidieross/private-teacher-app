@@ -62,7 +62,7 @@ export const login = async (
   const userId = user.userId && user.userId;
 
   session.userId = userId ? userId : 1;
-  // session.userId = "1";
+  session.img = user.profilePicture;
   session.username = formUsername;
   session.role = user.role;
   session.isPro = isPro;

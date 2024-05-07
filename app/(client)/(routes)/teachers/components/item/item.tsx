@@ -60,7 +60,7 @@ const Item: FC<Props> = ({ teacher }) => {
   }, [teacher.userData.profilePicture]);
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, cursor: "pointer" }}>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {teacher.userData.firstName} {teacher.userData.lastName}
@@ -86,4 +86,3 @@ const Item: FC<Props> = ({ teacher }) => {
 };
 
 export default Item;
-

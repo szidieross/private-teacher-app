@@ -21,9 +21,11 @@ import Link from "next/link";
 
 const Desktop = () => {
   const { to } = useNavigation();
-  const { isLoggedIn } = useUserContext();
+  const { isLoggedIn, img } = useUserContext();
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
+
+  console.log("IMG", img);
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -155,13 +157,16 @@ const Desktop = () => {
               aria-label="menu"
               disableRipple
             >
-              <Image
-                width={60}
-                height={60}
-                src="/images/test-image.jpg"
-                alt="Profile"
-                className="profile-img"
-              />
+              {img && (
+                <Image
+                  width={60}
+                  height={60}
+                  // src="/images/test-image.jpg"
+                  src={`/images/${img}`}
+                  alt="Profile"
+                  className="profile-img"
+                />
+              )}
             </IconButton>
             <Menu
               anchorEl={anchorEl}

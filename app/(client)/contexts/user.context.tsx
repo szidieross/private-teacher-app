@@ -13,6 +13,7 @@ import {
 
 interface UserContextModel {
   isLoggedIn: boolean;
+  img: string|undefined;
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
   type: "user" | "teacher";
   setType: Dispatch<SetStateAction<"user" | "teacher">>;
@@ -22,6 +23,7 @@ interface UserContextModel {
 
 const initUserSettings: UserContextModel = {
   isLoggedIn: false,
+  img:"",
   setIsLoggedIn: () => {},
   type: "user",
   setType: () => {},
@@ -37,6 +39,7 @@ type Props = {
 
 const UserProvider: FC<Props> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [img, setImg] = useState<string|undefined>(undefined);
   const [type, setType] = useState<"user" | "teacher">("user");
   const [data, setData] = useState<UserModel | TeacherModel | undefined>(
     undefined
@@ -48,6 +51,7 @@ const UserProvider: FC<Props> = ({ children }) => {
       setIsLoggedIn(session.isLoggedIn);
       setData(session.userData);
       setType(session.role);
+      setImg(session.img);
       console.log(session.role)
       console.log("userId", session.userId);
       console.log("session.userData", session.userData);
@@ -58,6 +62,7 @@ const UserProvider: FC<Props> = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
+        img,
         isLoggedIn,
         setIsLoggedIn,
         type,
