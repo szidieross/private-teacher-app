@@ -3,6 +3,7 @@ import { SimpleUserModel, UserModel } from "../models/user.model";
 import { SimpleUserDto, UserDto } from "../dtos/user.dto";
 import { toSimpleUserModel, toUserModel } from "../mappers/user.mapper";
 import { createTeacher } from "./teacher.service";
+import { getSession } from "@/app/actions";
 
 interface UserId {
   user_id: number;
@@ -190,7 +191,12 @@ export const loginUser = async (username: string, password: string) => {
   }
 };
 
-export const updateUserImage = async (userId: number, title: string) => {
+export const updateUserImage = async (title: string) => {
+ 
+    const session = await getSession();
+    const userId=session.userId
+    console.log("userIduserIduserId",userId)
+    
   try {
     const db = await pool.getConnection();
     const query = `
@@ -201,28 +207,6 @@ export const updateUserImage = async (userId: number, title: string) => {
 
     const [rows] = await db.execute(query, [title, userId]);
     db.release();
-
-    // if (!Array.isArray(rows) || rows.length === 0) {
-    //   throw new Error('User image path update failed');
-    //   // return null;
-    // }
-
-    // const data: UserDto[] = (rows as any).map((row: any) => {
-    //   return {
-    //     user_id: row.user_id,
-    //     username: row.username,
-    //     password: row.password,
-    //     email: row.email,
-    //     phone: row.phone,
-    //     profile_picture: row.profile_picture,
-    //     created_at: row.created_at,
-    //     first_name: row.first_name,
-    //     last_name: row.last_name,
-    //     role: row.role,
-    //   };
-    // });
-
-    // const user: UserModel = toUserModel(data[0]);
 
     console.log('User image path updated successfully');
   } catch (error) {

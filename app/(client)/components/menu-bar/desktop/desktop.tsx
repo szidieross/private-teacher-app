@@ -17,6 +17,7 @@ import { isLoggedIn } from "@/app/actions";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
+import Link from "next/link";
 
 const Desktop = () => {
   const { to } = useNavigation();
@@ -97,19 +98,24 @@ const Desktop = () => {
     >
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item xl={8}>
-          <Typography
+          <Link href={"/teachers"} style={{ color: colors.secondary }}>
+            Private Teacher App
+          </Link>
+          {/* <Typography
             onClick={handleTitleClick}
-            style={{ color: colors.secondary }}
+            style={{ color: colors.secondary, cursor: "pointer" }}
             className="desktop-title"
           >
             Private Teacher App
+          </Typography> */}
+        </Grid>
+        <Grid item xl={1}>
+          <Link href={"/teachers"}>Teachers</Link>
+        </Grid>
+        <Grid item xl={1}>
+          <Typography sx={{ cursor: "pointer" }} onClick={handleOpenCatMenu}>
+            Categories
           </Typography>
-        </Grid>
-        <Grid item xl={1}>
-          <Typography onClick={handleTeachersClick}>Teachers</Typography>
-        </Grid>
-        <Grid item xl={1}>
-          <Typography onClick={handleOpenCatMenu}>Categories</Typography>
           <Menu
             anchorEl={anchorElCat}
             open={Boolean(anchorElCat)}

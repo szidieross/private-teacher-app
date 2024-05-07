@@ -1,9 +1,23 @@
 "use client";
 
-import { FC, useState } from "react";
+import { getSession } from "@/app/actions";
+import { FC, useEffect, useState } from "react";
 
 const UploadForm: FC = () => {
+  
+  // useEffect(() => {
+  //   const fetchSession=async()=>{
+  //   const session = await getSession();
+  //   const userId=session.userId
+  //   console.log("userIduserIduserId",userId)
+  //   setId(userId)
+  //   }
+  //   fetchSession()
+  // }, [])
+  
+
   const [file, setfile] = useState<File>();
+  const [id, setId] = useState<number|undefined>(undefined);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

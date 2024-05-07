@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   console.log("File saved to public folder:", publicFolderPath);
 
   try {
-    updateUserImage(79,file.name)
+    updateUserImage(file.name)
   } catch (error) {
     console.log("error")
   }
