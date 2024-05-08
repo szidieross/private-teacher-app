@@ -171,7 +171,7 @@ const Mobile: FC = () => {
               <Image
                 width={60}
                 height={60}
-                src="/images/test-image.jpg"
+                src="/images/uploads/test-image.jpg"
                 alt="Profile"
                 className="profile-img"
               />

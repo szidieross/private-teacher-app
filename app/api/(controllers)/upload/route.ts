@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  const publicFolderPath = join(process.cwd(), "public/images", file.name);
+  const publicFolderPath = join(process.cwd(), "public/images/uploads", file.name);
   
   console.log("file.name",file.name)
 

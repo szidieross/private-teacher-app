@@ -55,7 +55,7 @@ const Item: FC<Props> = ({ teacher }) => {
 
   useEffect(() => {
     if (teacher.userData.profilePicture) {
-      setImage(`/images/${teacher.userData.profilePicture}`);
+      setImage(`/images/uploads/${teacher.userData.profilePicture}`);
     }
   }, [teacher.userData.profilePicture]);
 

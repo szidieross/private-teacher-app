@@ -157,16 +157,16 @@ const Desktop = () => {
               aria-label="menu"
               disableRipple
             >
-              {img && (
+              {/* {img && ( */}
                 <Image
                   width={60}
                   height={60}
                   // src="/images/test-image.jpg"
-                  src={`/images/${img}`}
+                  src={img?`/images/${img}`:`/images/default/person.jpg`}
                   alt="Profile"
                   className="profile-img"
                 />
-              )}
+              {/* )} */}
             </IconButton>
             <Menu
               anchorEl={anchorEl}

@@ -54,7 +54,6 @@ const Profile: FC<Props> = ({ userId }) => {
 
   return (
     <Container maxWidth="md">
-      helllllllo
       <Paper sx={{ padding: 2, marginBottom: 4 }}>
         <Grid container alignItems="center" spacing={2}>
           <Grid item xs={12} md={3} container justifyContent="center">
@@ -63,7 +62,7 @@ const Profile: FC<Props> = ({ userId }) => {
               <Avatar sx={{ width: 120, height: 120 }}>
                 {user.profilePicture ? (
                   <img
-                    src={`/images/${user.profilePicture}`}
+                    src={`/images/uploads/${user.profilePicture}`}
                     alt="Profile"
                     style={{
                       width: "100%",
