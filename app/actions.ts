@@ -89,7 +89,6 @@ export const login = async (
 export const logout = async () => {
   const session = await getSession();
   session.destroy();
-  // redirect("/");
 };
 
 export const changePremium = async () => {

@@ -11,7 +11,10 @@ import {
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { UserModel } from "@/app/api/models/user.model";
-import { useUserContext } from "@/app/(client)/hooks/context.hook";
+import {
+  useStoreContext,
+  useUserContext,
+} from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
 import CustomModal from "../custom-modal/custom-modal";
 
@@ -21,9 +24,10 @@ type Props = {
 
 const Profile: FC<Props> = ({ userId }) => {
   const [user, setUser] = useState<UserModel | null>(null);
-  const { getUserById } = useUsersService();
-
   const [open, setOpen] = useState(false);
+  const { getUserById } = useUsersService();
+  const [formattedDate, setFormattedDate] = useState<string | null>(null);
+  const { setNavbarSettings } = useStoreContext();
 
   const handleOpen = () => {
     setOpen(true);
@@ -40,24 +44,55 @@ const Profile: FC<Props> = ({ userId }) => {
           const user = await getUserById(userId);
           if (user) {
             setUser(user);
+            console.log(user.createdAt);
+            if (user && user.createdAt) {
+              const date = new Date(user.createdAt);
+              setFormattedDate(
+                date.toLocaleDateString("en-GB", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              );
+
+              setNavbarSettings((prevSettings) => ({
+                ...prevSettings,
+                profilePicture: (
+                  <Avatar sx={{ width: 120, height: 120 }}>
+                    {user.profilePicture ? (
+                      <img
+                        src={`/images/uploads/${user.profilePicture}`}
+                        alt="Profile"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "50%",
+                        }}
+                      />
+                    ) : (
+                      <AccountCircle sx={{ width: "100%", height: "100%" }} />
+                    )}
+                  </Avatar>
+                ),
+              }));
+            }
           }
         }
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching user:", error);
       }
     };
 
     fetchData();
   }, [getUserById, userId]);
 
-  if (!user) return <>bye</>;
+  if (!user) return <>Loading...</>;
 
   return (
     <Container maxWidth="md">
       <Paper sx={{ padding: 2, marginBottom: 4 }}>
         <Grid container alignItems="center" spacing={2}>
           <Grid item xs={12} md={3} container justifyContent="center">
-            {/* Wrap the avatar with a button */}
             <Button onClick={handleOpen}>
               <Avatar sx={{ width: 120, height: 120 }}>
                 {user.profilePicture ? (
@@ -92,9 +127,11 @@ const Profile: FC<Props> = ({ userId }) => {
             <Typography variant="subtitle1" gutterBottom>
               Role: {user.role}
             </Typography>
-            <Typography variant="subtitle2" color="textSecondary">
-              Member since: {user.createdAt}
-            </Typography>
+            {formattedDate && (
+              <Typography variant="subtitle2" color="textSecondary">
+                Member since: {formattedDate}
+              </Typography>
+            )}
           </Grid>
         </Grid>
       </Paper>

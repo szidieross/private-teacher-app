@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Container,
@@ -18,14 +20,16 @@ import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
 import Link from "next/link";
+import useUsersService from "@/app/(client)/services/user.service";
+import { UserModel } from "@/app/api/models/user.model";
 
 const Desktop = () => {
   const { to } = useNavigation();
-  const { isLoggedIn, img } = useUserContext();
+  const { isLoggedIn, userId, img } = useUserContext();
+  const { getUserById } = useUsersService();
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-
-  console.log("IMG", img);
+  const [user, setUser] = useState<UserModel | null>(null);
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -83,6 +87,10 @@ const Desktop = () => {
       try {
         const categories = await getCategories();
         setCategories(categories);
+        if (userId) {
+          const user = await getUserById(userId);
+          setUser(user);
+        }
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -90,6 +98,10 @@ const Desktop = () => {
 
     fetchData();
   }, [getCategories]);
+
+  // useEffect(() => {
+
+  // }, [userId])
 
   return (
     <Container
@@ -157,16 +169,26 @@ const Desktop = () => {
               aria-label="menu"
               disableRipple
             >
-              {/* {img && ( */}
-                <Image
-                  width={60}
-                  height={60}
-                  // src="/images/test-image.jpg"
-                  src={img?`/images/${img}`:`/images/default/person.jpg`}
-                  alt="Profile"
-                  className="profile-img"
-                />
-              {/* )} */}
+              {/* <Image
+                width={60}
+                height={60}
+                src={
+                  user?.profilePicture
+                    ? `/images/${user.profilePicture}`
+                    : `/images/default/person.jpg`
+                }
+                alt="Profile"
+                className="profile-img"
+              /> */}
+              <Image
+                width={60}
+                height={60}
+                src={
+                  img ? `/images/uploads/${img}` : `/images/default/person.jpg`
+                }
+                alt="Profile"
+                className="profile-img"
+              />
             </IconButton>
             <Menu
               anchorEl={anchorEl}

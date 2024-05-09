@@ -1,6 +1,7 @@
 "use client";
 
 import { getSession } from "@/app/actions";
+import { Button, Container, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 
 const UploadForm: FC = () => {
@@ -16,7 +17,7 @@ const UploadForm: FC = () => {
   // }, [])
   
 
-  const [file, setfile] = useState<File>();
+  const [file, setFile] = useState<File>();
   const [id, setId] = useState<number|undefined>(undefined);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,16 +38,43 @@ const UploadForm: FC = () => {
     }
   };
   return (
-    <main>
-      <form onSubmit={onSubmit}>
+    // <main>
+    //   <form onSubmit={onSubmit}>
+    //     <input
+    //       type="file"
+    //       name="file"
+    //       onChange={(e) => setfile(e.target.files?.[0])}
+    //     />
+    //     <input type="submit" value="Upload image" />
+    //   </form>
+    // </main>
+    <Container maxWidth="sm">
+      <Typography variant="h5" align="center" gutterBottom>
+        Upload Image
+      </Typography>
+      <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <input
+          accept="image/*"
+          style={{ display: "none" }}
+          id="contained-button-file"
           type="file"
-          name="file"
-          onChange={(e) => setfile(e.target.files?.[0])}
+          onChange={(e) => setFile(e.target.files?.[0])}
         />
-        <input type="submit" value="Upload image" />
+        <label htmlFor="contained-button-file">
+          <Button variant="contained" color="primary" component="span">
+            Choose Image
+          </Button>
+        </label>
+        {file && (
+          <Typography variant="body1" style={{ marginTop: "20px" }}>
+            File selected: {file.name}
+          </Typography>
+        )}
+        <Button type="submit" variant="contained" color="primary" style={{ marginTop: "20px" }}>
+          Upload
+        </Button>
       </form>
-    </main>
+    </Container>
   );
 };
 

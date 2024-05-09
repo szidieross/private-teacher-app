@@ -1,12 +1,15 @@
-import { Dispatch, FC, ReactNode, SetStateAction, createContext, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useState,
+} from "react";
 
 interface NavbarSettingsModel {
-  title: ReactNode;
-  visibilities: {
-    search: boolean;
-    aboutCommunity: ReactNode | null;
-  };
-  membershipRibbonUrl?: string;
+  search: boolean;
+  profilePicture?: ReactNode | null;
 }
 
 interface StoreContextModel {
@@ -15,11 +18,8 @@ interface StoreContextModel {
 }
 
 const initNavbarSettings: NavbarSettingsModel = {
-  title: null,
-  visibilities: {
-    search: false,
-    aboutCommunity: null,
-  },
+  search: false,
+  profilePicture: null,
 };
 
 export const StoreContext = createContext<StoreContextModel>({
@@ -32,7 +32,8 @@ type Props = {
 };
 
 const StoreProvider: FC<Props> = ({ children }) => {
-  const [navbarSettings, setNavbarSettings] = useState<NavbarSettingsModel>(initNavbarSettings);
+  const [navbarSettings, setNavbarSettings] =
+    useState<NavbarSettingsModel>(initNavbarSettings);
 
   return (
     <StoreContext.Provider

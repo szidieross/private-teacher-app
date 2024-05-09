@@ -1,3 +1,5 @@
+"use client";
+
 import React, { FC, useEffect, useState } from "react";
 // import SearchBar from "../searchbar/searchbar.component";
 import "./mobile.scss";
@@ -19,21 +21,27 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { pink } from "@mui/material/colors";
 import DrawerMenu from "./drawer-menu/drawer-menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
-import { useUserContext } from "@/app/(client)/hooks/context.hook";
+import {
+  useStoreContext,
+  useUserContext,
+} from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
 import LogoutForm from "../../logout-form/logout-form";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
 import "./mobile.scss";
+import { UserModel } from "@/app/api/models/user.model";
 
 const Mobile: FC = () => {
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
-
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
-
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
+  const [user, setUser] = useState<UserModel | null>(null);
+  const { isLoggedIn, userId, img } = useUserContext();
+  const { to } = useNavigation();
+  const { navbarSettings } = useStoreContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,9 +70,6 @@ const Mobile: FC = () => {
     setAnchorEl(event.currentTarget);
     document.body.classList.add("menu-open");
   };
-
-  const { to } = useNavigation();
-  const { isLoggedIn } = useUserContext();
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -168,10 +173,25 @@ const Mobile: FC = () => {
               aria-label="menu"
               disableRipple
             >
+              {/* <Image
+                width={60}
+                height={60}
+                src={
+                  user?.profilePicture
+                    ? `/images/${user.profilePicture}`
+                    : `/images/default/person.jpg`
+                }
+                alt="Profile"
+                className="profile-img"
+              /> */}
               <Image
                 width={60}
                 height={60}
-                src="/images/uploads/test-image.jpg"
+                src={
+                  img
+                    ? `/images/uploads/${img}`
+                    : `/images/default/person.jpg`
+                }
                 alt="Profile"
                 className="profile-img"
               />
