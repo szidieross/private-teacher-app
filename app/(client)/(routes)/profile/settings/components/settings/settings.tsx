@@ -2,9 +2,12 @@
 
 import { FC, useState, useEffect } from "react";
 import useUsersService from "@/app/(client)/services/user.service";
-import { Button, Container, Grid, TextField } from "@mui/material";
+import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { UserContext } from "@/app/(client)/contexts/user.context";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
+import { UserModel } from "@/app/api/models/user.model";
+import { TeacherModel } from "@/app/api/models/teacher.model";
+import useTeachersService from "@/app/(client)/services/teacher.service";
 
 interface User {
   user_id: number;
@@ -64,9 +67,35 @@ const initContactForm: ContactUsRequest = {
 
 const Settings: FC<Props> = ({ userId }) => {
   // const [isTeacher, setIsTeacher] = useState<boolean>(false);
-  const { createUser } = useUsersService();
+  const { createUser, getUserById } = useUsersService();
+  // const { getTeacherById } = useTeachersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const { userType } = useUserContext();
+  const [user, setUser] = useState<UserModel | null>(null);
+  const [teacher, setTeacher] = useState<TeacherModel | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (userId) {
+          const user = await getUserById(userId);
+          if (user) {
+            setUser(user);
+            console.log(user);
+          }
+          // const teacher = await getTeacherById(userId);
+          // if (teacher) {
+          //   setTeacher(teacher);
+          //   console.log(teacher);
+          // }
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchData();
+  }, [getUserById, userId]);
 
   useEffect(() => {
     console.log(form);
@@ -149,8 +178,11 @@ const Settings: FC<Props> = ({ userId }) => {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
+            {" "}
+            <Typography className="input-label">First Name</Typography>
             <TextField
-              label="First Name"
+              // label="First Name"
+              defaultValue={user?.firstName}
               variant="outlined"
               fullWidth
               required
@@ -161,8 +193,11 @@ const Settings: FC<Props> = ({ userId }) => {
             />
           </Grid>
           <Grid item xs={6}>
+            {" "}
+            <Typography className="input-label">Last Name</Typography>
             <TextField
-              label="Last Name"
+              // label="Last Name"
+              defaultValue={user?.lastName}
               variant="outlined"
               fullWidth
               required
@@ -173,8 +208,10 @@ const Settings: FC<Props> = ({ userId }) => {
             />
           </Grid>
           <Grid item xs={12}>
+            <Typography className="input-label">Username</Typography>
             <TextField
-              label="Username"
+              defaultValue={user?.username || ""}
+              // label="Username"
               variant="outlined"
               fullWidth
               name="username"
@@ -185,22 +222,11 @@ const Settings: FC<Props> = ({ userId }) => {
             />
           </Grid>
           <Grid item xs={12}>
+            <Typography className="input-label">Email</Typography>
             <TextField
-              type="password"
-              label="Password"
-              variant="outlined"
-              name="password"
-              fullWidth
-              required
-              onChange={(e) =>
-                handleContactFormChange("password", e.target.value)
-              }
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
+              defaultValue={user?.email}
               type="email"
-              label="Email"
+              // label="Email"
               variant="outlined"
               name="email"
               fullWidth
@@ -209,20 +235,25 @@ const Settings: FC<Props> = ({ userId }) => {
             />
           </Grid>
           <Grid item xs={12}>
+            {" "}
+            <Typography className="input-label">Phone</Typography>
             <TextField
-              label="Phone"
+              defaultValue={user?.phone}
+              // label="Phone"
               variant="outlined"
               fullWidth
               name="phone"
               onChange={(e) => handleContactFormChange("phone", e.target.value)}
             />
           </Grid>
-          {userType === "teacher" && (
+          {userType === "teacher" && teacher && (
             <>
               <Grid item xs={6}>
+                <Typography className="input-label">Price</Typography>
                 <TextField
+                  defaultValue={teacher?.price}
                   type="number"
-                  label="Price"
+                  // label="Price"
                   variant="outlined"
                   name="price"
                   fullWidth
@@ -232,8 +263,10 @@ const Settings: FC<Props> = ({ userId }) => {
                 />
               </Grid>
               <Grid item xs={6}>
+                <Typography className="input-label">Qualification</Typography>
                 <TextField
-                  label="Qualification"
+                  defaultValue={teacher?.qualification}
+                  // label="Qualification"
                   variant="outlined"
                   fullWidth
                   name="qualification"
@@ -243,8 +276,10 @@ const Settings: FC<Props> = ({ userId }) => {
                 />
               </Grid>
               <Grid item xs={12}>
+                <Typography className="input-label">Bio</Typography>
                 <TextField
-                  label="Bio"
+                  defaultValue={teacher?.bio}
+                  // label="Bio"
                   variant="outlined"
                   fullWidth
                   multiline
@@ -255,8 +290,10 @@ const Settings: FC<Props> = ({ userId }) => {
                 />
               </Grid>
               <Grid item xs={12}>
+                <Typography className="input-label">Location</Typography>
                 <TextField
-                  label="Location"
+                  defaultValue={teacher?.location}
+                  // label="Location"
                   variant="outlined"
                   fullWidth
                   name="location"

@@ -71,7 +71,7 @@ const Item: FC<Props> = ({ teacherId }) => {
 
   useEffect(() => {
     if (teacher && teacher.userData.profilePicture) {
-      setImage(`/images/${teacher.userData.profilePicture}`);
+      setImage(`/images/uploads/${teacher.userData.profilePicture}`);
     }
   }, [teacher]);
 

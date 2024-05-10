@@ -54,27 +54,6 @@ const Profile: FC<Props> = ({ userId }) => {
                   day: "numeric",
                 })
               );
-
-              setNavbarSettings((prevSettings) => ({
-                ...prevSettings,
-                profilePicture: (
-                  <Avatar sx={{ width: 120, height: 120 }}>
-                    {user.profilePicture ? (
-                      <img
-                        src={`/images/uploads/${user.profilePicture}`}
-                        alt="Profile"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "50%",
-                        }}
-                      />
-                    ) : (
-                      <AccountCircle sx={{ width: "100%", height: "100%" }} />
-                    )}
-                  </Avatar>
-                ),
-              }));
             }
           }
         }
