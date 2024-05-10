@@ -36,38 +36,26 @@ type Props = {
 };
 
 export interface ContactUsRequest {
+  // userId: number;
   username: string;
   firstName: string;
   lastName: string;
-  password: string;
   email: string;
   phone: string;
-  //   profilePicture: string;
-  role: string;
-  price: number;
-  bio: string;
-  qualification: string;
-  location: string;
 }
 
 const initContactForm: ContactUsRequest = {
+  // userId: 0,
   username: "",
   firstName: "",
   lastName: "",
-  password: "",
   email: "",
   phone: "",
-  //   profilePicture: "",
-  role: "",
-  price: 0,
-  bio: "",
-  qualification: "",
-  location: "",
 };
 
 const Settings: FC<Props> = ({ userId }) => {
   // const [isTeacher, setIsTeacher] = useState<boolean>(false);
-  const { createUser, getUserById } = useUsersService();
+  const { createUser, getUserById, updateUserData } = useUsersService();
   // const { getTeacherById } = useTeachersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const { userType } = useUserContext();
@@ -127,50 +115,31 @@ const Settings: FC<Props> = ({ userId }) => {
   ): Promise<void> => {
     e.preventDefault();
 
+    if (!userId) return;
     if (!form) return;
 
-    // try {
-    //   let result = null;
-    //   if (form.price && form.bio && form.qualification && form.location) {
-    //     result = await createUser(
-    //       form.username,
-    //       form.password,
-    //       form.email,
-    //       form.phone,
-    //       // form.profilePicture,
-    //       form.firstName,
-    //       form.lastName,
-    //       isTeacher ? "teacher" : "user",
-    //       form.price,
-    //       form.bio,
-    //       form.qualification,
-    //       form.location
-    //     );
-    //   } else {
-    //     const result = await createUser(
-    //       form.username,
-    //       form.password,
-    //       form.email,
-    //       form.phone,
-    //       // form.profilePicture,
-    //       form.firstName,
-    //       form.lastName,
-    //       isTeacher ? "teacher" : "user",
-    //       0,
-    //       "",
-    //       "",
-    //       ""
-    //     );
-    //   }
-    //   if (result) {
-    //     console.log("User registered successfully:", result);
-    //   } else {
-    //     console.error("Error registering user:", result);
-    //   }
-    // } catch (error) {
-    //   console.error("Error registering user:", error);
-    // } finally {
-    // }
+    try {
+      let result = null;
+
+      console.log("Form", JSON.stringify(form));
+      result = await updateUserData(
+        // userId,
+        form.username,
+        form.firstName,
+        form.lastName,
+        form.email,
+        form.phone
+      );
+
+      if (result) {
+        console.log("User updated successfully:", result);
+      } else {
+        console.error("Error updating user:", result);
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+    } finally {
+    }
   };
 
   return (
@@ -246,7 +215,7 @@ const Settings: FC<Props> = ({ userId }) => {
               onChange={(e) => handleContactFormChange("phone", e.target.value)}
             />
           </Grid>
-          {userType === "teacher" && teacher && (
+          {/* {userType === "teacher" && teacher && (
             <>
               <Grid item xs={6}>
                 <Typography className="input-label">Price</Typography>
@@ -303,10 +272,10 @@ const Settings: FC<Props> = ({ userId }) => {
                 />
               </Grid>
             </>
-          )}
+          )} */}
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary" fullWidth>
-              Register
+              Update
             </Button>
           </Grid>
         </Grid>

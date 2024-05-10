@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { api } from "@/app/(client)/utils/api.util";
 import { SimpleUserModel, UserModel } from "@/app/api/models/user.model";
 import { TeacherModel } from "@/app/api/models/teacher.model";
+import { getSession } from "@/app/actions";
 
 const useUsersService = () => {
   const getUsers = useCallback(async (): Promise<UserModel[]> => {
@@ -114,7 +115,53 @@ const useUsersService = () => {
     }
   }, []);
 
-  return { getUsers, getUserById, createUser, loginUser, updateUserImage };
+  const updateUserData = useCallback(
+    async (
+      username: string,
+      firstName: string,
+      lastName: string,
+      email: string,
+      phone: string
+    ) => {
+      const session = await getSession();
+      const userId = session.userId;
+      try {
+        console.log("userIduserIduserId", userId);
+        console.log("username", username);
+        console.log("firstName", firstName);
+        console.log("lastName", lastName);
+        console.log("email", email);
+        console.log("phone", phone);
+
+        const { data } = await api.post<UserModel>(
+          `/users/${userId}`,
+          {
+            userId,
+            username,
+            firstName,
+            lastName,
+            email,
+            phone,
+          },
+          "Couldn't update user data.!"
+        );
+        return data;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    []
+  );
+
+  return {
+    getUsers,
+    getUserById,
+    createUser,
+    loginUser,
+    updateUserImage,
+    updateUserData,
+  };
 };
 
 export default useUsersService;
