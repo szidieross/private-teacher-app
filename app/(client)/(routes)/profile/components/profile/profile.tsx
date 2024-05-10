@@ -17,6 +17,7 @@ import {
 } from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
 import CustomModal from "../custom-modal/custom-modal";
+import AddAppointment from "../add-appointment/add-appointment";
 
 type Props = {
   userId?: number;
@@ -116,6 +117,8 @@ const Profile: FC<Props> = ({ userId }) => {
       </Paper>
       {/* Render the modal component */}
       <CustomModal open={open} onClose={handleClose} />
+
+      <AddAppointment />
     </Container>
   );
 };

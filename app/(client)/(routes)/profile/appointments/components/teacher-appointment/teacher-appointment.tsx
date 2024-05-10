@@ -39,10 +39,10 @@ const TeacherAppointments: FC<Props> = ({ teacherId }) => {
   }, [getAppointmentByTeacherId, teacherId]);
 
   const columns: GridColDef<TableProps>[] = [
-    { 
-      field: "id", 
-      headerName: "ID", 
-      width: 90 
+    {
+      field: "id",
+      headerName: "ID",
+      width: 90,
     },
     {
       field: "name",
@@ -69,7 +69,6 @@ const TeacherAppointments: FC<Props> = ({ teacherId }) => {
       width: 160,
     },
   ];
-  
 
   // const rows = [
   //   { id: 1, lastName: "Snow", firstName: "Jon", age: 14 },
@@ -85,7 +84,7 @@ const TeacherAppointments: FC<Props> = ({ teacherId }) => {
 
   const rows = appointments?.map((item, index) => {
     return {
-      id: index,
+      id: index + 1,
       name: `${item.userId}`,
       date: "date",
       subject: "subject",
