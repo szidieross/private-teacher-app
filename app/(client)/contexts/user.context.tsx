@@ -14,19 +14,23 @@ import {
 interface UserContextModel {
   isLoggedIn: boolean;
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
-  type: "user" | "teacher";
-  setType: Dispatch<SetStateAction<"user" | "teacher">>;
-  data: UserModel | TeacherModel | undefined;
-  setData: Dispatch<SetStateAction<UserModel | TeacherModel | undefined>>;
+  userId: number | null;
+  setUserId: Dispatch<SetStateAction<number | null>>;
+  userType: "user" | "teacher";
+  setUserType: Dispatch<SetStateAction<"user" | "teacher">>;
+  img: string | undefined;
+  setImg: Dispatch<SetStateAction<string | undefined>>;
 }
 
 const initUserSettings: UserContextModel = {
   isLoggedIn: false,
   setIsLoggedIn: () => {},
-  type: "user",
-  setType: () => {},
-  data: undefined,
-  setData: () => {},
+  userId: null,
+  setUserId: () => {},
+  userType: "user",
+  setUserType: () => {},
+  img: undefined,
+  setImg: () => {},
 };
 
 export const UserContext = createContext<UserContextModel>(initUserSettings);
@@ -37,15 +41,18 @@ type Props = {
 
 const UserProvider: FC<Props> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [type, setType] = useState<"user" | "teacher">("user");
-  const [data, setData] = useState<UserModel | TeacherModel | undefined>(
-    undefined
-  );
+  const [userId, setUserId] = useState<number | null>(null);
+  const [userType, setUserType] = useState<"user" | "teacher">("user");
+  const [img, setImg] = useState<string | undefined>(undefined);
+
   useEffect(() => {
     const fetchData = async () => {
       const session = await getSession();
 
       setIsLoggedIn(session.isLoggedIn);
+      setUserType(session.role);      
+      setImg(session.img);
+      console.log(session.role);
     };
     fetchData();
   }, [getSession]);
@@ -55,10 +62,12 @@ const UserProvider: FC<Props> = ({ children }) => {
       value={{
         isLoggedIn,
         setIsLoggedIn,
-        type,
-        setType,
-        data,
-        setData,
+        userId,
+        setUserId,
+        userType,
+        setUserType,
+        img,
+        setImg,
       }}
     >
       {children}

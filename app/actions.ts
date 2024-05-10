@@ -59,13 +59,29 @@ export const login = async (
     ("Wrong credentials. Try again.");
     return;
   }
-  const userId = user.userId && user.userId.toString();
+  const userId = user.userId && user.userId;
 
-  session.userId = userId ? userId : "1";
+  session.userId = userId ? userId : 1;
+  session.img = user.profilePicture;
   session.username = formUsername;
   session.role = user.role;
   session.isPro = isPro;
   session.isLoggedIn = true;
+
+  session.userData = {
+    userId: userId,
+    username: user.username,
+    email: user.email,
+    phone: user.phone,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    password: user.password,
+    profilePicture: user.profilePicture,
+    role: user.role,
+    createdAt: user.createdAt,
+  };
+
+  console.log("session.userId", session.userId);
 
   await session.save();
 };
@@ -73,7 +89,6 @@ export const login = async (
 export const logout = async () => {
   const session = await getSession();
   session.destroy();
-  // redirect("/");
 };
 
 export const changePremium = async () => {

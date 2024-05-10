@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 import { writeFile } from "fs/promises";
 import { createReadStream, createWriteStream } from "fs";
+import { updateUserImage } from "../../services/user.service";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  const publicFolderPath = join(process.cwd(), "public/images", file.name);
+  const publicFolderPath = join(process.cwd(), "public/images/uploads", file.name);
   
   console.log("file.name",file.name)
 
@@ -23,6 +24,12 @@ export async function POST(request: NextRequest) {
   writeStream.end();
 
   console.log("File saved to public folder:", publicFolderPath);
+
+  try {
+    updateUserImage(file.name)
+  } catch (error) {
+    console.log("error")
+  }
 
   return NextResponse.json({ success: true });
 }

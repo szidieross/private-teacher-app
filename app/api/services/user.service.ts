@@ -3,6 +3,8 @@ import { SimpleUserModel, UserModel } from "../models/user.model";
 import { SimpleUserDto, UserDto } from "../dtos/user.dto";
 import { toSimpleUserModel, toUserModel } from "../mappers/user.mapper";
 import { createTeacher } from "./teacher.service";
+import { getSession } from "@/app/actions";
+import { redirect } from "next/dist/server/api-utils";
 
 interface UserId {
   user_id: number;
@@ -186,6 +188,73 @@ export const loginUser = async (username: string, password: string) => {
     return user;
   } catch (error) {
     console.error("Error verifying user:", error);
+    throw error;
+  }
+};
+
+export const updateUserImage = async (title: string) => {
+  const session = await getSession();
+  const userId = session.userId;
+  console.log("userIduserIduserId", userId);
+
+  try {
+    const db = await pool.getConnection();
+    const query = `
+        UPDATE Users
+        SET profile_picture = ?
+        WHERE user_id = ?
+    `;
+
+    const [rows] = await db.execute(query, [title, userId]);
+    db.release();
+
+    console.log("User image path updated successfully");
+  } catch (error) {
+    console.error("Error verifying user:", error);
+    throw error;
+  }
+};
+
+export const updateUserData = async (
+  userId: number,
+  username: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  phone: string
+) => {
+  console.log("userIduserIduserId", userId);
+  console.log("username", username);
+  console.log("firstName", firstName);
+  console.log("lastName", lastName);
+  console.log("email", email);
+  console.log("phone", phone);
+
+  try {
+    const db = await pool.getConnection();
+    const query = `
+        UPDATE Users
+        SET username = ?,
+        first_name = ?,
+        last_name = ?,
+        email = ?,
+        phone = ?
+        WHERE user_id = ?
+    `;
+
+    const [rows] = await db.execute(query, [
+      username,
+      firstName,
+      lastName,
+      email,
+      phone,
+      userId,
+    ]);
+    db.release();
+
+    console.log("User data updated successfully");
+  } catch (error) {
+    console.error("Error updating user:", error);
     throw error;
   }
 };

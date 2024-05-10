@@ -1,10 +1,12 @@
 import { SessionOptions } from "iron-session";
+import { UserModel } from "./api/models/user.model";
 
 export interface SessionData {
-  userId?: string;
+  userData?: UserModel;
+  userId?: number;
   username?: string;
   img?: string;
-  role?: string;
+  role: "user" | "teacher";
   isPro?: boolean;
   isBlocked?: boolean;
   isLoggedIn: boolean;
@@ -12,6 +14,7 @@ export interface SessionData {
 
 export const defaultSession: SessionData = {
   isLoggedIn: false,
+  role: "user",
 };
 
 export const sessionOptions: SessionOptions = {

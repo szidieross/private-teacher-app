@@ -51,10 +51,3 @@ CREATE TABLE Appointments (
     FOREIGN KEY (lesson_id) REFERENCES Lessons(lesson_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
-
--- SELECT
---     l.*
--- FROM
---     Lessons l
--- WHERE
---     teacher_id = ?

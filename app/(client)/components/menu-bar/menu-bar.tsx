@@ -1,12 +1,13 @@
 "use client";
 
 import { Box, Toolbar } from "@mui/material";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import Mobile from "./mobile/mobile";
 import Desktop from "./desktop/desktop";
 import "./menu-bar.scss";
 import { colors } from "../../constants/color.constant";
 import { isLoggedIn } from "@/app/actions";
+import { useUserContext } from "../../hooks/context.hook";
 
 const MenuBar: FC = () => {
   useEffect(() => {

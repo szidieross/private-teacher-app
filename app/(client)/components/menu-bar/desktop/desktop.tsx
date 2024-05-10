@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Container,
@@ -17,14 +19,18 @@ import { isLoggedIn } from "@/app/actions";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
+import Link from "next/link";
+import useUsersService from "@/app/(client)/services/user.service";
+import { UserModel } from "@/app/api/models/user.model";
 
 const Desktop = () => {
   const { to } = useNavigation();
-  const { isLoggedIn } = useUserContext();
+  const { isLoggedIn, userId, img } = useUserContext();
+  const { getUserById } = useUsersService();
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
+  const [user, setUser] = useState<UserModel | null>(null);
 
-  console.log(isLoggedIn);
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
@@ -81,6 +87,10 @@ const Desktop = () => {
       try {
         const categories = await getCategories();
         setCategories(categories);
+        if (userId) {
+          const user = await getUserById(userId);
+          setUser(user);
+        }
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -88,6 +98,10 @@ const Desktop = () => {
 
     fetchData();
   }, [getCategories]);
+
+  // useEffect(() => {
+
+  // }, [userId])
 
   return (
     <Container
@@ -97,19 +111,24 @@ const Desktop = () => {
     >
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item xl={8}>
-          <Typography
+          <Link href={"/teachers"} style={{ color: colors.secondary }}>
+            Private Teacher App
+          </Link>
+          {/* <Typography
             onClick={handleTitleClick}
-            style={{ color: colors.secondary }}
+            style={{ color: colors.secondary, cursor: "pointer" }}
             className="desktop-title"
           >
             Private Teacher App
+          </Typography> */}
+        </Grid>
+        <Grid item xl={1}>
+          <Link href={"/teachers"}>Teachers</Link>
+        </Grid>
+        <Grid item xl={1}>
+          <Typography sx={{ cursor: "pointer" }} onClick={handleOpenCatMenu}>
+            Categories
           </Typography>
-        </Grid>
-        <Grid item xl={1}>
-          <Typography onClick={handleTeachersClick}>Teachers</Typography>
-        </Grid>
-        <Grid item xl={1}>
-          <Typography onClick={handleOpenCatMenu}>Categories</Typography>
           <Menu
             anchorEl={anchorElCat}
             open={Boolean(anchorElCat)}
@@ -150,10 +169,23 @@ const Desktop = () => {
               aria-label="menu"
               disableRipple
             >
+              {/* <Image
+                width={60}
+                height={60}
+                src={
+                  user?.profilePicture
+                    ? `/images/${user.profilePicture}`
+                    : `/images/default/person.jpg`
+                }
+                alt="Profile"
+                className="profile-img"
+              /> */}
               <Image
                 width={60}
                 height={60}
-                src="/images/test-image.jpg"
+                src={
+                  img ? `/images/uploads/${img}` : `/images/default/person.jpg`
+                }
                 alt="Profile"
                 className="profile-img"
               />
