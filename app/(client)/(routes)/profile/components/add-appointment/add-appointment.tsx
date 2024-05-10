@@ -5,19 +5,23 @@ import {
   Button,
   Grid,
   Typography,
-  Paper
+  Paper,
 } from "@mui/material";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 const AddAppointment: FC = () => {
   const [formData, setFormData] = useState({
-    date: ""
+    date: "",
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -27,7 +31,7 @@ const AddAppointment: FC = () => {
     console.log(formData);
     // Reset form data
     setFormData({
-      date: ""
+      date: "",
     });
   };
 
@@ -37,23 +41,14 @@ const AddAppointment: FC = () => {
         <Typography variant="h5" gutterBottom>
           Add a time to your appointment
         </Typography>
-        <form
-          style={{ width: "100%", marginTop: 10 }}
-          onSubmit={handleSubmit}
-        >
+        <form style={{ width: "100%", marginTop: 10 }} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Date"
-                type="datetime-local"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DateTimePicker"]}>
+                  <DateTimePicker label="Basic date time picker" />
+                </DemoContainer>
+              </LocalizationProvider>
             </Grid>
             <Grid item xs={12}>
               <Button
