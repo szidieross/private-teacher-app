@@ -34,9 +34,9 @@ const useLessonsService = () => {
   );
 
   const getLessonsByTeacherId = useCallback(
-    async (teacherId: number): Promise<LessonModel | null> => {
+    async (teacherId: number): Promise<LessonModel[] | null> => {
       try {
-        const { data } = await api.get<LessonModel>(
+        const { data } = await api.get<LessonModel[]>(
           `/teachers/${teacherId}/lessons`,
           "The request for lesson failed, please reload the page!"
         );

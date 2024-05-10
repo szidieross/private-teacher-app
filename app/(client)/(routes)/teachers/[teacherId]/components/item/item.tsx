@@ -17,6 +17,7 @@ import useTeachersService from "@/app/(client)/services/teacher.service";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { DataGrid } from "@mui/x-data-grid";
 import useLessonsService from "@/app/(client)/services/lesson.service";
+import { LessonModel } from "@/app/api/models/lesson.model";
 
 type Props = {
   teacherId: number;
@@ -70,6 +71,7 @@ const Item: FC<Props> = ({ teacherId }) => {
   const { getLessonsByTeacherId } = useLessonsService();
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
   const [image, setImage] = useState<string | undefined>(undefined);
+  const [lessons, setLessons] = useState<LessonModel[] | null>(null);
 
   useEffect(() => {
     if (teacher && teacher.userData.profilePicture) {
@@ -83,7 +85,8 @@ const Item: FC<Props> = ({ teacherId }) => {
         const fetchedTeacher = await getTeacherById(teacherId);
         setTeacher(fetchedTeacher);
 
-        const lessons =await getLessonsByTeacherId(teacherId);
+        const lessons = await getLessonsByTeacherId(teacherId);
+        setLessons(lessons);
         console.log("Lessons", lessons);
       } catch (error) {
         console.error("Error fetching teacher:", error);
@@ -125,6 +128,9 @@ const Item: FC<Props> = ({ teacherId }) => {
                 </Typography>
                 <Typography variant="body1" color="textSecondary" gutterBottom>
                   Qualification: {teacher.qualification}
+                </Typography>
+                <Typography variant="body1" color="textSecondary" gutterBottom>
+                  Subject: {lessons?.map((item,index)=>item.categoryName)}
                 </Typography>
                 <a
                   href={`mailto:${teacher.userData.email}`}
