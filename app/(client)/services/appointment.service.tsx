@@ -33,7 +33,23 @@ const useAppointmentsService = () => {
     []
   );
 
-  return { getAppointments, getAppointmentById };
+  const getAppointmentByTeacherId = useCallback(
+    async (teacherId: number): Promise<AppointmentModel[] | null> => {
+      try {
+        const { data } = await api.get<AppointmentModel[]>(
+          `/teachers/${teacherId}/appointments`,
+          "The request for appointments failed, please reload the page!"
+        );
+        return Promise.resolve(data);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    []
+  );
+
+  return { getAppointments, getAppointmentById,getAppointmentByTeacherId };
 };
 
 export default useAppointmentsService;

@@ -6,13 +6,13 @@ export const GET = async (
   request: NextRequest,
   context: { params: { slug: number } }
 ) => {
-  const appointmentId = context.params.slug;
+  const teacherId = context.params.slug;
   try {
-    const appointment: AppointmentModel | null =
-      await getAppointmentByTeacherId(appointmentId);
-    return NextResponse.json(appointment);
+    const appointments: AppointmentModel[] | null =
+      await getAppointmentByTeacherId(teacherId);
+    return NextResponse.json(appointments);
   } catch (error) {
-    console.error("Error fetching appointment:", error);
+    console.error("Error fetching appointments:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
