@@ -16,6 +16,7 @@ import {
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { DataGrid } from "@mui/x-data-grid";
+import useLessonsService from "@/app/(client)/services/lesson.service";
 
 type Props = {
   teacherId: number;
@@ -66,6 +67,7 @@ type Props = {
 
 const Item: FC<Props> = ({ teacherId }) => {
   const { getTeacherById } = useTeachersService();
+  const { getLessonsByTeacherId } = useLessonsService();
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
   const [image, setImage] = useState<string | undefined>(undefined);
 
@@ -80,6 +82,9 @@ const Item: FC<Props> = ({ teacherId }) => {
       try {
         const fetchedTeacher = await getTeacherById(teacherId);
         setTeacher(fetchedTeacher);
+
+        const lessons =await getLessonsByTeacherId(teacherId);
+        console.log("Lessons", lessons);
       } catch (error) {
         console.error("Error fetching teacher:", error);
       }
