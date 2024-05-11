@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
-  TextField,
   Button,
   Grid,
   Typography,
   Paper,
+  MenuItem,
+  Select,
 } from "@mui/material";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import useCategoriesService from "@/app/(client)/services/category.service";
+import { CategoryModel } from "@/app/api/models/category.model";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 interface LessonFormData {
   name: string;
+  categoryId: number | null;
 }
 
 const AddLesson: React.FC = () => {
@@ -19,24 +23,41 @@ const AddLesson: React.FC = () => {
   const { getCategories } = useCategoriesService();
   const [formData, setFormData] = useState<LessonFormData>({
     name: "",
+    categoryId: null,
   });
+  const [categoryOptions, setCategoryOptions] = useState<CategoryModel[]>([]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: SelectChangeEvent<number>) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name as string]: value,
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    createLesson(1, 1);
-
-    setFormData({
-      name: "",
-    });
+    if (formData.categoryId) {
+      await createLesson(1,formData.categoryId);
+      setFormData({
+        name: "",
+        categoryId: null,
+      });
+    }
   };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categories: CategoryModel[] = await getCategories();
+        setCategoryOptions(categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, [getCategories]);
 
   return (
     <Container maxWidth="sm">
@@ -47,13 +68,22 @@ const AddLesson: React.FC = () => {
         <form style={{ width: "100%", marginTop: 10 }} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
+              <Select
                 fullWidth
-                label="Lesson Name"
-                name="name"
-                value={formData.name}
+                label="Category"
+                name="categoryId"
+                value={formData.categoryId || ""}
                 onChange={handleChange}
-              />
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {categoryOptions.map((category) => (
+                  <MenuItem key={category.categoryId} value={category.categoryId}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
             </Grid>
             <Grid item xs={12}>
               <Button
