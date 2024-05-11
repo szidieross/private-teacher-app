@@ -8,17 +8,17 @@ import {
   Paper,
 } from "@mui/material";
 import useLessonsService from "@/app/(client)/services/lesson.service";
+import useCategoriesService from "@/app/(client)/services/category.service";
 
 interface LessonFormData {
   name: string;
-  description: string;
 }
 
 const AddLesson: React.FC = () => {
   const { createLesson } = useLessonsService();
+  const { getCategories } = useCategoriesService();
   const [formData, setFormData] = useState<LessonFormData>({
     name: "",
-    description: "",
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,10 +32,9 @@ const AddLesson: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     createLesson(1, 1);
-    // Reset form data
+
     setFormData({
       name: "",
-      description: "",
     });
   };
 
@@ -54,17 +53,6 @@ const AddLesson: React.FC = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                multiline
-                rows={4}
               />
             </Grid>
             <Grid item xs={12}>
