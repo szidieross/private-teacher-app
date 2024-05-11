@@ -49,22 +49,6 @@ const useLessonsService = () => {
     []
   );
 
-  // const createLesson = useCallback(
-  //   async (teacherId: number): Promise<LessonModel[] | null> => {
-  //     try {
-  //       const { data } = await api.get<LessonModel[]>(
-  //         `/teachers/${teacherId}/lessons`,
-  //         "The request for lesson failed, please reload the page!"
-  //       );
-  //       return Promise.resolve(data);
-  //     } catch (error) {
-  //       console.error(error);
-  //       return null;
-  //     }
-  //   },
-  //   []
-  // );
-
   const createLesson = useCallback(
     async (
       teacherId: number,

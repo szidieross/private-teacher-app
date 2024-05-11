@@ -26,7 +26,6 @@ export const getSession = async () => {
 };
 
 export const isLoggedIn = async () => {
-  // const session = await getIronSession<SessionData>(cookies(), sessionOptions);
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
 
   if (!session.isLoggedIn) {

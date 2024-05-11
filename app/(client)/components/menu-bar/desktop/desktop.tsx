@@ -99,10 +99,6 @@ const Desktop = () => {
     fetchData();
   }, [getCategories]);
 
-  // useEffect(() => {
-
-  // }, [userId])
-
   return (
     <Container
       className="desktop-container"
@@ -114,13 +110,6 @@ const Desktop = () => {
           <Link href={"/teachers"} style={{ color: colors.secondary }}>
             Private Teacher App
           </Link>
-          {/* <Typography
-            onClick={handleTitleClick}
-            style={{ color: colors.secondary, cursor: "pointer" }}
-            className="desktop-title"
-          >
-            Private Teacher App
-          </Typography> */}
         </Grid>
         <Grid item xl={1}>
           <Link href={"/teachers"}>Teachers</Link>
@@ -169,17 +158,6 @@ const Desktop = () => {
               aria-label="menu"
               disableRipple
             >
-              {/* <Image
-                width={60}
-                height={60}
-                src={
-                  user?.profilePicture
-                    ? `/images/${user.profilePicture}`
-                    : `/images/default/person.jpg`
-                }
-                alt="Profile"
-                className="profile-img"
-              /> */}
               <Image
                 width={60}
                 height={60}

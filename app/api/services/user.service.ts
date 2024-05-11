@@ -118,7 +118,6 @@ export const createUser = async (
       lastName,
       role,
     ]);
-    // db.release();
 
     if (role === "teacher" && price && bio && qualification && location) {
       const selectQuery = `

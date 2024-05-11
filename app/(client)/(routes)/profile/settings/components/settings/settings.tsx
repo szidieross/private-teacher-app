@@ -266,28 +266,6 @@ const Settings: FC<Props> = ({ userId }) => {
         </Grid>
       </form>
     </Container>
-    // <div>
-    //   <h1>User Profile</h1>
-    //   <p>First Name: {user.first_name}</p>
-    //   <p>Last Name: {user.last_name}</p>
-    //   <p>Username: {user.username}</p>
-    //   <p>Email: {user.email}</p>
-    //   <p>Phone: {user.phone}</p>
-    //   <p>Role: {user.role}</p>
-    //   {user.role === "teacher" && (
-    //     <div>
-    //       <h2>Teacher Information</h2>
-    //       <p>Price: {teacher?.price}</p>
-    //       <p>Bio: {teacher?.bio}</p>
-    //       <p>Qualification: {teacher?.qualification}</p>
-    //       <p>Location: {teacher?.location}</p>
-    //     </div>
-    //   )}
-    //   <button onClick={updateUser}>Update User</button>
-    //   {user.role === "teacher" && (
-    //     <button onClick={updateTeacher}>Update Teacher</button>
-    //   )}
-    // </div>
   );
 };
 

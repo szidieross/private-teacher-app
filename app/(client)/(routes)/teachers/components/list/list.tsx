@@ -28,18 +28,6 @@ const List: FC<Props> = ({ isSession }) => {
     const fetchData = async () => {
       try {
         const fetchedTeachers = await getTeachers();
-        // const fetchedUser = await getUserById(1);
-        // const user = await createUser(
-        //   "charlie",
-        //   "jkialtchb",
-        //   "charlie@gmail.com",
-        //   "1234567890",
-        //   "pic2.jpg",
-        //   "Charlie",
-        //   "Adams",
-        //   "user"
-        // );
-
         setTeachers(fetchedTeachers);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -59,8 +47,6 @@ const List: FC<Props> = ({ isSession }) => {
             xs={12}
             sm={6}
             md={4}
-            // lg={3}
-            // xl={2}
             onClick={() => to(`/teachers/${teacher.teacherId}`)}
           >
             <Item teacher={teacher} />

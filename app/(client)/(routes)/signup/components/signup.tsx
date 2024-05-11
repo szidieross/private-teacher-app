@@ -140,9 +140,6 @@ const Signup = () => {
               value={isTeacher}
               exclusive
               onChange={handleToggeleButtonChange}
-              // onChange={(e) =>
-              //   handleContactFormChange("firstName", e.target.value)
-              // }
               aria-label="user-type"
             >
               <ToggleButton

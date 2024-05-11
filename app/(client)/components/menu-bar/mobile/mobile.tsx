@@ -173,24 +173,11 @@ const Mobile: FC = () => {
               aria-label="menu"
               disableRipple
             >
-              {/* <Image
-                width={60}
-                height={60}
-                src={
-                  user?.profilePicture
-                    ? `/images/${user.profilePicture}`
-                    : `/images/default/person.jpg`
-                }
-                alt="Profile"
-                className="profile-img"
-              /> */}
               <Image
                 width={60}
                 height={60}
                 src={
-                  img
-                    ? `/images/uploads/${img}`
-                    : `/images/default/person.jpg`
+                  img ? `/images/uploads/${img}` : `/images/default/person.jpg`
                 }
                 alt="Profile"
                 className="profile-img"

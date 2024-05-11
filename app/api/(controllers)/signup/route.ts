@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import pool from "@/app/libs/mysql";
 import { createUser } from "../../services/user.service";
-import { createTeacher } from "../../services/teacher.service";
 
 export async function POST(request: NextRequest) {
   try {
