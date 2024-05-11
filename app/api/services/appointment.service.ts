@@ -125,3 +125,26 @@ export const createAppointment = async (teacherId: string, startTime: Date) => {
     throw error;
   }
 };
+
+export const bookAppointment = async (
+  userId: number,
+  appointmentId: number,
+) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+        UPDATE Appointments 
+          SET user_id = ? 
+        WHERE appointment_id = ?
+      `;
+    const [result] = await db.execute(query, [userId, appointmentId]);
+    db.release();
+
+    console.log("Appointment booked successfully.");
+    return result; // Visszatérés az eredménnyel, ha szükséges
+  } catch (error) {
+    console.error("Error booking appointment:", error);
+    throw error;
+  }
+};
+

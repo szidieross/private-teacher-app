@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { api } from "@/app/(client)/utils/api.util";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
+import { getSession } from "@/app/actions";
 
 const useAppointmentsService = () => {
   const getAppointments = useCallback(async (): Promise<AppointmentModel[]> => {
@@ -74,11 +75,36 @@ const useAppointmentsService = () => {
     []
   );
 
+  const bookAppointment = async (
+    appointmentId: number
+  ) => {
+    const session = await getSession();
+    const userId = session.userId;
+    try {
+      console.log("userIduserIduserId", userId);
+      console.log("appointmentId", appointmentId);
+  
+      const { data } = await api.post<AppointmentModel>(
+        `/appointments/${appointmentId}`,
+        {
+          userId,appointmentId
+        },
+        "Couldn't book appointment data.!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+  
+
   return {
     getAppointments,
     getAppointmentById,
     getAppointmentByTeacherId,
     createAppointment,
+    bookAppointment,
   };
 };
 

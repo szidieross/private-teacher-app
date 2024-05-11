@@ -17,13 +17,15 @@ type Props = {
 };
 
 const AppointmentsTable: FC<Props> = ({ teacherId }) => {
-  const { getAppointmentByTeacherId } = useAppointmentsService();
+  const { getAppointmentByTeacherId, bookAppointment } =
+    useAppointmentsService();
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
     null
   );
 
-  const handleBooking = () => {
-    console.log("Booking");
+  const handleBooking = (appointmentId: number) => {
+    console.log("Booking", appointmentId);
+    bookAppointment(appointmentId);
   };
 
   useEffect(() => {
@@ -64,7 +66,9 @@ const AppointmentsTable: FC<Props> = ({ teacherId }) => {
                   {item.userId ? "Taken" : "Avaliable"}
                 </TableCell>
                 <TableCell align="right">
-                  <Button onClick={handleBooking}>Booking</Button>
+                  <Button onClick={() => handleBooking(item.appointmentId)}>
+                    Booking
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
