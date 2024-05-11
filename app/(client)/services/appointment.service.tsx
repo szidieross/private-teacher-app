@@ -49,7 +49,37 @@ const useAppointmentsService = () => {
     []
   );
 
-  return { getAppointments, getAppointmentById,getAppointmentByTeacherId };
+  const createAppointment = useCallback(
+    async (
+      teacherId: number,
+      startTime: Date
+    ): Promise<AppointmentModel | null> => {
+      console.log("teacherId", teacherId);
+      console.log("startTime", startTime);
+      try {
+        const { data } = await api.post<AppointmentModel>(
+          `/teachers/${teacherId}/appointments`,
+          {
+            teacherId,
+            startTime,
+          },
+          "Error while creating appointment!"
+        );
+        return data;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    []
+  );
+
+  return {
+    getAppointments,
+    getAppointmentById,
+    getAppointmentByTeacherId,
+    createAppointment,
+  };
 };
 
 export default useAppointmentsService;

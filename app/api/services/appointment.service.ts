@@ -103,3 +103,25 @@ export const getAppointmentByTeacherId = async (
     throw error;
   }
 };
+
+export const createAppointment = async (teacherId: string, startTime: Date) => {
+  console.log("teacherId", teacherId);
+  console.log("startTime", startTime);
+  try {
+    const db = await pool.getConnection();
+    const query = `
+        INSERT INTO Appointments 
+          (teacher_id,
+            start_time)  
+        VALUES
+          (?, ?)
+      `;
+    const [result] = await db.execute(query, [teacherId, startTime]);
+    db.release();
+
+    console.log("Appointment created successfully.");
+  } catch (error) {
+    console.error("Error creating appointment:", error);
+    throw error;
+  }
+};

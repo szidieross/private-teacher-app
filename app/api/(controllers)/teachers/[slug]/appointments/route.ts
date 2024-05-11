@@ -1,5 +1,5 @@
 import { AppointmentModel } from "@/app/api/models/appointment.model";
-import { getAppointmentByTeacherId } from "@/app/api/services/appointment.service";
+import { createAppointment, getAppointmentByTeacherId } from "@/app/api/services/appointment.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -19,3 +19,27 @@ export const GET = async (
     );
   }
 };
+
+export async function POST(request: NextRequest) {
+  try {
+    const {
+      teacherId,
+      startTime,
+    } = await request.json();
+
+    const result = await createAppointment(
+      teacherId,
+      startTime,
+    );
+
+    return NextResponse.json({ id: result }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error,
+      },
+      { status: 500 }
+    );
+  }
+}
+

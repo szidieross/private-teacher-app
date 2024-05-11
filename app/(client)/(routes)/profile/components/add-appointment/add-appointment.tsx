@@ -5,30 +5,37 @@ import {
   Button,
   Grid,
   Typography,
-  Paper
+  Paper,
 } from "@mui/material";
+import useAppointmentsService from "@/app/(client)/services/appointment.service";
 
 const AddAppointment: FC = () => {
+  const { createAppointment } = useAppointmentsService();
   const [formData, setFormData] = useState({
-    date: ""
+    date: "",
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // Convert formData.date to Date object
+    const selectedDate = new Date(formData.date);
     // Handle form submission, e.g., send data to backend
     console.log(formData);
+    createAppointment(1, selectedDate);
     // Reset form data
     setFormData({
-      date: ""
+      date: "", // Reset date field to empty string
     });
+
+    console.log(formData);
   };
 
   return (
@@ -37,10 +44,7 @@ const AddAppointment: FC = () => {
         <Typography variant="h5" gutterBottom>
           Add a time to your appointment
         </Typography>
-        <form
-          style={{ width: "100%", marginTop: 10 }}
-          onSubmit={handleSubmit}
-        >
+        <form style={{ width: "100%", marginTop: 10 }} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -51,7 +55,7 @@ const AddAppointment: FC = () => {
                 value={formData.date}
                 onChange={handleChange}
                 InputLabelProps={{
-                  shrink: true
+                  shrink: true,
                 }}
               />
             </Grid>
