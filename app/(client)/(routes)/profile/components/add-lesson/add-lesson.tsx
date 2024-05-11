@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import React, { useState, useEffect, FC } from "react";
 import {
   Container,
   Button,
@@ -13,12 +15,16 @@ import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
 import { SelectChangeEvent } from "@mui/material/Select";
 
+type Props = {
+  teacherId: number;
+};
+
 interface LessonFormData {
   name: string;
   categoryId: number | null;
 }
 
-const AddLesson: React.FC = () => {
+const AddLesson: FC<Props> = ({ teacherId }) => {
   const { createLesson } = useLessonsService();
   const { getCategories } = useCategoriesService();
   const [formData, setFormData] = useState<LessonFormData>({
@@ -38,7 +44,7 @@ const AddLesson: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (formData.categoryId) {
-      await createLesson(1,formData.categoryId);
+      await createLesson(teacherId, formData.categoryId);
       setFormData({
         name: "",
         categoryId: null,
@@ -79,7 +85,10 @@ const AddLesson: React.FC = () => {
                   <em>None</em>
                 </MenuItem>
                 {categoryOptions.map((category) => (
-                  <MenuItem key={category.categoryId} value={category.categoryId}>
+                  <MenuItem
+                    key={category.categoryId}
+                    value={category.categoryId}
+                  >
                     {category.name}
                   </MenuItem>
                 ))}
