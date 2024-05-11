@@ -75,8 +75,6 @@ export const getLessonsByTeacherId = async (
     const [rows] = await db.execute(query, [teacherId]);
     db.release();
 
-    console.log(rows);
-
     if (!Array.isArray(rows)) {
       throw new Error("Query result is not an array");
     }
@@ -101,29 +99,7 @@ export const getLessonsByTeacherId = async (
   }
 };
 
-// export const createLesson = async (teacherId: number): Promise<LessonModel[]> => {
-//   try {
-//     const db = await pool.getConnection();
-//     const query = `
-//         INSERT INTO Lessons
-//           (teacher_id,
-//             category_id)
-//         VALUES
-//           (?, ?)
-//       `;
-//     const [rows] = await db.execute(query, [teacherId]);
-//     db.release();
-
-//     console.log("Lesson created successfully.");
-//   } catch (error) {
-//     console.error("Error fetching lesson:", error);
-//     throw error;
-//   }
-// };
-
 export const createLesson = async (teacherId: string, categoryId: Date) => {
-  console.log("teacherId", teacherId);
-  console.log("categoryId", categoryId);
   try {
     const db = await pool.getConnection();
     const query = `
@@ -142,37 +118,3 @@ export const createLesson = async (teacherId: string, categoryId: Date) => {
     throw error;
   }
 };
-
-// export const getLessonsByTeacherId = async (teacherId: number): Promise<LessonModel[]> => {
-//   try {
-//     const db = await pool.getConnection();
-//     const query = `
-//       SELECT lessons.lesson_id, lessons.teacher_id, lessons.category_id, categories.name AS category_name
-//       FROM lessons
-//       INNER JOIN categories ON lessons.category_id = categories.category_id
-//       WHERE lessons.teacher_id = ?
-//     `;
-//     const [rows] = await db.execute(query, [teacherId]);
-//     db.release();
-
-//     console.log(rows);
-
-//     if (!Array.isArray(rows)) {
-//       throw new Error("Query result is not an array");
-//     }
-
-//     const lessons: LessonModel[] = rows.map((row: any) => {
-//       return {
-//         lesson_id: row.lesson_id,
-//         teacher_id: row.teacher_id,
-//         category_id: row.category_id,
-//         category_name: row.category_name,
-//       };
-//     });
-
-//     return lessons;
-//   } catch (error) {
-//     console.error("Error fetching lesson:", error);
-//     throw error;
-//   }
-// };

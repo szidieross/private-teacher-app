@@ -18,16 +18,11 @@ export default function ServerUploadPage() {
     // For this, we'll just write it to the filesystem in a new location
     // const path = join('/', 'tmp', file.name)
     // await writeFile(path, buffer)
-    // console.log(`open ${path} to see the uploaded file`)
     const publicFolderPath = join(process.cwd(), "public/images", file.name);
-
-    console.log("file.name",file.name)
 
     const writeStream = createWriteStream(publicFolderPath);
     writeStream.write(buffer);
     writeStream.end();
-
-    console.log("File saved to public folder:", publicFolderPath);
 
     return { success: true };
   }

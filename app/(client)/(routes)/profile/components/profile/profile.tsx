@@ -50,7 +50,6 @@ const Profile: FC<Props> = ({ userId }) => {
           const user = await getUserById(userId);
           if (user) {
             setUser(user);
-            console.log(user.createdAt);
             if (user && user.createdAt) {
               const date = new Date(user.createdAt);
               setFormattedDate(
@@ -127,7 +126,6 @@ const Profile: FC<Props> = ({ userId }) => {
         </Grid>
       </Paper>
       <CustomModal open={open} onClose={handleClose} />
-      {/* <AddLesson teacherId={teacherId} /> */}
       {teacher && (
         <>
           <AddLesson teacherId={teacher.teacherId} />

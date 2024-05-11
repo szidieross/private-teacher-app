@@ -55,8 +55,6 @@ const useAppointmentsService = () => {
       teacherId: number,
       startTime: Date
     ): Promise<AppointmentModel | null> => {
-      console.log("teacherId", teacherId);
-      console.log("startTime", startTime);
       try {
         const { data } = await api.post<AppointmentModel>(
           `/teachers/${teacherId}/appointments`,
@@ -80,10 +78,7 @@ const useAppointmentsService = () => {
   ) => {
     const session = await getSession();
     const userId = session.userId;
-    try {
-      console.log("userIduserIduserId", userId);
-      console.log("appointmentId", appointmentId);
-  
+    try {  
       const { data } = await api.post<AppointmentModel>(
         `/appointments/${appointmentId}`,
         {

@@ -105,8 +105,6 @@ export const getAppointmentByTeacherId = async (
 };
 
 export const createAppointment = async (teacherId: string, startTime: Date) => {
-  console.log("teacherId", teacherId);
-  console.log("startTime", startTime);
   try {
     const db = await pool.getConnection();
     const query = `
@@ -118,8 +116,6 @@ export const createAppointment = async (teacherId: string, startTime: Date) => {
       `;
     const [result] = await db.execute(query, [teacherId, startTime]);
     db.release();
-
-    console.log("Appointment created successfully.");
   } catch (error) {
     console.error("Error creating appointment:", error);
     throw error;
@@ -141,7 +137,7 @@ export const bookAppointment = async (
     db.release();
 
     console.log("Appointment booked successfully.");
-    return result; // Visszatérés az eredménnyel, ha szükséges
+    return result;
   } catch (error) {
     console.error("Error booking appointment:", error);
     throw error;

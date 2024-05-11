@@ -16,19 +16,15 @@ export async function POST(request: NextRequest) {
   const buffer = Buffer.from(bytes);
 
   const publicFolderPath = join(process.cwd(), "public/images/uploads", file.name);
-  
-  console.log("file.name",file.name)
 
   const writeStream = createWriteStream(publicFolderPath);
   writeStream.write(buffer);
   writeStream.end();
 
-  console.log("File saved to public folder:", publicFolderPath);
-
   try {
     updateUserImage(file.name)
   } catch (error) {
-    console.log("error")
+    console.error("error")
   }
 
   return NextResponse.json({ success: true });

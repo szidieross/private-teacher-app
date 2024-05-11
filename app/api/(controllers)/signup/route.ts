@@ -5,8 +5,6 @@ import { createTeacher } from "../../services/teacher.service";
 
 export async function POST(request: NextRequest) {
   try {
-    // Adatok kinyerése a kérésből
-    // const { name, email } = await request.json();
     const {
       username,
       password,
@@ -20,8 +18,6 @@ export async function POST(request: NextRequest) {
       qualification,
       location,
     } = await request.json();
-
-    console.log("route price", price);
 
     const result = await createUser(
       username,

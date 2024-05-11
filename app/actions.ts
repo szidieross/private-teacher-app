@@ -44,16 +44,7 @@ export const login = async (
   const formUsername = formData.get("username") as string;
   const formPassword = formData.get("password") as string;
 
-  // CHECK USER IN THE DB
-  // const user = await db.getUser({username,password})
-
   const user = await loginUser(formUsername, formPassword);
-
-  // if (formUsername !== username) {
-  //   return { error: "Wrong Credentials!" };
-  // }
-
-  console.log(JSON.stringify(user));
 
   if (user === null) {
     ("Wrong credentials. Try again.");
@@ -80,8 +71,6 @@ export const login = async (
     role: user.role,
     createdAt: user.createdAt,
   };
-
-  console.log("session.userId", session.userId);
 
   await session.save();
 };

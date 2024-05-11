@@ -29,17 +29,11 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Convert formData.date to Date object
     const selectedDate = new Date(formData.date);
-    // Handle form submission, e.g., send data to backend
-    console.log(formData);
     createAppointment(teacherId, selectedDate);
-    // Reset form data
     setFormData({
-      date: "", // Reset date field to empty string
+      date: "",
     });
-
-    console.log(formData);
   };
 
   return (

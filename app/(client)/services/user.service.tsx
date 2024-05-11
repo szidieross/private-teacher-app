@@ -49,7 +49,6 @@ const useUsersService = () => {
       qualification: string,
       location: string
     ): Promise<UserModel | TeacherModel | null> => {
-      console.log("client price", price);
       try {
         const { data } = await api.post<UserModel>(
           `/signup`,
@@ -126,13 +125,6 @@ const useUsersService = () => {
       const session = await getSession();
       const userId = session.userId;
       try {
-        console.log("userIduserIduserId", userId);
-        console.log("username", username);
-        console.log("firstName", firstName);
-        console.log("lastName", lastName);
-        console.log("email", email);
-        console.log("phone", phone);
-
         const { data } = await api.post<UserModel>(
           `/users/${userId}`,
           {

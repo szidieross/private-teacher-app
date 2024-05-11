@@ -29,7 +29,6 @@ const TeacherAppointments: FC<Props> = ({ teacherId }) => {
       try {
         const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
         setAppointments(fetchedAppointments);
-        console.log("fetchedAppointments", fetchedAppointments);
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }

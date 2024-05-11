@@ -11,16 +11,6 @@ export const createTeacher = async (
   location: string
 ) => {
   try {
-    console.log("userId: number,", userId );
-    const teacherData = {
-      // teacher_id: 1, // This should typically be omitted since it's an AUTO_INCREMENT field
-      user_id: userId,
-      price: 100,
-      bio: "Some bio",
-      qualification: "Some qualification",
-      location: "Some location",
-    };
-
     const db = await pool.getConnection();
     const query = `
         INSERT INTO Teachers 
@@ -42,39 +32,6 @@ export const createTeacher = async (
     throw error;
   }
 };
-
-// export const createTeacher = async (
-//   userId: number,
-//   price: number,
-//   bio: string,
-//   qualification: string,
-//   location: string
-// ) => {
-//   try {
-//     const db = await pool.getConnection();
-//     const query = `
-//         INSERT INTO Teachers
-//             (user_id,
-//             price,
-//             bio,
-//             qualification,
-//             location)
-//             VALUES
-//             (?, ?, ?, ?, ?)
-//             `;
-//     const [result] = await pool.execute(query, [
-//       userId,
-//       price,
-//       bio,
-//       qualification,
-//       location,
-//     ]);
-//     console.log("result creating teacher", result);
-//   } catch (error) {
-//     console.error("Error creating teacher", error);
-//     throw error;
-//   }
-// };
 
 export const getTeachers = async (): Promise<TeacherModel[]> => {
   try {

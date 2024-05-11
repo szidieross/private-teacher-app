@@ -70,8 +70,6 @@ const useLessonsService = () => {
       teacherId: number,
       categoryId: number
     ): Promise<LessonModel | null> => {
-      console.log("teacherId", teacherId);
-      console.log("categoryId", categoryId);
       try {
         const { data } = await api.post<LessonModel>(
           `/teachers/${teacherId}/lessons`,

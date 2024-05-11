@@ -32,9 +32,6 @@ export async function POST(request: NextRequest) {
       throw new Error("Missing userId or appointmentId");
     }
 
-    console.log("userIduserIduserId", userId);
-    console.log("appointmentId", appointmentId);
-
     const result = await bookAppointment(userId, appointmentId);
 
     return NextResponse.json({ affectedRows: result }, { status: 201 });

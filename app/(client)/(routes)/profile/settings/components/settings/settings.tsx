@@ -54,9 +54,7 @@ const initContactForm: ContactUsRequest = {
 };
 
 const Settings: FC<Props> = ({ userId }) => {
-  // const [isTeacher, setIsTeacher] = useState<boolean>(false);
   const { createUser, getUserById, updateUserData } = useUsersService();
-  // const { getTeacherById } = useTeachersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const { userType } = useUserContext();
   const [user, setUser] = useState<UserModel | null>(null);
@@ -69,13 +67,7 @@ const Settings: FC<Props> = ({ userId }) => {
           const user = await getUserById(userId);
           if (user) {
             setUser(user);
-            console.log(user);
           }
-          // const teacher = await getTeacherById(userId);
-          // if (teacher) {
-          //   setTeacher(teacher);
-          //   console.log(teacher);
-          // }
         }
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -84,10 +76,6 @@ const Settings: FC<Props> = ({ userId }) => {
 
     fetchData();
   }, [getUserById, userId]);
-
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
 
   const handleContactFormChange = (
     property: keyof ContactUsRequest,
@@ -107,7 +95,6 @@ const Settings: FC<Props> = ({ userId }) => {
         };
       }
     });
-    console.log(form);
   };
 
   const handleSubmit = async (
@@ -120,8 +107,6 @@ const Settings: FC<Props> = ({ userId }) => {
 
     try {
       let result = null;
-
-      console.log("Form", JSON.stringify(form));
       result = await updateUserData(
         // userId,
         form.username,

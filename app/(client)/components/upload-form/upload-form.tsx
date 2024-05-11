@@ -5,18 +5,6 @@ import { Button, Container, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 
 const UploadForm: FC = () => {
-  
-  // useEffect(() => {
-  //   const fetchSession=async()=>{
-  //   const session = await getSession();
-  //   const userId=session.userId
-  //   console.log("userIduserIduserId",userId)
-  //   setId(userId)
-  //   }
-  //   fetchSession()
-  // }, [])
-  
-
   const [file, setFile] = useState<File>();
   const [id, setId] = useState<number|undefined>(undefined);
 

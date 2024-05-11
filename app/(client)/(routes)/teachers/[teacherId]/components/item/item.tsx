@@ -88,7 +88,6 @@ const Item: FC<Props> = ({ teacherId }) => {
 
         const lessons = await getLessonsByTeacherId(teacherId);
         setLessons(lessons);
-        console.log("Lessons", lessons);
       } catch (error) {
         console.error("Error fetching teacher:", error);
       }

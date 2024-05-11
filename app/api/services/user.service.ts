@@ -143,7 +143,6 @@ export const createUser = async (
         qualification,
         location
       );
-      console.log(teacher);
       return user_id;
     }
     console.log("User created successfully. UserId:", result);
@@ -195,7 +194,6 @@ export const loginUser = async (username: string, password: string) => {
 export const updateUserImage = async (title: string) => {
   const session = await getSession();
   const userId = session.userId;
-  console.log("userIduserIduserId", userId);
 
   try {
     const db = await pool.getConnection();
@@ -223,13 +221,6 @@ export const updateUserData = async (
   email: string,
   phone: string
 ) => {
-  console.log("userIduserIduserId", userId);
-  console.log("username", username);
-  console.log("firstName", firstName);
-  console.log("lastName", lastName);
-  console.log("email", email);
-  console.log("phone", phone);
-
   try {
     const db = await pool.getConnection();
     const query = `

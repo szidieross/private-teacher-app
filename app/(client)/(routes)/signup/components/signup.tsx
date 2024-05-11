@@ -52,10 +52,6 @@ const Signup = () => {
   const { createUser } = useUsersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
 
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
-
   const handleToggeleButtonChange = (
     event: React.MouseEvent<HTMLElement>,
     newType: boolean
@@ -82,7 +78,6 @@ const Signup = () => {
         };
       }
     });
-    console.log(form);
   };
 
   const handleSubmit = async (

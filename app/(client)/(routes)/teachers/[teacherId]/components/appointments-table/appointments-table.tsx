@@ -24,7 +24,6 @@ const AppointmentsTable: FC<Props> = ({ teacherId }) => {
   );
 
   const handleBooking = (appointmentId: number) => {
-    console.log("Booking", appointmentId);
     bookAppointment(appointmentId);
   };
 
@@ -33,7 +32,6 @@ const AppointmentsTable: FC<Props> = ({ teacherId }) => {
       try {
         const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
         setAppointments(fetchedAppointments);
-        console.log("fetchedAppointments", fetchedAppointments);
       } catch (error) {
         console.error("Error fetching teacher:", error);
       }
