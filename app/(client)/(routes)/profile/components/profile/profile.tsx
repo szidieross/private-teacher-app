@@ -18,6 +18,7 @@ import {
 import useUsersService from "@/app/(client)/services/user.service";
 import CustomModal from "../custom-modal/custom-modal";
 import AddAppointment from "../add-appointment/add-appointment";
+import AddLesson from "../add-lesson/add-lesson";
 
 type Props = {
   userId?: number;
@@ -115,9 +116,8 @@ const Profile: FC<Props> = ({ userId }) => {
           </Grid>
         </Grid>
       </Paper>
-      {/* Render the modal component */}
       <CustomModal open={open} onClose={handleClose} />
-
+      <AddLesson />
       <AddAppointment />
     </Container>
   );

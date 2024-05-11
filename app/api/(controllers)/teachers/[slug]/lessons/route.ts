@@ -1,6 +1,6 @@
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 import { LessonModel } from "@/app/api/models/lesson.model";
-import { getLessonsByTeacherId } from "@/app/api/services/lesson.service";
+import { createLesson, getLessonsByTeacherId } from "@/app/api/services/lesson.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -20,3 +20,26 @@ export const GET = async (
     );
   }
 };
+
+export async function POST(request: NextRequest) {
+  try {
+    const {
+      teacherId,
+      categoryId,
+    } = await request.json();
+
+    const result = await createLesson(
+      teacherId,
+      categoryId,
+    );
+
+    return NextResponse.json({ id: result }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error,
+      },
+      { status: 500 }
+    );
+  }
+}

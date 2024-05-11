@@ -61,7 +61,9 @@ export const getLessonById = async (lessonId: number): Promise<LessonModel> => {
   }
 };
 
-export const getLessonsByTeacherId = async (teacherId: number): Promise<LessonModel[]> => {
+export const getLessonsByTeacherId = async (
+  teacherId: number
+): Promise<LessonModel[]> => {
   try {
     const db = await pool.getConnection();
     const query = `
@@ -73,7 +75,7 @@ export const getLessonsByTeacherId = async (teacherId: number): Promise<LessonMo
     const [rows] = await db.execute(query, [teacherId]);
     db.release();
 
-    console.log(rows)
+    console.log(rows);
 
     if (!Array.isArray(rows)) {
       throw new Error("Query result is not an array");
@@ -95,6 +97,48 @@ export const getLessonsByTeacherId = async (teacherId: number): Promise<LessonMo
     return lessons;
   } catch (error) {
     console.error("Error fetching lesson:", error);
+    throw error;
+  }
+};
+
+// export const createLesson = async (teacherId: number): Promise<LessonModel[]> => {
+//   try {
+//     const db = await pool.getConnection();
+//     const query = `
+//         INSERT INTO Lessons
+//           (teacher_id,
+//             category_id)
+//         VALUES
+//           (?, ?)
+//       `;
+//     const [rows] = await db.execute(query, [teacherId]);
+//     db.release();
+
+//     console.log("Lesson created successfully.");
+//   } catch (error) {
+//     console.error("Error fetching lesson:", error);
+//     throw error;
+//   }
+// };
+
+export const createLesson = async (teacherId: string, categoryId: Date) => {
+  console.log("teacherId", teacherId);
+  console.log("categoryId", categoryId);
+  try {
+    const db = await pool.getConnection();
+    const query = `
+        INSERT INTO Lessons 
+          (teacher_id,
+            category_id)  
+        VALUES
+          (?, ?)
+      `;
+    const [result] = await db.execute(query, [teacherId, categoryId]);
+    db.release();
+
+    console.log("Lesson created successfully.");
+  } catch (error) {
+    console.error("Error creating lesson:", error);
     throw error;
   }
 };
@@ -132,4 +176,3 @@ export const getLessonsByTeacherId = async (teacherId: number): Promise<LessonMo
 //     throw error;
 //   }
 // };
-
