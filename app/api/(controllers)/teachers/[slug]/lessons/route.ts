@@ -1,5 +1,6 @@
 import { AppointmentModel } from "@/app/api/models/appointment.model";
-import { createAppointment, getAppointmentByTeacherId } from "@/app/api/services/appointment.service";
+import { LessonModel } from "@/app/api/models/lesson.model";
+import { createLesson, getLessonsByTeacherId } from "@/app/api/services/lesson.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -8,11 +9,11 @@ export const GET = async (
 ) => {
   const teacherId = context.params.slug;
   try {
-    const appointments: AppointmentModel[] | null =
-      await getAppointmentByTeacherId(teacherId);
-    return NextResponse.json(appointments);
+    const lessons: LessonModel[] | null =
+      await getLessonsByTeacherId(teacherId);
+    return NextResponse.json(lessons);
   } catch (error) {
-    console.error("Error fetching appointments:", error);
+    console.error("Error fetching appointment:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -24,12 +25,12 @@ export async function POST(request: NextRequest) {
   try {
     const {
       teacherId,
-      startTime,
+      categoryId,
     } = await request.json();
 
-    const result = await createAppointment(
+    const result = await createLesson(
       teacherId,
-      startTime,
+      categoryId,
     );
 
     return NextResponse.json({ id: result }, { status: 201 });
@@ -42,4 +43,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

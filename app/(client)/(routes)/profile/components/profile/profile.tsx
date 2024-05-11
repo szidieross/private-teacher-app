@@ -17,6 +17,10 @@ import {
 } from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
 import CustomModal from "../custom-modal/custom-modal";
+import AddAppointment from "../add-appointment/add-appointment";
+import AddLesson from "../add-lesson/add-lesson";
+import useTeachersService from "@/app/(client)/services/teacher.service";
+import { TeacherModel } from "@/app/api/models/teacher.model";
 
 type Props = {
   userId?: number;
@@ -24,8 +28,10 @@ type Props = {
 
 const Profile: FC<Props> = ({ userId }) => {
   const [user, setUser] = useState<UserModel | null>(null);
+  const [teacher, setTeacher] = useState<TeacherModel | null>(null);
   const [open, setOpen] = useState(false);
   const { getUserById } = useUsersService();
+  const { getTeacherByUserId } = useTeachersService();
   const [formattedDate, setFormattedDate] = useState<string | null>(null);
   const { setNavbarSettings } = useStoreContext();
 
@@ -54,6 +60,12 @@ const Profile: FC<Props> = ({ userId }) => {
                   day: "numeric",
                 })
               );
+            }
+            if (user.role === "teacher" && user.userId) {
+              const teacher = await getTeacherByUserId(user.userId);
+              if (teacher) {
+                setTeacher(teacher);
+              }
             }
           }
         }
@@ -114,8 +126,14 @@ const Profile: FC<Props> = ({ userId }) => {
           </Grid>
         </Grid>
       </Paper>
-      {/* Render the modal component */}
       <CustomModal open={open} onClose={handleClose} />
+      {/* <AddLesson teacherId={teacherId} /> */}
+      {teacher && (
+        <>
+          <AddLesson teacherId={teacher.teacherId} />
+          <AddAppointment teacherId={teacher.teacherId} />
+        </>
+      )}
     </Container>
   );
 };

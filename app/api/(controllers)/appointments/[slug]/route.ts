@@ -1,5 +1,8 @@
 import { AppointmentModel } from "@/app/api/models/appointment.model";
-import { getAppointmentByUserId } from "@/app/api/services/appointment.service";
+import {
+  bookAppointment,
+  getAppointmentByUserId,
+} from "@/app/api/services/appointment.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -20,3 +23,28 @@ export const GET = async (
     );
   }
 };
+
+export async function POST(request: NextRequest) {
+  try {
+    const { userId, appointmentId } = await request.json();
+
+    if (!userId || !appointmentId) {
+      throw new Error("Missing userId or appointmentId");
+    }
+
+    console.log("userIduserIduserId", userId);
+    console.log("appointmentId", appointmentId);
+
+    const result = await bookAppointment(userId, appointmentId);
+
+    return NextResponse.json({ affectedRows: result }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error,
+      },
+      { status: 500 }
+    );
+  }
+}
+

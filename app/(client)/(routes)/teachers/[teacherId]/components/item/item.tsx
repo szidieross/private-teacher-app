@@ -16,6 +16,9 @@ import {
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { DataGrid } from "@mui/x-data-grid";
+import useLessonsService from "@/app/(client)/services/lesson.service";
+import { LessonModel } from "@/app/api/models/lesson.model";
+import AppointmentsTable from "../appointments-table/appointments-table";
 
 type Props = {
   teacherId: number;
@@ -66,8 +69,10 @@ type Props = {
 
 const Item: FC<Props> = ({ teacherId }) => {
   const { getTeacherById } = useTeachersService();
+  const { getLessonsByTeacherId } = useLessonsService();
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
   const [image, setImage] = useState<string | undefined>(undefined);
+  const [lessons, setLessons] = useState<LessonModel[] | null>(null);
 
   useEffect(() => {
     if (teacher && teacher.userData.profilePicture) {
@@ -80,6 +85,10 @@ const Item: FC<Props> = ({ teacherId }) => {
       try {
         const fetchedTeacher = await getTeacherById(teacherId);
         setTeacher(fetchedTeacher);
+
+        const lessons = await getLessonsByTeacherId(teacherId);
+        setLessons(lessons);
+        console.log("Lessons", lessons);
       } catch (error) {
         console.error("Error fetching teacher:", error);
       }
@@ -121,6 +130,9 @@ const Item: FC<Props> = ({ teacherId }) => {
                 <Typography variant="body1" color="textSecondary" gutterBottom>
                   Qualification: {teacher.qualification}
                 </Typography>
+                <Typography variant="body1" color="textSecondary" gutterBottom>
+                  Subject: {lessons?.map((item, index) => item.categoryName)}
+                </Typography>
                 <a
                   href={`mailto:${teacher.userData.email}`}
                   title="Send an email"
@@ -155,22 +167,7 @@ const Item: FC<Props> = ({ teacherId }) => {
                 {`${teacher.userData.firstName} ${teacher.userData.lastName}'s Appointmetns`}
               </AccordionSummary>
               <AccordionDetails>
-                {/* <Box sx={{ height: 400, width: "100%" }}>
-                  <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    initialState={{
-                      pagination: {
-                        paginationModel: {
-                          pageSize: 5,
-                        },
-                      },
-                    }}
-                    pageSizeOptions={[5]}
-                    checkboxSelection
-                    disableRowSelectionOnClick
-                  />
-                </Box> */}
+                <AppointmentsTable teacherId={teacherId} />
               </AccordionDetails>
             </Accordion>
           </Grid>

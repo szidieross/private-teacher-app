@@ -61,12 +61,21 @@ export const getLessonById = async (lessonId: number): Promise<LessonModel> => {
   }
 };
 
-export const getLessonByTeacherId = async (teacherId: number): Promise<LessonModel> => {
+export const getLessonsByTeacherId = async (
+  teacherId: number
+): Promise<LessonModel[]> => {
   try {
     const db = await pool.getConnection();
-    const query = `SELECT * FROM lessons WHERE teacher_id = ?`;
+    const query = `
+      SELECT lessons.lesson_id, lessons.teacher_id, lessons.category_id, categories.name AS category_name
+      FROM lessons
+      INNER JOIN categories ON lessons.category_id = categories.category_id
+      WHERE lessons.teacher_id = ?
+    `;
     const [rows] = await db.execute(query, [teacherId]);
     db.release();
+
+    console.log(rows);
 
     if (!Array.isArray(rows)) {
       throw new Error("Query result is not an array");
@@ -77,16 +86,93 @@ export const getLessonByTeacherId = async (teacherId: number): Promise<LessonMod
         lesson_id: row.lesson_id,
         teacher_id: row.teacher_id,
         category_id: row.category_id,
+        category_name: row.category_name,
       };
     });
 
-    const lesson: LessonModel = toLessonModel(data[0]);
+    const lessons: LessonModel[] = data.map((row: LessonDto) => {
+      return toLessonModel(row);
+    });
 
-    return lesson;
+    return lessons;
   } catch (error) {
     console.error("Error fetching lesson:", error);
     throw error;
   }
 };
 
-// we need more
+// export const createLesson = async (teacherId: number): Promise<LessonModel[]> => {
+//   try {
+//     const db = await pool.getConnection();
+//     const query = `
+//         INSERT INTO Lessons
+//           (teacher_id,
+//             category_id)
+//         VALUES
+//           (?, ?)
+//       `;
+//     const [rows] = await db.execute(query, [teacherId]);
+//     db.release();
+
+//     console.log("Lesson created successfully.");
+//   } catch (error) {
+//     console.error("Error fetching lesson:", error);
+//     throw error;
+//   }
+// };
+
+export const createLesson = async (teacherId: string, categoryId: Date) => {
+  console.log("teacherId", teacherId);
+  console.log("categoryId", categoryId);
+  try {
+    const db = await pool.getConnection();
+    const query = `
+        INSERT INTO Lessons 
+          (teacher_id,
+            category_id)  
+        VALUES
+          (?, ?)
+      `;
+    const [result] = await db.execute(query, [teacherId, categoryId]);
+    db.release();
+
+    console.log("Lesson created successfully.");
+  } catch (error) {
+    console.error("Error creating lesson:", error);
+    throw error;
+  }
+};
+
+// export const getLessonsByTeacherId = async (teacherId: number): Promise<LessonModel[]> => {
+//   try {
+//     const db = await pool.getConnection();
+//     const query = `
+//       SELECT lessons.lesson_id, lessons.teacher_id, lessons.category_id, categories.name AS category_name
+//       FROM lessons
+//       INNER JOIN categories ON lessons.category_id = categories.category_id
+//       WHERE lessons.teacher_id = ?
+//     `;
+//     const [rows] = await db.execute(query, [teacherId]);
+//     db.release();
+
+//     console.log(rows);
+
+//     if (!Array.isArray(rows)) {
+//       throw new Error("Query result is not an array");
+//     }
+
+//     const lessons: LessonModel[] = rows.map((row: any) => {
+//       return {
+//         lesson_id: row.lesson_id,
+//         teacher_id: row.teacher_id,
+//         category_id: row.category_id,
+//         category_name: row.category_name,
+//       };
+//     });
+
+//     return lessons;
+//   } catch (error) {
+//     console.error("Error fetching lesson:", error);
+//     throw error;
+//   }
+// };

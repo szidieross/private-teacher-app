@@ -33,7 +33,64 @@ const useLessonsService = () => {
     []
   );
 
-  return { getLessons, getLessonById };
+  const getLessonsByTeacherId = useCallback(
+    async (teacherId: number): Promise<LessonModel[] | null> => {
+      try {
+        const { data } = await api.get<LessonModel[]>(
+          `/teachers/${teacherId}/lessons`,
+          "The request for lesson failed, please reload the page!"
+        );
+        return Promise.resolve(data);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    []
+  );
+
+  // const createLesson = useCallback(
+  //   async (teacherId: number): Promise<LessonModel[] | null> => {
+  //     try {
+  //       const { data } = await api.get<LessonModel[]>(
+  //         `/teachers/${teacherId}/lessons`,
+  //         "The request for lesson failed, please reload the page!"
+  //       );
+  //       return Promise.resolve(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //       return null;
+  //     }
+  //   },
+  //   []
+  // );
+
+  const createLesson = useCallback(
+    async (
+      teacherId: number,
+      categoryId: number
+    ): Promise<LessonModel | null> => {
+      console.log("teacherId", teacherId);
+      console.log("categoryId", categoryId);
+      try {
+        const { data } = await api.post<LessonModel>(
+          `/teachers/${teacherId}/lessons`,
+          {
+            teacherId,
+            categoryId,
+          },
+          "Error while creating lessons!"
+        );
+        return data;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    []
+  );
+
+  return { getLessons, getLessonById, getLessonsByTeacherId, createLesson };
 };
 
 export default useLessonsService;

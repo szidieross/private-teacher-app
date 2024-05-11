@@ -46,7 +46,23 @@ const useTeachersService = () => {
     []
   );
 
-  return { getTeachers, getTeacherById };
+  const getTeacherByUserId = useCallback(
+    async (userId: number): Promise<TeacherModel | null> => {
+      try {
+        const { data } = await api.get<TeacherModel>(
+          `/teachers/user/${userId}`,
+          "The request for teacher failed, please reload the page!"
+        );
+        return Promise.resolve(data);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    []
+  );
+
+  return { getTeachers, getTeacherById, getTeacherByUserId };
 };
 
 export default useTeachersService;
