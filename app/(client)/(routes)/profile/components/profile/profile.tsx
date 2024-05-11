@@ -128,8 +128,12 @@ const Profile: FC<Props> = ({ userId }) => {
       </Paper>
       <CustomModal open={open} onClose={handleClose} />
       {/* <AddLesson teacherId={teacherId} /> */}
-      {teacher && <AddLesson teacherId={teacher.teacherId} />}
-      <AddAppointment />
+      {teacher && (
+        <>
+          <AddLesson teacherId={teacher.teacherId} />
+          <AddAppointment teacherId={teacher.teacherId} />
+        </>
+      )}
     </Container>
   );
 };

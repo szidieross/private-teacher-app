@@ -9,7 +9,11 @@ import {
 } from "@mui/material";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 
-const AddAppointment: FC = () => {
+type Props = {
+  teacherId: number;
+};
+
+const AddAppointment: FC<Props> = ({ teacherId }) => {
   const { createAppointment } = useAppointmentsService();
   const [formData, setFormData] = useState({
     date: "",
@@ -29,7 +33,7 @@ const AddAppointment: FC = () => {
     const selectedDate = new Date(formData.date);
     // Handle form submission, e.g., send data to backend
     console.log(formData);
-    createAppointment(1, selectedDate);
+    createAppointment(teacherId, selectedDate);
     // Reset form data
     setFormData({
       date: "", // Reset date field to empty string
