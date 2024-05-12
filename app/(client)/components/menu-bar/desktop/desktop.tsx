@@ -29,7 +29,7 @@ type Props = {
 const Desktop: FC<Props> = ({ profilePicture }) => {
   // console.log("profilePicture",profilePicture)
   const { to } = useNavigation();
-  const { isLoggedIn, userId, img, setUser } = useUserContext();
+  const { userInfo, setUserInfo } = useUserContext();
   const { getUserById } = useUsersService();
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
@@ -39,11 +39,6 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [anchorElCat, setAnchorElCat] = useState<null | HTMLElement>(null);
-
-  useEffect(() => {
-   
-  }, [setUser])
-  
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -88,10 +83,15 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
       try {
         const categories = await getCategories();
         setCategories(categories);
-        if (userId) {
-          const user = await getUserById(userId);
+        if (userInfo.userId) {
+          const user = await getUserById(userInfo.userId);
           console.log(user);
-          setUser(user);
+          setUserInfo((prevState) => {
+            return {
+              ...prevState,
+              userId: user?.userId,
+            };
+          });
         }
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -99,7 +99,7 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
     };
 
     fetchData();
-  }, [getCategories, setUser]);
+  }, [getCategories, setUserInfo]);
 
   return (
     <Container
@@ -151,7 +151,7 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
               ))}
           </Menu>
         </Grid>
-        {isLoggedIn ? (
+        {userInfo.isLoggedIn ? (
           <Grid item xl={2}>
             <IconButton
               onClick={handleOpenMenu}

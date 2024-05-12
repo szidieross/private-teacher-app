@@ -35,7 +35,7 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
   const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const { isLoggedIn, img } = useUserContext();
+  const { userInfo,setUserInfo } = useUserContext();
   const { to } = useNavigation();
 
   useEffect(() => {
@@ -159,7 +159,7 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
             Private Teacher App
           </Typography>
         </Grid>
-        {isLoggedIn ? (
+        {userInfo.isLoggedIn ? (
           <Grid item xl={2}>
             <IconButton
               onClick={handleOpenMenu}

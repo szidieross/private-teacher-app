@@ -17,13 +17,19 @@ type Props = {
 const List: FC<Props> = ({ isSession }) => {
   const { getTeachers, getTeacherByUserId } = useTeachersService();
   const { getUserById } = useUsersService();
-  const { setIsLoggedIn, setUser, setImg } = useUserContext();
+  const { userInfo, setUserInfo } = useUserContext();
   const { to } = useNavigation();
   const [teachers, setTeachers] = useState<TeacherModel[] | null>(null);
 
   useEffect(() => {
-    setIsLoggedIn(isSession);
-  }, [isSession, setIsLoggedIn]);
+    // setIsLoggedIn(isSession);
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        isLoggedIn: isSession,
+      };
+    });
+  }, [isSession, setUserInfo]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +39,19 @@ const List: FC<Props> = ({ isSession }) => {
           if (session.userId) {
             const user = await getUserById(session.userId);
             console.log(user);
-            setUser(user);
-            setImg(user?.profilePicture);
+            // setUser(user);
+            // setImg(user?.profilePicture);
+            setUserInfo((prevState) => {
+              return {
+                ...prevState,
+                userId: user?.userId,
+                username: user?.username,
+                firstName: user?.firstName,
+                lastName: user?.lastName,
+                userImg: user?.profilePicture,
+                userType: user?.role ? user.role : "user",
+              };
+            });
           }
         }
         const fetchedTeachers = await getTeachers();

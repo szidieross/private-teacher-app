@@ -16,8 +16,7 @@ import { useUserContext } from "../../hooks/context.hook";
 const MenuBar: FC = () => {
   const { getUserById } = useUsersService();
   const { getTeacherByUserId } = useTeachersService();
-  const { user, setUser, teacher, setTeacher, setIsLoggedIn, setUserType } =
-    useUserContext();
+  const { userInfo, setUserInfo } = useUserContext();
 
   // const [user, setUser] = useState<UserModel | null>(null);
   // const [teacher, setTeacher] = useState<TeacherModel | null>(null);
@@ -33,30 +32,51 @@ const MenuBar: FC = () => {
     const fetchData = async () => {
       const session = await getSession();
 
-      setIsLoggedIn(session.isLoggedIn);
-      setUserType(session.role);
-      // setImg(session.img);
-
-      // const session = await getSession();
-      // console.log("session",session.userId)
+      setUserInfo((prevState) => {
+        return {
+          ...prevState,
+          isLoggedIn: session.isLoggedIn,
+          userType: session.role,
+          // userId: user?.userId,
+          // username: user?.username,
+          // firstName: user?.firstName,
+          // lastName: user?.lastName,
+          // userImg: user?.profilePicture,
+        };
+      });
       if (session.userId) {
         const fetchedUser = await getUserById(session.userId);
         if (fetchedUser) {
-          // console.log("user context user", fetchedUser);
-          setUser(fetchedUser);
+          // setUser(fetchedUser);
+
+          setUserInfo((prevState) => {
+            return {
+              ...prevState,
+              userId: fetchedUser?.userId,
+              username: fetchedUser?.username,
+              firstName: fetchedUser?.firstName,
+              lastName: fetchedUser?.lastName,
+              userImg: fetchedUser?.profilePicture,
+            };
+          });
 
           if (fetchedUser.role === "teacher") {
             const fetchedTeacher = await getTeacherByUserId(session.userId);
-            // console.log("user context teacher", fetchedTeacher);
             if (fetchedTeacher) {
-              setTeacher(fetchedTeacher);
+              // setTeacher(fetchedTeacher);
+              setUserInfo((prevState) => {
+                return {
+                  ...prevState,
+                  teacherId: fetchedTeacher.teacherId,
+                };
+              });
             }
           }
         }
       }
     };
     fetchData();
-  }, [getSession, setUser]);
+  }, [getSession, setUserInfo]);
 
   return (
     <Box
@@ -64,8 +84,8 @@ const MenuBar: FC = () => {
       className="menu-bar--box"
     >
       <Toolbar className="menu-bar--toolbar">
-        <Mobile profilePicture={user?.profilePicture} />
-        <Desktop profilePicture={user?.profilePicture} />
+        <Mobile profilePicture={userInfo?.userImg} />
+        <Desktop profilePicture={userInfo?.userImg} />
       </Toolbar>
     </Box>
   );
