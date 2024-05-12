@@ -9,7 +9,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./desktop.scss";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { colors } from "@/app/(client)/constants/color.constant";
@@ -22,13 +22,23 @@ import Link from "next/link";
 import useUsersService from "@/app/(client)/services/user.service";
 import { UserModel } from "@/app/api/models/user.model";
 
-const Desktop = () => {
+type Props = {
+  profilePicture?: string;
+};
+
+const Desktop: FC<Props> = ({ profilePicture }) => {
+  // console.log("profilePicture",profilePicture)
   const { to } = useNavigation();
-  const { isLoggedIn, userId, img } = useUserContext();
+  const { isLoggedIn, userId, img, setUser } = useUserContext();
   const { getUserById } = useUsersService();
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const [user, setUser] = useState<UserModel | null>(null);
+  // const [user, setUser] = useState<UserModel | null>(null);
+
+  // console.log("UUUUUSSSSSEEEEERRRRRR", user);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorElCat, setAnchorElCat] = useState<null | HTMLElement>(null);
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -39,16 +49,6 @@ const Desktop = () => {
     to("/profile");
   };
 
-  // const handleTitleClick = () => {
-  //   handleCloseMenu();
-  //   to("/teachers");
-  // };
-
-  // const handleTeachersClick = () => {
-  //   handleCloseMenu();
-  //   to("/teachers");
-  // };
-
   const handleSettingsClick = () => {
     handleCloseMenu();
     to("/profile/settings");
@@ -58,9 +58,6 @@ const Desktop = () => {
     localStorage.removeItem("userData");
     handleCloseMenu();
   };
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [anchorElCat, setAnchorElCat] = useState<null | HTMLElement>(null);
 
   const handleOpenCatMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElCat(event.currentTarget);
@@ -88,6 +85,7 @@ const Desktop = () => {
         setCategories(categories);
         if (userId) {
           const user = await getUserById(userId);
+          console.log(user);
           setUser(user);
         }
       } catch (error) {
@@ -96,7 +94,7 @@ const Desktop = () => {
     };
 
     fetchData();
-  }, [getCategories]);
+  }, [getCategories, setUser]);
 
   return (
     <Container
@@ -161,7 +159,9 @@ const Desktop = () => {
                 width={60}
                 height={60}
                 src={
-                  img ? `/images/uploads/${img}` : `/images/default/person.jpg`
+                  profilePicture
+                    ? `/images/uploads/${profilePicture}`
+                    : `/images/default/person.jpg`
                 }
                 alt="Profile"
                 className="profile-img"

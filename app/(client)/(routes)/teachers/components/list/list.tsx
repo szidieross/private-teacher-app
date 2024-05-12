@@ -7,13 +7,16 @@ import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
+import useUsersService from "@/app/(client)/services/user.service";
+import { getSession } from "@/app/actions";
 
 type Props = {
   isSession: boolean;
 };
 
 const List: FC<Props> = ({ isSession }) => {
-  const { getTeachers } = useTeachersService();
+  const { getTeachers, getTeacherByUserId } = useTeachersService();
+  const { getUserById } = useUsersService();
   const { setIsLoggedIn } = useUserContext();
   const { to } = useNavigation();
   const [teachers, setTeachers] = useState<TeacherModel[] | null>(null);
@@ -25,6 +28,13 @@ const List: FC<Props> = ({ isSession }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (isSession) {
+          const session = await getSession();
+          if (session.userId) {
+            const user = await getUserById(session.userId);
+            console.log(user);
+          }
+        }
         const fetchedTeachers = await getTeachers();
         setTeachers(fetchedTeachers);
       } catch (error) {

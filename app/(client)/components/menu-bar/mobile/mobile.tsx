@@ -19,16 +19,18 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
-import {
-  useUserContext,
-} from "@/app/(client)/hooks/context.hook";
+import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
 import LogoutForm from "../../logout-form/logout-form";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
 import "./mobile.scss";
 
-const Mobile: FC = () => {
+type Props = {
+  profilePicture?: string;
+};
+
+const Mobile: FC<Props> = ({ profilePicture }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
   const { getCategories } = useCategoriesService();
@@ -170,7 +172,9 @@ const Mobile: FC = () => {
                 width={60}
                 height={60}
                 src={
-                  img ? `/images/uploads/${img}` : `/images/default/person.jpg`
+                  profilePicture
+                    ? `/images/uploads/${profilePicture}`
+                    : `/images/default/person.jpg`
                 }
                 alt="Profile"
                 className="profile-img"

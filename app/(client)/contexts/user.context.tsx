@@ -1,4 +1,7 @@
 import { getSession } from "@/app/actions";
+import { TeacherModel } from "@/app/api/models/teacher.model";
+import { UserModel } from "@/app/api/models/user.model";
+import { getUserById } from "@/app/api/services/user.service";
 import {
   Dispatch,
   FC,
@@ -8,6 +11,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import useUsersService from "../services/user.service";
+import useTeachersService from "../services/teacher.service";
 
 interface UserContextModel {
   isLoggedIn: boolean;
@@ -18,6 +23,10 @@ interface UserContextModel {
   setUserType: Dispatch<SetStateAction<"user" | "teacher">>;
   img: string | undefined;
   setImg: Dispatch<SetStateAction<string | undefined>>;
+  user: UserModel | null;
+  setUser: Dispatch<SetStateAction<UserModel | null>>;
+  teacher: TeacherModel | null;
+  setTeacher: Dispatch<SetStateAction<TeacherModel | null>>;
 }
 
 const initUserSettings: UserContextModel = {
@@ -29,6 +38,10 @@ const initUserSettings: UserContextModel = {
   setUserType: () => {},
   img: undefined,
   setImg: () => {},
+  user: null,
+  setUser: () => {},
+  teacher: null,
+  setTeacher: () => {},
 };
 
 export const UserContext = createContext<UserContextModel>(initUserSettings);
@@ -38,21 +51,42 @@ type Props = {
 };
 
 const UserProvider: FC<Props> = ({ children }) => {
+  // const { getUserById } = useUsersService();
+  // const { getTeacherByUserId } = useTeachersService();
+
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userId, setUserId] = useState<number | null>(null);
   const [userType, setUserType] = useState<"user" | "teacher">("user");
   const [img, setImg] = useState<string | undefined>(undefined);
+  const [user, setUser] = useState<UserModel | null>(null);
+  const [teacher, setTeacher] = useState<TeacherModel | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const session = await getSession();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const session = await getSession();
 
-      setIsLoggedIn(session.isLoggedIn);
-      setUserType(session.role);      
-      setImg(session.img);
-    };
-    fetchData();
-  }, [getSession]);
+  //     setIsLoggedIn(session.isLoggedIn);
+  //     setUserType(session.role);
+  //     setImg(session.img);
+
+  //     if (session.userId) {
+  //       const fetchedUser = await getUserById(session.userId);
+  //       if (fetchedUser) {
+  //         // console.log("user context user", fetchedUser);
+  //         setUser(fetchedUser);
+
+  //         if (fetchedUser.role === "teacher") {
+  //           const fetchedTeacher = await getTeacherByUserId(session.userId);
+  //           // console.log("user context teacher", fetchedTeacher);
+  //           if (fetchedTeacher) {
+  //             setTeacher(fetchedTeacher);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   };
+  //   fetchData();
+  // }, [getSession]);
 
   return (
     <UserContext.Provider
@@ -65,6 +99,10 @@ const UserProvider: FC<Props> = ({ children }) => {
         setUserType,
         img,
         setImg,
+        user,
+        setUser,
+        teacher,
+        setTeacher,
       }}
     >
       {children}
