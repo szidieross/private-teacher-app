@@ -22,7 +22,6 @@ const List: FC<Props> = ({ isSession }) => {
   const [teachers, setTeachers] = useState<TeacherModel[] | null>(null);
 
   useEffect(() => {
-    // setIsLoggedIn(isSession);
     setUserInfo((prevState) => {
       return {
         ...prevState,
@@ -39,8 +38,6 @@ const List: FC<Props> = ({ isSession }) => {
           if (session.userId) {
             const user = await getUserById(session.userId);
             console.log(user);
-            // setUser(user);
-            // setImg(user?.profilePicture);
             setUserInfo((prevState) => {
               return {
                 ...prevState,
@@ -50,6 +47,7 @@ const List: FC<Props> = ({ isSession }) => {
                 lastName: user?.lastName,
                 userImg: user?.profilePicture,
                 userType: user?.role ? user.role : "user",
+                teacherId: session.teacherId,
               };
             });
           }
