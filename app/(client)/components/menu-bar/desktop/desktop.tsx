@@ -40,6 +40,11 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [anchorElCat, setAnchorElCat] = useState<null | HTMLElement>(null);
 
+  useEffect(() => {
+   
+  }, [setUser])
+  
+
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };

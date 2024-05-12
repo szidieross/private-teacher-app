@@ -2,9 +2,11 @@
 
 import { Button, Container, Typography } from "@mui/material";
 import { FC, useState } from "react";
+import { useUserContext } from "../../hooks/context.hook";
 
 const UploadForm: FC = () => {
   const [file, setFile] = useState<File>();
+  const { isLoggedIn, userId, img, setUser,setImg } = useUserContext();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,6 +21,7 @@ const UploadForm: FC = () => {
       });
 
       if (!res.ok) throw new Error(await res.text());
+      setImg(file.name);
     } catch (error) {
       console.error(e);
     }
