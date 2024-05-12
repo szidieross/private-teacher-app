@@ -111,7 +111,9 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
         </Grid>
         <Grid item xl={6}>
           <Box display={"flex"} alignItems={"center"} sx={{ gap: "20px" }}>
-            <Link href={"/teachers"}>Teachers</Link>
+            <Link href={"/teachers"}>
+              <Typography>Teachers</Typography>
+            </Link>
             <Typography sx={{ cursor: "pointer" }} onClick={handleOpenCatMenu}>
               Categories
             </Typography>
@@ -145,6 +147,9 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                   </MenuItem>
                 ))}
             </Menu>
+            <Link href={"/profile/appointments"}>
+              <Typography>My Appointments</Typography>
+            </Link>
             {userInfo.isLoggedIn ? (
               <Box>
                 <IconButton
@@ -186,9 +191,9 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                   disableScrollLock={false}
                 >
                   <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-                  <MenuItem onClick={handleAppointmentsClick}>
+                  {/* <MenuItem onClick={handleAppointmentsClick}>
                     My Appointments
-                  </MenuItem>
+                  </MenuItem> */}
                   <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
                   <MenuItem onClick={handleLogout}>
                     <LogoutForm />

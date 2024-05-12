@@ -17,12 +17,15 @@ import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
 import AppointmentsTable from "../appointments-table/appointments-table";
 import CloseIcon from "@mui/icons-material/Close";
+import { useUserContext } from "@/app/(client)/hooks/context.hook";
+import { isLoggedIn } from "@/app/actions";
 
 type Props = {
   teacherId: number;
 };
 
 const Item: FC<Props> = ({ teacherId }) => {
+  const { userInfo } = useUserContext();
   const { getTeacherById } = useTeachersService();
   const { getLessonsByTeacherId } = useLessonsService();
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
@@ -37,7 +40,8 @@ const Item: FC<Props> = ({ teacherId }) => {
 
   useEffect(() => {
     if (teacher && teacher.userData.profilePicture) {
-      setImage(`/images/uploads/${teacher.userData.profilePicture}`);
+      // setImage(`/images/uploads/${teacher.userData.profilePicture}`);
+      setImage(teacher.userData.profilePicture);
     }
   }, [teacher]);
 
@@ -58,6 +62,11 @@ const Item: FC<Props> = ({ teacherId }) => {
   }, [getTeacherById, teacherId]);
 
   const handleOpenModal = (lesson: LessonModel) => {
+    if (!userInfo.isLoggedIn) {
+      console.log("NO")
+      alert("To see the appointments you have to log in.");
+      return;
+    }
     setSelectedLesson({ lesson, categoryId: lesson.categoryId });
     setIsModalOpen(true);
   };
@@ -76,7 +85,12 @@ const Item: FC<Props> = ({ teacherId }) => {
                 component="img"
                 height="360"
                 width="auto"
-                image={image}
+                image={
+                  image
+                    ? `/images/uploads/${image}`
+                    : "/images/default/person.jpg"
+                }
+                // image={image}
                 alt="Profile"
               />
             </Card>
