@@ -12,9 +12,6 @@ export default async function Home() {
   
   return (
     <main>
-      settings page
-      {/* <UploadForm />
-      <ServerUploadPage /> */}
       <Settings userId={session.userId}/>
     </main>
   );

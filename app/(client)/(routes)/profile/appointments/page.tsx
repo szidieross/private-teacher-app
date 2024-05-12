@@ -2,6 +2,7 @@ import { getSession, isLoggedIn } from "@/app/actions";
 import { redirect } from "next/navigation";
 import TeacherAppointments from "./components/teacher-appointment/teacher-appointment";
 import UserAppointments from "./components/user-appointment/user-appointment";
+import { Typography } from "@mui/material";
 
 export default async function Home() {
   const loggedIn = await isLoggedIn();
@@ -14,7 +15,7 @@ export default async function Home() {
 
   return (
     <main>
-      {session.role} appontments page
+      <Typography>{`Your ${session.role === "teacher"? "upcoming":"booked"} appointments`}</Typography>
       {session.role === "teacher" && session.userId ? (
         <TeacherAppointments userId={session.userId} />
       ) : (

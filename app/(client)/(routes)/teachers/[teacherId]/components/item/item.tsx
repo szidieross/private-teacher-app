@@ -8,18 +8,15 @@ import {
   Typography,
   Grid,
   CardMedia,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Button,
   Modal,
-  Box, // Import Modal from @mui/material
+  Box,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
 import AppointmentsTable from "../appointments-table/appointments-table";
+import CloseIcon from "@mui/icons-material/Close";
 
 type Props = {
   teacherId: number;
@@ -32,9 +29,7 @@ const Item: FC<Props> = ({ teacherId }) => {
   const [image, setImage] = useState<string | undefined>(undefined);
   const [lessons, setLessons] = useState<LessonModel[] | null>(null);
 
-  // State to manage modal open/close
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // State to keep track of selected lesson
   const [selectedLesson, setSelectedLesson] = useState<{
     lesson: LessonModel | null;
     categoryId: number | null;
@@ -62,13 +57,11 @@ const Item: FC<Props> = ({ teacherId }) => {
     fetchData();
   }, [getTeacherById, teacherId]);
 
-  // Function to open the modal
   const handleOpenModal = (lesson: LessonModel) => {
     setSelectedLesson({ lesson, categoryId: lesson.categoryId });
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -144,43 +137,48 @@ const Item: FC<Props> = ({ teacherId }) => {
                 {item.categoryName}
               </Button>
             ))}
-            {/* <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-              >
-                {`${teacher.userData.firstName} ${teacher.userData.lastName}'s Appointments`}
-              </AccordionSummary>
-              <AccordionDetails>
-                <AppointmentsTable teacherId={teacherId} />
-              </AccordionDetails>
-            </Accordion> */}
           </Grid>
         </>
       )}
 
-      {/* Modal Component */}
       <Modal
         open={isModalOpen}
         onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div>
-          {/* Your modal content goes here */}
+        <Box
+          sx={{
+            overflowY: "scroll",
+            backgroundColor: "white",
+            minHeight: "100vh",
+            minWidth: "100vw",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography>
+              {selectedLesson.lesson?.categoryName} Appointment
+            </Typography>
+            <Button onClick={handleCloseModal}>
+              <CloseIcon />
+            </Button>
+          </Box>
           {selectedLesson && selectedLesson.lesson?.lessonId && (
-            <div>
+            <>
               <AppointmentsTable
                 teacherId={teacherId}
                 lessonId={selectedLesson.lesson?.lessonId}
               />
-              <h2>{selectedLesson.lesson?.categoryName} Appointment</h2>
-              {/* Add more details about the appointment */}
-              <Button onClick={handleCloseModal}>Close Modal</Button>
-            </div>
+            </>
           )}
-        </div>
+        </Box>
       </Modal>
     </Grid>
   );

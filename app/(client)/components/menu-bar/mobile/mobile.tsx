@@ -16,6 +16,7 @@ import {
   MenuItem,
   Typography,
   Button,
+  Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
@@ -35,7 +36,7 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
   const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const { userInfo,setUserInfo } = useUserContext();
+  const { userInfo, setUserInfo } = useUserContext();
   const { to } = useNavigation();
 
   useEffect(() => {
@@ -105,8 +106,13 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
       className="mobile-container"
       sx={{ display: { xs: "block", sm: "none" } }}
     >
-      <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item xl={1}>
+      <Grid
+        container
+        alignItems="center"
+        justifyContent="space-between"
+        className="grid-container"
+      >
+        <Grid item xl={1} className="grid-item">
           <IconButton
             onClick={toggleDrawer}
             edge="start"
@@ -115,8 +121,13 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer}>
-            <div>
+          <Drawer
+            className="drawer"
+            anchor="left"
+            open={isDrawerOpen}
+            onClose={toggleDrawer}
+          >
+            <Box className="drawer-box" sx={{ backgroundColor: "beige" }}>
               <IconButton onClick={toggleDrawer}>
                 <MenuIcon />
               </IconButton>
@@ -146,8 +157,25 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
                     </List>
                   </ListItem>
                 )}
+                {userInfo.isLoggedIn ? (
+                  <>
+                    <ListItem onClick={handleProfileClick}>Profile</ListItem>
+                    <ListItem onClick={handleAppointmentsClick}>
+                      My Appointments
+                    </ListItem>
+                    <ListItem onClick={handleSettingsClick}>Settings</ListItem>
+                    <ListItem onClick={handleLogout}>
+                      <LogoutForm />
+                    </ListItem>
+                  </>
+                ) : (
+                  <>
+                    <ListItem onClick={() => to("/login")}>Login</ListItem>
+                    <ListItem onClick={() => to("/signup")}>Signup</ListItem>
+                  </>
+                )}
               </List>
-            </div>
+            </Box>
           </Drawer>
         </Grid>
         <Grid item xl={1}>

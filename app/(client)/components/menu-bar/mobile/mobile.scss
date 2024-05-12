@@ -1,12 +1,35 @@
 .mobile-container {
-    .desktop-title {
-    }
-  
-    .profile-img {
-      height: 60px;
-      width: 60px;
-      object-fit: cover;
-      border-radius: 50%;
+  .desktop-title {
+  }
+
+  .profile-img {
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .grid-container {
+    .grid-item {
+      .drawer {
+        .drawer-box {
+          background-color: pink !important;
+
+          ::-webkit-scrollbar {
+            width: 12px; /* width of the scrollbar */
+          }
+          
+          ::-webkit-scrollbar-track {
+            background-color: #fff; /* color of the track */
+          }
+          
+          ::-webkit-scrollbar-thumb {
+            background-color: pink; /* color of the thumb */
+            border-radius: 6px; /* roundness of the thumb */
+            border: 3px solid #fff; /* border around the thumb */
+          }
+        }
+      }
     }
   }
-  
+}

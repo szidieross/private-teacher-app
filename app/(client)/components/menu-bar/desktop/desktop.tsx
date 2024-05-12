@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Box,
   Button,
   Container,
   Grid,
@@ -20,22 +21,17 @@ import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
 import Link from "next/link";
 import useUsersService from "@/app/(client)/services/user.service";
-import { UserModel } from "@/app/api/models/user.model";
 
 type Props = {
   profilePicture?: string;
 };
 
 const Desktop: FC<Props> = ({ profilePicture }) => {
-  // console.log("profilePicture",profilePicture)
   const { to } = useNavigation();
   const { userInfo, setUserInfo } = useUserContext();
   const { getUserById } = useUsersService();
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  // const [user, setUser] = useState<UserModel | null>(null);
-
-  // console.log("UUUUUSSSSSEEEEERRRRRR", user);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [anchorElCat, setAnchorElCat] = useState<null | HTMLElement>(null);
@@ -108,74 +104,21 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
       sx={{ display: { xs: "none", sm: "block" } }}
     >
       <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item xl={8}>
+        <Grid item xl={6}>
           <Link href={"/teachers"} style={{ color: colors.secondary }}>
             Private Teacher App
           </Link>
         </Grid>
-        <Grid item xl={1}>
-          <Link href={"/teachers"}>Teachers</Link>
-        </Grid>
-        <Grid item xl={1}>
-          <Typography sx={{ cursor: "pointer" }} onClick={handleOpenCatMenu}>
-            Categories
-          </Typography>
-          <Menu
-            anchorEl={anchorElCat}
-            open={Boolean(anchorElCat)}
-            onClose={handleCloseCatMenu}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            PaperProps={{
-              style: {
-                backgroundColor: "pink",
-              },
-            }}
-            disableScrollLock={false}
-          >
-            <MenuItem onClick={handleCloseCatMenu}>Category1</MenuItem>
-            {categories &&
-              categories.map((category) => (
-                <MenuItem
-                  key={category.categoryId}
-                  onClick={handleCloseCatMenu}
-                >
-                  {category.name}
-                </MenuItem>
-              ))}
-          </Menu>
-        </Grid>
-        {userInfo.isLoggedIn ? (
-          <Grid item xl={2}>
-            <IconButton
-              onClick={handleOpenMenu}
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              disableRipple
-            >
-              <Image
-                width={60}
-                height={60}
-                src={
-                  profilePicture
-                    ? `/images/uploads/${profilePicture}`
-                    : `/images/default/person.jpg`
-                }
-                alt="Profile"
-                className="profile-img"
-              />
-            </IconButton>
+        <Grid item xl={6}>
+          <Box display={"flex"} alignItems={"center"} sx={{ gap: "20px" }}>
+            <Link href={"/teachers"}>Teachers</Link>
+            <Typography sx={{ cursor: "pointer" }} onClick={handleOpenCatMenu}>
+              Categories
+            </Typography>
             <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleCloseMenu}
+              anchorEl={anchorElCat}
+              open={Boolean(anchorElCat)}
+              onClose={handleCloseCatMenu}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "right",
@@ -191,24 +134,75 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
               }}
               disableScrollLock={false}
             >
-              <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-              <MenuItem onClick={handleAppointmentsClick}>
-                My Appointments
-              </MenuItem>
-              <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
-              <MenuItem onClick={handleLogout}>
-                <LogoutForm />
-              </MenuItem>
+              <MenuItem onClick={handleCloseCatMenu}>Category1</MenuItem>
+              {categories &&
+                categories.map((category) => (
+                  <MenuItem
+                    key={category.categoryId}
+                    onClick={handleCloseCatMenu}
+                  >
+                    {category.name}
+                  </MenuItem>
+                ))}
             </Menu>
-          </Grid>
-        ) : (
-          <>
-            <Grid item xl={2}>
-              <Button onClick={() => to("/login")}>Login</Button>
-              <Button onClick={() => to("/signup")}>Signup</Button>
-            </Grid>
-          </>
-        )}
+            {userInfo.isLoggedIn ? (
+              <Box>
+                <IconButton
+                  onClick={handleOpenMenu}
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  disableRipple
+                >
+                  <Image
+                    width={60}
+                    height={60}
+                    src={
+                      profilePicture
+                        ? `/images/uploads/${profilePicture}`
+                        : `/images/default/person.jpg`
+                    }
+                    alt="Profile"
+                    className="profile-img"
+                  />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleCloseMenu}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  PaperProps={{
+                    style: {
+                      backgroundColor: "pink",
+                    },
+                  }}
+                  disableScrollLock={false}
+                >
+                  <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+                  <MenuItem onClick={handleAppointmentsClick}>
+                    My Appointments
+                  </MenuItem>
+                  <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
+                  <MenuItem onClick={handleLogout}>
+                    <LogoutForm />
+                  </MenuItem>
+                </Menu>
+              </Box>
+            ) : (
+              <>
+                <Button onClick={() => to("/login")}>Login</Button>
+                <Button onClick={() => to("/signup")}>Signup</Button>
+              </>
+            )}
+          </Box>
+        </Grid>
       </Grid>
     </Container>
   );
