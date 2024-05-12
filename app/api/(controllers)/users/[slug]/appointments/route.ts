@@ -6,10 +6,10 @@ export const GET = async (
   request: NextRequest,
   context: { params: { slug: number } }
 ) => {
-  const appointmentId = context.params.slug;
+  const userId = context.params.slug;
   try {
     const appointment: AppointmentModel[] | null = await getAppointmentByUserId(
-      appointmentId
+      userId
     );
     return NextResponse.json(appointment);
   } catch (error) {

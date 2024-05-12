@@ -89,7 +89,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       subject: "subject",
       action: "",
     };
-  });
+  });  
 
   return (
     <Box sx={{ height: 400, width: "100%" }}>

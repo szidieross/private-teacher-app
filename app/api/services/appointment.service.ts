@@ -41,7 +41,7 @@ export const getAppointmentByUserId = async (
 ): Promise<AppointmentModel[]> => {
   try {
     const db = await pool.getConnection();
-    const query = "SELECT * FROM users WHERE user_id = ?";
+    const query = "SELECT * FROM appointments WHERE user_id = ?";
     const [rows] = await db.execute(query, [userId]);
     db.release();
 

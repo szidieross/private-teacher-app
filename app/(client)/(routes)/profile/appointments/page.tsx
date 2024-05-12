@@ -19,8 +19,8 @@ export default async function Home() {
     <main>
       my appontments page
       {/* <Appointments /> */}
-      <UserAppointments userId={2}/>
-      {/* <TeacherAppointments teacherId={2} /> */}
+      <UserAppointments userId={6}/>
+      <TeacherAppointments teacherId={2} />
     </main>
   );
 }
