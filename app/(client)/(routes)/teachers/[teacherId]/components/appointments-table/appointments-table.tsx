@@ -14,9 +14,10 @@ import { Button } from "@mui/material";
 
 type Props = {
   teacherId: number;
+  lessonId: number;
 };
 
-const AppointmentsTable: FC<Props> = ({ teacherId }) => {
+const AppointmentsTable: FC<Props> = ({ teacherId, lessonId }) => {
   const { getAppointmentByTeacherId, bookAppointment } =
     useAppointmentsService();
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
@@ -24,7 +25,8 @@ const AppointmentsTable: FC<Props> = ({ teacherId }) => {
   );
 
   const handleBooking = (appointmentId: number) => {
-    bookAppointment(appointmentId);
+    bookAppointment(appointmentId, lessonId);
+    // console.log("lessonId", lessonId); 
   };
 
   useEffect(() => {
@@ -64,7 +66,9 @@ const AppointmentsTable: FC<Props> = ({ teacherId }) => {
                   {item.userId ? "Taken" : "Avaliable"}
                 </TableCell>
                 <TableCell align="right">
-                  <Button onClick={() => handleBooking(item.appointmentId)}>
+                  <Button
+                    onClick={() => handleBooking(item.appointmentId)}
+                  >
                     Booking
                   </Button>
                 </TableCell>

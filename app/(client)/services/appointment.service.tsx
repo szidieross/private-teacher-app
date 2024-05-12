@@ -90,7 +90,8 @@ const useAppointmentsService = () => {
     []
   );
 
-  const bookAppointment = async (appointmentId: number) => {
+  const bookAppointment = async (appointmentId: number, lessonId: number) => {
+    console.log("lessonId", lessonId);
     const session = await getSession();
     const userId = session.userId;
     try {
@@ -99,6 +100,7 @@ const useAppointmentsService = () => {
         {
           userId,
           appointmentId,
+          lessonId
         },
         "Couldn't book appointment data.!"
       );
