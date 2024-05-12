@@ -120,11 +120,7 @@ const Signup = () => {
           ""
         );
       }
-      if (result) {
-        console.log("User registered successfully:", result);
-      } else {
-        console.error("Error registering user:", result);
-      }
+      console.log("User registered successfully:", result);
     } catch (error) {
       console.error("Error registering user:", error);
     } finally {

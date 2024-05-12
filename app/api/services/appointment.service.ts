@@ -38,7 +38,7 @@ export const getAppointments = async (): Promise<AppointmentModel[]> => {
 
 export const getAppointmentByUserId = async (
   userId: number
-): Promise<AppointmentModel> => {
+): Promise<AppointmentModel[]> => {
   try {
     const db = await pool.getConnection();
     const query = "SELECT * FROM users WHERE user_id = ?";
@@ -60,9 +60,11 @@ export const getAppointmentByUserId = async (
       };
     });
 
-    const user: AppointmentModel = toAppointmentModel(data[0]);
+    const appointments: AppointmentModel[] = data.map((row: AppointmentDto) => {
+      return toAppointmentModel(row);
+    });
 
-    return user;
+    return appointments;
   } catch (error) {
     console.error("Error fetching appointment:", error);
     throw error;
@@ -124,7 +126,7 @@ export const createAppointment = async (teacherId: string, startTime: Date) => {
 
 export const bookAppointment = async (
   userId: number,
-  appointmentId: number,
+  appointmentId: number
 ) => {
   try {
     const db = await pool.getConnection();
@@ -143,4 +145,3 @@ export const bookAppointment = async (
     throw error;
   }
 };
-

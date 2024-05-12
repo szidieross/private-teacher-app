@@ -11,7 +11,7 @@ export const GET = async (
 ) => {
   const appointmentId = context.params.slug;
   try {
-    const appointment: AppointmentModel | null = await getAppointmentByUserId(
+    const appointment: AppointmentModel[] | null = await getAppointmentByUserId(
       appointmentId
     );
     return NextResponse.json(appointment);

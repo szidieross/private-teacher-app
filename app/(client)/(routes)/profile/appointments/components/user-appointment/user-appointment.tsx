@@ -7,7 +7,7 @@ import useAppointmentsService from "@/app/(client)/services/appointment.service"
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 
 type Props = {
-  teacherId: number;
+  userId: number;
 };
 
 type TableProps = {
@@ -18,8 +18,8 @@ type TableProps = {
   action: string;
 };
 
-const UserAppointments: FC<Props> = ({ teacherId }) => {
-  const { getAppointmentByTeacherId } = useAppointmentsService();
+const UserAppointments: FC<Props> = ({ userId }) => {
+  const { getAppointmentByUserId } = useAppointmentsService();
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
     null
   );
@@ -27,7 +27,7 @@ const UserAppointments: FC<Props> = ({ teacherId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
+        const fetchedAppointments = await getAppointmentByUserId(userId);
         setAppointments(fetchedAppointments);
       } catch (error) {
         console.error("Error fetching appointments:", error);
@@ -35,7 +35,7 @@ const UserAppointments: FC<Props> = ({ teacherId }) => {
     };
 
     fetchData();
-  }, [getAppointmentByTeacherId, teacherId]);
+  }, [getAppointmentByUserId, userId]);
 
   const columns: GridColDef<TableProps>[] = [
     {

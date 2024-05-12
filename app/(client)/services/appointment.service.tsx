@@ -50,6 +50,23 @@ const useAppointmentsService = () => {
     []
   );
 
+  const getAppointmentByUserId = useCallback(
+    async (userId: number): Promise<AppointmentModel[] | null> => {
+      try {
+        const { data } = await api.get<AppointmentModel[]>(
+          // `/teachers/${teacherId}/appointments`,
+          `/users/${userId}/appointments`,
+          "The request for appointments failed, please reload the page!"
+        );
+        return Promise.resolve(data);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+    []
+  );
+
   const createAppointment = useCallback(
     async (
       teacherId: number,
@@ -73,16 +90,15 @@ const useAppointmentsService = () => {
     []
   );
 
-  const bookAppointment = async (
-    appointmentId: number
-  ) => {
+  const bookAppointment = async (appointmentId: number) => {
     const session = await getSession();
     const userId = session.userId;
-    try {  
+    try {
       const { data } = await api.post<AppointmentModel>(
         `/appointments/${appointmentId}`,
         {
-          userId,appointmentId
+          userId,
+          appointmentId,
         },
         "Couldn't book appointment data.!"
       );
@@ -92,7 +108,6 @@ const useAppointmentsService = () => {
       return null;
     }
   };
-  
 
   return {
     getAppointments,
@@ -100,6 +115,7 @@ const useAppointmentsService = () => {
     getAppointmentByTeacherId,
     createAppointment,
     bookAppointment,
+    getAppointmentByUserId,
   };
 };
 
