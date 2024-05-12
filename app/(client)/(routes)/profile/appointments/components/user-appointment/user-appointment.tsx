@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { FC, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
@@ -8,14 +8,6 @@ import { AppointmentModel } from "@/app/api/models/appointment.model";
 
 type Props = {
   userId: number;
-};
-
-type TableProps = {
-  id: number;
-  name: string;
-  date: string;
-  subject: string;
-  action: string;
 };
 
 const UserAppointments: FC<Props> = ({ userId }) => {
@@ -37,7 +29,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     fetchData();
   }, [getAppointmentByUserId, userId]);
 
-  const columns: GridColDef<TableProps>[] = [
+  const columns: GridColDef[] = [
     {
       field: "id",
       headerName: "ID",
@@ -47,39 +39,32 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       field: "name",
       headerName: "Name",
       width: 150,
-      editable: true,
     },
     {
       field: "date",
       headerName: "Date",
       width: 150,
-      editable: true,
     },
     {
       field: "subject",
       headerName: "Subject",
       width: 110,
-      editable: true, // Convert subject to string
     },
     {
       field: "action",
       headerName: "Action",
       sortable: false,
       width: 160,
+      renderCell: (params) => (
+        <button onClick={() => handleCancel(params.row.id)}>Cancel</button>
+      ),
     },
   ];
 
-  // const rows = [
-  //   { id: 1, lastName: "Snow", firstName: "Jon", age: 14 },
-  //   { id: 2, lastName: "Lannister", firstName: "Cersei", age: 31 },
-  //   { id: 3, lastName: "Lannister", firstName: "Jaime", age: 31 },
-  //   { id: 4, lastName: "Stark", firstName: "Arya", age: 11 },
-  //   { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  //   { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  //   { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  //   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  //   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  // ];
+  const handleCancel = (appointmentId: number) => {
+    // Implement cancellation logic here
+    console.log("Cancel appointment with ID:", appointmentId);
+  };
 
   const rows = appointments?.map((item, index) => {
     return {
@@ -87,7 +72,6 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       name: `${item.userId}`,
       date: "date",
       subject: "subject",
-      action: "",
     };
   });  
 
@@ -97,14 +81,6 @@ const UserAppointments: FC<Props> = ({ userId }) => {
         <DataGrid
           rows={rows}
           columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
           checkboxSelection
           disableRowSelectionOnClick
         />
