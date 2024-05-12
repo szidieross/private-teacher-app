@@ -5,9 +5,11 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
+import useUsersService from "@/app/(client)/services/user.service";
+import useTeachersService from "@/app/(client)/services/teacher.service";
 
 type Props = {
-  teacherId: number;
+  userId: number;
 };
 
 type TableProps = {
@@ -18,7 +20,10 @@ type TableProps = {
   action: string;
 };
 
-const TeacherAppointments: FC<Props> = ({ teacherId }) => {
+const TeacherAppointments: FC<Props> = ({ userId }) => {
+  console.log("userId", userId);
+  console.log("teacherId");
+  const { getTeacherByUserId } = useTeachersService();
   const { getAppointmentByTeacherId } = useAppointmentsService();
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
     null
@@ -27,15 +32,20 @@ const TeacherAppointments: FC<Props> = ({ teacherId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
-        setAppointments(fetchedAppointments);
+        const teacher = await getTeacherByUserId(userId);
+        if (teacher) {
+          const fetchedAppointments = await getAppointmentByTeacherId(
+            teacher?.teacherId
+          );
+          setAppointments(fetchedAppointments);
+        }
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }
     };
 
     fetchData();
-  }, [getAppointmentByTeacherId, teacherId]);
+  }, [getAppointmentByTeacherId, userId]);
 
   const columns: GridColDef<TableProps>[] = [
     {

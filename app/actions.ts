@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { loginUser } from "./api/services/user.service";
+import { getTeacherByUserId } from "./api/services/teacher.service";
 
 let username = "john";
 let isPro = true;
@@ -45,12 +46,24 @@ export const login = async (
 
   const user = await loginUser(formUsername, formPassword);
 
-  if (user === null) {
+  if (user == null) {
     ("Wrong credentials. Try again.");
     return;
   }
+
+
+  let teacherId=null;
+  
+  if (user.role === "teacher" && user.userId!=null) {
+    console.log("user.role",user.role)
+    const teacher =await getTeacherByUserId(user.userId);
+    console.log("teacher",teacher);
+    teacherId=teacher.teacherId;
+    console.log("teacherId",teacherId);
+  }
   const userId = user.userId && user.userId;
 
+  session.userId = userId ? userId : 1;
   session.userId = userId ? userId : 1;
   session.img = user.profilePicture;
   session.username = formUsername;

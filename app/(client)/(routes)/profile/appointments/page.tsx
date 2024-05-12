@@ -1,4 +1,4 @@
-import { isLoggedIn } from "@/app/actions";
+import { getSession, isLoggedIn } from "@/app/actions";
 import { redirect } from "next/navigation";
 import Appointments from "./components/appointments";
 import AppointmentsTable from "../../teachers/[teacherId]/components/appointments-table/appointments-table";
@@ -15,12 +15,20 @@ export default async function Home() {
   if (!loggedIn) {
     redirect("/teachers");
   }
+  const session = await getSession();
+  console.log("session.teacherId", session.teacherId);
+  console.log("session.userId", session.userId);
+  // const teacherId=session.
+
   return (
     <main>
-      my appontments page
+      {session.role} appontments page
       {/* <Appointments /> */}
-      <UserAppointments userId={6}/>
-      <TeacherAppointments teacherId={2} />
+      {session.role === "teacher" && session.userId ? (
+        <TeacherAppointments userId={session.userId} />
+      ) : (
+        <UserAppointments userId={session.userId ? session.userId : 2} />
+      )}
     </main>
   );
 }
