@@ -11,7 +11,10 @@ import {
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { UserModel } from "@/app/api/models/user.model";
-import { useStoreContext } from "@/app/(client)/hooks/context.hook";
+import {
+  useStoreContext,
+  useUserContext,
+} from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
 import CustomModal from "../custom-modal/custom-modal";
 import AddAppointment from "../add-appointment/add-appointment";
@@ -31,6 +34,7 @@ const Profile: FC<Props> = ({ userId }) => {
   const { getTeacherByUserId } = useTeachersService();
   const [formattedDate, setFormattedDate] = useState<string | null>(null);
   const { setNavbarSettings } = useStoreContext();
+  const { userInfo, setUserInfo } = useUserContext();
 
   const handleOpen = () => {
     setOpen(true);
@@ -71,7 +75,7 @@ const Profile: FC<Props> = ({ userId }) => {
     };
 
     fetchData();
-  }, [getUserById, userId]);
+  }, [getUserById, userId, setUserInfo]);
 
   if (!user) return <>Loading...</>;
 
@@ -82,9 +86,9 @@ const Profile: FC<Props> = ({ userId }) => {
           <Grid item xs={12} md={3} container justifyContent="center">
             <Button onClick={handleOpen}>
               <Avatar sx={{ width: 120, height: 120 }}>
-                {user.profilePicture ? (
+                {userInfo.userImg ? (
                   <img
-                    src={`/images/uploads/${user.profilePicture}`}
+                    src={`/images/uploads/${userInfo.userImg}`}
                     alt="Profile"
                     style={{
                       width: "100%",

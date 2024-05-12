@@ -1,18 +1,11 @@
-import { getSession } from "@/app/actions";
-import { TeacherModel } from "@/app/api/models/teacher.model";
-import { UserModel } from "@/app/api/models/user.model";
-import { getUserById } from "@/app/api/services/user.service";
 import {
   Dispatch,
   FC,
   ReactNode,
   SetStateAction,
   createContext,
-  useEffect,
   useState,
 } from "react";
-import useUsersService from "../services/user.service";
-import useTeachersService from "../services/teacher.service";
 
 interface UserInfoModel {
   isLoggedIn: boolean;
