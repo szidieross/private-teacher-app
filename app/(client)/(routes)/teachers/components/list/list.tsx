@@ -2,8 +2,6 @@
 
 import React, { FC, useEffect, useState } from "react";
 import Item from "../item/item";
-import useUsersService from "@/app/(client)/services/user.service";
-import { UserModel } from "@/app/api/models/user.model";
 import { Grid } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";

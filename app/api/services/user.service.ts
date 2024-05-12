@@ -1,10 +1,9 @@
 import pool from "@/app/libs/mysql";
-import { SimpleUserModel, UserModel } from "../models/user.model";
-import { SimpleUserDto, UserDto } from "../dtos/user.dto";
-import { toSimpleUserModel, toUserModel } from "../mappers/user.mapper";
+import { UserModel } from "../models/user.model";
+import { UserDto } from "../dtos/user.dto";
+import { toUserModel } from "../mappers/user.mapper";
 import { createTeacher } from "./teacher.service";
 import { getSession } from "@/app/actions";
-import { redirect } from "next/dist/server/api-utils";
 
 interface UserId {
   user_id: number;

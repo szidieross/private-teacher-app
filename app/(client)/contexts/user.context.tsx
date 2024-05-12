@@ -1,6 +1,4 @@
 import { getSession } from "@/app/actions";
-import { TeacherModel } from "@/app/api/models/teacher.model";
-import { UserModel } from "@/app/api/models/user.model";
 import {
   Dispatch,
   FC,

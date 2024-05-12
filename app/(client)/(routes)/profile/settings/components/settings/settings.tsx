@@ -3,33 +3,7 @@
 import { FC, useState, useEffect } from "react";
 import useUsersService from "@/app/(client)/services/user.service";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
-import { UserContext } from "@/app/(client)/contexts/user.context";
-import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import { UserModel } from "@/app/api/models/user.model";
-import { TeacherModel } from "@/app/api/models/teacher.model";
-import useTeachersService from "@/app/(client)/services/teacher.service";
-
-interface User {
-  user_id: number;
-  first_name: string;
-  last_name: string;
-  username: string;
-  password: string;
-  email: string;
-  phone: string;
-  profile_picture: string;
-  created_at: string;
-  role: "user" | "teacher";
-}
-
-interface Teacher {
-  teacher_id: number;
-  user_id: number;
-  price: number;
-  bio: string;
-  qualification: string;
-  location: string;
-}
 
 type Props = {
   userId?: number;
@@ -54,11 +28,9 @@ const initContactForm: ContactUsRequest = {
 };
 
 const Settings: FC<Props> = ({ userId }) => {
-  const { createUser, getUserById, updateUserData } = useUsersService();
+  const { getUserById, updateUserData } = useUsersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
-  const { userType } = useUserContext();
   const [user, setUser] = useState<UserModel | null>(null);
-  const [teacher, setTeacher] = useState<TeacherModel | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {

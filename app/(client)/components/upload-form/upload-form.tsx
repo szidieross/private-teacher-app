@@ -1,12 +1,10 @@
 "use client";
 
-import { getSession } from "@/app/actions";
 import { Button, Container, Typography } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 const UploadForm: FC = () => {
   const [file, setFile] = useState<File>();
-  const [id, setId] = useState<number|undefined>(undefined);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

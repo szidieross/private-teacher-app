@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";

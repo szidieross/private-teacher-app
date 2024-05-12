@@ -18,11 +18,8 @@ import {
   Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { pink } from "@mui/material/colors";
-import DrawerMenu from "./drawer-menu/drawer-menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import {
-  useStoreContext,
   useUserContext,
 } from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
@@ -30,18 +27,14 @@ import LogoutForm from "../../logout-form/logout-form";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
 import "./mobile.scss";
-import { UserModel } from "@/app/api/models/user.model";
 
 const Mobile: FC = () => {
-  const [menuOpened, setMenuOpened] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
   const { getCategories } = useCategoriesService();
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const [user, setUser] = useState<UserModel | null>(null);
-  const { isLoggedIn, userId, img } = useUserContext();
+  const { isLoggedIn, img } = useUserContext();
   const { to } = useNavigation();
-  const { navbarSettings } = useStoreContext();
 
   useEffect(() => {
     const fetchData = async () => {

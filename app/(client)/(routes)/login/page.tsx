@@ -1,4 +1,4 @@
-import { getSession, isLoggedIn } from "@/app/actions";
+import { isLoggedIn } from "@/app/actions";
 import { redirect } from "next/navigation";
 import LoginForm from "../../components/login-form/login-form";
 

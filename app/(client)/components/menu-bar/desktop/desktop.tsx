@@ -15,7 +15,6 @@ import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { colors } from "@/app/(client)/constants/color.constant";
 import LogoutForm from "../../logout-form/logout-form";
 import Image from "next/image";
-import { isLoggedIn } from "@/app/actions";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
@@ -40,15 +39,15 @@ const Desktop = () => {
     to("/profile");
   };
 
-  const handleTitleClick = () => {
-    handleCloseMenu();
-    to("/teachers");
-  };
+  // const handleTitleClick = () => {
+  //   handleCloseMenu();
+  //   to("/teachers");
+  // };
 
-  const handleTeachersClick = () => {
-    handleCloseMenu();
-    to("/teachers");
-  };
+  // const handleTeachersClick = () => {
+  //   handleCloseMenu();
+  //   to("/teachers");
+  // };
 
   const handleSettingsClick = () => {
     handleCloseMenu();

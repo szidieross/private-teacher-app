@@ -11,11 +11,9 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Box,
 } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { DataGrid } from "@mui/x-data-grid";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
 import AppointmentsTable from "../appointments-table/appointments-table";

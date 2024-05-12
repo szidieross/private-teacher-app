@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { api } from "@/app/(client)/utils/api.util";
-import { SimpleUserModel, UserModel } from "@/app/api/models/user.model";
+import { UserModel } from "@/app/api/models/user.model";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import { getSession } from "@/app/actions";
 

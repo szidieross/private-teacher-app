@@ -11,10 +11,7 @@ import {
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { UserModel } from "@/app/api/models/user.model";
-import {
-  useStoreContext,
-  useUserContext,
-} from "@/app/(client)/hooks/context.hook";
+import { useStoreContext } from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
 import CustomModal from "../custom-modal/custom-modal";
 import AddAppointment from "../add-appointment/add-appointment";

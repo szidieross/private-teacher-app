@@ -1,11 +1,10 @@
 "use client";
 
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
-import useUsersService from "@/app/(client)/services/user.service";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 
 type Props = {
@@ -69,7 +68,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       field: "subject",
       headerName: "Subject",
       width: 110,
-      editable: true, // Convert subject to string
+      editable: true,
     },
     {
       field: "action",

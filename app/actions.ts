@@ -4,7 +4,6 @@ import { sessionOptions, SessionData, defaultSession } from "@/app/lib";
 import { getIronSession } from "iron-session";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { loginUser } from "./api/services/user.service";
 import { getTeacherByUserId } from "./api/services/teacher.service";
 
