@@ -44,16 +44,9 @@ const Item: FC<Props> = ({ teacherId }) => {
     setSnackbarOpen(false);
   };
 
-  const handleOpenSnackbar = () => {
-    setSnackbarOpen(true);
-  };
-
   const handleOpenModal = (lesson: LessonModel) => {
     if (!userInfo.isLoggedIn) {
-      console.log("NO");
-      // alert("To see the appointments you have to log in.");
       setSnackbarOpen(true);
-
       return;
     }
     setSelectedLesson({ lesson, categoryId: lesson.categoryId });
@@ -66,7 +59,6 @@ const Item: FC<Props> = ({ teacherId }) => {
 
   useEffect(() => {
     if (teacher && teacher.userData.profilePicture) {
-      // setImage(`/images/uploads/${teacher.userData.profilePicture}`);
       setImage(teacher.userData.profilePicture);
     }
   }, [teacher]);
@@ -102,7 +94,6 @@ const Item: FC<Props> = ({ teacherId }) => {
                     ? `/images/uploads/${image}`
                     : "/images/default/person.jpg"
                 }
-                // image={image}
                 alt="Profile"
               />
             </Card>

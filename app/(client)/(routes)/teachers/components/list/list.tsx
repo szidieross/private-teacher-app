@@ -63,7 +63,7 @@ const List: FC<Props> = ({ isSession }) => {
   }, [getTeachers]);
 
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       {teachers &&
         teachers.map((teacher, index) => (
           <Grid

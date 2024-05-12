@@ -1,0 +1,16 @@
+.card {
+  cursor: "pointer";
+  width: 100%;
+  border-radius: 10px;
+  background-color: rgb(253, 253, 243);
+  color: rgb(46, 9, 46);
+
+  .card-content {
+    .card-media {
+      border-radius: 10px;
+    }
+    .content-box {
+      margin-top: 10px;
+    }
+  }
+}
