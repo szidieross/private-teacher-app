@@ -16,7 +16,7 @@ import {
   useUserContext,
 } from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
-import CustomModal from "../custom-modal/custom-modal";
+import CustomModal from "../upload-form/upload-form";
 import AddAppointment from "../add-appointment/add-appointment";
 import AddLesson from "../add-lesson/add-lesson";
 import useTeachersService from "@/app/(client)/services/teacher.service";

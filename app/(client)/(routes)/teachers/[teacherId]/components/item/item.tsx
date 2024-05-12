@@ -11,6 +11,8 @@ import {
   Button,
   Modal,
   Box,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import useLessonsService from "@/app/(client)/services/lesson.service";
@@ -18,7 +20,6 @@ import { LessonModel } from "@/app/api/models/lesson.model";
 import AppointmentsTable from "../appointments-table/appointments-table";
 import CloseIcon from "@mui/icons-material/Close";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
-import { isLoggedIn } from "@/app/actions";
 
 type Props = {
   teacherId: number;
@@ -37,6 +38,31 @@ const Item: FC<Props> = ({ teacherId }) => {
     lesson: LessonModel | null;
     categoryId: number | null;
   }>({ lesson: null, categoryId: null });
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
+  const handleOpenSnackbar = () => {
+    setSnackbarOpen(true);
+  };
+
+  const handleOpenModal = (lesson: LessonModel) => {
+    if (!userInfo.isLoggedIn) {
+      console.log("NO");
+      // alert("To see the appointments you have to log in.");
+      setSnackbarOpen(true);
+
+      return;
+    }
+    setSelectedLesson({ lesson, categoryId: lesson.categoryId });
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     if (teacher && teacher.userData.profilePicture) {
@@ -60,20 +86,6 @@ const Item: FC<Props> = ({ teacherId }) => {
 
     fetchData();
   }, [getTeacherById, teacherId]);
-
-  const handleOpenModal = (lesson: LessonModel) => {
-    if (!userInfo.isLoggedIn) {
-      console.log("NO")
-      alert("To see the appointments you have to log in.");
-      return;
-    }
-    setSelectedLesson({ lesson, categoryId: lesson.categoryId });
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <Grid container spacing={2} justifyContent="center">
@@ -194,6 +206,17 @@ const Item: FC<Props> = ({ teacherId }) => {
           )}
         </Box>
       </Modal>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleSnackbarClose} severity="info">
+          Please log in to see the appointments
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };
