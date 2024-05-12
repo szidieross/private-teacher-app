@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Modal, Button } from "@mui/material";
-import UploadForm from "@/app/(client)/components/upload-form/upload-form";
+import UploadForm from "@/app/(client)/(routes)/profile/components/upload-form/upload-form";
 
 interface CustomModalProps {
   open: boolean;

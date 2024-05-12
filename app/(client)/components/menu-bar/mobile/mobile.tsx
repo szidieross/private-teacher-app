@@ -21,7 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
-import LogoutForm from "../../logout-form/logout-form";
+import LogoutForm from "../logout-form/logout-form";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
 import "./mobile.scss";
