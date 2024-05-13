@@ -1,3 +1,4 @@
+import { LessonDto } from "../dtos/lesson.dto";
 import { TeacherDto } from "../dtos/teacher.dto";
 import { TeacherModel } from "../models/teacher.model";
 
@@ -20,6 +21,14 @@ const toTeacherModel = (dto: TeacherDto): TeacherModel => ({
     bio: dto.bio,
     qualification: dto.qualification,
     location: dto.location,
+    lessons: dto.lessons
+    ? dto.lessons.map((lessonDto: LessonDto) => ({
+        lessonId: lessonDto.lesson_id,
+        teacherId: lessonDto.teacher_id,
+        categoryId: lessonDto.category_id,
+        categoryName: lessonDto.category_name,
+      }))
+    : [],
 });
 
 export { toTeacherModel };
