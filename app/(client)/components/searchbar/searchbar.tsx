@@ -3,25 +3,25 @@ import { FC, useCallback } from "react";
 import { useSearchContext } from "../../hooks/context.hook";
 
 const SearchBar: FC = () => {
-  const { allTeachers, filteredTeachers, setAllTeachers, setFilteredTeachers } =
+  const { filteredTeachers, setFilteredTeachers } =
     useSearchContext();
 
   const filterBySearch = useCallback(
     (searchQuery: string) => {
       let lowerCaseQuery = searchQuery.toLowerCase();
-      let filteredData = allTeachers.filter(
+      let filteredData = filteredTeachers.filter(
         (data) =>
           data.userData.firstName.toLowerCase().includes(lowerCaseQuery) ||
           data.userData.lastName.toLowerCase().includes(lowerCaseQuery)
       );
       return filteredData;
     },
-    [allTeachers]
+    [filteredTeachers]
   );
 
   const handleSearch = (searchQuery: string) => {
     if (searchQuery.length < 1) {
-      setFilteredTeachers([...allTeachers]);
+      setFilteredTeachers([...filteredTeachers]);
     } else {
       const updatedNewsItems = filterBySearch(searchQuery);
       setFilteredTeachers(updatedNewsItems);

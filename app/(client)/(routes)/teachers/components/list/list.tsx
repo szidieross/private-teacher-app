@@ -18,7 +18,7 @@ import useUsersService from "@/app/(client)/services/user.service";
 import { getSession } from "@/app/actions";
 import SearchBar from "@/app/(client)/components/searchbar/searchbar";
 import { TeacherModel } from "@/app/api/models/teacher.model";
-import { CategoryModel } from "@/app/api/models/category.model"; // Kategória típus importálása
+import { CategoryModel } from "@/app/api/models/category.model";
 import useCategoriesService from "@/app/(client)/services/category.service";
 
 type Props = {
@@ -28,17 +28,14 @@ type Props = {
 const List: FC<Props> = ({ isSession }) => {
   const { getTeachers, getTeacherByUserId } = useTeachersService();
   const { getCategories } = useCategoriesService();
-  const { allTeachers, setAllTeachers, filteredTeachers, setFilteredTeachers } =
-    useSearchContext();
+  const { filteredTeachers, setFilteredTeachers } = useSearchContext();
   const { getUserById } = useUsersService();
   const { userInfo, setUserInfo } = useUserContext();
   const { to } = useNavigation();
 
-  // Kategória állapot létrehozása
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [categories, setCategories] = useState<CategoryModel[]>([]); // Kategória állapot létrehozása
+  const [categories, setCategories] = useState<CategoryModel[]>([]);
 
-  // Kategória változásának kezelése
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value as string);
   };
@@ -76,7 +73,6 @@ const List: FC<Props> = ({ isSession }) => {
         }
         const fetchedTeachers = await getTeachers();
         console.log("fetchedTeachers", fetchedTeachers);
-        setAllTeachers(fetchedTeachers);
         setFilteredTeachers(fetchedTeachers);
         const fetchedCategories = await getCategories();
         setCategories(fetchedCategories);
@@ -104,45 +100,10 @@ const List: FC<Props> = ({ isSession }) => {
       <Grid item xs={12}>
         <SearchBar />
       </Grid>
-      {/* {allTeachers &&
-        filteredTeachers.length == allTeachers.length &&
-        allTeachers.map((teacher, index) => (
-          <Grid
-            key={index}
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            onClick={() => to(`/teachers/${teacher.teacherId}`)}
-          >
-            <Item teacher={teacher} />
-          </Grid>
-        ))} */}
-      {filteredTeachers &&
-        // filteredTeachers.length != allTeachers.length &&
-        filteredTeachers.map((teacher, index) => (
-          <Grid
-            key={index}
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            onClick={() => to(`/teachers/${teacher.teacherId}`)}
-          >
-            <Item teacher={teacher} />
-          </Grid>
-        ))}
-      {filteredTeachers.length == 0 && (
-        <Grid item xs={12}>
-          <Typography textAlign={"center"}>No items found</Typography>
-        </Grid>
-      )}
 
       <Grid item xs={12}>
         <Select value={selectedCategory} onChange={handleChange}>
-          <MenuItem value="">
-            All categories
-          </MenuItem>
+          <MenuItem value="">All categories</MenuItem>
           {categories.map((category) => (
             <MenuItem key={category.categoryId} value={category.name}>
               {category.name}
@@ -153,16 +114,30 @@ const List: FC<Props> = ({ isSession }) => {
       <Grid item xs={12}>
         <Typography>{selectedCategory} teachers:</Typography>
       </Grid>
-      {selectedCategory && (
-        <>
-          {filterTeachersByCategory(filteredTeachers, selectedCategory).map(
-            (teacher, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4}>
-                <Item teacher={teacher} />
-              </Grid>
-            )
-          )}
-        </>
+      {filteredTeachers &&
+        filteredTeachers
+          .filter(
+            (teacher) =>
+              !selectedCategory ||
+              filterTeachersByCategory([teacher], selectedCategory).length > 0
+          )
+          .map((teacher, index) => (
+            <Grid
+              key={index}
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              onClick={() => to(`/teachers/${teacher.teacherId}`)}
+            >
+              <Item teacher={teacher} />
+            </Grid>
+          ))}
+
+      {filteredTeachers.length == 0 && (
+        <Grid item xs={12}>
+          <Typography textAlign={"center"}>No items found</Typography>
+        </Grid>
       )}
     </Grid>
   );
