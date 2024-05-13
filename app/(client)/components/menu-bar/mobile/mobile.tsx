@@ -23,8 +23,8 @@ import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
 import LogoutForm from "../logout-form/logout-form";
-import useCategoriesService from "@/app/(client)/services/category.service";
-import { CategoryModel } from "@/app/api/models/category.model";
+// import useCategoriesService from "@/app/(client)/services/category.service";
+// import { CategoryModel } from "@/app/api/models/category.model";
 import "./mobile.scss";
 
 type Props = {
@@ -34,23 +34,23 @@ type Props = {
 const Mobile: FC<Props> = ({ profilePicture }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
-  const { getCategories } = useCategoriesService();
-  const [categories, setCategories] = useState<CategoryModel[] | null>(null);
+  // const { getCategories } = useCategoriesService();
+  // const [categories, setCategories] = useState<CategoryModel[] | null>(null);
   const { userInfo, setUserInfo } = useUserContext();
   const { to } = useNavigation();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const categories = await getCategories();
-        setCategories(categories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const categories = await getCategories();
+  //       setCategories(categories);
+  //     } catch (error) {
+  //       console.error("Error fetching categories:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, [getCategories]);
+  //   fetchData();
+  // }, [getCategories]);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -74,31 +74,37 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
   const handleProfileClick = () => {
     handleCloseMenu();
     to("/profile");
+    toggleDrawer();
   };
 
   const handleTitleClick = () => {
     handleCloseMenu();
     to("/");
+    toggleDrawer();
   };
 
   const handleTeachersClick = () => {
     handleCloseMenu();
     to("/teachers");
+    toggleDrawer();
   };
 
   const handleAppointmentsClick = () => {
     handleCloseMenu();
     to("/profile/appointments");
+    toggleDrawer();
   };
 
   const handleSettingsClick = () => {
     handleCloseMenu();
     to("/profile/settings");
+    toggleDrawer();
   };
 
   const handleLogout = () => {
     localStorage.removeItem("userData");
     handleCloseMenu();
+    toggleDrawer();
   };
 
   return (
@@ -132,10 +138,10 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
                 <MenuIcon />
               </IconButton>
               <List>
-                <ListItem button onClick={toggleDrawer}>
+                <ListItem button onClick={handleTeachersClick}>
                   <ListItemText primary="Teachers" />
                 </ListItem>
-                {categories && (
+                {/* {categories && (
                   <ListItem
                     button
                     onClick={toggleDrawer}
@@ -156,22 +162,30 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
                       ))}
                     </List>
                   </ListItem>
-                )}
+                )} */}
                 {userInfo.isLoggedIn ? (
                   <>
-                    <ListItem onClick={handleProfileClick}>Profile</ListItem>
-                    <ListItem onClick={handleAppointmentsClick}>
-                      My Appointments
+                    <ListItem onClick={handleProfileClick}>
+                      <ListItemText primary="Profile" />
                     </ListItem>
-                    <ListItem onClick={handleSettingsClick}>Settings</ListItem>
+                    <ListItem onClick={handleAppointmentsClick}>
+                      <ListItemText primary=" My Appointments" />
+                    </ListItem>
+                    <ListItem onClick={handleSettingsClick}>
+                      <ListItemText primary="Settings" />
+                    </ListItem>
                     <ListItem onClick={handleLogout}>
                       <LogoutForm />
                     </ListItem>
                   </>
                 ) : (
                   <>
-                    <ListItem onClick={() => to("/login")}>Login</ListItem>
-                    <ListItem onClick={() => to("/signup")}>Signup</ListItem>
+                    <ListItem onClick={() => to("/login")}>
+                      <ListItemText primary="Login" />
+                    </ListItem>
+                    <ListItem onClick={() => to("/signup")}>
+                      <ListItemText primary="Signup" />
+                    </ListItem>
                   </>
                 )}
               </List>

@@ -21,6 +21,7 @@ import SearchBar from "@/app/(client)/components/searchbar/searchbar";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import { CategoryModel } from "@/app/api/models/category.model";
 import useCategoriesService from "@/app/(client)/services/category.service";
+import Link from "next/link";
 
 type Props = {
   isSession: boolean;
@@ -129,9 +130,10 @@ const List: FC<Props> = ({ isSession }) => {
               xs={12}
               sm={6}
               md={4}
-              onClick={() => to(`/teachers/${teacher.teacherId}`)}
             >
-              <Item teacher={teacher} />
+              <Link href={`/teachers/${teacher.teacherId}`}>
+                <Item teacher={teacher} />
+              </Link>
             </Grid>
           ))}
       {filteredTeachers &&
@@ -149,9 +151,10 @@ const List: FC<Props> = ({ isSession }) => {
               xs={12}
               sm={6}
               md={4}
-              onClick={() => to(`/teachers/${teacher.teacherId}`)}
             >
-              <Item teacher={teacher} />
+              <Link href={`/teachers/${teacher.teacherId}`}>
+                <Item teacher={teacher} />
+              </Link>
             </Grid>
           ))}
       {filteredTeachers.length == 0 && (

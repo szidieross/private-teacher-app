@@ -17,8 +17,8 @@ import { colors } from "@/app/(client)/constants/color.constant";
 import LogoutForm from "../logout-form/logout-form";
 import Image from "next/image";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
-import useCategoriesService from "@/app/(client)/services/category.service";
-import { CategoryModel } from "@/app/api/models/category.model";
+// import useCategoriesService from "@/app/(client)/services/category.service";
+// import { CategoryModel } from "@/app/api/models/category.model";
 import Link from "next/link";
 import useUsersService from "@/app/(client)/services/user.service";
 
@@ -30,11 +30,11 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
   const { to } = useNavigation();
   const { userInfo, setUserInfo } = useUserContext();
   const { getUserById } = useUsersService();
-  const { getCategories } = useCategoriesService();
-  const [categories, setCategories] = useState<CategoryModel[] | null>(null);
+  // const { getCategories } = useCategoriesService();
+  // const [categories, setCategories] = useState<CategoryModel[] | null>(null);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [anchorElCat, setAnchorElCat] = useState<null | HTMLElement>(null);
+  // const [anchorElCat, setAnchorElCat] = useState<null | HTMLElement>(null);
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -55,19 +55,19 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
     handleCloseMenu();
   };
 
-  const handleOpenCatMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorElCat(event.currentTarget);
-    document.body.classList.add("menu-open");
-  };
+  // const handleOpenCatMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   setAnchorElCat(event.currentTarget);
+  //   document.body.classList.add("menu-open");
+  // };
 
-  const handleCloseCatMenu = () => {
-    setAnchorElCat(null);
-  };
+  // const handleCloseCatMenu = () => {
+  //   setAnchorElCat(null);
+  // };
 
-  const handleAppointmentsClick = () => {
-    handleCloseMenu();
-    to("/profile/appointments");
-  };
+  // const handleAppointmentsClick = () => {
+  //   handleCloseMenu();
+  //   to("/profile/appointments");
+  // };
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -77,8 +77,8 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const categories = await getCategories();
-        setCategories(categories);
+        // const categories = await getCategories();
+        // setCategories(categories);
         if (userInfo.userId) {
           const user = await getUserById(userInfo.userId);
           console.log(user);
@@ -95,7 +95,7 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
     };
 
     fetchData();
-  }, [getCategories, setUserInfo]);
+  }, [setUserInfo]);
 
   return (
     <Container
@@ -114,10 +114,10 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
             <Link href={"/teachers"}>
               <Typography>Teachers</Typography>
             </Link>
-            <Typography sx={{ cursor: "pointer" }} onClick={handleOpenCatMenu}>
+            {/* <Typography sx={{ cursor: "pointer" }} onClick={handleOpenCatMenu}>
               Categories
-            </Typography>
-            <Menu
+            </Typography> */}
+            {/* <Menu
               anchorEl={anchorElCat}
               open={Boolean(anchorElCat)}
               onClose={handleCloseCatMenu}
@@ -146,7 +146,7 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                     {category.name}
                   </MenuItem>
                 ))}
-            </Menu>
+            </Menu> */}
             <Link href={"/profile/appointments"}>
               <Typography>My Appointments</Typography>
             </Link>
