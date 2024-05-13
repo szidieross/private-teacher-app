@@ -33,20 +33,82 @@ export const createTeacher = async (
   }
 };
 
+// export const getTeachers = async (): Promise<TeacherModel[]> => {
+//   try {
+//     const db = await pool.getConnection();
+//     const query = `
+//             SELECT
+//                 u.*,
+//                 t.*
+//             FROM
+//                 Users u
+//             INNER JOIN
+//                 Teachers t ON u.user_id = t.user_id
+//             WHERE
+//                 u.role = "teacher"
+//         `;
+//     const [rows] = await db.execute(query);
+//     db.release();
+
+//     if (!Array.isArray(rows)) {
+//       throw new Error("Query result is not an array");
+//     }
+
+//     const data: TeacherDto[] = (rows as any).map((row: any) => {
+//       return {
+//         user_data: {
+//           user_id: row.user_id,
+//           username: row.username,
+//           password: row.password,
+//           email: row.email,
+//           phone: row.phone,
+//           profile_picture: row.profile_picture,
+//           created_at: row.created_at,
+//           first_name: row.first_name,
+//           last_name: row.last_name,
+//           role: row.role,
+//         },
+//         teacher_id: row.teacher_id,
+//         user_id: row.user_id,
+//         price: row.price,
+//         bio: row.bio,
+//         qualification: row.qualification,
+//         location: row.location,
+//       };
+//     });
+
+//     const teachers: TeacherModel[] = data.map((row: TeacherDto) => {
+//       return toTeacherModel(row);
+//     });
+
+//     return teachers;
+//   } catch (error) {
+//     console.error("Error fetching teachers:", error);
+//     throw error;
+//   }
+// };
+
 export const getTeachers = async (): Promise<TeacherModel[]> => {
   try {
     const db = await pool.getConnection();
     const query = `
-            SELECT
-                u.*,
-                t.*
-            FROM
-                Users u
-            INNER JOIN
-                Teachers t ON u.user_id = t.user_id
-            WHERE
-                u.role = "teacher"
-        `;
+      SELECT
+          u.*,
+          t.*,
+          l.lesson_id,
+          l.category_id,
+          c.name AS category_name
+      FROM
+          Users u
+      INNER JOIN
+          Teachers t ON u.user_id = t.user_id
+      LEFT JOIN
+          Lessons l ON t.teacher_id = l.teacher_id
+      LEFT JOIN
+          Categories c ON l.category_id = c.category_id
+      WHERE
+          u.role = 'teacher';
+    `;
     const [rows] = await db.execute(query);
     db.release();
 
@@ -54,32 +116,53 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
       throw new Error("Query result is not an array");
     }
 
-    const data: TeacherDto[] = (rows as any).map((row: any) => {
-      return {
-        user_data: {
-          user_id: row.user_id,
-          username: row.username,
-          password: row.password,
-          email: row.email,
-          phone: row.phone,
-          profile_picture: row.profile_picture,
-          created_at: row.created_at,
-          first_name: row.first_name,
-          last_name: row.last_name,
-          role: row.role,
-        },
-        teacher_id: row.teacher_id,
-        user_id: row.user_id,
-        price: row.price,
-        bio: row.bio,
-        qualification: row.qualification,
-        location: row.location,
-      };
+    const teachers: TeacherModel[] = [];
+    let currentTeacher: TeacherModel | null = null;
+
+    // Feldolgozzuk az eredmény sorait
+    rows.forEach((row: any) => {
+      if (!currentTeacher || currentTeacher.teacherId !== row.teacher_id) {
+        // Ha még nem létezik tanár vagy új tanár kezdődik, létrehozzuk és hozzáadjuk a tömbhöz
+        if (currentTeacher) {
+          teachers.push(currentTeacher);
+        }
+        currentTeacher = {
+          userData: {
+            userId: row.user_id,
+            username: row.username,
+            password: row.password,
+            email: row.email,
+            phone: row.phone,
+            profilePicture: row.profile_picture,
+            createdAt: row.created_at,
+            firstName: row.first_name,
+            lastName: row.last_name,
+            role: row.role
+          },
+          teacherId: row.teacher_id,
+          userId: row.user_id,
+          price: row.price,
+          bio: row.bio,
+          qualification: row.qualification,
+          location: row.location,
+          lessons: [] // Kezdetben üres tömb a leckéknek
+        };
+      }
+      // Ha van lecke a sorban, hozzáadjuk a tanárhoz tartozó leckékhez
+      if (row.lesson_id !== null && row.category_id !== null && row.category_name !== null) {
+        currentTeacher.lessons?.push({
+          lessonId: row.lesson_id,
+          teacherId: row.teacher_id,
+          categoryId: row.category_id,
+          categoryName: row.category_name
+        });
+      }
     });
 
-    const teachers: TeacherModel[] = data.map((row: TeacherDto) => {
-      return toTeacherModel(row);
-    });
+    // Az utolsó tanárt is hozzáadjuk a tömbhöz
+    if (currentTeacher) {
+      teachers.push(currentTeacher);
+    }
 
     return teachers;
   } catch (error) {
@@ -87,6 +170,7 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
     throw error;
   }
 };
+
 
 export const getTeacherById = async (
   teacherId: number

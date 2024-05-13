@@ -59,6 +59,7 @@ const List: FC<Props> = ({ isSession }) => {
           }
         }
         const fetchedTeachers = await getTeachers();
+        console.log("fetchedTeachers", fetchedTeachers);
         // setTeachers(fetchedTeachers);
         setAllTeachers(fetchedTeachers);
         setFilteredTeachers(fetchedTeachers);
