@@ -104,7 +104,7 @@ const List: FC<Props> = ({ isSession }) => {
       <Grid item xs={12}>
         <SearchBar />
       </Grid>
-      {allTeachers &&
+      {/* {allTeachers &&
         filteredTeachers.length == allTeachers.length &&
         allTeachers.map((teacher, index) => (
           <Grid
@@ -117,9 +117,9 @@ const List: FC<Props> = ({ isSession }) => {
           >
             <Item teacher={teacher} />
           </Grid>
-        ))}
+        ))} */}
       {filteredTeachers &&
-        filteredTeachers.length != allTeachers.length &&
+        // filteredTeachers.length != allTeachers.length &&
         filteredTeachers.map((teacher, index) => (
           <Grid
             key={index}

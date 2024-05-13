@@ -20,7 +20,7 @@ const SearchBar: FC = () => {
   );
 
   const handleSearch = (searchQuery: string) => {
-    if (searchQuery.length < 3) {
+    if (searchQuery.length < 1) {
       setFilteredTeachers([...allTeachers]);
     } else {
       const updatedNewsItems = filterBySearch(searchQuery);
