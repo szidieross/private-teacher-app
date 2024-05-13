@@ -3,6 +3,7 @@ import React, { FC, useEffect, useState } from "react";
 import Item from "../item/item";
 import {
   Grid,
+  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -102,7 +103,11 @@ const List: FC<Props> = ({ isSession }) => {
       </Grid>
 
       <Grid item xs={12}>
-        <Select value={selectedCategory} onChange={handleChange}>
+        <InputLabel id="category-select-label">Válassz kategóriát</InputLabel>
+        <Select
+          value={selectedCategory}
+          onChange={handleChange}
+        >
           <MenuItem value="">All categories</MenuItem>
           {categories.map((category) => (
             <MenuItem key={category.categoryId} value={category.name}>
@@ -110,9 +115,6 @@ const List: FC<Props> = ({ isSession }) => {
             </MenuItem>
           ))}
         </Select>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography>{selectedCategory} teachers:</Typography>
       </Grid>
       {filteredTeachers &&
         filteredTeachers
