@@ -2,7 +2,7 @@
 
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import React, { FC, useEffect, useState } from "react";
-import { Container, IconButton, Typography } from "@mui/material";
+import { Container, Grid, IconButton, Typography } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
@@ -56,6 +56,7 @@ const Item: FC<Props> = ({ teacherId }) => {
         <Typography>No lesson yet.</Typography>
       )}
     </Container>
+    
   );
 };
 

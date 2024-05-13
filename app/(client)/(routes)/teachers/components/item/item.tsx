@@ -24,7 +24,7 @@ const Item: FC<Props> = ({ teacher }) => {
         <CardMedia
           className="card-media"
           component="img"
-          height="360"
+          height="320"
           image={
             image ? `/images/uploads/${image}` : "/images/default/person.jpg"
           }

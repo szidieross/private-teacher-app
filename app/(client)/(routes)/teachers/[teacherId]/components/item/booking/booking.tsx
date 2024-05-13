@@ -52,75 +52,88 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
   };
 
   return (
-    <>
-      <Grid container spacing={2} justifyContent="center" marginTop={"20px"}>
-        {teacher && (
-          <Grid xs={12}>
-            Book appointment for
+    <Grid
+      container
+      spacing={2}
+      justifyContent="center"
+      marginTop={2}
+      marginBottom={6}
+    >
+      {teacher && (
+        <Grid item xs={12}>
+          <Box>
+            <Typography>You can book appointment for:</Typography>
+          </Box>
+          <Box
+            display={"flex"}
+            sx={{ flexDirection: "row", gap: 1.5, flexWrap: "wrap" }}
+          >
             {lessons?.map((item, index) => (
               <Button
-                variant="outlined"
+                variant="contained"
+                style={{ backgroundColor: "purple" }}
                 onClick={() => handleOpenModal(item)}
                 key={index}
               >
                 {item.categoryName}
               </Button>
             ))}
-          </Grid>
-        )}
+          </Box>
+        </Grid>
+      )}
 
-        <Modal
-          open={isModalOpen}
-          onClose={handleCloseModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
+      <Modal
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            overflowY: "scroll",
+            minHeight: "100vh",
+            minWidth: "100vw",
+            backgroundColor: "beige",
+          }}
         >
           <Box
             sx={{
-              overflowY: "scroll",
-              backgroundColor: "white",
-              minHeight: "100vh",
-              minWidth: "100vw",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Typography>
-                {selectedLesson.lesson?.categoryName} Appointment
-              </Typography>
-              <Button onClick={handleCloseModal}>
-                <CloseIcon />
-              </Button>
-            </Box>
-            {selectedLesson && selectedLesson.lesson?.lessonId && (
-              <>
-                <AppointmentsTable
-                  teacherId={teacherId}
-                  lessonId={selectedLesson.lesson?.lessonId}
-                />
-              </>
-            )}
+            <Typography>
+              {selectedLesson.lesson?.categoryName} Appointment
+            </Typography>
+            <Button onClick={handleCloseModal}>
+              <CloseIcon />
+            </Button>
           </Box>
-        </Modal>
+          {selectedLesson && selectedLesson.lesson?.lessonId && (
+            <>
+              <AppointmentsTable
+                teacherId={teacherId}
+                lessonId={selectedLesson.lesson?.lessonId}
+                categoryName={selectedLesson.lesson.categoryName}
+              />
+            </>
+          )}
+        </Box>
+      </Modal>
 
-        <Snackbar
-          open={snackbarOpen}
-          autoHideDuration={6000}
-          onClose={handleSnackbarClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleSnackbarClose} severity="info">
-            Please log in to see the appointments
-          </Alert>
-        </Snackbar>
-      </Grid>
-    </>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleSnackbarClose} severity="info">
+          Please log in to see the appointments
+        </Alert>
+      </Snackbar>
+    </Grid>
   );
 };
 

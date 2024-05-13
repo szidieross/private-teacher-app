@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
 import React, { FC, useEffect, useState } from "react";
-import Box from "@mui/material/Box";
+import { Box, Button, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
@@ -56,7 +56,13 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       sortable: false,
       width: 160,
       renderCell: (params) => (
-        <button onClick={() => handleCancel(params.row.id)}>Cancel</button>
+        <Button
+          variant="text"
+          color="error"
+          onClick={() => handleCancel(params.row.id)}
+        >
+          Cancel
+        </Button>
       ),
     },
   ];
@@ -73,18 +79,23 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       date: "date",
       subject: "subject",
     };
-  });  
+  });
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
-      {rows && (
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
-      )}
+    <Box sx={{ p: 2 }}>
+      <Typography variant="h5" sx={{ mb: 2 }}>
+        Your Appointments
+      </Typography>
+      <Box sx={{ height: "fit-content", width: "100%" }}>
+        {rows && (
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            checkboxSelection
+            disableRowSelectionOnClick
+          />
+        )}
+      </Box>
     </Box>
   );
 };

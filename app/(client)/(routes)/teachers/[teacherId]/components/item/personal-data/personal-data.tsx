@@ -31,8 +31,8 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
     <Grid container spacing={2} justifyContent="center">
       {teacher && (
         <>
-          <Grid item xs={12} sm={6}>
-            <Card sx={{ maxWidth: 345 }}>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card>
               <CardMedia
                 component="img"
                 height="360"
@@ -46,10 +46,10 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
               />
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card>
+          <Grid item xs={12} sm={6} md={8}>
+            <Card sx={{ backgroundColor: "beige", minHeight: "100%" }}>
               <CardContent>
-                <Typography variant="h5" gutterBottom>
+                <Typography variant="h4" gutterBottom>
                   {teacher.userData.firstName} {teacher.userData.lastName}
                 </Typography>
                 <Typography variant="body1" color="textSecondary" gutterBottom>

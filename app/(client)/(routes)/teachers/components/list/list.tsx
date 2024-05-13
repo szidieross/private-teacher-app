@@ -100,13 +100,31 @@ const List: FC<Props> = ({ isSession }) => {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} marginBottom={6}>
       <Grid item xs={12}>
         <SearchBar />
       </Grid>
       <Grid item xs={12}>
-        <InputLabel id="category-select-label">Válassz kategóriát</InputLabel>
+        {/* <InputLabel id="category-select-label">Choose a category</InputLabel>
         <Select value={selectedCategory} onChange={handleChange}>
+          <MenuItem value="">All categories</MenuItem>
+          {categories.map((category) => (
+            <MenuItem key={category.categoryId} value={category.name}>
+              {category.name}
+            </MenuItem>
+          ))}
+        </Select> */}
+        <InputLabel
+          id="category-select-label"
+          style={{ marginBottom: "8px", fontWeight: "bold", fontSize: "16px" }}
+        >
+          Choose a category
+        </InputLabel>
+        <Select
+          value={selectedCategory}
+          onChange={handleChange}
+          style={{ width: "200px", marginBottom: "16px" }}
+        >
           <MenuItem value="">All categories</MenuItem>
           {categories.map((category) => (
             <MenuItem key={category.categoryId} value={category.name}>
@@ -124,13 +142,7 @@ const List: FC<Props> = ({ isSession }) => {
               filterTeachersByCategory([teacher], selectedCategory).length > 0
           )
           .map((teacher, index) => (
-            <Grid
-              key={index}
-              item
-              xs={12}
-              sm={6}
-              md={4}
-            >
+            <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
               <Link href={`/teachers/${teacher.teacherId}`}>
                 <Item teacher={teacher} />
               </Link>
@@ -145,13 +157,7 @@ const List: FC<Props> = ({ isSession }) => {
               filterTeachersByCategory([teacher], selectedCategory).length > 0
           )
           .map((teacher, index) => (
-            <Grid
-              key={index}
-              item
-              xs={12}
-              sm={6}
-              md={4}
-            >
+            <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
               <Link href={`/teachers/${teacher.teacherId}`}>
                 <Item teacher={teacher} />
               </Link>

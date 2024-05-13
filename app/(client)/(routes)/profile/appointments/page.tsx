@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <main>
-      <Typography>{`Your ${session.role === "teacher"? "upcoming":"booked"} appointments`}</Typography>
+      {/* <Typography>{`Your ${session.role === "teacher"? "upcoming":"booked"} appointments`}</Typography> */}
       {session.role === "teacher" && session.userId ? (
         <TeacherAppointments userId={session.userId} />
       ) : (
