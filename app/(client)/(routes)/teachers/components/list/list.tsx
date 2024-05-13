@@ -29,7 +29,8 @@ type Props = {
 const List: FC<Props> = ({ isSession }) => {
   const { getTeachers, getTeacherByUserId } = useTeachersService();
   const { getCategories } = useCategoriesService();
-  const { filteredTeachers, setFilteredTeachers } = useSearchContext();
+  const { filteredTeachers, setFilteredTeachers, allTeachers, setAllTeachers } =
+    useSearchContext();
   const { getUserById } = useUsersService();
   const { userInfo, setUserInfo } = useUserContext();
   const { to } = useNavigation();
@@ -74,6 +75,7 @@ const List: FC<Props> = ({ isSession }) => {
         }
         const fetchedTeachers = await getTeachers();
         console.log("fetchedTeachers", fetchedTeachers);
+        setAllTeachers(fetchedTeachers);
         setFilteredTeachers(fetchedTeachers);
         const fetchedCategories = await getCategories();
         setCategories(fetchedCategories);
@@ -101,13 +103,9 @@ const List: FC<Props> = ({ isSession }) => {
       <Grid item xs={12}>
         <SearchBar />
       </Grid>
-
       <Grid item xs={12}>
         <InputLabel id="category-select-label">Válassz kategóriát</InputLabel>
-        <Select
-          value={selectedCategory}
-          onChange={handleChange}
-        >
+        <Select value={selectedCategory} onChange={handleChange}>
           <MenuItem value="">All categories</MenuItem>
           {categories.map((category) => (
             <MenuItem key={category.categoryId} value={category.name}>
@@ -116,7 +114,29 @@ const List: FC<Props> = ({ isSession }) => {
           ))}
         </Select>
       </Grid>
-      {filteredTeachers &&
+      {allTeachers &&
+        filteredTeachers.length == allTeachers.length &&
+        !selectedCategory &&
+        allTeachers
+        .filter(
+          (teacher) =>
+            !selectedCategory ||
+            filterTeachersByCategory([teacher], selectedCategory).length > 0
+        )
+        .map((teacher, index) => (
+          <Grid
+            key={index}
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            onClick={() => to(`/teachers/${teacher.teacherId}`)}
+          >
+            <Item teacher={teacher} />
+          </Grid>
+        ))}
+      {filteredTeachers && 
+      // filteredTeachers.length != allTeachers.length &&
         filteredTeachers
           .filter(
             (teacher) =>
@@ -135,7 +155,6 @@ const List: FC<Props> = ({ isSession }) => {
               <Item teacher={teacher} />
             </Grid>
           ))}
-
       {filteredTeachers.length == 0 && (
         <Grid item xs={12}>
           <Typography textAlign={"center"}>No items found</Typography>
