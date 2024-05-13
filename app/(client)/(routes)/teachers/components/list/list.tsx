@@ -116,27 +116,26 @@ const List: FC<Props> = ({ isSession }) => {
       </Grid>
       {allTeachers &&
         filteredTeachers.length == allTeachers.length &&
-        !selectedCategory &&
         allTeachers
-        .filter(
-          (teacher) =>
-            !selectedCategory ||
-            filterTeachersByCategory([teacher], selectedCategory).length > 0
-        )
-        .map((teacher, index) => (
-          <Grid
-            key={index}
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            onClick={() => to(`/teachers/${teacher.teacherId}`)}
-          >
-            <Item teacher={teacher} />
-          </Grid>
-        ))}
-      {filteredTeachers && 
-      // filteredTeachers.length != allTeachers.length &&
+          .filter(
+            (teacher) =>
+              !selectedCategory ||
+              filterTeachersByCategory([teacher], selectedCategory).length > 0
+          )
+          .map((teacher, index) => (
+            <Grid
+              key={index}
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              onClick={() => to(`/teachers/${teacher.teacherId}`)}
+            >
+              <Item teacher={teacher} />
+            </Grid>
+          ))}
+      {filteredTeachers &&
+        filteredTeachers.length != allTeachers.length &&
         filteredTeachers
           .filter(
             (teacher) =>
