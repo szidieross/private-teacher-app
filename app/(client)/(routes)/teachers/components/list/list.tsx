@@ -1,10 +1,14 @@
 "use client";
-
 import React, { FC, useEffect, useState } from "react";
 import Item from "../item/item";
-import { Grid, Typography } from "@mui/material";
+import {
+  Grid,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
-import { TeacherModel } from "@/app/api/models/teacher.model";
 import {
   useSearchContext,
   useUserContext,
@@ -13,6 +17,9 @@ import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import useUsersService from "@/app/(client)/services/user.service";
 import { getSession } from "@/app/actions";
 import SearchBar from "@/app/(client)/components/searchbar/searchbar";
+import { TeacherModel } from "@/app/api/models/teacher.model";
+import { CategoryModel } from "@/app/api/models/category.model"; // Kategória típus importálása
+import useCategoriesService from "@/app/(client)/services/category.service";
 
 type Props = {
   isSession: boolean;
@@ -20,12 +27,21 @@ type Props = {
 
 const List: FC<Props> = ({ isSession }) => {
   const { getTeachers, getTeacherByUserId } = useTeachersService();
+  const { getCategories } = useCategoriesService();
   const { allTeachers, setAllTeachers, filteredTeachers, setFilteredTeachers } =
     useSearchContext();
   const { getUserById } = useUsersService();
   const { userInfo, setUserInfo } = useUserContext();
   const { to } = useNavigation();
-  // const [teachers, setTeachers] = useState<TeacherModel[] | null>(null);
+
+  // Kategória állapot létrehozása
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [categories, setCategories] = useState<CategoryModel[]>([]); // Kategória állapot létrehozása
+
+  // Kategória változásának kezelése
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    setSelectedCategory(event.target.value as string);
+  };
 
   useEffect(() => {
     setUserInfo((prevState) => {
@@ -60,9 +76,10 @@ const List: FC<Props> = ({ isSession }) => {
         }
         const fetchedTeachers = await getTeachers();
         console.log("fetchedTeachers", fetchedTeachers);
-        // setTeachers(fetchedTeachers);
         setAllTeachers(fetchedTeachers);
         setFilteredTeachers(fetchedTeachers);
+        const fetchedCategories = await getCategories();
+        setCategories(fetchedCategories);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -70,6 +87,17 @@ const List: FC<Props> = ({ isSession }) => {
 
     fetchData();
   }, [getTeachers]);
+
+  const filterTeachersByCategory = (
+    teachers: TeacherModel[],
+    categoryName: string
+  ): TeacherModel[] => {
+    const filteredTeachers = teachers.filter((teacher) =>
+      teacher.lessons?.some((lesson) => lesson.categoryName === categoryName)
+    );
+
+    return filteredTeachers;
+  };
 
   return (
     <Grid container spacing={2}>
@@ -108,6 +136,33 @@ const List: FC<Props> = ({ isSession }) => {
         <Grid item xs={12}>
           <Typography textAlign={"center"}>No items found</Typography>
         </Grid>
+      )}
+
+      <Grid item xs={12}>
+        <Select value={selectedCategory} onChange={handleChange}>
+          <MenuItem value="">
+            All categories
+          </MenuItem>
+          {categories.map((category) => (
+            <MenuItem key={category.categoryId} value={category.name}>
+              {category.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography>{selectedCategory} teachers:</Typography>
+      </Grid>
+      {selectedCategory && (
+        <>
+          {filterTeachersByCategory(filteredTeachers, selectedCategory).map(
+            (teacher, index) => (
+              <Grid item key={index} xs={12} sm={6} md={4}>
+                <Item teacher={teacher} />
+              </Grid>
+            )
+          )}
+        </>
       )}
     </Grid>
   );
