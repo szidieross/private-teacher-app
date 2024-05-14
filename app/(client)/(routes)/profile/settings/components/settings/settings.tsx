@@ -30,15 +30,22 @@ const initContactForm: ContactUsRequest = {
 const Settings: FC<Props> = ({ userId }) => {
   const { getUserById, updateUserData } = useUsersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
-  const [user, setUser] = useState<UserModel | null>(null);
-
+  const [user, setUser] = useState<UserModel | null>(null);  
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (userId) {
-          const user = await getUserById(userId);
-          if (user) {
-            setUser(user);
+          const userData = await getUserById(userId);
+          if (userData) {
+            setUser(userData);
+            setContactForm({
+              username: userData.username,
+              firstName: userData.firstName,
+              lastName: userData.lastName,
+              email: userData.email,
+              phone: userData.phone,
+            });
           }
         }
       } catch (error) {
