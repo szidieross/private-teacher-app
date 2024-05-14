@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import "./signup.scss";
 import useUsersService from "@/app/(client)/services/user.service";
+import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
 
 export interface ContactUsRequest {
   username: string;
@@ -21,7 +22,7 @@ export interface ContactUsRequest {
   phone: string;
   //   profilePicture: string;
   role: string;
-  price: number;
+  price: number | string;
   bio: string;
   qualification: string;
   location: string;
@@ -46,6 +47,7 @@ const Signup = () => {
   const [isTeacher, setIsTeacher] = useState<boolean>(false);
   const { createUser } = useUsersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
+  const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
 
   const handleToggeleButtonChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -75,16 +77,100 @@ const Signup = () => {
     });
   };
 
+  const validateForm = () => {
+    const newErrors: Partial<ContactUsRequest> = {};
+    if (!form) return false;
+
+    if (!form.username) {
+      newErrors.username = "Username is required";
+    }
+    if (!form.password) {
+      newErrors.password = "Password is required";
+    }
+    if (isNaN(Number(form.phone))) {
+      newErrors.phone = "Phone must be a number";
+    }
+
+    if (!isValidEmail(form.email)) {
+      newErrors.email = "Invalid email address.";
+    }
+
+    if (!isValidPhoneNumber(form.phone)) {
+      newErrors.phone = "Phone must be a number";
+    }
+    
+    // További mezők validációja
+
+    if (isTeacher && (!form.price || +form.price <= 0)) {
+      newErrors.price = "Price must be a positive number for teachers";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // const handleSubmit = async (
+  //   e: React.FormEvent<HTMLFormElement>
+  // ): Promise<void> => {
+  //   e.preventDefault();
+
+  //   if (!form) return;
+
+  //   const isValid = validateForm();
+  //   if (!isValid) return;
+
+  //   try {
+  //     let result = null;
+  //     if (form.price && form.bio && form.qualification && form.location) {
+  //       result = await createUser(
+  //         form.username,
+  //         form.password,
+  //         form.email,
+  //         form.phone,
+  //         // form.profilePicture,
+  //         form.firstName,
+  //         form.lastName,
+  //         isTeacher ? "teacher" : "user",
+  //         +form.price,
+  //         form.bio,
+  //         form.qualification,
+  //         form.location
+  //       );
+  //     } else {
+  //       const result = await createUser(
+  //         form.username,
+  //         form.password,
+  //         form.email,
+  //         form.phone,
+  //         // form.profilePicture,
+  //         form.firstName,
+  //         form.lastName,
+  //         isTeacher ? "teacher" : "user",
+  //         0,
+  //         "",
+  //         "",
+  //         ""
+  //       );
+  //     }
+  //     console.log("User registered successfully:", result);
+  //   } catch (error) {
+  //     console.error("Error registering user:", error);
+  //   } finally {
+  //   }
+  // };
+
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
 
-    if (!form) return;
+    const isValid = validateForm(); // Form validálása
+
+    if (!isValid) return;
 
     try {
       let result = null;
-      if (form.price && form.bio && form.qualification && form.location) {
+      if (form?.price && form?.bio && form?.qualification && form?.location) {
         result = await createUser(
           form.username,
           form.password,
@@ -94,13 +180,14 @@ const Signup = () => {
           form.firstName,
           form.lastName,
           isTeacher ? "teacher" : "user",
-          form.price,
+          +form.price,
           form.bio,
           form.qualification,
           form.location
         );
       } else {
-        const result = await createUser(
+        if(!form)return;
+        result = await createUser(
           form.username,
           form.password,
           form.email,
@@ -118,9 +205,11 @@ const Signup = () => {
       console.log("User registered successfully:", result);
     } catch (error) {
       console.error("Error registering user:", error);
-    } finally {
     }
   };
+
+  console.log("Errors:", errors);
+
 
   return (
     <Container maxWidth="sm">
@@ -156,6 +245,7 @@ const Signup = () => {
                 handleContactFormChange("firstName", e.target.value)
               }
             />
+            {/* {errors.username && <span>{errors.username.message}</span>} */}
           </Grid>
           <Grid item xs={6}>
             <TextField
@@ -168,6 +258,7 @@ const Signup = () => {
                 handleContactFormChange("lastName", e.target.value)
               }
             />
+            {/* {errors.username && <span>{errors.username.message}</span>} */}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -180,6 +271,7 @@ const Signup = () => {
                 handleContactFormChange("username", e.target.value)
               }
             />
+            {/* {errors.username && <span>{errors.username.message}</span>} */}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -193,6 +285,7 @@ const Signup = () => {
                 handleContactFormChange("password", e.target.value)
               }
             />
+            {/* {errors.username && <span>{errors.username.message}</span>} */}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -204,6 +297,7 @@ const Signup = () => {
               required
               onChange={(e) => handleContactFormChange("email", e.target.value)}
             />
+            {/* {errors.username && <span>{errors.username.message}</span>} */}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -211,8 +305,10 @@ const Signup = () => {
               variant="outlined"
               fullWidth
               name="phone"
+              error={!!errors.username}
               onChange={(e) => handleContactFormChange("phone", e.target.value)}
             />
+            {/* {errors.username && <span>{errors.username.message}</span>} */}
           </Grid>
           {/* <Grid item xs={12}>
             <TextField
@@ -239,6 +335,7 @@ const Signup = () => {
                     handleContactFormChange("price", e.target.value)
                   }
                 />
+                {/* {errors.username && <span>{errors.username.message}</span>} */}
               </Grid>
               <Grid item xs={6}>
                 <TextField
@@ -276,6 +373,16 @@ const Signup = () => {
               </Grid>
             </>
           )}
+          {/* Hibaüzenetek */}
+          <Grid item xs={12}>
+            {!!Object.keys(errors).length && (
+              <div>
+                {Object.entries(errors).map(([key, value]) => (
+                  <span key={key}>{value}</span>
+                ))}
+              </div>
+            )}
+          </Grid>
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Register
