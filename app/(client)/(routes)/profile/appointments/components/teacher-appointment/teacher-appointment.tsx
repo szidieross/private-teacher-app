@@ -1,13 +1,14 @@
 "use client";
 
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
+import useTeachersService from "@/app/(client)/services/teacher.service";
 
 type Props = {
-  teacherId: number;
+  userId: number;
 };
 
 type TableProps = {
@@ -18,7 +19,10 @@ type TableProps = {
   action: string;
 };
 
-const TeacherAppointments: FC<Props> = ({ teacherId }) => {
+const TeacherAppointments: FC<Props> = ({ userId }) => {
+  console.log("userId", userId);
+  console.log("teacherId");
+  const { getTeacherByUserId } = useTeachersService();
   const { getAppointmentByTeacherId } = useAppointmentsService();
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
     null
@@ -27,15 +31,20 @@ const TeacherAppointments: FC<Props> = ({ teacherId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
-        setAppointments(fetchedAppointments);
+        const teacher = await getTeacherByUserId(userId);
+        if (teacher) {
+          const fetchedAppointments = await getAppointmentByTeacherId(
+            teacher?.teacherId
+          );
+          setAppointments(fetchedAppointments);
+        }
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }
     };
 
     fetchData();
-  }, [getAppointmentByTeacherId, teacherId]);
+  }, [getAppointmentByTeacherId, userId]);
 
   const columns: GridColDef<TableProps>[] = [
     {
@@ -59,7 +68,7 @@ const TeacherAppointments: FC<Props> = ({ teacherId }) => {
       field: "subject",
       headerName: "Subject",
       width: 110,
-      editable: true, // Convert subject to string
+      editable: true,
     },
     {
       field: "action",
@@ -68,18 +77,6 @@ const TeacherAppointments: FC<Props> = ({ teacherId }) => {
       width: 160,
     },
   ];
-
-  // const rows = [
-  //   { id: 1, lastName: "Snow", firstName: "Jon", age: 14 },
-  //   { id: 2, lastName: "Lannister", firstName: "Cersei", age: 31 },
-  //   { id: 3, lastName: "Lannister", firstName: "Jaime", age: 31 },
-  //   { id: 4, lastName: "Stark", firstName: "Arya", age: 11 },
-  //   { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  //   { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  //   { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  //   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  //   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  // ];
 
   const rows = appointments?.map((item, index) => {
     return {

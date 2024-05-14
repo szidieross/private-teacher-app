@@ -16,45 +16,41 @@ import {
   MenuItem,
   Typography,
   Button,
+  Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { pink } from "@mui/material/colors";
-import DrawerMenu from "./drawer-menu/drawer-menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
-import {
-  useStoreContext,
-  useUserContext,
-} from "@/app/(client)/hooks/context.hook";
+import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
-import LogoutForm from "../../logout-form/logout-form";
-import useCategoriesService from "@/app/(client)/services/category.service";
-import { CategoryModel } from "@/app/api/models/category.model";
+import LogoutForm from "../logout-form/logout-form";
+// import useCategoriesService from "@/app/(client)/services/category.service";
+// import { CategoryModel } from "@/app/api/models/category.model";
 import "./mobile.scss";
-import { UserModel } from "@/app/api/models/user.model";
 
-const Mobile: FC = () => {
-  const [menuOpened, setMenuOpened] = useState<boolean>(false);
+type Props = {
+  profilePicture?: string;
+};
+
+const Mobile: FC<Props> = ({ profilePicture }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
-  const { getCategories } = useCategoriesService();
-  const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const [user, setUser] = useState<UserModel | null>(null);
-  const { isLoggedIn, userId, img } = useUserContext();
+  // const { getCategories } = useCategoriesService();
+  // const [categories, setCategories] = useState<CategoryModel[] | null>(null);
+  const { userInfo, setUserInfo } = useUserContext();
   const { to } = useNavigation();
-  const { navbarSettings } = useStoreContext();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const categories = await getCategories();
-        setCategories(categories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const categories = await getCategories();
+  //       setCategories(categories);
+  //     } catch (error) {
+  //       console.error("Error fetching categories:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, [getCategories]);
+  //   fetchData();
+  // }, [getCategories]);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -78,31 +74,37 @@ const Mobile: FC = () => {
   const handleProfileClick = () => {
     handleCloseMenu();
     to("/profile");
+    toggleDrawer();
   };
 
   const handleTitleClick = () => {
     handleCloseMenu();
     to("/");
+    toggleDrawer();
   };
 
   const handleTeachersClick = () => {
     handleCloseMenu();
     to("/teachers");
+    toggleDrawer();
   };
 
   const handleAppointmentsClick = () => {
     handleCloseMenu();
     to("/profile/appointments");
+    toggleDrawer();
   };
 
   const handleSettingsClick = () => {
     handleCloseMenu();
     to("/profile/settings");
+    toggleDrawer();
   };
 
   const handleLogout = () => {
     localStorage.removeItem("userData");
     handleCloseMenu();
+    toggleDrawer();
   };
 
   return (
@@ -110,8 +112,13 @@ const Mobile: FC = () => {
       className="mobile-container"
       sx={{ display: { xs: "block", sm: "none" } }}
     >
-      <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item xl={1}>
+      <Grid
+        container
+        alignItems="center"
+        justifyContent="space-between"
+        className="grid-container"
+      >
+        <Grid item xl={1} className="grid-item">
           <IconButton
             onClick={toggleDrawer}
             edge="start"
@@ -120,16 +127,21 @@ const Mobile: FC = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer}>
-            <div>
+          <Drawer
+            className="drawer"
+            anchor="left"
+            open={isDrawerOpen}
+            onClose={toggleDrawer}
+          >
+            <Box className="drawer-box" sx={{ backgroundColor: "beige" }}>
               <IconButton onClick={toggleDrawer}>
                 <MenuIcon />
               </IconButton>
               <List>
-                <ListItem button onClick={toggleDrawer}>
+                <ListItem button onClick={handleTeachersClick}>
                   <ListItemText primary="Teachers" />
                 </ListItem>
-                {categories && (
+                {/* {categories && (
                   <ListItem
                     button
                     onClick={toggleDrawer}
@@ -150,9 +162,34 @@ const Mobile: FC = () => {
                       ))}
                     </List>
                   </ListItem>
+                )} */}
+                {userInfo.isLoggedIn ? (
+                  <>
+                    <ListItem onClick={handleProfileClick}>
+                      <ListItemText primary="Profile" />
+                    </ListItem>
+                    <ListItem onClick={handleAppointmentsClick}>
+                      <ListItemText primary=" My Appointments" />
+                    </ListItem>
+                    <ListItem onClick={handleSettingsClick}>
+                      <ListItemText primary="Settings" />
+                    </ListItem>
+                    <ListItem onClick={handleLogout}>
+                      <LogoutForm />
+                    </ListItem>
+                  </>
+                ) : (
+                  <>
+                    <ListItem onClick={() => to("/login")}>
+                      <ListItemText primary="Login" />
+                    </ListItem>
+                    <ListItem onClick={() => to("/signup")}>
+                      <ListItemText primary="Signup" />
+                    </ListItem>
+                  </>
                 )}
               </List>
-            </div>
+            </Box>
           </Drawer>
         </Grid>
         <Grid item xl={1}>
@@ -164,7 +201,7 @@ const Mobile: FC = () => {
             Private Teacher App
           </Typography>
         </Grid>
-        {isLoggedIn ? (
+        {userInfo.isLoggedIn ? (
           <Grid item xl={2}>
             <IconButton
               onClick={handleOpenMenu}
@@ -177,7 +214,9 @@ const Mobile: FC = () => {
                 width={60}
                 height={60}
                 src={
-                  img ? `/images/uploads/${img}` : `/images/default/person.jpg`
+                  profilePicture
+                    ? `/images/uploads/${profilePicture}`
+                    : `/images/default/person.jpg`
                 }
                 alt="Profile"
                 className="profile-img"

@@ -1,21 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Container,
   TextField,
   Button,
   Grid,
-  Box,
   ToggleButtonGroup,
   ToggleButton,
 } from "@mui/material";
 import "./signup.scss";
 import useUsersService from "@/app/(client)/services/user.service";
-import { UserModel } from "@/app/api/models/user.model";
-import { TeacherModel } from "@/app/api/models/teacher.model";
-import { getUserById } from "@/app/api/services/user.service";
-import { redirect } from "next/dist/server/api-utils";
 
 export interface ContactUsRequest {
   username: string;
@@ -120,11 +115,7 @@ const Signup = () => {
           ""
         );
       }
-      if (result) {
-        console.log("User registered successfully:", result);
-      } else {
-        console.error("Error registering user:", result);
-      }
+      console.log("User registered successfully:", result);
     } catch (error) {
       console.error("Error registering user:", error);
     } finally {

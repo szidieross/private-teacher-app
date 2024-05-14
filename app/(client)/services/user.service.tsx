@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { api } from "@/app/(client)/utils/api.util";
-import { SimpleUserModel, UserModel } from "@/app/api/models/user.model";
+import { UserModel } from "@/app/api/models/user.model";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import { getSession } from "@/app/actions";
 
@@ -120,10 +120,20 @@ const useUsersService = () => {
       firstName: string,
       lastName: string,
       email: string,
-      phone: string
+      phone: string,
+      // teacherId?: number,
+      price?: string,
+      qualification?: string,
+      bio?: string,
+      location?: string
     ) => {
       const session = await getSession();
       const userId = session.userId;
+      if (price) {
+        console.log("pricee", price);
+      } else {
+        console.log("no pricee", price);
+      }
       try {
         const { data } = await api.post<UserModel>(
           `/users/${userId}`,
@@ -134,6 +144,10 @@ const useUsersService = () => {
             lastName,
             email,
             phone,
+            price,
+            qualification,
+            bio,
+            location,
           },
           "Couldn't update user data.!"
         );

@@ -1,10 +1,10 @@
 import pool from "@/app/libs/mysql";
-import { SimpleUserModel, UserModel } from "../models/user.model";
-import { SimpleUserDto, UserDto } from "../dtos/user.dto";
-import { toSimpleUserModel, toUserModel } from "../mappers/user.mapper";
-import { createTeacher } from "./teacher.service";
+import { UserModel } from "../models/user.model";
+import { UserDto } from "../dtos/user.dto";
+import { toUserModel } from "../mappers/user.mapper";
+import { createTeacher, updateTeacherData } from "./teacher.service";
 import { getSession } from "@/app/actions";
-import { redirect } from "next/dist/server/api-utils";
+import { hashPassword } from "../utils/user.util";
 
 interface UserId {
   user_id: number;
@@ -96,6 +96,7 @@ export const createUser = async (
   location?: string
 ) => {
   try {
+    const hashedPassword = hashPassword(password);
     const db = await pool.getConnection();
     const query = `
         INSERT INTO Users 
@@ -111,7 +112,7 @@ export const createUser = async (
       `;
     const [result] = await db.execute(query, [
       username,
-      password,
+      hashedPassword,
       email,
       phone,
       firstName,
@@ -153,13 +154,14 @@ export const createUser = async (
 
 export const loginUser = async (username: string, password: string) => {
   try {
+    const hashedPassword = hashPassword(password);
     const db = await pool.getConnection();
     const query = `
       SELECT * FROM Users
       WHERE username = ? AND password = ?
     `;
 
-    const [rows] = await db.execute(query, [username, password]);
+    const [rows] = await db.execute(query, [username, hashedPassword]);
     db.release();
 
     if (!Array.isArray(rows) || rows.length === 0) {
@@ -218,7 +220,12 @@ export const updateUserData = async (
   firstName: string,
   lastName: string,
   email: string,
-  phone: string
+  phone: string,
+  // teacherId?: number,
+  price?: string,
+  qualification?: string,
+  bio?: string,
+  location?: string
 ) => {
   try {
     const db = await pool.getConnection();
@@ -241,6 +248,34 @@ export const updateUserData = async (
       userId,
     ]);
     db.release();
+
+    if (price && bio && qualification && location) {
+      // const selectQuery = `
+      //     SELECT user_id
+      //     FROM Users
+      //     WHERE username = ?
+      //   `;
+      // const [rows] = await db.execute(selectQuery, [username]);
+      // const data: UserId[] = (rows as any).map((row: any) => {
+      //   return {
+      //     user_id: row.user_id,
+      //   };
+      // });
+
+      // const user_id = data[0]?.user_id;
+      // db.release();
+
+      const teacher = await updateTeacherData(
+        userId,
+        price,
+        bio,
+        qualification,
+        location
+      );
+
+      console.log("HELLLLOOOOO")
+      // return user_id;
+    }
 
     console.log("User data updated successfully");
   } catch (error) {

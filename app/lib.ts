@@ -4,6 +4,7 @@ import { UserModel } from "./api/models/user.model";
 export interface SessionData {
   userData?: UserModel;
   userId?: number;
+  teacherId?: number;
   username?: string;
   img?: string;
   role: "user" | "teacher";

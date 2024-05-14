@@ -3,36 +3,13 @@
 import { FC, useState, useEffect } from "react";
 import useUsersService from "@/app/(client)/services/user.service";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
-import { UserContext } from "@/app/(client)/contexts/user.context";
-import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import { UserModel } from "@/app/api/models/user.model";
-import { TeacherModel } from "@/app/api/models/teacher.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
-
-interface User {
-  user_id: number;
-  first_name: string;
-  last_name: string;
-  username: string;
-  password: string;
-  email: string;
-  phone: string;
-  profile_picture: string;
-  created_at: string;
-  role: "user" | "teacher";
-}
-
-interface Teacher {
-  teacher_id: number;
-  user_id: number;
-  price: number;
-  bio: string;
-  qualification: string;
-  location: string;
-}
+import { TeacherModel } from "@/app/api/models/teacher.model";
 
 type Props = {
   userId?: number;
+  teacherId?: number;
 };
 
 export interface ContactUsRequest {
@@ -42,6 +19,10 @@ export interface ContactUsRequest {
   lastName: string;
   email: string;
   phone: string;
+  price?: string;
+  qualification?: string;
+  bio?: string;
+  location?: string;
 }
 
 const initContactForm: ContactUsRequest = {
@@ -51,22 +32,57 @@ const initContactForm: ContactUsRequest = {
   lastName: "",
   email: "",
   phone: "",
+  price: "",
+  qualification: "",
+  bio: "",
+  location: "",
 };
 
-const Settings: FC<Props> = ({ userId }) => {
-  const { createUser, getUserById, updateUserData } = useUsersService();
+const Settings: FC<Props> = ({ userId, teacherId }) => {
+  const { getUserById, updateUserData } = useUsersService();
+  const { getTeacherByUserId } = useTeachersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
-  const { userType } = useUserContext();
   const [user, setUser] = useState<UserModel | null>(null);
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
+
+  console.log("teacherId", teacherId);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (userId) {
-          const user = await getUserById(userId);
-          if (user) {
-            setUser(user);
+          const userData = await getUserById(userId);
+          if (userData) {
+            setUser(userData);
+            setContactForm({
+              username: userData.username,
+              firstName: userData.firstName,
+              lastName: userData.lastName,
+              email: userData.email,
+              phone: userData.phone,
+            });
+          }
+          if (teacherId) {
+            console.log("Hello teacher");
+            const teacherData = await getTeacherByUserId(userId);
+            console.log(teacherData);
+            if (teacherData) {
+              setTeacher(teacherData);
+              // setContactForm((prevForm) => ({
+              //   ...prevForm,
+              //   price: teacherData.price,
+              //   qualification: teacherData.qualification,
+              //   bio: teacherData.bio,
+              //   location: teacherData.location,
+              // }));
+              setContactForm((prevForm: ContactUsRequest | null) => ({
+                ...(prevForm || initContactForm), // Ensure prevForm is not null
+                price: teacherData.price.toString(), // Convert number to string
+                qualification: teacherData.qualification,
+                bio: teacherData.bio,
+                location: teacherData.location,
+              }));
+            }
           }
         }
       } catch (error) {
@@ -95,6 +111,8 @@ const Settings: FC<Props> = ({ userId }) => {
         };
       }
     });
+
+    console.log("FORMMMMM", form);
   };
 
   const handleSubmit = async (
@@ -113,7 +131,11 @@ const Settings: FC<Props> = ({ userId }) => {
         form.firstName,
         form.lastName,
         form.email,
-        form.phone
+        form.phone,
+        form.price,
+        form.qualification,
+        form.bio,
+        form.location
       );
 
       if (result) {
@@ -200,7 +222,7 @@ const Settings: FC<Props> = ({ userId }) => {
               onChange={(e) => handleContactFormChange("phone", e.target.value)}
             />
           </Grid>
-          {/* {userType === "teacher" && teacher && (
+          {teacherId && (
             <>
               <Grid item xs={6}>
                 <Typography className="input-label">Price</Typography>
@@ -257,7 +279,7 @@ const Settings: FC<Props> = ({ userId }) => {
                 />
               </Grid>
             </>
-          )} */}
+          )}
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Update

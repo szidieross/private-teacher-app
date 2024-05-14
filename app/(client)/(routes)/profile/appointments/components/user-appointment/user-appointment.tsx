@@ -1,25 +1,17 @@
 "use client";
 
-import React, { FC, ReactNode, useEffect, useState } from "react";
-import Box from "@mui/material/Box";
+import React, { FC, useEffect, useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 
 type Props = {
-  teacherId: number;
+  userId: number;
 };
 
-type TableProps = {
-  id: number;
-  name: string;
-  date: string;
-  subject: string;
-  action: string;
-};
-
-const UserAppointments: FC<Props> = ({ teacherId }) => {
-  const { getAppointmentByTeacherId } = useAppointmentsService();
+const UserAppointments: FC<Props> = ({ userId }) => {
+  const { getAppointmentByUserId } = useAppointmentsService();
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
     null
   );
@@ -27,7 +19,7 @@ const UserAppointments: FC<Props> = ({ teacherId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
+        const fetchedAppointments = await getAppointmentByUserId(userId);
         setAppointments(fetchedAppointments);
       } catch (error) {
         console.error("Error fetching appointments:", error);
@@ -35,9 +27,9 @@ const UserAppointments: FC<Props> = ({ teacherId }) => {
     };
 
     fetchData();
-  }, [getAppointmentByTeacherId, teacherId]);
+  }, [getAppointmentByUserId, userId]);
 
-  const columns: GridColDef<TableProps>[] = [
+  const columns: GridColDef[] = [
     {
       field: "id",
       headerName: "ID",
@@ -47,39 +39,38 @@ const UserAppointments: FC<Props> = ({ teacherId }) => {
       field: "name",
       headerName: "Name",
       width: 150,
-      editable: true,
     },
     {
       field: "date",
       headerName: "Date",
       width: 150,
-      editable: true,
     },
     {
       field: "subject",
       headerName: "Subject",
       width: 110,
-      editable: true, // Convert subject to string
     },
     {
       field: "action",
       headerName: "Action",
       sortable: false,
       width: 160,
+      renderCell: (params) => (
+        <Button
+          variant="text"
+          color="error"
+          onClick={() => handleCancel(params.row.id)}
+        >
+          Cancel
+        </Button>
+      ),
     },
   ];
 
-  // const rows = [
-  //   { id: 1, lastName: "Snow", firstName: "Jon", age: 14 },
-  //   { id: 2, lastName: "Lannister", firstName: "Cersei", age: 31 },
-  //   { id: 3, lastName: "Lannister", firstName: "Jaime", age: 31 },
-  //   { id: 4, lastName: "Stark", firstName: "Arya", age: 11 },
-  //   { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  //   { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  //   { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  //   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  //   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  // ];
+  const handleCancel = (appointmentId: number) => {
+    // Implement cancellation logic here
+    console.log("Cancel appointment with ID:", appointmentId);
+  };
 
   const rows = appointments?.map((item, index) => {
     return {
@@ -87,28 +78,24 @@ const UserAppointments: FC<Props> = ({ teacherId }) => {
       name: `${item.userId}`,
       date: "date",
       subject: "subject",
-      action: "",
     };
   });
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
-      {rows && (
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
-      )}
+    <Box sx={{ p: 2 }}>
+      <Typography variant="h5" sx={{ mb: 2 }}>
+        Your Appointments
+      </Typography>
+      <Box sx={{ height: "fit-content", width: "100%" }}>
+        {rows && (
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            checkboxSelection
+            disableRowSelectionOnClick
+          />
+        )}
+      </Box>
     </Box>
   );
 };

@@ -6,7 +6,6 @@ type Props = {
 export default function Home(props: Props) {
   return (
     <main>
-      teacher
       <Item teacherId={props.params.teacherId} />
     </main>
   );

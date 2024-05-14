@@ -1,36 +1,42 @@
-import { getSession } from "@/app/actions";
-import { TeacherModel } from "@/app/api/models/teacher.model";
-import { UserModel } from "@/app/api/models/user.model";
 import {
   Dispatch,
   FC,
   ReactNode,
   SetStateAction,
   createContext,
-  useEffect,
   useState,
 } from "react";
 
-interface UserContextModel {
+interface UserInfoModel {
   isLoggedIn: boolean;
-  setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
-  userId: number | null;
-  setUserId: Dispatch<SetStateAction<number | null>>;
+  userId: number | undefined;
+  username: string | undefined;
+  firstName: string | undefined;
+  lastName: string | undefined;
+  userImg: string | undefined;
   userType: "user" | "teacher";
-  setUserType: Dispatch<SetStateAction<"user" | "teacher">>;
-  img: string | undefined;
-  setImg: Dispatch<SetStateAction<string | undefined>>;
+  teacherId: number | undefined;
 }
 
-const initUserSettings: UserContextModel = {
+interface UserContextModel {
+  userInfo: UserInfoModel;
+  setUserInfo: Dispatch<SetStateAction<UserInfoModel>>;
+}
+
+const initUserInfo: UserInfoModel = {
   isLoggedIn: false,
-  setIsLoggedIn: () => {},
-  userId: null,
-  setUserId: () => {},
+  userId: undefined,
+  username: undefined,
+  firstName: undefined,
+  lastName: undefined,
+  userImg: undefined,
   userType: "user",
-  setUserType: () => {},
-  img: undefined,
-  setImg: () => {},
+  teacherId: undefined,
+};
+
+const initUserSettings: UserContextModel = {
+  userInfo: initUserInfo,
+  setUserInfo: () => {},
 };
 
 export const UserContext = createContext<UserContextModel>(initUserSettings);
@@ -40,33 +46,13 @@ type Props = {
 };
 
 const UserProvider: FC<Props> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [userId, setUserId] = useState<number | null>(null);
-  const [userType, setUserType] = useState<"user" | "teacher">("user");
-  const [img, setImg] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const session = await getSession();
-
-      setIsLoggedIn(session.isLoggedIn);
-      setUserType(session.role);      
-      setImg(session.img);
-    };
-    fetchData();
-  }, [getSession]);
+  const [userInfo, setUserInfo] = useState<UserInfoModel>(initUserInfo);
 
   return (
     <UserContext.Provider
       value={{
-        isLoggedIn,
-        setIsLoggedIn,
-        userId,
-        setUserId,
-        userType,
-        setUserType,
-        img,
-        setImg,
+        userInfo,
+        setUserInfo,
       }}
     >
       {children}

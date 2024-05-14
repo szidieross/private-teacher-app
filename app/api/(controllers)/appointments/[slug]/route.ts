@@ -9,10 +9,10 @@ export const GET = async (
   request: NextRequest,
   context: { params: { slug: number } }
 ) => {
-  const appointmentId = context.params.slug;
+  const userId = context.params.slug;
   try {
-    const appointment: AppointmentModel | null = await getAppointmentByUserId(
-      appointmentId
+    const appointment: AppointmentModel[] | null = await getAppointmentByUserId(
+      userId
     );
     return NextResponse.json(appointment);
   } catch (error) {
@@ -26,13 +26,14 @@ export const GET = async (
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId, appointmentId } = await request.json();
+    const { userId, appointmentId, lessonId } = await request.json();
+    console.log("lessonId", lessonId);
 
     if (!userId || !appointmentId) {
       throw new Error("Missing userId or appointmentId");
     }
 
-    const result = await bookAppointment(userId, appointmentId);
+    const result = await bookAppointment(userId, appointmentId, lessonId);
 
     return NextResponse.json({ affectedRows: result }, { status: 201 });
   } catch (error) {
@@ -44,4 +45,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

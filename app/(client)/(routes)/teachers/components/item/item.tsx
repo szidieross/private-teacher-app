@@ -1,7 +1,7 @@
 "use client";
 
 import { TeacherModel } from "@/app/api/models/teacher.model";
-import { Typography, Card, CardContent, CardMedia } from "@mui/material";
+import { Typography, Card, CardContent, CardMedia, Box } from "@mui/material";
 import React, { FC, useState, useEffect } from "react";
 import "./item.scss";
 
@@ -14,32 +14,37 @@ const Item: FC<Props> = ({ teacher }) => {
 
   useEffect(() => {
     if (teacher.userData.profilePicture) {
-      setImage(`/images/uploads/${teacher.userData.profilePicture}`);
+      setImage(teacher.userData.profilePicture);
     }
   }, [teacher.userData.profilePicture]);
 
   return (
-    <Card sx={{ maxWidth: 345, cursor: "pointer" }}>
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {teacher.userData.firstName} {teacher.userData.lastName}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Qualification: {teacher.qualification}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Location: {teacher.location}
-        </Typography>
-      </CardContent>
-      {image && (
+    <Card className="card">
+      <CardContent className="card-content">
         <CardMedia
+          className="card-media"
           component="img"
-          height="360"
-          width="100%"
-          image={image}
+          height="320"
+          image={
+            image ? `/images/uploads/${image}` : "/images/default/person.jpg"
+          }
           alt="Profile"
         />
-      )}
+        <Box className="content-box">
+          <Typography gutterBottom variant="h5" component="div" className="">
+            {teacher.userData.firstName} {teacher.userData.lastName}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" className="">
+            Specification:
+          </Typography>
+          <Typography variant="body2" color="text.secondary" className="">
+            Qualification: {teacher.qualification}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" className="">
+            Location: {teacher.location}
+          </Typography>
+        </Box>
+      </CardContent>
     </Card>
   );
 };

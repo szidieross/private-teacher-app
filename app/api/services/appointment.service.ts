@@ -38,10 +38,10 @@ export const getAppointments = async (): Promise<AppointmentModel[]> => {
 
 export const getAppointmentByUserId = async (
   userId: number
-): Promise<AppointmentModel> => {
+): Promise<AppointmentModel[]> => {
   try {
     const db = await pool.getConnection();
-    const query = "SELECT * FROM users WHERE user_id = ?";
+    const query = "SELECT * FROM appointments WHERE user_id = ?";
     const [rows] = await db.execute(query, [userId]);
     db.release();
 
@@ -60,9 +60,13 @@ export const getAppointmentByUserId = async (
       };
     });
 
-    const user: AppointmentModel = toAppointmentModel(data[0]);
-
-    return user;
+    
+    const appointments: AppointmentModel[] = data.map((row: AppointmentDto) => {
+      return toAppointmentModel(row);
+    });
+    
+    console.log("getAppointmentByUserId",appointments)
+    return appointments;
   } catch (error) {
     console.error("Error fetching appointment:", error);
     throw error;
@@ -125,15 +129,20 @@ export const createAppointment = async (teacherId: string, startTime: Date) => {
 export const bookAppointment = async (
   userId: number,
   appointmentId: number,
+  lessonId: number
 ) => {
   try {
     const db = await pool.getConnection();
     const query = `
-        UPDATE Appointments 
-          SET user_id = ? 
-        WHERE appointment_id = ?
+    UPDATE Appointments 
+    SET user_id = ?, lesson_id = ? 
+    WHERE appointment_id = ?    
       `;
-    const [result] = await db.execute(query, [userId, appointmentId]);
+    const [result] = await db.execute(query, [
+      userId,
+      lessonId,
+      appointmentId,
+    ]);
     db.release();
 
     console.log("Appointment booked successfully.");
@@ -143,4 +152,3 @@ export const bookAppointment = async (
     throw error;
   }
 };
-
