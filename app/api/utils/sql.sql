@@ -46,7 +46,6 @@ CREATE TABLE Appointments (
     user_id INT,
     lesson_id INT,
     start_time DATETIME NOT NULL,
-    -- end_time DATETIME NOT NULL,
     FOREIGN KEY (teacher_id) REFERENCES Teachers(teacher_id),
     FOREIGN KEY (lesson_id) REFERENCES Lessons(lesson_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)

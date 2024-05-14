@@ -4,6 +4,7 @@ import { UserDto } from "../dtos/user.dto";
 import { toUserModel } from "../mappers/user.mapper";
 import { createTeacher } from "./teacher.service";
 import { getSession } from "@/app/actions";
+import { hashPassword } from "../utils/user.util";
 
 interface UserId {
   user_id: number;
@@ -95,6 +96,7 @@ export const createUser = async (
   location?: string
 ) => {
   try {
+    const hashedPassword = hashPassword(password);
     const db = await pool.getConnection();
     const query = `
         INSERT INTO Users 
@@ -110,7 +112,7 @@ export const createUser = async (
       `;
     const [result] = await db.execute(query, [
       username,
-      password,
+      hashedPassword,
       email,
       phone,
       firstName,
@@ -152,13 +154,14 @@ export const createUser = async (
 
 export const loginUser = async (username: string, password: string) => {
   try {
+    const hashedPassword = hashPassword(password);
     const db = await pool.getConnection();
     const query = `
       SELECT * FROM Users
       WHERE username = ? AND password = ?
     `;
 
-    const [rows] = await db.execute(query, [username, password]);
+    const [rows] = await db.execute(query, [username, hashedPassword]);
     db.release();
 
     if (!Array.isArray(rows) || rows.length === 0) {
