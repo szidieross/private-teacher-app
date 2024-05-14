@@ -6,7 +6,6 @@ import { cookies } from "next/headers";
 import { loginUser } from "./api/services/user.service";
 import { getTeacherByUserId } from "./api/services/teacher.service";
 
-
 export const getSession = async () => {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
 

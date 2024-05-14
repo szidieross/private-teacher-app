@@ -8,6 +8,7 @@ import {
   Paper,
   Grid,
   Button,
+  IconButton,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { UserModel } from "@/app/api/models/user.model";
@@ -21,6 +22,8 @@ import AddAppointment from "../add-appointment/add-appointment";
 import AddLesson from "../add-lesson/add-lesson";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
+import SettingsIcon from "@mui/icons-material/Settings";
+import useNavigation from "@/app/(client)/hooks/navigation.hook";
 
 type Props = {
   userId?: number;
@@ -35,6 +38,7 @@ const Profile: FC<Props> = ({ userId }) => {
   const [formattedDate, setFormattedDate] = useState<string | null>(null);
   const { setNavbarSettings } = useStoreContext();
   const { userInfo, setUserInfo } = useUserContext();
+  const { to } = useNavigation();
 
   const handleOpen = () => {
     setOpen(true);
@@ -104,7 +108,13 @@ const Profile: FC<Props> = ({ userId }) => {
               </Avatar>
             </Button>
           </Grid>
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12} md={9} position={"relative"}>
+            <IconButton
+              sx={{ position: "absolute", right: 0 }}
+              onClick={() => to("/profile/settings")}
+            >
+              <SettingsIcon />
+            </IconButton>
             <Typography variant="h4" gutterBottom>
               {user.firstName} {user.lastName}
             </Typography>

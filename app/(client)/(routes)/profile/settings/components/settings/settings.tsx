@@ -45,8 +45,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
   const [user, setUser] = useState<UserModel | null>(null);
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
 
-  console.log("teacherId", teacherId);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -68,16 +66,9 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             console.log(teacherData);
             if (teacherData) {
               setTeacher(teacherData);
-              // setContactForm((prevForm) => ({
-              //   ...prevForm,
-              //   price: teacherData.price,
-              //   qualification: teacherData.qualification,
-              //   bio: teacherData.bio,
-              //   location: teacherData.location,
-              // }));
               setContactForm((prevForm: ContactUsRequest | null) => ({
-                ...(prevForm || initContactForm), // Ensure prevForm is not null
-                price: teacherData.price.toString(), // Convert number to string
+                ...(prevForm || initContactForm),
+                price: teacherData.price.toString(),
                 qualification: teacherData.qualification,
                 bio: teacherData.bio,
                 location: teacherData.location,

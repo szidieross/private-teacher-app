@@ -184,7 +184,8 @@ export const getTeacherById = async (
                 t.teacher_id,
                 t.price,
                 t.bio,
-                t.qualification
+                t.qualification,
+                t.location
             FROM
                 Users u
             INNER JOIN
@@ -215,6 +216,7 @@ export const getTeacherById = async (
           first_name: row.first_name,
           last_name: row.last_name,
           role: row.role,
+          location: row.location,
         },
         teacher_id: row.teacher_id,
         user_id: row.user_id,
@@ -245,7 +247,8 @@ export const getTeacherByUserId = async (
                 t.teacher_id,
                 t.price,
                 t.bio,
-                t.qualification
+                t.qualification,
+                t.location
             FROM
                 Users u
             INNER JOIN
@@ -282,6 +285,7 @@ export const getTeacherByUserId = async (
         price: row.price,
         bio: row.bio,
         qualification: row.qualification,
+        location: row.location,
       };
     });
 
@@ -303,8 +307,7 @@ export const updateTeacherData = async (
   location: string
 ) => {
   try {
-
-    console.log("HELLO TEACHER SERVICEAPI")
+    console.log("HELLO TEACHER SERVICEAPI");
     const db = await pool.getConnection();
     const query = `
         UPDATE Teachers
