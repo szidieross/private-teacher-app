@@ -81,24 +81,27 @@ const Signup = () => {
     const newErrors: Partial<ContactUsRequest> = {};
     if (!form) return false;
 
+    if (!form.firstName) {
+      newErrors.username = "Firstname is required.";
+    }
+    if (!form.lastName) {
+      newErrors.username = "Lastname is required.";
+    }
     if (!form.username) {
-      newErrors.username = "Username is required";
+      newErrors.username = "Username is required.";
     }
     if (!form.password) {
-      newErrors.password = "Password is required";
+      newErrors.password = "Password is required.";
     }
-    if (isNaN(Number(form.phone))) {
-      newErrors.phone = "Phone must be a number";
-    }
-
-    if (!isValidEmail(form.email)) {
+    if (!form.email) {
+      newErrors.email = "Email is required.";
+    } else if (!isValidEmail(form.email)) {
       newErrors.email = "Invalid email address.";
     }
-
     if (!isValidPhoneNumber(form.phone)) {
-      newErrors.phone = "Phone must be a number";
+      newErrors.phone = "Phone must be a number.";
     }
-    
+
     // További mezők validációja
 
     if (isTeacher && (!form.price || +form.price <= 0)) {
@@ -186,7 +189,7 @@ const Signup = () => {
           form.location
         );
       } else {
-        if(!form)return;
+        if (!form) return;
         result = await createUser(
           form.username,
           form.password,
@@ -209,7 +212,6 @@ const Signup = () => {
   };
 
   console.log("Errors:", errors);
-
 
   return (
     <Container maxWidth="sm">
@@ -294,7 +296,7 @@ const Signup = () => {
               variant="outlined"
               name="email"
               fullWidth
-              required
+              // required
               onChange={(e) => handleContactFormChange("email", e.target.value)}
             />
             {/* {errors.username && <span>{errors.username.message}</span>} */}
