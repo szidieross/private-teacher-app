@@ -19,7 +19,7 @@ export interface ContactUsRequest {
   lastName: string;
   email: string;
   phone: string;
-  price?: string;
+  price?: number;
   qualification?: string;
   bio?: string;
   location?: string;
@@ -32,7 +32,7 @@ const initContactForm: ContactUsRequest = {
   lastName: "",
   email: "",
   phone: "",
-  price: "",
+  price: undefined,
   qualification: "",
   bio: "",
   location: "",
@@ -68,7 +68,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               setTeacher(teacherData);
               setContactForm((prevForm: ContactUsRequest | null) => ({
                 ...(prevForm || initContactForm),
-                price: teacherData.price.toString(),
+                price: teacherData.price,
                 qualification: teacherData.qualification,
                 bio: teacherData.bio,
                 location: teacherData.location,

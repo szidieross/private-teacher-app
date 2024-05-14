@@ -4,7 +4,12 @@ import { UserDto } from "../dtos/user.dto";
 import { toUserModel } from "../mappers/user.mapper";
 import { createTeacher, updateTeacherData } from "./teacher.service";
 import { getSession } from "@/app/actions";
-import { hashPassword } from "../utils/user.util";
+import {
+  hashPassword,
+  isStrongPassword,
+  isValidEmail,
+  isValidPhoneNumber,
+} from "../utils/user.util";
 
 interface UserId {
   user_id: number;
@@ -96,6 +101,34 @@ export const createUser = async (
   location?: string
 ) => {
   try {
+    if (
+      !username ||
+      !password ||
+      !email ||
+      !phone ||
+      !firstName ||
+      !lastName ||
+      !role
+    ) {
+      throw new Error("Missing required fields.");
+    }
+
+    // if (!isStrongPassword(password)) {
+    //   throw new Error("Password is not strong enough.");
+    // }
+
+    if (!isValidEmail(email)) {
+      throw new Error("Invalid email address.");
+    }
+
+    if (!isValidPhoneNumber(phone)) {
+      throw new Error("Invalid phone number format.");
+    }
+
+    if (role === "teacher" && price && price <= 0) {
+      throw new Error("Price must be a positive number for teachers.");
+    }
+
     const hashedPassword = hashPassword(password);
     const db = await pool.getConnection();
     const query = `
@@ -222,12 +255,28 @@ export const updateUserData = async (
   email: string,
   phone: string,
   // teacherId?: number,
-  price?: string,
+  price?: number,
   qualification?: string,
   bio?: string,
   location?: string
 ) => {
   try {
+    // if (!isStrongPassword(password)) {
+    //   throw new Error("Password is not strong enough.");
+    // }
+
+    if (!isValidEmail(email)) {
+      throw new Error("Invalid email address.");
+    }
+
+    if (!isValidPhoneNumber(phone)) {
+      throw new Error("Invalid phone number format.");
+    }
+
+    if (price && price <= 0) {
+      throw new Error("Price must be a positive number for teachers.");
+    }
+
     const db = await pool.getConnection();
     const query = `
         UPDATE Users
@@ -250,21 +299,6 @@ export const updateUserData = async (
     db.release();
 
     if (price && bio && qualification && location) {
-      // const selectQuery = `
-      //     SELECT user_id
-      //     FROM Users
-      //     WHERE username = ?
-      //   `;
-      // const [rows] = await db.execute(selectQuery, [username]);
-      // const data: UserId[] = (rows as any).map((row: any) => {
-      //   return {
-      //     user_id: row.user_id,
-      //   };
-      // });
-
-      // const user_id = data[0]?.user_id;
-      // db.release();
-
       const teacher = await updateTeacherData(
         userId,
         price,
@@ -273,7 +307,7 @@ export const updateUserData = async (
         location
       );
 
-      console.log("HELLLLOOOOO")
+      console.log("HELLLLOOOOO");
       // return user_id;
     }
 

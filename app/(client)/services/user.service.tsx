@@ -122,7 +122,7 @@ const useUsersService = () => {
       email: string,
       phone: string,
       // teacherId?: number,
-      price?: string,
+      price?: number,
       qualification?: string,
       bio?: string,
       location?: string

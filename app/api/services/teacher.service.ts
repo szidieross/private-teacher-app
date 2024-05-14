@@ -301,13 +301,12 @@ export const getTeacherByUserId = async (
 export const updateTeacherData = async (
   userId: number,
   // teacherId?: number,
-  price: string,
+  price: number,
   qualification: string,
   bio: string,
   location: string
 ) => {
   try {
-    console.log("HELLO TEACHER SERVICEAPI");
     const db = await pool.getConnection();
     const query = `
         UPDATE Teachers
