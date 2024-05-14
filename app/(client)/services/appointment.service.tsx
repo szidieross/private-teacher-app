@@ -100,7 +100,7 @@ const useAppointmentsService = () => {
         {
           userId,
           appointmentId,
-          lessonId
+          lessonId,
         },
         "Couldn't book appointment data.!"
       );
@@ -111,6 +111,46 @@ const useAppointmentsService = () => {
     }
   };
 
+  const cancelAppointment = async (appointmentId: number) => {
+    console.log("appointmentId", appointmentId);
+    const session = await getSession();
+    const userId = session.userId;
+    try {
+      console.log("cancelAppointmentcancelAppointmentcancelAppointment")
+      const { data } = await api.put<AppointmentModel>(
+        `/appointments/${appointmentId}`,
+        {
+          appointmentId,
+        },
+        "Couldn't cancel appointment!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const deleteAppointment = async (appointmentId: number) => {
+    console.log("appointmentId", appointmentId);
+    const session = await getSession();
+    const userId = session.userId;
+    try {
+      const { data } = await api.delete<AppointmentModel>(
+        `/appointments/${appointmentId}`,
+        // {
+        //   appointmentId,
+        // },
+        "Couldn't delete appointment!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+  
+
   return {
     getAppointments,
     getAppointmentById,
@@ -118,6 +158,8 @@ const useAppointmentsService = () => {
     createAppointment,
     bookAppointment,
     getAppointmentByUserId,
+    cancelAppointment,
+    deleteAppointment,
   };
 };
 

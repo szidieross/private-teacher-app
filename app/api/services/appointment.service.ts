@@ -60,12 +60,11 @@ export const getAppointmentByUserId = async (
       };
     });
 
-    
     const appointments: AppointmentModel[] = data.map((row: AppointmentDto) => {
       return toAppointmentModel(row);
     });
-    
-    console.log("getAppointmentByUserId",appointments)
+
+    console.log("getAppointmentByUserId", appointments);
     return appointments;
   } catch (error) {
     console.error("Error fetching appointment:", error);
@@ -138,17 +137,52 @@ export const bookAppointment = async (
     SET user_id = ?, lesson_id = ? 
     WHERE appointment_id = ?    
       `;
-    const [result] = await db.execute(query, [
-      userId,
-      lessonId,
-      appointmentId,
-    ]);
+    const [result] = await db.execute(query, [userId, lessonId, appointmentId]);
     db.release();
 
     console.log("Appointment booked successfully.");
     return result;
   } catch (error) {
     console.error("Error booking appointment:", error);
+    throw error;
+  }
+};
+
+export const cancelAppointment = async (appointmentId: number) => {
+  try {
+    
+    console.log("cancelAppointmentcancelAppointmentcancelAppointment")
+    const db = await pool.getConnection();
+    const query = `
+    UPDATE Appointments 
+    SET user_id = NULL, lesson_id = NULL 
+    WHERE appointment_id = ?   
+      `;
+    const [result] = await db.execute(query, [appointmentId]);
+    db.release();
+
+    console.log("Appointment canceled successfully.");
+    return result;
+  } catch (error) {
+    console.error("Error cancelling appointment:", error);
+    throw error;
+  }
+};
+
+export const deleteAppointment = async (appointmentId: number) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+    DELETE FROM Appointments 
+    WHERE appointment_id = ?  
+      `;
+    const [result] = await db.execute(query, [appointmentId]);
+    db.release();
+
+    console.log("Appointment deleted successfully.");
+    return result;
+  } catch (error) {
+    console.error("Error deleting appointment:", error);
     throw error;
   }
 };

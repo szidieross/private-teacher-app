@@ -11,10 +11,18 @@ type Props = {
 };
 
 const UserAppointments: FC<Props> = ({ userId }) => {
-  const { getAppointmentByUserId } = useAppointmentsService();
+  const { getAppointmentByUserId, cancelAppointment, deleteAppointment } =
+    useAppointmentsService();
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
     null
   );
+
+  const handleCancel = async (appointmentId: number) => {
+    console.log("appointmentId", appointmentId);
+    console.log("Cancel appointment with ID:", appointmentId);
+    await cancelAppointment(appointmentId);
+    // await deleteAppointment(31);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +67,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
         <Button
           variant="text"
           color="error"
-          onClick={() => handleCancel(params.row.id)}
+          onClick={() => handleCancel(params.row.appointmentId)}
         >
           Cancel
         </Button>
@@ -67,14 +75,10 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     },
   ];
 
-  const handleCancel = (appointmentId: number) => {
-    // Implement cancellation logic here
-    console.log("Cancel appointment with ID:", appointmentId);
-  };
-
   const rows = appointments?.map((item, index) => {
     return {
       id: index + 1,
+      appointmentId: item.appointmentId,
       name: `${item.userId}`,
       date: "date",
       subject: "subject",
