@@ -26,8 +26,7 @@ const AppointmentsTable: FC<Props> = ({ teacherId, lessonId }) => {
   );
 
   const handleBooking = (appointmentId: number) => {
-    bookAppointment(appointmentId, lessonId);
-    // console.log("lessonId", lessonId);
+    bookAppointment(appointmentId, lessonId);;
   };
 
   useEffect(() => {
@@ -44,7 +43,10 @@ const AppointmentsTable: FC<Props> = ({ teacherId, lessonId }) => {
   }, [getAppointmentByTeacherId, teacherId]);
 
   return (
-    <TableContainer component={Container} sx={{backgroundColor:"rgb(240, 240, 240);"}}>
+    <TableContainer
+      component={Container}
+      sx={{ backgroundColor: "rgb(240, 240, 240);" }}
+    >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -67,7 +69,10 @@ const AppointmentsTable: FC<Props> = ({ teacherId, lessonId }) => {
                   {item.userId ? "Taken" : "Avaliable"}
                 </TableCell>
                 <TableCell align="center">
-                  <Button onClick={() => handleBooking(item.appointmentId)}>
+                  <Button
+                    onClick={() => handleBooking(item.appointmentId)}
+                    disabled={item.userId != null}
+                  >
                     Booking
                   </Button>
                 </TableCell>

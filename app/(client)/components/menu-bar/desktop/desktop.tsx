@@ -103,13 +103,13 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
       style={{ backgroundColor: colors.primary }}
       sx={{ display: { xs: "none", sm: "block" } }}
     >
-      <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item xl={6}>
+      <Box alignItems="center" justifyContent="space-between" display={"flex"}>
+        <Box>
           <Link href={"/teachers"} style={{ color: colors.secondary }}>
             Private Teacher App
           </Link>
-        </Grid>
-        <Grid item xl={6}>
+        </Box>
+        <Box justifyContent={"flex-end"}>
           <Box display={"flex"} alignItems={"center"} sx={{ gap: "20px" }}>
             <Link href={"/teachers"}>
               <Typography>Teachers</Typography>
@@ -207,8 +207,8 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
               </>
             )}
           </Box>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Container>
   );
 };
