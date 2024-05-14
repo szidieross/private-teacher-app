@@ -119,10 +119,8 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
     const teachers: TeacherModel[] = [];
     let currentTeacher: TeacherModel | null = null;
 
-    // Feldolgozzuk az eredmény sorait
     rows.forEach((row: any) => {
       if (!currentTeacher || currentTeacher.teacherId !== row.teacher_id) {
-        // Ha még nem létezik tanár vagy új tanár kezdődik, létrehozzuk és hozzáadjuk a tömbhöz
         if (currentTeacher) {
           teachers.push(currentTeacher);
         }
@@ -137,7 +135,7 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
             createdAt: row.created_at,
             firstName: row.first_name,
             lastName: row.last_name,
-            role: row.role
+            role: row.role,
           },
           teacherId: row.teacher_id,
           userId: row.user_id,
@@ -145,21 +143,24 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
           bio: row.bio,
           qualification: row.qualification,
           location: row.location,
-          lessons: [] // Kezdetben üres tömb a leckéknek
+          lessons: [],
         };
       }
-      // Ha van lecke a sorban, hozzáadjuk a tanárhoz tartozó leckékhez
-      if (row.lesson_id !== null && row.category_id !== null && row.category_name !== null) {
+
+      if (
+        row.lesson_id !== null &&
+        row.category_id !== null &&
+        row.category_name !== null
+      ) {
         currentTeacher.lessons?.push({
           lessonId: row.lesson_id,
           teacherId: row.teacher_id,
           categoryId: row.category_id,
-          categoryName: row.category_name
+          categoryName: row.category_name,
         });
       }
     });
 
-    // Az utolsó tanárt is hozzáadjuk a tömbhöz
     if (currentTeacher) {
       teachers.push(currentTeacher);
     }
@@ -170,7 +171,6 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
     throw error;
   }
 };
-
 
 export const getTeacherById = async (
   teacherId: number
@@ -290,6 +290,43 @@ export const getTeacherByUserId = async (
     return teacher;
   } catch (error) {
     console.error("Error fetching teacher:", error);
+    throw error;
+  }
+};
+
+export const updateTeacherData = async (
+  userId: number,
+  // teacherId?: number,
+  price: string,
+  qualification: string,
+  bio: string,
+  location: string
+) => {
+  try {
+
+    console.log("HELLO TEACHER SERVICEAPI")
+    const db = await pool.getConnection();
+    const query = `
+        UPDATE Teachers
+        SET price = ?,
+        qualification = ?,
+        bio = ?,
+        location = ?
+        WHERE user_id = ?
+    `;
+
+    const [rows] = await db.execute(query, [
+      price,
+      qualification,
+      bio,
+      location,
+      userId,
+    ]);
+    db.release();
+
+    console.log("User data updated successfully");
+  } catch (error) {
+    console.error("Error updating user:", error);
     throw error;
   }
 };

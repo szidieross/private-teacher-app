@@ -95,7 +95,7 @@ const Profile: FC<Props> = ({ userId }) => {
                       height: "100%",
                       borderRadius: "50%",
                       objectFit: "cover",
-                      objectPosition: "top",
+                      // objectPosition: "top",
                     }}
                   />
                 ) : (

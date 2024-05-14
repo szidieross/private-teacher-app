@@ -2,7 +2,7 @@ import pool from "@/app/libs/mysql";
 import { UserModel } from "../models/user.model";
 import { UserDto } from "../dtos/user.dto";
 import { toUserModel } from "../mappers/user.mapper";
-import { createTeacher } from "./teacher.service";
+import { createTeacher, updateTeacherData } from "./teacher.service";
 import { getSession } from "@/app/actions";
 import { hashPassword } from "../utils/user.util";
 
@@ -220,7 +220,12 @@ export const updateUserData = async (
   firstName: string,
   lastName: string,
   email: string,
-  phone: string
+  phone: string,
+  // teacherId?: number,
+  price?: string,
+  qualification?: string,
+  bio?: string,
+  location?: string
 ) => {
   try {
     const db = await pool.getConnection();
@@ -243,6 +248,34 @@ export const updateUserData = async (
       userId,
     ]);
     db.release();
+
+    if (price && bio && qualification && location) {
+      // const selectQuery = `
+      //     SELECT user_id
+      //     FROM Users
+      //     WHERE username = ?
+      //   `;
+      // const [rows] = await db.execute(selectQuery, [username]);
+      // const data: UserId[] = (rows as any).map((row: any) => {
+      //   return {
+      //     user_id: row.user_id,
+      //   };
+      // });
+
+      // const user_id = data[0]?.user_id;
+      // db.release();
+
+      const teacher = await updateTeacherData(
+        userId,
+        price,
+        bio,
+        qualification,
+        location
+      );
+
+      console.log("HELLLLOOOOO")
+      // return user_id;
+    }
 
     console.log("User data updated successfully");
   } catch (error) {

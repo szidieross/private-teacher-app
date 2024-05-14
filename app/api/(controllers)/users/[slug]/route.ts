@@ -21,8 +21,18 @@ export const GET = async (
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId, username, firstName, lastName, email, phone } =
-      await request.json();
+    const {
+      userId,
+      username,
+      firstName,
+      lastName,
+      email,
+      phone,
+      price,
+      qualification,
+      bio,
+      location,
+    } = await request.json();
 
     const result = await updateUserData(
       userId,
@@ -30,7 +40,11 @@ export async function POST(request: NextRequest) {
       firstName,
       lastName,
       email,
-      phone
+      phone,
+      price,
+      qualification,
+      bio,
+      location
     );
 
     // const id=result

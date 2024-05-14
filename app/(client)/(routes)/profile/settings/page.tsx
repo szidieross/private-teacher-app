@@ -9,10 +9,14 @@ export default async function Home() {
   }
 
   const session = await getSession();
-  
+  console.log("session", session);
+
   return (
     <main>
-      <Settings userId={session.userId}/>
+      <Settings
+        userId={session.userId}
+        teacherId={session.teacherId ?? session.teacherId}
+      />
     </main>
   );
 }
