@@ -6,6 +6,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
+import { Button } from "@mui/material";
 
 type Props = {
   userId: number;
@@ -13,6 +14,7 @@ type Props = {
 
 type TableProps = {
   id: number;
+  appointmentId: number;
   name: string;
   date: string;
   subject: string;
@@ -23,10 +25,17 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
   console.log("userId", userId);
   console.log("teacherId");
   const { getTeacherByUserId } = useTeachersService();
-  const { getAppointmentByTeacherId } = useAppointmentsService();
+  const { getAppointmentByTeacherId, deleteAppointment } =
+    useAppointmentsService();
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
     null
   );
+
+  const handleDelete = (appointmentId: number) => {
+    console.log("appointmentId", appointmentId);
+    console.log("Delete appointment with ID:", appointmentId);
+    deleteAppointment(appointmentId);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,12 +84,22 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       headerName: "Action",
       sortable: false,
       width: 160,
+      renderCell: (params) => (
+        <Button
+          variant="text"
+          color="error"
+          onClick={() => handleDelete(params.row.appointmentId)}
+        >
+          Delete
+        </Button>
+      ),
     },
   ];
 
   const rows = appointments?.map((item, index) => {
     return {
       id: index + 1,
+      appointmentId: item.appointmentId,
       name: `${item.userId}`,
       date: "date",
       subject: "subject",
