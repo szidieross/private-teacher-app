@@ -75,18 +75,17 @@ const Signup = () => {
           [property]: value,
         };
       }
-    });
-  };
+    });  };
 
   const validateForm = () => {
     const newErrors: Partial<ContactUsRequest> = {};
     if (!form) return false;
 
     if (!form.firstName) {
-      newErrors.username = "Firstname is required.";
+      newErrors.firstName = "Firstname is required.";
     }
     if (!form.lastName) {
-      newErrors.username = "Lastname is required.";
+      newErrors.lastName = "Lastname is required.";
     }
     if (!form.username) {
       newErrors.username = "Username is required.";
