@@ -7,6 +7,7 @@ import useAppointmentsService from "@/app/(client)/services/appointment.service"
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { Button } from "@mui/material";
+import { getSession } from "@/app/actions";
 
 type Props = {
   userId: number;
@@ -30,20 +31,27 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
     null
   );
+  const [teacherId, setTeacherId] = useState<number | null>(null);
 
-  const handleDelete = (appointmentId: number) => {
+  const handleDelete = async (appointmentId: number) => {
     console.log("appointmentId", appointmentId);
     console.log("Delete appointment with ID:", appointmentId);
-    deleteAppointment(appointmentId);
+    await deleteAppointment(appointmentId);
+    if (teacherId) {
+      const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
+      setAppointments(fetchedAppointments);
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const teacher = await getTeacherByUserId(userId);
-        if (teacher) {
+        const session = await getSession();
+        // const teacher = await getTeacherByUserId(userId);
+        if (session.teacherId) {
+          setTeacherId(session.teacherId);
           const fetchedAppointments = await getAppointmentByTeacherId(
-            teacher?.teacherId
+            session?.teacherId
           );
           setAppointments(fetchedAppointments);
         }
@@ -53,7 +61,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     };
 
     fetchData();
-  }, [getAppointmentByTeacherId, userId]);
+  }, [getAppointmentByTeacherId, userId, getSession]);
 
   const columns: GridColDef<TableProps>[] = [
     {
