@@ -186,7 +186,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             {" "}
             <Typography className="input-label">First Name</Typography>
             <TextField
-              // label="First Name"
               defaultValue={user?.firstName}
               variant="outlined"
               fullWidth
@@ -207,7 +206,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             {" "}
             <Typography className="input-label">Last Name</Typography>
             <TextField
-              // label="Last Name"
               defaultValue={user?.lastName}
               variant="outlined"
               fullWidth
@@ -228,7 +226,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             <Typography className="input-label">Username</Typography>
             <TextField
               defaultValue={user?.username || ""}
-              // label="Username"
               variant="outlined"
               fullWidth
               name="username"
@@ -249,7 +246,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             <TextField
               defaultValue={user?.email}
               type="email"
-              // label="Email"
               variant="outlined"
               name="email"
               fullWidth
@@ -266,7 +262,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             <Typography className="input-label">Phone</Typography>
             <TextField
               defaultValue={user?.phone}
-              // label="Phone"
               variant="outlined"
               fullWidth
               name="phone"
@@ -281,7 +276,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 <TextField
                   defaultValue={teacher?.price}
                   type="number"
-                  // label="Price"
                   variant="outlined"
                   name="price"
                   fullWidth
@@ -300,7 +294,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 <Typography className="input-label">Qualification</Typography>
                 <TextField
                   defaultValue={teacher?.qualification}
-                  // label="Qualification"
                   variant="outlined"
                   fullWidth
                   name="qualification"
@@ -313,7 +306,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 <Typography className="input-label">Bio</Typography>
                 <TextField
                   defaultValue={teacher?.bio}
-                  // label="Bio"
                   variant="outlined"
                   fullWidth
                   multiline
@@ -327,7 +319,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 <Typography className="input-label">Location</Typography>
                 <TextField
                   defaultValue={teacher?.location}
-                  // label="Location"
                   variant="outlined"
                   fullWidth
                   name="location"
