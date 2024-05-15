@@ -192,6 +192,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               fullWidth
               // required
               name="firstName"
+              error={!!errors.firstName}
               onChange={(e) =>
                 handleContactFormChange("firstName", e.target.value)
               }
@@ -212,6 +213,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               fullWidth
               // required
               name="lastName"
+              error={!!errors.lastName}
               onChange={(e) =>
                 handleContactFormChange("lastName", e.target.value)
               }
@@ -230,6 +232,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               variant="outlined"
               fullWidth
               name="username"
+              error={!!errors.username}
               // required
               onChange={(e) =>
                 handleContactFormChange("username", e.target.value)
@@ -250,6 +253,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               variant="outlined"
               name="email"
               fullWidth
+              error={!!errors.email}
               // required
               onChange={(e) => handleContactFormChange("email", e.target.value)}
             />
@@ -266,6 +270,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               variant="outlined"
               fullWidth
               name="phone"
+              error={!!errors.phone}
               onChange={(e) => handleContactFormChange("phone", e.target.value)}
             />
           </Grid>
@@ -280,6 +285,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                   variant="outlined"
                   name="price"
                   fullWidth
+                  error={!!errors.price}
                   onChange={(e) =>
                     handleContactFormChange("price", e.target.value)
                   }
