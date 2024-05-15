@@ -75,7 +75,8 @@ const Signup = () => {
           [property]: value,
         };
       }
-    });  };
+    });
+  };
 
   const validateForm = () => {
     const newErrors: Partial<ContactUsRequest> = {};
@@ -195,7 +196,12 @@ const Signup = () => {
               onChange={(e) =>
                 handleContactFormChange("firstName", e.target.value)
               }
-            /> {errors.firstName && <Typography className="error-message">{errors.firstName}</Typography>}
+            />{" "}
+            {errors.firstName && (
+              <Typography className="error-message">
+                {errors.firstName}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -208,7 +214,12 @@ const Signup = () => {
               onChange={(e) =>
                 handleContactFormChange("lastName", e.target.value)
               }
-            /> {errors.lastName && <Typography className="error-message">{errors.lastName}</Typography>}
+            />{" "}
+            {errors.lastName && (
+              <Typography className="error-message">
+                {errors.lastName}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -222,7 +233,11 @@ const Signup = () => {
                 handleContactFormChange("username", e.target.value)
               }
             />
-            {errors.username && <Typography className="error-message">{errors.username}</Typography>}
+            {errors.username && (
+              <Typography className="error-message">
+                {errors.username}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -237,7 +252,11 @@ const Signup = () => {
                 handleContactFormChange("password", e.target.value)
               }
             />
-            {errors.password && <Typography className="error-message">{errors.password}</Typography>}
+            {errors.password && (
+              <Typography className="error-message">
+                {errors.password}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -249,7 +268,10 @@ const Signup = () => {
               error={!!errors.email}
               // required
               onChange={(e) => handleContactFormChange("email", e.target.value)}
-            /> {errors.email && <Typography className="error-message">{errors.email}</Typography>}
+            />{" "}
+            {errors.email && (
+              <Typography className="error-message">{errors.email}</Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -259,7 +281,10 @@ const Signup = () => {
               name="phone"
               error={!!errors.phone}
               onChange={(e) => handleContactFormChange("phone", e.target.value)}
-            /> {errors.phone && <Typography className="error-message">{errors.phone}</Typography>}
+            />{" "}
+            {errors.phone && (
+              <Typography className="error-message">{errors.phone}</Typography>
+            )}
           </Grid>
           {/* <Grid item xs={12}>
             <TextField
@@ -297,7 +322,12 @@ const Signup = () => {
                   onChange={(e) =>
                     handleContactFormChange("price", e.target.value)
                   }
-                /> {errors.price && <Typography className="error-message">{errors.price}</Typography>}
+                />{" "}
+                {errors.price && (
+                  <Typography className="error-message">
+                    {errors.price}
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField

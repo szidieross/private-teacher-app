@@ -6,6 +6,8 @@ import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { UserModel } from "@/app/api/models/user.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
+import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
+import "./settings.scss";
 
 type Props = {
   userId?: number;
@@ -19,7 +21,7 @@ export interface ContactUsRequest {
   lastName: string;
   email: string;
   phone: string;
-  price?: number;
+  price?: number | string;
   qualification?: string;
   bio?: string;
   location?: string;
@@ -44,6 +46,37 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [user, setUser] = useState<UserModel | null>(null);
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
+  const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
+
+  const validateForm = () => {
+    const newErrors: Partial<ContactUsRequest> = {};
+    if (!form) return false;
+
+    if (!form.firstName) {
+      newErrors.firstName = "Firstname is required.";
+    }
+    if (!form.lastName) {
+      newErrors.lastName = "Lastname is required.";
+    }
+    if (!form.username) {
+      newErrors.username = "Username is required.";
+    }
+    if (!form.email) {
+      newErrors.email = "Email is required.";
+    } else if (!isValidEmail(form.email)) {
+      newErrors.email = "Invalid email address.";
+    }
+    if (!isValidPhoneNumber(form.phone)) {
+      newErrors.phone = "Phone number is invalid.";
+    }
+
+    if (teacherId && form.price && +form.price <= 0) {
+      newErrors.price = "Price must be a positive number.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -114,8 +147,13 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
     if (!userId) return;
     if (!form) return;
 
+    const isValid = validateForm();
+
+    if (!isValid) return;
+
     try {
       let result = null;
+      if (!form) return;
       result = await updateUserData(
         // userId,
         form.username,
@@ -123,7 +161,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
         form.lastName,
         form.email,
         form.phone,
-        form.price,
+        +form.price!,
         form.qualification,
         form.bio,
         form.location
@@ -152,12 +190,17 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               defaultValue={user?.firstName}
               variant="outlined"
               fullWidth
-              required
+              // required
               name="firstName"
               onChange={(e) =>
                 handleContactFormChange("firstName", e.target.value)
               }
             />
+            {errors.firstName && (
+              <Typography className="error-message">
+                {errors.firstName}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={6}>
             {" "}
@@ -167,12 +210,17 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               defaultValue={user?.lastName}
               variant="outlined"
               fullWidth
-              required
+              // required
               name="lastName"
               onChange={(e) =>
                 handleContactFormChange("lastName", e.target.value)
               }
             />
+            {errors.lastName && (
+              <Typography className="error-message">
+                {errors.lastName}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <Typography className="input-label">Username</Typography>
@@ -182,11 +230,16 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               variant="outlined"
               fullWidth
               name="username"
-              required
+              // required
               onChange={(e) =>
                 handleContactFormChange("username", e.target.value)
               }
             />
+            {errors.username && (
+              <Typography className="error-message">
+                {errors.username}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <Typography className="input-label">Email</Typography>
@@ -197,9 +250,12 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               variant="outlined"
               name="email"
               fullWidth
-              required
+              // required
               onChange={(e) => handleContactFormChange("email", e.target.value)}
             />
+            {errors.phone && (
+              <Typography className="error-message">{errors.phone}</Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             {" "}
@@ -228,6 +284,11 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     handleContactFormChange("price", e.target.value)
                   }
                 />
+                {errors.price && (
+                  <Typography className="error-message">
+                    {errors.price}
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={6}>
                 <Typography className="input-label">Qualification</Typography>
