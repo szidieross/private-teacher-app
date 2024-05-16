@@ -1,7 +1,6 @@
 "use client";
 
-import React, { FC, useEffect, useState } from "react";
-// import SearchBar from "../searchbar/searchbar.component";
+import React, { FC, useState } from "react";
 import "./mobile.scss";
 import { colors } from "@/app/(client)/constants/color.constant";
 import {
@@ -12,8 +11,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Menu,
-  MenuItem,
   Typography,
   Button,
   Box,
@@ -23,8 +20,6 @@ import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
 import LogoutForm from "../logout-form/logout-form";
-// import useCategoriesService from "@/app/(client)/services/category.service";
-// import { CategoryModel } from "@/app/api/models/category.model";
 import "./mobile.scss";
 
 type Props = {
@@ -33,39 +28,14 @@ type Props = {
 
 const Mobile: FC<Props> = ({ profilePicture }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
-  // const { getCategories } = useCategoriesService();
-  // const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const { userInfo, setUserInfo } = useUserContext();
+  const { userInfo } = useUserContext();
   const { to } = useNavigation();
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const categories = await getCategories();
-  //       setCategories(categories);
-  //     } catch (error) {
-  //       console.error("Error fetching categories:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [getCategories]);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  const toggleProfileDrawer = () => {
-    setIsProfileDrawerOpen(!isProfileDrawerOpen);
-  };
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-    document.body.classList.add("menu-open");
-  };
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -74,12 +44,6 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
   const handleProfileClick = () => {
     handleCloseMenu();
     to("/profile");
-    toggleDrawer();
-  };
-
-  const handleTitleClick = () => {
-    handleCloseMenu();
-    to("/");
     toggleDrawer();
   };
 
@@ -133,7 +97,10 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
             open={isDrawerOpen}
             onClose={toggleDrawer}
           >
-            <Box className="drawer-box" sx={{ backgroundColor: "beige" }}>
+            <Box
+              className="drawer-box"
+              sx={{ backgroundColor: "beige", height: "100%" }}
+            >
               <IconButton onClick={toggleDrawer}>
                 <MenuIcon />
               </IconButton>
@@ -141,35 +108,13 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
                 <ListItem button onClick={handleTeachersClick}>
                   <ListItemText primary="Teachers" />
                 </ListItem>
-                {/* {categories && (
-                  <ListItem
-                    button
-                    onClick={toggleDrawer}
-                    sx={{ flexDirection: "column", alignItems: "flex-start" }}
-                  >
-                    <ListItemText primary="Categories" />
-                    <List>
-                      {categories.map((category) => (
-                        <ListItem
-                          button
-                          key={category.name}
-                          onClick={() => {
-                            toggleDrawer();
-                          }}
-                        >
-                          <ListItemText primary={category.name} />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </ListItem>
-                )} */}
                 {userInfo.isLoggedIn ? (
                   <>
                     <ListItem onClick={handleProfileClick}>
                       <ListItemText primary="Profile" />
                     </ListItem>
                     <ListItem onClick={handleAppointmentsClick}>
-                      <ListItemText primary=" My Appointments" />
+                      <ListItemText primary="My Appointments" />
                     </ListItem>
                     <ListItem onClick={handleSettingsClick}>
                       <ListItemText primary="Settings" />
@@ -194,62 +139,27 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
         </Grid>
         <Grid item xl={1}>
           <Typography
-            onClick={handleTitleClick}
+            onClick={() => to("/")}
             style={{ color: colors.secondary }}
-            className="desktop-title"
+            className="mobile-title"
           >
             Private Teacher App
           </Typography>
         </Grid>
         {userInfo.isLoggedIn ? (
           <Grid item xl={2}>
-            <IconButton
-              onClick={handleOpenMenu}
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              disableRipple
-            >
-              <Image
-                width={60}
-                height={60}
-                src={
-                  profilePicture
-                    ? `/images/uploads/${profilePicture}`
-                    : `/images/default/person.jpg`
-                }
-                alt="Profile"
-                className="profile-img"
-              />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleCloseMenu}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              PaperProps={{
-                style: {
-                  backgroundColor: "pink",
-                },
-              }}
-              disableScrollLock={false}
-            >
-              <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-              <MenuItem onClick={handleAppointmentsClick}>
-                My Appointments
-              </MenuItem>
-              <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
-              <MenuItem onClick={handleLogout}>
-                <LogoutForm />
-              </MenuItem>
-            </Menu>
+            <Image
+              onClick={() => to("/profile")}
+              width={60}
+              height={60}
+              src={
+                profilePicture
+                  ? `/images/uploads/${profilePicture}`
+                  : `/images/default/person.jpg`
+              }
+              alt="Profile"
+              className="profile-img"
+            />
           </Grid>
         ) : (
           <>

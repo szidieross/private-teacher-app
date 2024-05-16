@@ -105,12 +105,12 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
       <Box alignItems="center" justifyContent="space-between" display={"flex"}>
         <Box>
           <Link href={"/teachers"} style={{ color: colors.secondary }}>
-            Private Teacher App
+            <Typography>Private Teacher App</Typography>
           </Link>
         </Box>
         <Box justifyContent={"flex-end"}>
           <Box display={"flex"} alignItems={"center"} sx={{ gap: "20px" }}>
-            <Link href={"/teachers"}>
+            <Link href={"/teachers"} style={{ color: colors.secondary }}>
               <Typography>Teachers</Typography>
             </Link>
             {/* <Typography sx={{ cursor: "pointer" }} onClick={handleOpenCatMenu}>
@@ -146,7 +146,10 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                   </MenuItem>
                 ))}
             </Menu> */}
-            <Link href={"/profile/appointments"}>
+            <Link
+              href={"/profile/appointments"}
+              style={{ color: colors.secondary }}
+            >
               <Typography>My Appointments</Typography>
             </Link>
             {userInfo.isLoggedIn ? (

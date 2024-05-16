@@ -99,3 +99,7 @@ a {
   min-height: calc(100vh - 140px - 80px);
   margin-top: 80px;
 }
+
+input:focus {
+  outline: none !important;
+}

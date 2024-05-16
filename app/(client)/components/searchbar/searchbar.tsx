@@ -1,6 +1,7 @@
 import { Box, Container, TextField } from "@mui/material";
 import { FC, useCallback } from "react";
 import { useSearchContext } from "../../hooks/context.hook";
+import "./searchbar.scss";
 
 const SearchBar: FC = () => {
   const { filteredTeachers, setFilteredTeachers, allTeachers, setAllTeachers } =
@@ -51,14 +52,27 @@ const SearchBar: FC = () => {
   };
 
   return (
-    <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+    <Box sx={{ marginTop: 2, marginBottom: 2 }} className="searchbar-box">
       <TextField
+        className="search-input"
         variant="outlined"
         placeholder="Search..."
         onKeyUp={(event) => {
           handleSearch((event.target as HTMLTextAreaElement).value);
         }}
         autoComplete="off"
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "&.Mui-focused fieldset": {
+              borderColor: "rgba(0, 0, 0, 0.23)", // Adjust the border color if needed
+            },
+          },
+          "& .MuiOutlinedInput-input": {
+            "&:focus": {
+              outline: "none",
+            },
+          },
+        }}
         InputProps={{
           style: { backgroundColor: "#f0f0f0", borderRadius: 8 },
           endAdornment: (
