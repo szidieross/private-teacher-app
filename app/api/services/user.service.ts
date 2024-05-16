@@ -178,7 +178,6 @@ export const createUser = async (
       );
       return user_id;
     }
-    console.log("User created successfully. UserId:", result);
   } catch (error) {
     console.error("Error creating user:", error);
     throw error;
@@ -240,7 +239,6 @@ export const updateUserImage = async (title: string) => {
     const [rows] = await db.execute(query, [title, userId]);
     db.release();
 
-    console.log("User image path updated successfully");
   } catch (error) {
     console.error("Error verifying user:", error);
     throw error;
@@ -306,12 +304,7 @@ export const updateUserData = async (
         qualification,
         location
       );
-
-      console.log("HELLLLOOOOO");
-      // return user_id;
     }
-
-    console.log("User data updated successfully");
   } catch (error) {
     console.error("Error updating user:", error);
     throw error;

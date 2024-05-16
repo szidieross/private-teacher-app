@@ -25,7 +25,6 @@ export const createTeacher = async (
       location,
     ]);
 
-    console.log("Teacher created successfully.");
     return result;
   } catch (error) {
     console.error("Error creating teacher", error);
@@ -326,7 +325,6 @@ export const updateTeacherData = async (
     ]);
     db.release();
 
-    console.log("User data updated successfully");
   } catch (error) {
     console.error("Error updating user:", error);
     throw error;

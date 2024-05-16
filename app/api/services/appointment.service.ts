@@ -6,7 +6,6 @@ import { toAppointmentModel } from "../mappers/appointment.mapper";
 export const getAppointments = async (): Promise<AppointmentModel[]> => {
   try {
     const db = await pool.getConnection();
-    // const query = "SELECT * FROM appointments";
     const query = `
     SELECT
         Appointments.appointment_id,
@@ -39,12 +38,6 @@ export const getAppointments = async (): Promise<AppointmentModel[]> => {
         last_name: row.last_name,
         category_name: row.category_name,
         start_time: row.start_time,
-        // appointment_id: row.appointment_id,
-        // teacher_id: row.teacher_id,
-        // user_id: row.user_id,
-        // lesson_id: row.lesson_id,
-        // start_time: row.start_time,
-        // end_time: row.end_time,
       };
     });
 
@@ -64,7 +57,6 @@ export const getAppointmentByUserId = async (
 ): Promise<AppointmentModel[]> => {
   try {
     const db = await pool.getConnection();
-    // const query = "SELECT * FROM appointments WHERE user_id = ?";
     const query = `
     SELECT
         Appointments.appointment_id,
@@ -97,12 +89,6 @@ export const getAppointmentByUserId = async (
         last_name: row.last_name,
         category_name: row.category_name,
         start_time: row.start_time,
-        // appointment_id: row.appointment_id,
-        // teacher_id: row.teacher_id,
-        // user_id: row.user_id,
-        // lesson_id: row.lesson_id,
-        // start_time: row.start_time,
-        // end_time: row.end_time,
       };
     });
 
@@ -110,7 +96,6 @@ export const getAppointmentByUserId = async (
       return toAppointmentModel(row);
     });
 
-    console.log("getAppointmentByUserId", appointments);
     return appointments;
   } catch (error) {
     console.error("Error fetching appointment:", error);
@@ -123,7 +108,6 @@ export const getAppointmentByTeacherId = async (
 ): Promise<AppointmentModel[]> => {
   try {
     const db = await pool.getConnection();
-    // const query = "SELECT * FROM appointments WHERE teacher_id = ?";
     const query = `
     SELECT
         Appointments.appointment_id,
@@ -158,12 +142,6 @@ export const getAppointmentByTeacherId = async (
         last_name: row.last_name,
         category_name: row.category_name,
         start_time: row.start_time,
-        // appointment_id: row.appointment_id,
-        // teacher_id: row.teacher_id,
-        // user_id: row.user_id,
-        // lesson_id: row.lesson_id,
-        // start_time: row.start_time,
-        // end_time: row.end_time,
       };
     });
 
@@ -211,7 +189,6 @@ export const bookAppointment = async (
     const [result] = await db.execute(query, [userId, lessonId, appointmentId]);
     db.release();
 
-    console.log("Appointment booked successfully.");
     return result;
   } catch (error) {
     console.error("Error booking appointment:", error);
@@ -221,7 +198,6 @@ export const bookAppointment = async (
 
 export const cancelAppointment = async (appointmentId: number) => {
   try {
-    console.log("cancelAppointmentcancelAppointmentcancelAppointment");
     const db = await pool.getConnection();
     const query = `
     UPDATE Appointments 
@@ -231,7 +207,6 @@ export const cancelAppointment = async (appointmentId: number) => {
     const [result] = await db.execute(query, [appointmentId]);
     db.release();
 
-    console.log("Appointment canceled successfully.");
     return result;
   } catch (error) {
     console.error("Error cancelling appointment:", error);
@@ -249,7 +224,6 @@ export const deleteAppointment = async (appointmentId: number) => {
     const [result] = await db.execute(query, [appointmentId]);
     db.release();
 
-    console.log("Appointment deleted successfully.");
     return result;
   } catch (error) {
     console.error("Error deleting appointment:", error);
@@ -277,10 +251,10 @@ export const idek = async (appointmentId: number) => {
     WHERE 
         Lessons.teacher_id = 1
       `;
+      
     const [result] = await db.execute(query, [appointmentId]);
     db.release();
 
-    console.log("Appointment deleted successfully.");
     return result;
   } catch (error) {
     console.error("Error deleting appointment:", error);

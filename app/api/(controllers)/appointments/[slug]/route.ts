@@ -29,7 +29,6 @@ export const GET = async (
 export async function POST(request: NextRequest) {
   try {
     const { userId, appointmentId, lessonId } = await request.json();
-    console.log("lessonId", lessonId);
 
     if (!userId || !appointmentId) {
       throw new Error("Missing userId or appointmentId");
@@ -48,58 +47,9 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// export async function PUT(request: NextRequest) {
-//   try {
-//     const { appointmentId } = await request.json();
-//     console.log("appointmentId", appointmentId);
-//     // console.log("cancelAppointmentcancelAppointmentcancelAppointment")
-
-//     if (!appointmentId) {
-//       throw new Error("Missing appointmentId");
-//     }
-
-//     const result = await cancelAppointment(appointmentId);
-
-//     return NextResponse.json({ affectedRows: result }, { status: 201 });
-//   } catch (error) {
-//     return NextResponse.json(
-//       {
-//         error: error,
-//       },
-//       { status: 500 }
-//     );
-//   }
-// }
-
-// export async function DELETE(
-//   request: NextRequest,
-//   context: { params: { slug: number } }
-// ) {
-//   try {
-//     const appointmentId = context.params.slug;
-//     console.log("appointmentId", appointmentId);
-
-//     if (!appointmentId) {
-//       throw new Error("Missing appointmentId");
-//     }
-
-//     const result = await deleteAppointment(appointmentId);
-
-//     return NextResponse.json({ affectedRows: result }, { status: 201 });
-//   } catch (error) {
-//     return NextResponse.json(
-//       {
-//         error: error,
-//       },
-//       { status: 500 }
-//     );
-//   }
-// }
-
 export async function PUT(request: NextRequest,context: { params: { slug: number } }) {
   try {
     const appointmentId = context.params.slug;
-    console.log("appointmentId", appointmentId);
 
     if (!appointmentId) {
       throw new Error("Missing appointmentId");
@@ -121,7 +71,6 @@ export async function PUT(request: NextRequest,context: { params: { slug: number
 export async function DELETE(request: NextRequest, context: { params: { slug: number } }) {
   try {
     const appointmentId = context.params.slug;
-    console.log("appointmentId", appointmentId);
 
     if (!appointmentId) {
       throw new Error("Missing appointmentId");

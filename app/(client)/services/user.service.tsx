@@ -129,11 +129,6 @@ const useUsersService = () => {
     ) => {
       const session = await getSession();
       const userId = session.userId;
-      if (price) {
-        console.log("pricee", price);
-      } else {
-        console.log("no pricee", price);
-      }
       try {
         const { data } = await api.post<UserModel>(
           `/users/${userId}`,

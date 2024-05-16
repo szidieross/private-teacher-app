@@ -2,7 +2,14 @@
 
 import { FC, useState, useEffect } from "react";
 import useUsersService from "@/app/(client)/services/user.service";
-import { Button, Container, Grid, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Grid,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { UserModel } from "@/app/api/models/user.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
@@ -47,6 +54,8 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
   const [user, setUser] = useState<UserModel | null>(null);
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
   const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const validateForm = () => {
     const newErrors: Partial<ContactUsRequest> = {};
@@ -94,9 +103,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             });
           }
           if (teacherId) {
-            console.log("Hello teacher");
             const teacherData = await getTeacherByUserId(userId);
-            console.log(teacherData);
             if (teacherData) {
               setTeacher(teacherData);
               setContactForm((prevForm: ContactUsRequest | null) => ({
@@ -135,8 +142,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
         };
       }
     });
-
-    console.log("FORMMMMM", form);
   };
 
   const handleSubmit = async (
@@ -168,14 +173,17 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
       );
 
       if (result) {
-        console.log("User updated successfully:", result);
-      } else {
-        console.error("Error updating user:", result);
+        setOpenSnackbar(true);
+        setSnackbarMessage("User data updated!");
       }
     } catch (error) {
-      console.error("Error updating user:", error);
-    } finally {
+      setOpenSnackbar(true);
+      setSnackbarMessage("User data update failed.");
     }
+  };
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -336,6 +344,13 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
           </Grid>
         </Grid>
       </form>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+      />
     </Container>
   );
 };

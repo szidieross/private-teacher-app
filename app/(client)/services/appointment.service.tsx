@@ -91,7 +91,6 @@ const useAppointmentsService = () => {
   );
 
   const bookAppointment = async (appointmentId: number, lessonId: number) => {
-    console.log("lessonId", lessonId);
     const session = await getSession();
     const userId = session.userId;
     try {
@@ -112,11 +111,9 @@ const useAppointmentsService = () => {
   };
 
   const cancelAppointment = async (appointmentId: number) => {
-    console.log("appointmentId", appointmentId);
     const session = await getSession();
     const userId = session.userId;
     try {
-      console.log("cancelAppointmentcancelAppointmentcancelAppointment")
       const { data } = await api.put<AppointmentModel>(
         `/appointments/${appointmentId}`,
         {
@@ -132,7 +129,6 @@ const useAppointmentsService = () => {
   };
 
   const deleteAppointment = async (appointmentId: number) => {
-    console.log("appointmentId", appointmentId);
     const session = await getSession();
     const userId = session.userId;
     try {

@@ -160,11 +160,7 @@ const Signup = () => {
 
       setOpenSnackbar(true);
       setSnackbarMessage("Registration successful!");
-
-      console.log("User registered successfully:", result);
     } catch (error) {
-      console.error("Error registering user:", error);
-
       setOpenSnackbar(true);
       setSnackbarMessage("Registration failed. Please try again.");
     }
@@ -173,8 +169,6 @@ const Signup = () => {
   const handleSnackbarClose = () => {
     setOpenSnackbar(false);
   };
-
-  console.log("Errors:", errors);
 
   return (
     <Container maxWidth="sm">

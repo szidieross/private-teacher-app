@@ -9,12 +9,6 @@ const toAppointmentModel = (dto: AppointmentDto): AppointmentModel => ({
   lastName: dto.last_name,
   categoryName: dto.category_name,
   startTime: dto.start_time,
-  // appointmentId: dto.appointment_id,
-  // teacherId: dto.teacher_id,
-  // userId: dto.user_id,
-  // lessonId: dto.lesson_id,
-  // startTime: dto.start_time,
-  // endTime: dto.end_time,
 });
 
 export { toAppointmentModel };

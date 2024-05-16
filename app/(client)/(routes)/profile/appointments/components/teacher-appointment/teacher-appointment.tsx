@@ -23,8 +23,6 @@ type Props = {
 // };
 
 const TeacherAppointments: FC<Props> = ({ userId }) => {
-  console.log("userId", userId);
-  console.log("teacherId");
   const { getTeacherByUserId } = useTeachersService();
   const { getAppointmentByTeacherId, deleteAppointment } =
     useAppointmentsService();
@@ -34,8 +32,6 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
   const [teacherId, setTeacherId] = useState<number | null>(null);
 
   const handleDelete = async (appointmentId: number) => {
-    console.log("appointmentId", appointmentId);
-    console.log("Delete appointment with ID:", appointmentId);
     await deleteAppointment(appointmentId);
     if (teacherId) {
       const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
@@ -47,13 +43,12 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     const fetchData = async () => {
       try {
         const session = await getSession();
-        // const teacher = await getTeacherByUserId(userId);
+        
         if (session.teacherId) {
           setTeacherId(session.teacherId);
           const fetchedAppointments = await getAppointmentByTeacherId(
             session?.teacherId
           );
-          console.log("Teacher appointment", fetchedAppointments);
           setAppointments(fetchedAppointments);
         }
       } catch (error) {

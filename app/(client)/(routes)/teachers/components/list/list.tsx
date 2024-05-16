@@ -59,7 +59,7 @@ const List: FC<Props> = ({ isSession }) => {
           const session = await getSession();
           if (session.userId) {
             const user = await getUserById(session.userId);
-            console.log(user);
+
             setUserInfo((prevState) => {
               return {
                 ...prevState,
@@ -75,7 +75,7 @@ const List: FC<Props> = ({ isSession }) => {
           }
         }
         const fetchedTeachers = await getTeachers();
-        console.log("fetchedTeachers", fetchedTeachers);
+        
         setAllTeachers(fetchedTeachers);
         setFilteredTeachers(fetchedTeachers);
         const fetchedCategories = await getCategories();

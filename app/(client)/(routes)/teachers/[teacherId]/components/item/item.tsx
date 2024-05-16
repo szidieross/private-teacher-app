@@ -27,13 +27,10 @@ const Item: FC<Props> = ({ teacherId }) => {
     const fetchData = async () => {
       try {
         const fetchedTeacher = await getTeacherById(teacherId);
-        console.log("fetchedTeacher", fetchedTeacher);
         setTeacher(fetchedTeacher);
 
         const fetchedLessons = await getLessonsByTeacherId(teacherId);
         setLessons(fetchedLessons);
-
-        console.log("fetchedLessons", fetchedLessons);
       } catch (error) {
         console.error("Error fetching teacher:", error);
       }

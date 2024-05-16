@@ -10,8 +10,6 @@ export default async function Home() {
     redirect("/teachers");
   }
   const session = await getSession();
-  console.log("session.teacherId", session.teacherId);
-  console.log("session.userId", session.userId);
 
   return (
     <main>

@@ -112,7 +112,6 @@ export const createLesson = async (teacherId: string, categoryId: Date) => {
     const [result] = await db.execute(query, [teacherId, categoryId]);
     db.release();
 
-    console.log("Lesson created successfully.");
   } catch (error) {
     console.error("Error creating lesson:", error);
     throw error;

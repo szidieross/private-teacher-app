@@ -81,7 +81,6 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
         // setCategories(categories);
         if (userInfo.userId) {
           const user = await getUserById(userInfo.userId);
-          console.log(user);
           setUserInfo((prevState) => {
             return {
               ...prevState,

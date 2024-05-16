@@ -18,12 +18,9 @@ const UserAppointments: FC<Props> = ({ userId }) => {
   );
 
   const handleCancel = async (appointmentId: number) => {
-    console.log("appointmentId", appointmentId);
-    console.log("Cancel appointment with ID:", appointmentId);
     await cancelAppointment(appointmentId);
     const updatedAppointments = await getAppointmentByUserId(userId);
     setAppointments(updatedAppointments);
-    // await deleteAppointment(31);
   };
 
   useEffect(() => {
@@ -31,7 +28,6 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       try {
         const fetchedAppointments = await getAppointmentByUserId(userId);
         setAppointments(fetchedAppointments);
-        console.log("User appointment", fetchedAppointments);
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }
