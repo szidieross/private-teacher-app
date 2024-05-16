@@ -31,6 +31,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       try {
         const fetchedAppointments = await getAppointmentByUserId(userId);
         setAppointments(fetchedAppointments);
+        console.log("User appointment", fetchedAppointments);
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }
@@ -46,6 +47,11 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       width: 90,
     },
     {
+      field: "subject",
+      headerName: "Subject",
+      width: 110,
+    },
+    {
       field: "name",
       headerName: "Name",
       width: 150,
@@ -54,11 +60,6 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       field: "date",
       headerName: "Date",
       width: 150,
-    },
-    {
-      field: "subject",
-      headerName: "Subject",
-      width: 110,
     },
     {
       field: "action",
@@ -80,10 +81,11 @@ const UserAppointments: FC<Props> = ({ userId }) => {
   const rows = appointments?.map((item, index) => {
     return {
       id: index + 1,
-      appointmentId: item.appointmentId,
-      name: `${item.userId}`,
-      date: "date",
-      subject: "subject",
+      // appointmentId: item.appointmentId,
+      subject: item.categoryName,
+      name: `${item.firstName} ${item.lastName}`,
+      // date: "date",
+      date: item.startTime,
     };
   });
 

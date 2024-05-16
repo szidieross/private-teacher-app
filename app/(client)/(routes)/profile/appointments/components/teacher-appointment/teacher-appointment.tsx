@@ -13,14 +13,14 @@ type Props = {
   userId: number;
 };
 
-type TableProps = {
-  id: number;
-  appointmentId: number;
-  name: string;
-  date: string;
-  subject: string;
-  action: string;
-};
+// type TableProps = {
+//   id: number;
+//   appointmentId: number;
+//   name: string;
+//   date: string;
+//   subject: string;
+//   action: string;
+// };
 
 const TeacherAppointments: FC<Props> = ({ userId }) => {
   console.log("userId", userId);
@@ -53,6 +53,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
           const fetchedAppointments = await getAppointmentByTeacherId(
             session?.teacherId
           );
+          console.log("Teacher appointment", fetchedAppointments);
           setAppointments(fetchedAppointments);
         }
       } catch (error) {
@@ -63,10 +64,10 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     fetchData();
   }, [getAppointmentByTeacherId, userId, getSession]);
 
-  const columns: GridColDef<TableProps>[] = [
+  const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "ID",
+      headerName: "#",
       width: 90,
     },
     {
@@ -76,15 +77,15 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       editable: true,
     },
     {
-      field: "date",
-      headerName: "Date",
-      width: 150,
-      editable: true,
-    },
-    {
       field: "subject",
       headerName: "Subject",
       width: 110,
+      editable: true,
+    },
+    {
+      field: "date",
+      headerName: "Date",
+      width: 150,
       editable: true,
     },
     {
@@ -107,10 +108,10 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
   const rows = appointments?.map((item, index) => {
     return {
       id: index + 1,
-      appointmentId: item.appointmentId,
-      name: `${item.userId}`,
-      date: "date",
-      subject: "subject",
+      // appointmentId: item.appointmentId,
+      name: item.userId ? `${item.firstName} ${item.lastName}` : "-",
+      subject: item.categoryName ? item.categoryName : "-",
+      date: item.startTime,
       action: "",
     };
   });
