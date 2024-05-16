@@ -31,7 +31,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       try {
         const fetchedAppointments = await getAppointmentByUserId(userId);
         setAppointments(fetchedAppointments);
-        console.log("fetchedAppointments", fetchedAppointments);
+        console.log("User appointment", fetchedAppointments);
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }

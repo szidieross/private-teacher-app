@@ -53,6 +53,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
           const fetchedAppointments = await getAppointmentByTeacherId(
             session?.teacherId
           );
+          console.log("Teacher appointment", fetchedAppointments);
           setAppointments(fetchedAppointments);
         }
       } catch (error) {
