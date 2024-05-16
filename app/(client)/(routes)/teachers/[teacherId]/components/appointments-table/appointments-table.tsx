@@ -26,7 +26,7 @@ const AppointmentsTable: FC<Props> = ({ teacherId, lessonId }) => {
   );
 
   const handleBooking = (appointmentId: number) => {
-    bookAppointment(appointmentId, lessonId);;
+    bookAppointment(appointmentId, lessonId);
   };
 
   useEffect(() => {
@@ -34,6 +34,7 @@ const AppointmentsTable: FC<Props> = ({ teacherId, lessonId }) => {
       try {
         const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
         setAppointments(fetchedAppointments);
+        console.log("fetchedAppointments", fetchedAppointments);
       } catch (error) {
         console.error("Error fetching teacher:", error);
       }

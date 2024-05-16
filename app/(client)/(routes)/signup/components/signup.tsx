@@ -9,6 +9,7 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   Typography,
+  Snackbar,
 } from "@mui/material";
 import "./signup.scss";
 import useUsersService from "@/app/(client)/services/user.service";
@@ -49,6 +50,8 @@ const Signup = () => {
   const { createUser } = useUsersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleToggeleButtonChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -154,10 +157,21 @@ const Signup = () => {
           ""
         );
       }
+
+      setOpenSnackbar(true);
+      setSnackbarMessage("Registration successful!");
+
       console.log("User registered successfully:", result);
     } catch (error) {
       console.error("Error registering user:", error);
+
+      setOpenSnackbar(true);
+      setSnackbarMessage("Registration failed. Please try again.");
     }
+  };
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
   };
 
   console.log("Errors:", errors);
@@ -371,6 +385,13 @@ const Signup = () => {
           </Grid>
         </Grid>
       </form>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+      />
     </Container>
   );
 };
