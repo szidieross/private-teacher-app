@@ -10,18 +10,20 @@ export const getAppointments = async (): Promise<AppointmentModel[]> => {
     const query = `
     SELECT
         Appointments.appointment_id,
-        Teachers.first_name AS teacher_first_name,
-        Teachers.last_name AS teacher_last_name,
+        Appointments.user_id,
+        Teachers.teacher_id,
+        Users.first_name AS first_name,
+        Users.last_name AS last_name,
         Categories.name AS category_name,
         Appointments.start_time
     FROM
         Appointments
-        INNER JOIN Users AS Users ON Appointments.user_id = Users.user_id
+        LEFT JOIN Teachers ON Appointments.teacher_id = Teachers.teacher_id
+        LEFT JOIN Users ON Teachers.user_id = Users.user_id
         INNER JOIN Lessons ON Appointments.lesson_id = Lessons.lesson_id
         INNER JOIN Categories ON Lessons.category_id = Categories.category_id
-        INNER JOIN Teachers ON Lessons.teacher_id = Teachers.teacher_id
     WHERE
-        Lessons.teacher_id = 1;
+        Appointments.teacher_id = ?
     `;
     const [rows] = await db.execute(query);
     db.release();
@@ -62,7 +64,25 @@ export const getAppointmentByUserId = async (
 ): Promise<AppointmentModel[]> => {
   try {
     const db = await pool.getConnection();
-    const query = "SELECT * FROM appointments WHERE user_id = ?";
+    // const query = "SELECT * FROM appointments WHERE user_id = ?";
+    const query = `
+    SELECT
+        Appointments.appointment_id,
+        Appointments.user_id,
+        Teachers.teacher_id,
+        Users.first_name AS first_name,
+        Users.last_name AS last_name,
+        Categories.name AS category_name,
+        Appointments.start_time
+    FROM
+        Appointments
+        LEFT JOIN Teachers ON Appointments.teacher_id = Teachers.teacher_id
+        LEFT JOIN Users ON Teachers.user_id = Users.user_id
+        INNER JOIN Lessons ON Appointments.lesson_id = Lessons.lesson_id
+        INNER JOIN Categories ON Lessons.category_id = Categories.category_id
+    WHERE
+        Appointments.user_id = ?;
+    `;
     const [rows] = await db.execute(query, [userId]);
     db.release();
 
@@ -106,21 +126,21 @@ export const getAppointmentByTeacherId = async (
     // const query = "SELECT * FROM appointments WHERE teacher_id = ?";
     const query = `
     SELECT
-    Appointments.appointment_id,
-    Appointments.user_id,
-    Teachers.teacher_id,
-    Users.first_name AS first_name,
-    Users.last_name AS last_name,
-    Categories.name AS category_name,
-    Appointments.start_time
-FROM
-    Appointments
-    LEFT JOIN Teachers ON Appointments.teacher_id = Teachers.teacher_id
-    LEFT JOIN Users ON Teachers.user_id = Users.user_id
-    INNER JOIN Lessons ON Appointments.lesson_id = Lessons.lesson_id
-    INNER JOIN Categories ON Lessons.category_id = Categories.category_id
-WHERE
-    Appointments.teacher_id = ?;
+        Appointments.appointment_id,
+        Appointments.user_id,
+        Teachers.teacher_id,
+        Users.first_name AS first_name,
+        Users.last_name AS last_name,
+        Categories.name AS category_name,
+        Appointments.start_time
+    FROM
+        Appointments
+        LEFT JOIN Teachers ON Appointments.teacher_id = Teachers.teacher_id
+        LEFT JOIN Users ON Teachers.user_id = Users.user_id
+        INNER JOIN Lessons ON Appointments.lesson_id = Lessons.lesson_id
+        INNER JOIN Categories ON Lessons.category_id = Categories.category_id
+    WHERE
+        Appointments.teacher_id = ?;
     `;
     const [rows] = await db.execute(query, [teacherId]);
     db.release();
