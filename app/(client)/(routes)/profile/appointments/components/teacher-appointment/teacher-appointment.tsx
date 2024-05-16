@@ -43,7 +43,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     const fetchData = async () => {
       try {
         const session = await getSession();
-        
+
         if (session.teacherId) {
           setTeacherId(session.teacherId);
           const fetchedAppointments = await getAppointmentByTeacherId(
@@ -57,7 +57,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     };
 
     fetchData();
-  }, [getAppointmentByTeacherId, userId, getSession]);
+  }, [getAppointmentByTeacherId, userId]);
 
   const columns: GridColDef[] = [
     {
@@ -125,7 +125,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
             },
           }}
           pageSizeOptions={[5]}
-          checkboxSelection
+          checkboxSelection={false}
           disableRowSelectionOnClick
         />
       )}

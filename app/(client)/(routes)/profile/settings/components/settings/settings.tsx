@@ -122,7 +122,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
     };
 
     fetchData();
-  }, [getUserById, userId]);
+  }, [getUserById, userId, getTeacherByUserId, teacherId]);
 
   const handleContactFormChange = (
     property: keyof ContactUsRequest,

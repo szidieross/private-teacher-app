@@ -94,7 +94,7 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
     };
 
     fetchData();
-  }, [setUserInfo]);
+  }, [setUserInfo,getUserById,userInfo.userId]);
 
   return (
     <Container

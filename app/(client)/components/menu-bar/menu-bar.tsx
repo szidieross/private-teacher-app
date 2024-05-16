@@ -21,7 +21,7 @@ const MenuBar: FC = () => {
       await isLoggedIn();
     };
     checkLoggedIn();
-  }, [isLoggedIn]);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +63,7 @@ const MenuBar: FC = () => {
       }
     };
     fetchData();
-  }, [getSession, setUserInfo]);
+  }, [setUserInfo, getTeacherByUserId, getUserById]);
 
   return (
     <Box

@@ -37,7 +37,7 @@ const Item: FC<Props> = ({ teacherId }) => {
     };
 
     fetchData();
-  }, [getTeacherById, teacherId]);
+  }, [getTeacherById, teacherId,getLessonsByTeacherId]);
 
   if (!teacher) return <>No data found.</>;
 

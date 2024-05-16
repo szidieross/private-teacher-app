@@ -41,27 +41,32 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       field: "id",
       headerName: "ID",
       width: 90,
+      editable: false,
     },
     {
       field: "subject",
       headerName: "Subject",
       width: 110,
+      editable: false,
     },
     {
       field: "name",
       headerName: "Name",
       width: 150,
+      editable: false,
     },
     {
       field: "date",
       headerName: "Date",
       width: 150,
+      editable: false,
     },
     {
       field: "action",
       headerName: "Action",
       sortable: false,
       width: 160,
+      editable: false,
       renderCell: (params) => (
         <Button
           variant="text"
@@ -85,6 +90,10 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     };
   });
 
+  const handleCellClick = (params: any) => {
+    params.event?.stopPropagation(); // Prevent focusing on cells
+  };
+
   return (
     <Box sx={{ p: 2 }}>
       <Typography variant="h5" sx={{ mb: 2 }}>
@@ -95,8 +104,9 @@ const UserAppointments: FC<Props> = ({ userId }) => {
           <DataGrid
             rows={rows}
             columns={columns}
-            checkboxSelection
+            checkboxSelection={false}
             disableRowSelectionOnClick
+            onCellClick={handleCellClick}
           />
         )}
       </Box>

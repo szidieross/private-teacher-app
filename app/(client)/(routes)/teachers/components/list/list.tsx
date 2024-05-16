@@ -29,7 +29,7 @@ type Props = {
 };
 
 const List: FC<Props> = ({ isSession }) => {
-  const { getTeachers, getTeacherByUserId } = useTeachersService();
+  const { getTeachers } = useTeachersService();
   const { getCategories } = useCategoriesService();
   const { filteredTeachers, setFilteredTeachers, allTeachers, setAllTeachers } =
     useSearchContext();
@@ -76,7 +76,7 @@ const List: FC<Props> = ({ isSession }) => {
           }
         }
         const fetchedTeachers = await getTeachers();
-        
+
         setAllTeachers(fetchedTeachers);
         setFilteredTeachers(fetchedTeachers);
         const fetchedCategories = await getCategories();
@@ -87,7 +87,15 @@ const List: FC<Props> = ({ isSession }) => {
     };
 
     fetchData();
-  }, [getTeachers]);
+  }, [
+    getTeachers,
+    getCategories,
+    getUserById,
+    isSession,
+    setAllTeachers,
+    setFilteredTeachers,
+    setUserInfo,
+  ]);
 
   const filterTeachersByCategory = (
     teachers: TeacherModel[],
@@ -117,7 +125,12 @@ const List: FC<Props> = ({ isSession }) => {
         </Select> */}
         <InputLabel
           id="category-select-label"
-          style={{ marginBottom: "8px", fontWeight: "bold", fontSize: "16px",color:colors.primary }}
+          style={{
+            marginBottom: "8px",
+            fontWeight: "bold",
+            fontSize: "16px",
+            color: colors.primary,
+          }}
         >
           Choose a category
         </InputLabel>
@@ -126,19 +139,19 @@ const List: FC<Props> = ({ isSession }) => {
           onChange={handleChange}
           style={{ width: "200px", marginBottom: "16px" }}
           sx={{
-            width: '200px',
-          marginBottom: '16px',
-          backgroundColor: 'background.paper',
-          borderRadius: 1,
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'primary.main',
-          },
-          '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'primary.dark',
-          },
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'primary.dark',
-          }
+            width: "200px",
+            marginBottom: "16px",
+            backgroundColor: "background.paper",
+            borderRadius: 1,
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "primary.main",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "primary.dark",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "primary.dark",
+            },
             // width: '200px',
             // marginBottom: '16px',
             // backgroundColor: 'background.paper',
@@ -156,29 +169,29 @@ const List: FC<Props> = ({ isSession }) => {
           MenuProps={{
             PaperProps: {
               sx: {
-                bgcolor: 'background.paper',
+                bgcolor: "background.paper",
                 boxShadow: 3,
-                maxHeight:200,
-                '& .MuiMenuItem-root': {
-                  '&.Mui-selected': {
+                maxHeight: 200,
+                "& .MuiMenuItem-root": {
+                  "&.Mui-selected": {
                     backgroundColor: colors.primary,
                   },
-                  '&:hover': {
+                  "&:hover": {
                     backgroundColor: colors.primary,
                   },
                 },
-                '& ul': {
-                  '&::-webkit-scrollbar': {
-                    width: '8px',
+                "& ul": {
+                  "&::-webkit-scrollbar": {
+                    width: "8px",
                   },
-                  '&::-webkit-scrollbar-thumb': {
+                  "&::-webkit-scrollbar-thumb": {
                     backgroundColor: colors.primary,
-                    borderRadius: '4px',
+                    borderRadius: "4px",
                   },
-                  '&::-webkit-scrollbar-thumb:hover': {
+                  "&::-webkit-scrollbar-thumb:hover": {
                     backgroundColor: colors.primary,
                   },
-                  '&::-webkit-scrollbar-track': {
+                  "&::-webkit-scrollbar-track": {
                     backgroundColor: colors.primary,
                   },
                 },

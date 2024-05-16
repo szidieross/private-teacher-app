@@ -80,7 +80,7 @@ const Profile: FC<Props> = ({ userId }) => {
     };
 
     fetchData();
-  }, [getUserById, userId, setUserInfo]);
+  }, [getUserById, userId, setUserInfo, getTeacherByUserId]);
 
   if (!user) return <>Loading...</>;
 
@@ -139,8 +139,10 @@ const Profile: FC<Props> = ({ userId }) => {
           </Grid>
         </Grid>
       </Paper>
-      <Button variant="contained" onClick={()=>to("/profile/appointments")}>See you appointments</Button>
-      
+      <Button variant="contained" onClick={() => to("/profile/appointments")}>
+        See you appointments
+      </Button>
+
       <CustomModal open={open} onClose={handleClose} />
       {teacher && (
         <>
