@@ -1,10 +1,11 @@
 "use client";
 
 import React, { FC, useEffect, useState } from "react";
-import { Box, Button, Link, Typography } from "@mui/material";
+import { Box, Button, IconButton, Link, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 
 type Props = {
   userId: number;
@@ -39,7 +40,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "ID",
+      headerName: "#",
       width: 90,
       editable: false,
     },
@@ -51,7 +52,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     },
     {
       field: "name",
-      headerName: "Name",
+      headerName: "Teacher",
       width: 150,
       editable: false,
       renderCell: (params) => (
@@ -73,13 +74,19 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       width: 160,
       editable: false,
       renderCell: (params) => (
-        <Button
-          variant="text"
+        // <Button
+        //   variant="text"
+        //   color="error"
+        //   onClick={() => handleCancel(params.row.appointmentId)}
+        // >
+        //   Cancel
+        // </Button>
+        <IconButton
           color="error"
           onClick={() => handleCancel(params.row.appointmentId)}
         >
-          Cancel
-        </Button>
+          <CancelRoundedIcon />
+        </IconButton>
       ),
     },
   ];

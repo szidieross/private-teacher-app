@@ -10,7 +10,17 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
-import { Button, Container, Snackbar, Alert, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Snackbar,
+  Alert,
+  Typography,
+  IconButton,
+} from "@mui/material";
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import { useUserContext } from "@/app/(client)/hooks/context.hook";
+import AddTaskRoundedIcon from "@mui/icons-material/AddTaskRounded";
 
 type Props = {
   teacherId: number;
@@ -31,15 +41,32 @@ const AppointmentsTable: FC<Props> = ({
   );
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const { userInfo } = useUserContext();
 
-  const handleBooking = (appointmentId: number) => {
+  const fetchAppointments = async () => {
+    try {
+      const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
+      console.log("fetchedAppointments", fetchedAppointments);
+      setAppointments(fetchedAppointments);
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+    }
+  };
+
+  const handleBooking = async (appointmentId: number) => {
     if (ownTeacherId == teacherId) {
       setSnackbarMessage("You can't book your own appointments!");
       setSnackbarOpen(true);
       return;
     }
-    bookAppointment(appointmentId, lessonId);
-    setSnackbarMessage("Appointment successfully booked.");
+    try {
+      await bookAppointment(appointmentId, lessonId);
+      setSnackbarMessage("Appointment successfully booked.");
+      await fetchAppointments(); // Fetch updated appointments
+    } catch (error) {
+      setSnackbarMessage("Error booking appointment.");
+      console.error("Error booking appointment:", error);
+    }
     setSnackbarOpen(true);
   };
 
@@ -48,16 +75,8 @@ const AppointmentsTable: FC<Props> = ({
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
-        setAppointments(fetchedAppointments);
-      } catch (error) {
-        console.error("Error fetching appointments:", error);
-      }
-    };
-    fetchData();
-  }, [getAppointmentByTeacherId, teacherId]);
+    fetchAppointments();
+  }, [teacherId]);
 
   const formatDate = (date: string) => {
     const dateObj = new Date(date);
@@ -110,15 +129,18 @@ const AppointmentsTable: FC<Props> = ({
                     {item.userId ? "Taken" : "Available"}
                   </TableCell>
                   <TableCell align="center">
-                    <Button
-                      variant="contained"
+                    <IconButton
                       color="primary"
                       onClick={() => handleBooking(item.appointmentId)}
                       disabled={item.userId != null}
                       sx={{ textTransform: "none" }}
                     >
-                      Book
-                    </Button>
+                      {item.userId == userInfo.userId ? (
+                        <AddTaskRoundedIcon />
+                      ) : (
+                        <AddCircleOutlineRoundedIcon />
+                      )}
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}
