@@ -158,6 +158,8 @@ const Signup = () => {
         );
       }
 
+      setContactForm(initContactForm);
+
       setOpenSnackbar(true);
       setSnackbarMessage("Registration successful!");
     } catch (error) {
@@ -200,7 +202,8 @@ const Signup = () => {
               fullWidth
               // required
               name="firstName"
-              error={!!errors.lastName}
+              error={!!errors.firstName}
+              value={form?.firstName}
               onChange={(e) =>
                 handleContactFormChange("firstName", e.target.value)
               }
@@ -219,6 +222,7 @@ const Signup = () => {
               // required
               name="lastName"
               error={!!errors.lastName}
+              value={form?.lastName}
               onChange={(e) =>
                 handleContactFormChange("lastName", e.target.value)
               }
@@ -236,6 +240,7 @@ const Signup = () => {
               fullWidth
               name="username"
               error={!!errors.username}
+              value={form?.username}
               // required
               onChange={(e) =>
                 handleContactFormChange("username", e.target.value)
@@ -255,6 +260,7 @@ const Signup = () => {
               name="password"
               fullWidth
               error={!!errors.password}
+              value={form?.password}
               // required
               onChange={(e) =>
                 handleContactFormChange("password", e.target.value)
@@ -273,6 +279,7 @@ const Signup = () => {
               variant="outlined"
               name="email"
               fullWidth
+              value={form?.email}
               error={!!errors.email}
               // required
               onChange={(e) => handleContactFormChange("email", e.target.value)}
@@ -288,6 +295,7 @@ const Signup = () => {
               fullWidth
               name="phone"
               error={!!errors.phone}
+              value={form?.phone}
               onChange={(e) => handleContactFormChange("phone", e.target.value)}
             />{" "}
             {errors.phone && (
@@ -314,6 +322,7 @@ const Signup = () => {
                   variant="outlined"
                   fullWidth
                   name="location"
+                  value={form?.location}
                   onChange={(e) =>
                     handleContactFormChange("location", e.target.value)
                   }
@@ -327,6 +336,7 @@ const Signup = () => {
                   name="price"
                   fullWidth
                   error={!!errors.price}
+                  value={form?.price}
                   onChange={(e) =>
                     handleContactFormChange("price", e.target.value)
                   }
@@ -343,6 +353,7 @@ const Signup = () => {
                   variant="outlined"
                   fullWidth
                   name="qualification"
+                  value={form?.qualification}
                   onChange={(e) =>
                     handleContactFormChange("qualification", e.target.value)
                   }
@@ -354,6 +365,7 @@ const Signup = () => {
                   variant="outlined"
                   fullWidth
                   multiline
+                  value={form?.bio}
                   name="bio"
                   onChange={(e) =>
                     handleContactFormChange("bio", e.target.value)
