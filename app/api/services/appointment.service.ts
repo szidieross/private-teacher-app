@@ -232,8 +232,6 @@ export const deleteAppointment = async (appointmentId: number) => {
 };
 
 export const deleteAppointmentsByTeacherId = async (teacherId: number) => {
-  
-  console.log("teacherId lessons route", teacherId);
   try {
     const db = await pool.getConnection();
     const query = `
@@ -246,6 +244,24 @@ export const deleteAppointmentsByTeacherId = async (teacherId: number) => {
     return result;
   } catch (error) {
     console.error("Error deleting appointments:", error);
+    throw error;
+  }
+};
+
+export const cancelAppointmentsByUserId = async (teacherId: number) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+    UPDATE Appointments 
+    SET user_id = NULL, lesson_id = NULL 
+    WHERE user_id = ?
+      `;
+    const [result] = await db.execute(query, [teacherId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error cancelling appointments:", error);
     throw error;
   }
 };

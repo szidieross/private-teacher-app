@@ -53,7 +53,8 @@ const initContactForm: ContactUsRequest = {
 const Settings: FC<Props> = ({ userId, teacherId }) => {
   const { getUserById, updateUserData, deleteUserById } = useUsersService();
   const { getTeacherByUserId, deleteTeacherById } = useTeachersService();
-  const { deleteAppointmentByTeacherId } = useAppointmentsService();
+  const { deleteAppointmentByTeacherId, cancelAppointmentsByUserId } =
+    useAppointmentsService();
   const { deleteLessonsByTeacherId } = useLessonsService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [user, setUser] = useState<UserModel | null>(null);
@@ -61,6 +62,16 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
   const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const handleDeleteUser = async (userId: number) => {
+    try {
+      await cancelAppointmentsByUserId(userId);
+      await deleteUserById(userId);
+      logout();
+    } catch (error) {
+      console.error("Failed deleting user", error);
+    }
+  };
 
   const handleDeleteTeacher = async (userId: number, teacherId: number) => {
     try {
@@ -205,6 +216,11 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
 
   return (
     <Container maxWidth="sm">
+      {userId && !teacherId && (
+        <Button onClick={() => handleDeleteUser(userId)}>
+          Delete account
+        </Button>
+      )}
       {userId && teacherId && (
         <Button onClick={() => handleDeleteTeacher(userId, teacherId)}>
           Delete account
