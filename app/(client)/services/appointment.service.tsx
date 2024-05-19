@@ -145,7 +145,23 @@ const useAppointmentsService = () => {
       return null;
     }
   };
-  
+
+  const deleteAppointmentByTeacherId = async (teacherId: number) => {
+    console.log("teacherId", teacherId);
+    try {
+      const { data } = await api.delete<AppointmentModel>(
+        `/teachers/${teacherId}/appointments`,
+        // {
+        //   appointmentId,
+        // },
+        "Couldn't delete appointments!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 
   return {
     getAppointments,
@@ -156,6 +172,7 @@ const useAppointmentsService = () => {
     getAppointmentByUserId,
     cancelAppointment,
     deleteAppointment,
+    deleteAppointmentByTeacherId,
   };
 };
 

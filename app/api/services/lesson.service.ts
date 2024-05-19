@@ -117,3 +117,21 @@ export const createLesson = async (teacherId: string, categoryId: Date) => {
     throw error;
   }
 };
+
+
+export const deleteLessonsByTeacherId = async (teacherId: number) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+    DELETE FROM Lessons 
+    WHERE teacher_id = ?  
+      `;
+    const [result] = await db.execute(query, [teacherId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error deleting lessons:", error);
+    throw error;
+  }
+};

@@ -309,3 +309,21 @@ export const updateUserData = async (
     throw error;
   }
 };
+
+
+export const deleteUserById = async (userId: number) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+    DELETE FROM Users 
+    WHERE user_id = ?  
+      `;
+    const [result] = await db.execute(query, [userId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    throw error;
+  }
+};

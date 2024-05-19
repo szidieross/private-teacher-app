@@ -49,7 +49,20 @@ const useTeachersService = () => {
     []
   );
 
-  return { getTeachers, getTeacherById, getTeacherByUserId };
+  const deleteTeacherById = async (teacherId: number) => {
+    try {
+      const { data } = await api.delete<TeacherModel>(
+        `/teachers/${teacherId}`,
+        "Couldn't delete teacher!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  return { getTeachers, getTeacherById, getTeacherByUserId, deleteTeacherById };
 };
 
 export default useTeachersService;

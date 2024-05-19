@@ -230,3 +230,22 @@ export const deleteAppointment = async (appointmentId: number) => {
     throw error;
   }
 };
+
+export const deleteAppointmentsByTeacherId = async (teacherId: number) => {
+  
+  console.log("teacherId lessons route", teacherId);
+  try {
+    const db = await pool.getConnection();
+    const query = `
+    DELETE FROM Appointments 
+    WHERE teacher_id = ?  
+      `;
+    const [result] = await db.execute(query, [teacherId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error deleting appointments:", error);
+    throw error;
+  }
+};
