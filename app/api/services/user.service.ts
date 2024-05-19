@@ -95,10 +95,10 @@ export const createUser = async (
   firstName: string,
   lastName: string,
   role: string,
-  price?: number,
-  bio?: string,
-  qualification?: string,
-  location?: string
+  price: number | undefined,
+  bio: string | undefined,
+  qualification: string | undefined,
+  location: string | undefined
 ) => {
   try {
     if (
@@ -153,7 +153,7 @@ export const createUser = async (
       role,
     ]);
 
-    if (role === "teacher" && price && bio && qualification && location) {
+    if (role === "teacher") {
       const selectQuery = `
           SELECT user_id
           FROM Users
@@ -238,7 +238,6 @@ export const updateUserImage = async (title: string) => {
 
     const [rows] = await db.execute(query, [title, userId]);
     db.release();
-
   } catch (error) {
     console.error("Error verifying user:", error);
     throw error;
@@ -253,10 +252,10 @@ export const updateUserData = async (
   email: string,
   phone: string,
   // teacherId?: number,
-  price?: number,
-  qualification?: string,
-  bio?: string,
-  location?: string
+  price?: number|undefined,
+  qualification?: string|undefined,
+  bio?: string|undefined,
+  location?: string|undefined
 ) => {
   try {
     // if (!isStrongPassword(password)) {
@@ -296,7 +295,7 @@ export const updateUserData = async (
     ]);
     db.release();
 
-    if (price && bio && qualification && location) {
+    if (price || bio || qualification || location) {
       const teacher = await updateTeacherData(
         userId,
         price,

@@ -5,10 +5,10 @@ import { toTeacherModel } from "../mappers/teacher.mapper";
 
 export const createTeacher = async (
   userId: number,
-  price: number,
-  bio: string,
-  qualification: string,
-  location: string
+  price: number | undefined,
+  bio: string | undefined,
+  qualification: string | undefined,
+  location: string | undefined
 ) => {
   try {
     const db = await pool.getConnection();
@@ -300,10 +300,10 @@ export const getTeacherByUserId = async (
 export const updateTeacherData = async (
   userId: number,
   // teacherId?: number,
-  price: number,
-  qualification: string,
-  bio: string,
-  location: string
+  price: number | undefined,
+  qualification: string | undefined,
+  bio: string | undefined,
+  location: string | undefined
 ) => {
   try {
     const db = await pool.getConnection();
@@ -324,7 +324,6 @@ export const updateTeacherData = async (
       userId,
     ]);
     db.release();
-
   } catch (error) {
     console.error("Error updating user:", error);
     throw error;

@@ -125,7 +125,10 @@ const Signup = () => {
 
     try {
       let result = null;
-      if (form?.price && form?.bio && form?.qualification && form?.location) {
+      
+      if (!form) return;
+      // if (form?.price && form?.bio && form?.qualification && form?.location) {
+      if (isTeacher) {
         result = await createUser(
           form.username,
           form.password,
@@ -141,7 +144,7 @@ const Signup = () => {
           form.location
         );
       } else {
-        if (!form) return;
+        // if (!form) return;
         result = await createUser(
           form.username,
           form.password,
