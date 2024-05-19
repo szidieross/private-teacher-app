@@ -25,6 +25,9 @@
         font-size: 10px;
       }
     }
+    &:hover {
+     background-color: transparent;
+    }
     &:hover .avatar-box .avatar-typography {
       display: block;
     }

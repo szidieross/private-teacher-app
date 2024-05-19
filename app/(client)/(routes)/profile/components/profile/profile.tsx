@@ -91,7 +91,7 @@ const Profile: FC<Props> = ({ userId }) => {
       <Paper sx={{ padding: 2, marginBottom: 4 }}>
         <Grid container alignItems="center" spacing={2}>
           <Grid item xs={12} md={3} container justifyContent="center">
-            <Button onClick={handleOpen} className="avatar-button">
+            <Button onClick={handleOpen} className="avatar-button" disableRipple disableElevation>
               <Avatar className="avatar">
                 {userInfo.userImg ? (
                   <img
