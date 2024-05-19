@@ -3,10 +3,7 @@
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import React, { FC, useEffect, useState } from "react";
 import { Card, CardContent, Typography, Grid, CardMedia } from "@mui/material";
-import useTeachersService from "@/app/(client)/services/teacher.service";
-import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
-import { useUserContext } from "@/app/(client)/hooks/context.hook";
 
 type Props = {
   teacher: TeacherModel;
@@ -14,12 +11,7 @@ type Props = {
 };
 
 const PersonalData: FC<Props> = ({ teacher, lessons }) => {
-  const { userInfo } = useUserContext();
-  const { getTeacherById } = useTeachersService();
-  const { getLessonsByTeacherId } = useLessonsService();
-  // const [teacher, setTeacher] = useState<TeacherModel | null>(null);
   const [image, setImage] = useState<string | undefined>(undefined);
-  // const [lessons, setLessons] = useState<LessonModel[] | null>(null);
 
   useEffect(() => {
     if (teacher && teacher.userData.profilePicture) {
