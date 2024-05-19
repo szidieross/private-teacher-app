@@ -9,6 +9,11 @@ import {
   Snackbar,
   TextField,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import { UserModel } from "@/app/api/models/user.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
@@ -25,7 +30,6 @@ type Props = {
 };
 
 export interface ContactUsRequest {
-  // userId: number;
   username: string;
   firstName: string;
   lastName: string;
@@ -38,7 +42,6 @@ export interface ContactUsRequest {
 }
 
 const initContactForm: ContactUsRequest = {
-  // userId: 0,
   username: "",
   firstName: "",
   lastName: "",
@@ -62,6 +65,8 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
   const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  // const [deleteType, setDeleteType] = useState<"user" | "teacher" | null>(null);
 
   const handleDeleteUser = async (userId: number) => {
     try {
@@ -83,6 +88,25 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
     } catch (error) {
       console.error("Failed deleting teacher", error);
     }
+  };
+
+  const openDeleteDialog = () => {
+    // setDeleteType(type);
+    setOpenDeleteModal(true);
+  };
+
+  const closeDeleteDialog = () => {
+    // setDeleteType(null);
+    setOpenDeleteModal(false);
+  };
+
+  const confirmDelete = () => {
+    if (userId && !teacherId) {
+      handleDeleteUser(userId);
+    } else if (userId && teacherId) {
+      handleDeleteTeacher(userId, teacherId);
+    }
+    closeDeleteDialog();
   };
 
   const validateForm = () => {
@@ -188,7 +212,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
       let result = null;
       if (!form) return;
       result = await updateUserData(
-        // userId,
         form.username,
         form.firstName,
         form.lastName,
@@ -216,26 +239,39 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
 
   return (
     <Container maxWidth="sm">
-      {userId && !teacherId && (
-        <Button onClick={() => handleDeleteUser(userId)}>
-          Delete account
-        </Button>
-      )}
-      {userId && teacherId && (
-        <Button onClick={() => handleDeleteTeacher(userId, teacherId)}>
-          Delete account
-        </Button>
-      )}
+        <Button onClick={openDeleteDialog}>Delete account</Button>
+
+      <Dialog
+        open={openDeleteModal}
+        onClose={closeDeleteDialog}
+        aria-labelledby="delete-dialog-title"
+        aria-describedby="delete-dialog-description"
+      >
+        <DialogTitle id="delete-dialog-title">Confirm Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="delete-dialog-description">
+            Are you sure you want to delete this account? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDeleteDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={confirmDelete} color="secondary">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            {" "}
             <Typography className="input-label">First Name</Typography>
             <TextField
               defaultValue={user?.firstName}
               variant="outlined"
               fullWidth
-              // required
               name="firstName"
               error={!!errors.firstName}
               onChange={(e) =>
@@ -249,13 +285,11 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             )}
           </Grid>
           <Grid item xs={6}>
-            {" "}
             <Typography className="input-label">Last Name</Typography>
             <TextField
               defaultValue={user?.lastName}
               variant="outlined"
               fullWidth
-              // required
               name="lastName"
               error={!!errors.lastName}
               onChange={(e) =>
@@ -276,7 +310,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               fullWidth
               name="username"
               error={!!errors.username}
-              // required
               onChange={(e) =>
                 handleContactFormChange("username", e.target.value)
               }
@@ -296,7 +329,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               name="email"
               fullWidth
               error={!!errors.email}
-              // required
               onChange={(e) => handleContactFormChange("email", e.target.value)}
             />
             {errors.phone && (
@@ -304,7 +336,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             )}
           </Grid>
           <Grid item xs={12}>
-            {" "}
             <Typography className="input-label">Phone</Typography>
             <TextField
               defaultValue={user?.phone}

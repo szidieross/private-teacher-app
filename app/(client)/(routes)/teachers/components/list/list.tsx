@@ -216,7 +216,7 @@ const List: FC<Props> = ({ isSession }) => {
               filterTeachersByCategory([teacher], selectedCategory).length > 0
           )
           .map((teacher, index) => (
-            <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+            <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={3}>
               <Link href={`/teachers/${teacher.teacherId}`}>
                 <Item teacher={teacher} />
               </Link>
@@ -231,7 +231,7 @@ const List: FC<Props> = ({ isSession }) => {
               filterTeachersByCategory([teacher], selectedCategory).length > 0
           )
           .map((teacher, index) => (
-            <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+            <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={3}>
               <Link href={`/teachers/${teacher.teacherId}`}>
                 <Item teacher={teacher} />
               </Link>

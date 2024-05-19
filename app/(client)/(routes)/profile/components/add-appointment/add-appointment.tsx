@@ -53,12 +53,14 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
     };
 
     fetchLessons();
-  }, [teacherId]);
+  }, [teacherId, getLessonsByTeacherId]);
 
   return (
     <Container maxWidth="sm">
       {lessons?.length === 0 ? (
-        <Typography>You need to add a lesson to create appointments.</Typography>
+        <Typography>
+          You need to add a lesson to create appointments.
+        </Typography>
       ) : (
         <Paper style={{ padding: 20, marginBottom: 20 }} elevation={3}>
           <Typography variant="h5" gutterBottom>
