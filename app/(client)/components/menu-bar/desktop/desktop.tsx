@@ -14,13 +14,11 @@ import React, { FC, useEffect, useState } from "react";
 import "./desktop.scss";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { colors } from "@/app/(client)/constants/color.constant";
-import LogoutForm from "../logout-form/logout-form";
 import Image from "next/image";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
-// import useCategoriesService from "@/app/(client)/services/category.service";
-// import { CategoryModel } from "@/app/api/models/category.model";
 import Link from "next/link";
 import useUsersService from "@/app/(client)/services/user.service";
+import { logout } from "@/app/actions";
 
 type Props = {
   profilePicture?: string;
@@ -30,11 +28,8 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
   const { to } = useNavigation();
   const { userInfo, setUserInfo } = useUserContext();
   const { getUserById } = useUsersService();
-  // const { getCategories } = useCategoriesService();
-  // const [categories, setCategories] = useState<CategoryModel[] | null>(null);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  // const [anchorElCat, setAnchorElCat] = useState<null | HTMLElement>(null);
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -51,23 +46,9 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("userData");
     handleCloseMenu();
+    logout();
   };
-
-  // const handleOpenCatMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorElCat(event.currentTarget);
-  //   document.body.classList.add("menu-open");
-  // };
-
-  // const handleCloseCatMenu = () => {
-  //   setAnchorElCat(null);
-  // };
-
-  // const handleAppointmentsClick = () => {
-  //   handleCloseMenu();
-  //   to("/profile/appointments");
-  // };
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -77,8 +58,6 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const categories = await getCategories();
-        // setCategories(categories);
         if (userInfo.userId) {
           const user = await getUserById(userInfo.userId);
           setUserInfo((prevState) => {
@@ -94,7 +73,7 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
     };
 
     fetchData();
-  }, [setUserInfo,getUserById,userInfo.userId]);
+  }, [setUserInfo, getUserById, userInfo.userId]);
 
   return (
     <Container
@@ -113,39 +92,6 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
             <Link href={"/teachers"} style={{ color: colors.secondary }}>
               <Typography>Teachers</Typography>
             </Link>
-            {/* <Typography sx={{ cursor: "pointer" }} onClick={handleOpenCatMenu}>
-              Categories
-            </Typography> */}
-            {/* <Menu
-              anchorEl={anchorElCat}
-              open={Boolean(anchorElCat)}
-              onClose={handleCloseCatMenu}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              PaperProps={{
-                style: {
-                  backgroundColor: "pink",
-                },
-              }}
-              disableScrollLock={false}
-            >
-              <MenuItem onClick={handleCloseCatMenu}>Category1</MenuItem>
-              {categories &&
-                categories.map((category) => (
-                  <MenuItem
-                    key={category.categoryId}
-                    onClick={handleCloseCatMenu}
-                  >
-                    {category.name}
-                  </MenuItem>
-                ))}
-            </Menu> */}
             <Link
               href={"/profile/appointments"}
               style={{ color: colors.secondary }}
@@ -193,12 +139,9 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                   disableScrollLock={false}
                 >
                   <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-                  {/* <MenuItem onClick={handleAppointmentsClick}>
-                    My Appointments
-                  </MenuItem> */}
                   <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
                   <MenuItem onClick={handleLogout}>
-                    <LogoutForm />
+                    Logout
                   </MenuItem>
                 </Menu>
               </Box>

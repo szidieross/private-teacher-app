@@ -19,8 +19,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
-import LogoutForm from "../logout-form/logout-form";
 import "./mobile.scss";
+import { logout } from "@/app/actions";
 
 type Props = {
   profilePicture?: string;
@@ -66,7 +66,7 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("userData");
+    logout();
     handleCloseMenu();
     toggleDrawer();
   };
@@ -120,7 +120,8 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
                       <ListItemText primary="Settings" />
                     </ListItem>
                     <ListItem onClick={handleLogout}>
-                      <LogoutForm />
+                      {/* <LogoutForm /> */}
+                      Logout
                     </ListItem>
                   </>
                 ) : (
