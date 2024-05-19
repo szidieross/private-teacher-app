@@ -17,6 +17,7 @@ import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
 import "./settings.scss";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import useLessonsService from "@/app/(client)/services/lesson.service";
+import { logout } from "@/app/actions";
 
 type Props = {
   userId?: number;
@@ -65,8 +66,9 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
     try {
       await deleteAppointmentByTeacherId(teacherId);
       await deleteLessonsByTeacherId(teacherId);
-      // await deleteTeacherById(teacherId);
-      // await deleteUserById(userId);
+      await deleteTeacherById(teacherId);
+      await deleteUserById(userId);
+      logout();
     } catch (error) {
       console.error("Failed deleting teacher", error);
     }
