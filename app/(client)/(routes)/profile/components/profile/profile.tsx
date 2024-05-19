@@ -27,6 +27,7 @@ import { TeacherModel } from "@/app/api/models/teacher.model";
 import SettingsIcon from "@mui/icons-material/Settings";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import "./profile.scss";
+import PhotoCameraRoundedIcon from "@mui/icons-material/PhotoCameraRounded";
 
 type Props = {
   userId?: number;
@@ -91,7 +92,12 @@ const Profile: FC<Props> = ({ userId }) => {
       <Paper sx={{ padding: 2, marginBottom: 4 }}>
         <Grid container alignItems="center" spacing={2}>
           <Grid item xs={12} md={3} container justifyContent="center">
-            <Button onClick={handleOpen} className="avatar-button" disableRipple disableElevation>
+            <Button
+              onClick={handleOpen}
+              className="avatar-button"
+              disableRipple
+              disableElevation
+            >
               <Avatar className="avatar">
                 {userInfo.userImg ? (
                   <img
@@ -100,11 +106,11 @@ const Profile: FC<Props> = ({ userId }) => {
                     alt="Profile"
                   />
                 ) : (
-                  <AccountCircle sx={{ width: "100%", height: "100%" }} />
+                  <AccountCircle className="avatar-circle" />
                 )}
                 <Box className="avatar-box">
                   <Typography className="avatar-typography" variant="subtitle2">
-                    Upload new pic
+                    <PhotoCameraRoundedIcon />
                   </Typography>
                 </Box>
               </Avatar>

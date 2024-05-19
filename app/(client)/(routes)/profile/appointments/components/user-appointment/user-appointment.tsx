@@ -18,7 +18,6 @@ const UserAppointments: FC<Props> = ({ userId }) => {
   );
 
   const handleCancel = async (appointmentId: number) => {
-    console.log("appointmentId",appointmentId)
     await cancelAppointment(appointmentId);
     const updatedAppointments = await getAppointmentByUserId(userId);
     setAppointments(updatedAppointments);
@@ -29,7 +28,6 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       try {
         const fetchedAppointments = await getAppointmentByUserId(userId);
         setAppointments(fetchedAppointments);
-        console.log(fetchedAppointments)
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }
@@ -58,7 +56,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       editable: false,
       renderCell: (params) => (
         // Use Link to wrap the name and provide the appropriate route
-        <Link href={`/teacher/${params.row.teacherId}`}>
+        <Link href={`/teachers/${params.row.teacherId}`}>
           {/* {`${item.firstName} ${item.lastName}`} */}
           {`${params.row.name}`}
         </Link>
@@ -93,10 +91,10 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       id: index + 1,
       appointmentId: item.appointmentId,
       subject: item.categoryName,
+      teacherId: item.teacherId,
       name: `${item.firstName} ${item.lastName}`,
       // date: "date",
       date: item.startTime,
-      teacherId: item.teacherId,
     };
   });
 

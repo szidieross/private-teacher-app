@@ -54,7 +54,6 @@ const useAppointmentsService = () => {
     async (userId: number): Promise<AppointmentModel[] | null> => {
       try {
         const { data } = await api.get<AppointmentModel[]>(
-          // `/teachers/${teacherId}/appointments`,
           `/users/${userId}/appointments`,
           "The request for appointments failed, please reload the page!"
         );

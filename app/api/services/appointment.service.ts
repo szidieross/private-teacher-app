@@ -85,6 +85,8 @@ export const getAppointmentByUserId = async (
     const data: AppointmentDto[] = (rows as any).map((row: any) => {
       return {
         appointment_id: row.appointment_id,
+        user_id: row.user_id,
+        teacher_id: row.teacher_id,
         first_name: row.first_name,
         last_name: row.last_name,
         category_name: row.category_name,
