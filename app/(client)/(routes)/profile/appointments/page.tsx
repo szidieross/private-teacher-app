@@ -13,7 +13,6 @@ export default async function Home() {
 
   return (
     <main>
-      appointments will go here
       {session.role === "teacher" && session.userId ? (
         <TeacherAppointments userId={session.userId} />
       ) : (
