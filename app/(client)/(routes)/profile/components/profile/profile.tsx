@@ -14,10 +14,7 @@ import {
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { UserModel } from "@/app/api/models/user.model";
-import {
-  useStoreContext,
-  useUserContext,
-} from "@/app/(client)/hooks/context.hook";
+import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
 import CustomModal from "../upload-form/upload-form";
 import AddAppointment from "../add-appointment/add-appointment";
@@ -28,6 +25,10 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import "./profile.scss";
 import PhotoCameraRoundedIcon from "@mui/icons-material/PhotoCameraRounded";
+import AlternateEmailOutlinedIcon from "@mui/icons-material/AlternateEmailOutlined";
+import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
+import CalendarMonthTwoToneIcon from "@mui/icons-material/CalendarMonthTwoTone";
 
 type Props = {
   userId?: number;
@@ -40,7 +41,6 @@ const Profile: FC<Props> = ({ userId }) => {
   const { getUserById } = useUsersService();
   const { getTeacherByUserId } = useTeachersService();
   const [formattedDate, setFormattedDate] = useState<string | null>(null);
-  const { setNavbarSettings } = useStoreContext();
   const { userInfo, setUserInfo } = useUserContext();
   const { to } = useNavigation();
 
@@ -127,17 +127,17 @@ const Profile: FC<Props> = ({ userId }) => {
               {user.firstName} {user.lastName}
             </Typography>
             <Typography variant="subtitle1" gutterBottom>
-              Username: {user.username}
+              <AlternateEmailOutlinedIcon />
+              {/* @ */}
+              {user.username}
             </Typography>
             <Typography variant="subtitle1" gutterBottom>
-              Email: {user.email}
+              <EmailRoundedIcon /> {user.email}
             </Typography>
             <Typography variant="subtitle1" gutterBottom>
-              Phone: {user.phone}
+              <LocalPhoneRoundedIcon /> {user.phone}
             </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              Role: {user.role}
-            </Typography>
+            <Typography variant="subtitle1" gutterBottom></Typography>
             {formattedDate && (
               <Typography variant="subtitle2" color="textSecondary">
                 Member since: {formattedDate}
@@ -147,7 +147,7 @@ const Profile: FC<Props> = ({ userId }) => {
         </Grid>
       </Paper>
       <Button variant="contained" onClick={() => to("/profile/appointments")}>
-        See you appointments
+        Your appointments <CalendarMonthTwoToneIcon />
       </Button>
 
       <CustomModal open={open} onClose={handleClose} />

@@ -4,6 +4,10 @@ import { TeacherModel } from "@/app/api/models/teacher.model";
 import React, { FC, useEffect, useState } from "react";
 import { Card, CardContent, Typography, Grid, CardMedia } from "@mui/material";
 import { LessonModel } from "@/app/api/models/lesson.model";
+import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
+import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 
 type Props = {
   teacher: TeacherModel;
@@ -45,20 +49,20 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
                   {teacher.userData.firstName} {teacher.userData.lastName}
                 </Typography>
                 <Typography variant="body1" color="textSecondary" gutterBottom>
-                  Location: {teacher.location}
+                  <LocationOnRoundedIcon /> {teacher.location}
                 </Typography>
                 <Typography variant="body1" color="textSecondary" gutterBottom>
-                  Price: {teacher.price}
+                  Price/hour: {teacher.price}
                 </Typography>
                 <Typography variant="body1" color="textSecondary" gutterBottom>
                   Bio: {teacher.bio}
                 </Typography>
                 <Typography variant="body1" color="textSecondary" gutterBottom>
-                  Qualification: {teacher.qualification}
+                  <SchoolRoundedIcon /> {teacher.qualification}
                 </Typography>
-                <Typography variant="body1" color="textSecondary" gutterBottom>
+                {/* <Typography variant="body1" color="textSecondary" gutterBottom>
                   Subject: {lessons?.map((item, index) => item.categoryName)}
-                </Typography>
+                </Typography> */}
                 <a
                   href={`mailto:${teacher.userData.email}`}
                   title="Send an email"
@@ -68,7 +72,7 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
                     color="textSecondary"
                     gutterBottom
                   >
-                    Email: {teacher.userData.email}
+                    <EmailRoundedIcon /> {teacher.userData.email}
                   </Typography>
                 </a>
                 <a href={`tel:${teacher.userData.phone}`} title="Make a call">
@@ -77,7 +81,7 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
                     color="textSecondary"
                     gutterBottom
                   >
-                    Phone: {teacher.userData.phone}
+                    <LocalPhoneRoundedIcon /> {teacher.userData.phone}
                   </Typography>
                 </a>
               </CardContent>
