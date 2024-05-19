@@ -17,6 +17,7 @@ import { LessonModel } from "@/app/api/models/lesson.model";
 import CloseIcon from "@mui/icons-material/Close";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import AppointmentsTable from "../../appointments-table/appointments-table";
+import { getSession } from "@/app/actions";
 
 type Props = {
   teacherId: number;
@@ -33,6 +34,19 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
     categoryId: number | null;
   }>({ lesson: null, categoryId: null });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [ownTeacherId, setOwnTeacherId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const getSessionData = async () => {
+      const session = await getSession();
+      if (session.teacherId) {
+        setOwnTeacherId(session.teacherId);
+      }
+      const hasTeacherId = session.teacherId;
+      console.log("hasTeacherId", hasTeacherId);
+    };
+    getSessionData();
+  }, [getSession]);
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -117,6 +131,7 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
                 teacherId={teacherId}
                 lessonId={selectedLesson.lesson?.lessonId}
                 categoryName={selectedLesson.lesson.categoryName}
+                ownTeacherId={ownTeacherId}
               />
             </>
           )}

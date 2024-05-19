@@ -10,23 +10,45 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
-import { Button, Container } from "@mui/material";
+import { Button, Container, Snackbar } from "@mui/material";
+import { getSession } from "@/app/actions";
 
 type Props = {
   teacherId: number;
   lessonId: number;
   categoryName: string;
+  ownTeacherId: number | null;
 };
 
-const AppointmentsTable: FC<Props> = ({ teacherId, lessonId }) => {
+const AppointmentsTable: FC<Props> = ({
+  teacherId,
+  lessonId,
+  ownTeacherId,
+}) => {
   const { getAppointmentByTeacherId, bookAppointment } =
     useAppointmentsService();
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
     null
-  );
+  );  
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleBooking = (appointmentId: number) => {
+    console.log("ownTeacherId", ownTeacherId);
+    console.log("teacherId", teacherId);
+    if (ownTeacherId == teacherId) {
+      
+      setSnackbarOpen(true);
+      setSnackbarMessage("You can't book your own appointments!");
+      return;
+    }
     bookAppointment(appointmentId, lessonId);
+    setSnackbarOpen(true);
+    setSnackbarMessage("Appointment successfully booked.");
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   useEffect(() => {
@@ -80,6 +102,12 @@ const AppointmentsTable: FC<Props> = ({ teacherId, lessonId }) => {
             ))}
         </TableBody>
       </Table>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+      />
     </TableContainer>
   );
 };
