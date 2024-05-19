@@ -55,9 +55,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       width: 150,
       editable: false,
       renderCell: (params) => (
-        // Use Link to wrap the name and provide the appropriate route
         <Link href={`/teachers/${params.row.teacherId}`}>
-          {/* {`${item.firstName} ${item.lastName}`} */}
           {`${params.row.name}`}
         </Link>
       ),

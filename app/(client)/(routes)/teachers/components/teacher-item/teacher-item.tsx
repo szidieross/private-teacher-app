@@ -3,13 +3,13 @@
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import { Typography, Card, CardContent, CardMedia, Box } from "@mui/material";
 import React, { FC } from "react";
-import "./item.scss";
+import "./teacher-item.scss";
 
 type Props = {
   teacher: TeacherModel;
 };
 
-const Item: FC<Props> = ({ teacher }) => {
+const TeacherItem: FC<Props> = ({ teacher }) => {
   const imageSrc = teacher.userData.profilePicture
     ? `/images/uploads/${teacher.userData.profilePicture}`
     : "/images/default/person.jpg";
@@ -29,9 +29,6 @@ const Item: FC<Props> = ({ teacher }) => {
             {teacher.userData.firstName} {teacher.userData.lastName}
           </Typography>
           <Typography variant="body2" color="text.secondary" className="">
-            Specification:
-          </Typography>
-          <Typography variant="body2" color="text.secondary" className="">
             Qualification: {teacher.qualification}
           </Typography>
           <Typography variant="body2" color="text.secondary" className="">
@@ -43,4 +40,4 @@ const Item: FC<Props> = ({ teacher }) => {
   );
 };
 
-export default Item;
+export default TeacherItem;

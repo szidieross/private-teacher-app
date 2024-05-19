@@ -1,6 +1,6 @@
 "use client";
 import React, { FC, useEffect, useState } from "react";
-import Item from "../item/item";
+import Item from "../teacher-item/teacher-item";
 import {
   Grid,
   InputLabel,
@@ -23,12 +23,13 @@ import { CategoryModel } from "@/app/api/models/category.model";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import Link from "next/link";
 import { colors } from "@/app/(client)/constants/color.constant";
+import TeacherItem from "../teacher-item/teacher-item";
 
 type Props = {
   isSession: boolean;
 };
 
-const List: FC<Props> = ({ isSession }) => {
+const TeacherList: FC<Props> = ({ isSession }) => {
   const { getTeachers } = useTeachersService();
   const { getCategories } = useCategoriesService();
   const { filteredTeachers, setFilteredTeachers, allTeachers, setAllTeachers } =
@@ -218,7 +219,7 @@ const List: FC<Props> = ({ isSession }) => {
           .map((teacher, index) => (
             <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={3}>
               <Link href={`/teachers/${teacher.teacherId}`}>
-                <Item teacher={teacher} />
+                <TeacherItem teacher={teacher} />
               </Link>
             </Grid>
           ))}
@@ -233,7 +234,7 @@ const List: FC<Props> = ({ isSession }) => {
           .map((teacher, index) => (
             <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={3}>
               <Link href={`/teachers/${teacher.teacherId}`}>
-                <Item teacher={teacher} />
+                <TeacherItem teacher={teacher} />
               </Link>
             </Grid>
           ))}
@@ -246,4 +247,4 @@ const List: FC<Props> = ({ isSession }) => {
   );
 };
 
-export default List;
+export default TeacherList;
