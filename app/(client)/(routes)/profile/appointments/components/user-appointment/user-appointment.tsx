@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FC, useEffect, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Link, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
@@ -18,6 +18,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
   );
 
   const handleCancel = async (appointmentId: number) => {
+    console.log("appointmentId",appointmentId)
     await cancelAppointment(appointmentId);
     const updatedAppointments = await getAppointmentByUserId(userId);
     setAppointments(updatedAppointments);
@@ -28,6 +29,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       try {
         const fetchedAppointments = await getAppointmentByUserId(userId);
         setAppointments(fetchedAppointments);
+        console.log(fetchedAppointments)
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }
@@ -54,6 +56,13 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       headerName: "Name",
       width: 150,
       editable: false,
+      renderCell: (params) => (
+        // Use Link to wrap the name and provide the appropriate route
+        <Link href={`/teacher/${params.row.teacherId}`}>
+          {/* {`${item.firstName} ${item.lastName}`} */}
+          {`${params.row.name}`}
+        </Link>
+      ),
     },
     {
       field: "date",
@@ -82,11 +91,12 @@ const UserAppointments: FC<Props> = ({ userId }) => {
   const rows = appointments?.map((item, index) => {
     return {
       id: index + 1,
-      // appointmentId: item.appointmentId,
+      appointmentId: item.appointmentId,
       subject: item.categoryName,
       name: `${item.firstName} ${item.lastName}`,
       // date: "date",
       date: item.startTime,
+      teacherId: item.teacherId,
     };
   });
 

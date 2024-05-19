@@ -55,6 +55,8 @@ export async function PUT(request: NextRequest,context: { params: { slug: number
       throw new Error("Missing appointmentId");
     }
 
+    console.log("HELLLLOOOOOOOOOOOOOOOOOOOOOOOOO")
+
     const result = await cancelAppointment(appointmentId);
 
     return NextResponse.json({ affectedRows: result }, { status: 201 });
