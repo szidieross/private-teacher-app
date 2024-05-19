@@ -46,7 +46,7 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
       console.log("hasTeacherId", hasTeacherId);
     };
     getSessionData();
-  }, [getSession]);
+  }, []);
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
