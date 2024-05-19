@@ -1,5 +1,6 @@
 .mobile-container {
-  .desktop-title {
+  .mobile-title {
+    cursor: pointer;
   }
 
   .profile-img {
@@ -7,6 +8,7 @@
     width: 60px;
     object-fit: cover;
     border-radius: 50%;
+    cursor: pointer;
   }
 
   .grid-container {
@@ -18,11 +20,11 @@
           ::-webkit-scrollbar {
             width: 12px; /* width of the scrollbar */
           }
-          
+
           ::-webkit-scrollbar-track {
             background-color: #fff; /* color of the track */
           }
-          
+
           ::-webkit-scrollbar-thumb {
             background-color: pink; /* color of the thumb */
             border-radius: 6px; /* roundness of the thumb */

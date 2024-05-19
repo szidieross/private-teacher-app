@@ -9,6 +9,7 @@ import {
   Grid,
   Button,
   IconButton,
+  Link,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { UserModel } from "@/app/api/models/user.model";
@@ -79,7 +80,7 @@ const Profile: FC<Props> = ({ userId }) => {
     };
 
     fetchData();
-  }, [getUserById, userId, setUserInfo]);
+  }, [getUserById, userId, setUserInfo, getTeacherByUserId]);
 
   if (!user) return <>Loading...</>;
 
@@ -138,6 +139,10 @@ const Profile: FC<Props> = ({ userId }) => {
           </Grid>
         </Grid>
       </Paper>
+      <Button variant="contained" onClick={() => to("/profile/appointments")}>
+        See you appointments
+      </Button>
+
       <CustomModal open={open} onClose={handleClose} />
       {teacher && (
         <>

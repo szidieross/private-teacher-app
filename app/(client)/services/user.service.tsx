@@ -122,18 +122,13 @@ const useUsersService = () => {
       email: string,
       phone: string,
       // teacherId?: number,
-      price?: string,
+      price?: number,
       qualification?: string,
       bio?: string,
       location?: string
     ) => {
       const session = await getSession();
       const userId = session.userId;
-      if (price) {
-        console.log("pricee", price);
-      } else {
-        console.log("no pricee", price);
-      }
       try {
         const { data } = await api.post<UserModel>(
           `/users/${userId}`,
@@ -159,6 +154,19 @@ const useUsersService = () => {
     },
     []
   );
+  
+  const deleteUserById = async (userId: number) => {
+    try {
+      const { data } = await api.delete<UserModel>(
+        `/users/${userId}`,
+        "Couldn't delete user!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 
   return {
     getUsers,
@@ -166,7 +174,7 @@ const useUsersService = () => {
     createUser,
     loginUser,
     updateUserImage,
-    updateUserData,
+    updateUserData,deleteUserById
   };
 };
 

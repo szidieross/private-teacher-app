@@ -91,7 +91,6 @@ const useAppointmentsService = () => {
   );
 
   const bookAppointment = async (appointmentId: number, lessonId: number) => {
-    console.log("lessonId", lessonId);
     const session = await getSession();
     const userId = session.userId;
     try {
@@ -100,9 +99,79 @@ const useAppointmentsService = () => {
         {
           userId,
           appointmentId,
-          lessonId
+          lessonId,
         },
         "Couldn't book appointment data.!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const cancelAppointment = async (appointmentId: number) => {
+    const session = await getSession();
+    const userId = session.userId;
+    try {
+      const { data } = await api.put<AppointmentModel>(
+        `/appointments/${appointmentId}`,
+        {
+          appointmentId,
+        },
+        "Couldn't cancel appointment!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const deleteAppointment = async (appointmentId: number) => {
+    const session = await getSession();
+    const userId = session.userId;
+    try {
+      const { data } = await api.delete<AppointmentModel>(
+        `/appointments/${appointmentId}`,
+        // {
+        //   appointmentId,
+        // },
+        "Couldn't delete appointment!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const deleteAppointmentByTeacherId = async (teacherId: number) => {
+    console.log("teacherId", teacherId);
+    try {
+      const { data } = await api.delete<AppointmentModel>(
+        `/teachers/${teacherId}/appointments`,
+        // {
+        //   appointmentId,
+        // },
+        "Couldn't delete appointments!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const cancelAppointmentsByUserId = async (teacherId: number) => {
+    console.log("teacherId", teacherId);
+    try {
+      const { data } = await api.delete<AppointmentModel>(
+        `/users/${teacherId}/appointments`,
+        // {
+        //   appointmentId,
+        // },
+        "Couldn't delete appointments!"
       );
       return data;
     } catch (error) {
@@ -118,6 +187,10 @@ const useAppointmentsService = () => {
     createAppointment,
     bookAppointment,
     getAppointmentByUserId,
+    cancelAppointment,
+    deleteAppointment,
+    deleteAppointmentByTeacherId,
+    cancelAppointmentsByUserId,
   };
 };
 

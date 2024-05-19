@@ -26,7 +26,7 @@ const AppointmentsTable: FC<Props> = ({ teacherId, lessonId }) => {
   );
 
   const handleBooking = (appointmentId: number) => {
-    bookAppointment(appointmentId, lessonId);;
+    bookAppointment(appointmentId, lessonId);
   };
 
   useEffect(() => {

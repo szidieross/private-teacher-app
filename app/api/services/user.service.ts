@@ -4,7 +4,12 @@ import { UserDto } from "../dtos/user.dto";
 import { toUserModel } from "../mappers/user.mapper";
 import { createTeacher, updateTeacherData } from "./teacher.service";
 import { getSession } from "@/app/actions";
-import { hashPassword } from "../utils/user.util";
+import {
+  hashPassword,
+  isStrongPassword,
+  isValidEmail,
+  isValidPhoneNumber,
+} from "../utils/user.util";
 
 interface UserId {
   user_id: number;
@@ -90,12 +95,40 @@ export const createUser = async (
   firstName: string,
   lastName: string,
   role: string,
-  price?: number,
-  bio?: string,
-  qualification?: string,
-  location?: string
+  price: number | undefined,
+  bio: string | undefined,
+  qualification: string | undefined,
+  location: string | undefined
 ) => {
   try {
+    if (
+      !username ||
+      !password ||
+      !email ||
+      !phone ||
+      !firstName ||
+      !lastName ||
+      !role
+    ) {
+      throw new Error("Missing required fields.");
+    }
+
+    // if (!isStrongPassword(password)) {
+    //   throw new Error("Password is not strong enough.");
+    // }
+
+    if (!isValidEmail(email)) {
+      throw new Error("Invalid email address.");
+    }
+
+    if (!isValidPhoneNumber(phone)) {
+      throw new Error("Invalid phone number format.");
+    }
+
+    if (role === "teacher" && price && price <= 0) {
+      throw new Error("Price must be a positive number for teachers.");
+    }
+
     const hashedPassword = hashPassword(password);
     const db = await pool.getConnection();
     const query = `
@@ -120,7 +153,7 @@ export const createUser = async (
       role,
     ]);
 
-    if (role === "teacher" && price && bio && qualification && location) {
+    if (role === "teacher") {
       const selectQuery = `
           SELECT user_id
           FROM Users
@@ -145,7 +178,6 @@ export const createUser = async (
       );
       return user_id;
     }
-    console.log("User created successfully. UserId:", result);
   } catch (error) {
     console.error("Error creating user:", error);
     throw error;
@@ -206,8 +238,6 @@ export const updateUserImage = async (title: string) => {
 
     const [rows] = await db.execute(query, [title, userId]);
     db.release();
-
-    console.log("User image path updated successfully");
   } catch (error) {
     console.error("Error verifying user:", error);
     throw error;
@@ -222,12 +252,28 @@ export const updateUserData = async (
   email: string,
   phone: string,
   // teacherId?: number,
-  price?: string,
-  qualification?: string,
-  bio?: string,
-  location?: string
+  price?: number|undefined,
+  qualification?: string|undefined,
+  bio?: string|undefined,
+  location?: string|undefined
 ) => {
   try {
+    // if (!isStrongPassword(password)) {
+    //   throw new Error("Password is not strong enough.");
+    // }
+
+    if (!isValidEmail(email)) {
+      throw new Error("Invalid email address.");
+    }
+
+    if (!isValidPhoneNumber(phone)) {
+      throw new Error("Invalid phone number format.");
+    }
+
+    if (price && price <= 0) {
+      throw new Error("Price must be a positive number for teachers.");
+    }
+
     const db = await pool.getConnection();
     const query = `
         UPDATE Users
@@ -249,22 +295,7 @@ export const updateUserData = async (
     ]);
     db.release();
 
-    if (price && bio && qualification && location) {
-      // const selectQuery = `
-      //     SELECT user_id
-      //     FROM Users
-      //     WHERE username = ?
-      //   `;
-      // const [rows] = await db.execute(selectQuery, [username]);
-      // const data: UserId[] = (rows as any).map((row: any) => {
-      //   return {
-      //     user_id: row.user_id,
-      //   };
-      // });
-
-      // const user_id = data[0]?.user_id;
-      // db.release();
-
+    if (price || bio || qualification || location) {
       const teacher = await updateTeacherData(
         userId,
         price,
@@ -272,14 +303,27 @@ export const updateUserData = async (
         qualification,
         location
       );
-
-      console.log("HELLLLOOOOO")
-      // return user_id;
     }
-
-    console.log("User data updated successfully");
   } catch (error) {
     console.error("Error updating user:", error);
+    throw error;
+  }
+};
+
+
+export const deleteUserById = async (userId: number) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+    DELETE FROM Users 
+    WHERE user_id = ?  
+      `;
+    const [result] = await db.execute(query, [userId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error deleting user:", error);
     throw error;
   }
 };

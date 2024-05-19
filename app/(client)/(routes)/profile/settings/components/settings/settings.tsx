@@ -2,10 +2,22 @@
 
 import { FC, useState, useEffect } from "react";
 import useUsersService from "@/app/(client)/services/user.service";
-import { Button, Container, Grid, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Grid,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { UserModel } from "@/app/api/models/user.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
+import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
+import "./settings.scss";
+import useAppointmentsService from "@/app/(client)/services/appointment.service";
+import useLessonsService from "@/app/(client)/services/lesson.service";
+import { logout } from "@/app/actions";
 
 type Props = {
   userId?: number;
@@ -19,7 +31,7 @@ export interface ContactUsRequest {
   lastName: string;
   email: string;
   phone: string;
-  price?: string;
+  price?: number | string;
   qualification?: string;
   bio?: string;
   location?: string;
@@ -32,18 +44,76 @@ const initContactForm: ContactUsRequest = {
   lastName: "",
   email: "",
   phone: "",
-  price: "",
+  price: undefined,
   qualification: "",
   bio: "",
   location: "",
 };
 
 const Settings: FC<Props> = ({ userId, teacherId }) => {
-  const { getUserById, updateUserData } = useUsersService();
-  const { getTeacherByUserId } = useTeachersService();
+  const { getUserById, updateUserData, deleteUserById } = useUsersService();
+  const { getTeacherByUserId, deleteTeacherById } = useTeachersService();
+  const { deleteAppointmentByTeacherId, cancelAppointmentsByUserId } =
+    useAppointmentsService();
+  const { deleteLessonsByTeacherId } = useLessonsService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [user, setUser] = useState<UserModel | null>(null);
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
+  const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const handleDeleteUser = async (userId: number) => {
+    try {
+      await cancelAppointmentsByUserId(userId);
+      await deleteUserById(userId);
+      logout();
+    } catch (error) {
+      console.error("Failed deleting user", error);
+    }
+  };
+
+  const handleDeleteTeacher = async (userId: number, teacherId: number) => {
+    try {
+      await deleteAppointmentByTeacherId(teacherId);
+      await deleteLessonsByTeacherId(teacherId);
+      await deleteTeacherById(teacherId);
+      await deleteUserById(userId);
+      logout();
+    } catch (error) {
+      console.error("Failed deleting teacher", error);
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: Partial<ContactUsRequest> = {};
+    if (!form) return false;
+
+    if (!form.firstName) {
+      newErrors.firstName = "Firstname is required.";
+    }
+    if (!form.lastName) {
+      newErrors.lastName = "Lastname is required.";
+    }
+    if (!form.username) {
+      newErrors.username = "Username is required.";
+    }
+    if (!form.email) {
+      newErrors.email = "Email is required.";
+    } else if (!isValidEmail(form.email)) {
+      newErrors.email = "Invalid email address.";
+    }
+    if (!isValidPhoneNumber(form.phone)) {
+      newErrors.phone = "Phone number is invalid.";
+    }
+
+    if (teacherId && form.price && +form.price <= 0) {
+      newErrors.price = "Price must be a positive number.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,14 +131,12 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             });
           }
           if (teacherId) {
-            console.log("Hello teacher");
             const teacherData = await getTeacherByUserId(userId);
-            console.log(teacherData);
             if (teacherData) {
               setTeacher(teacherData);
               setContactForm((prevForm: ContactUsRequest | null) => ({
                 ...(prevForm || initContactForm),
-                price: teacherData.price.toString(),
+                price: teacherData.price,
                 qualification: teacherData.qualification,
                 bio: teacherData.bio,
                 location: teacherData.location,
@@ -82,7 +150,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
     };
 
     fetchData();
-  }, [getUserById, userId]);
+  }, [getUserById, userId, getTeacherByUserId, teacherId]);
 
   const handleContactFormChange = (
     property: keyof ContactUsRequest,
@@ -102,8 +170,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
         };
       }
     });
-
-    console.log("FORMMMMM", form);
   };
 
   const handleSubmit = async (
@@ -114,8 +180,13 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
     if (!userId) return;
     if (!form) return;
 
+    const isValid = validateForm();
+
+    if (!isValid) return;
+
     try {
       let result = null;
+      if (!form) return;
       result = await updateUserData(
         // userId,
         form.username,
@@ -123,93 +194,124 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
         form.lastName,
         form.email,
         form.phone,
-        form.price,
+        +form.price!,
         form.qualification,
         form.bio,
         form.location
       );
 
       if (result) {
-        console.log("User updated successfully:", result);
-      } else {
-        console.error("Error updating user:", result);
+        setOpenSnackbar(true);
+        setSnackbarMessage("User data updated!");
       }
     } catch (error) {
-      console.error("Error updating user:", error);
-    } finally {
+      setOpenSnackbar(true);
+      setSnackbarMessage("User data update failed.");
     }
+  };
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
   };
 
   return (
     <Container maxWidth="sm">
+      {userId && !teacherId && (
+        <Button onClick={() => handleDeleteUser(userId)}>
+          Delete account
+        </Button>
+      )}
+      {userId && teacherId && (
+        <Button onClick={() => handleDeleteTeacher(userId, teacherId)}>
+          Delete account
+        </Button>
+      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             {" "}
             <Typography className="input-label">First Name</Typography>
             <TextField
-              // label="First Name"
               defaultValue={user?.firstName}
               variant="outlined"
               fullWidth
-              required
+              // required
               name="firstName"
+              error={!!errors.firstName}
               onChange={(e) =>
                 handleContactFormChange("firstName", e.target.value)
               }
             />
+            {errors.firstName && (
+              <Typography className="error-message">
+                {errors.firstName}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={6}>
             {" "}
             <Typography className="input-label">Last Name</Typography>
             <TextField
-              // label="Last Name"
               defaultValue={user?.lastName}
               variant="outlined"
               fullWidth
-              required
+              // required
               name="lastName"
+              error={!!errors.lastName}
               onChange={(e) =>
                 handleContactFormChange("lastName", e.target.value)
               }
             />
+            {errors.lastName && (
+              <Typography className="error-message">
+                {errors.lastName}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <Typography className="input-label">Username</Typography>
             <TextField
               defaultValue={user?.username || ""}
-              // label="Username"
               variant="outlined"
               fullWidth
               name="username"
-              required
+              error={!!errors.username}
+              // required
               onChange={(e) =>
                 handleContactFormChange("username", e.target.value)
               }
             />
+            {errors.username && (
+              <Typography className="error-message">
+                {errors.username}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <Typography className="input-label">Email</Typography>
             <TextField
               defaultValue={user?.email}
               type="email"
-              // label="Email"
               variant="outlined"
               name="email"
               fullWidth
-              required
+              error={!!errors.email}
+              // required
               onChange={(e) => handleContactFormChange("email", e.target.value)}
             />
+            {errors.phone && (
+              <Typography className="error-message">{errors.phone}</Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             {" "}
             <Typography className="input-label">Phone</Typography>
             <TextField
               defaultValue={user?.phone}
-              // label="Phone"
               variant="outlined"
               fullWidth
               name="phone"
+              error={!!errors.phone}
               onChange={(e) => handleContactFormChange("phone", e.target.value)}
             />
           </Grid>
@@ -220,20 +322,24 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 <TextField
                   defaultValue={teacher?.price}
                   type="number"
-                  // label="Price"
                   variant="outlined"
                   name="price"
                   fullWidth
+                  error={!!errors.price}
                   onChange={(e) =>
                     handleContactFormChange("price", e.target.value)
                   }
                 />
+                {errors.price && (
+                  <Typography className="error-message">
+                    {errors.price}
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={6}>
                 <Typography className="input-label">Qualification</Typography>
                 <TextField
                   defaultValue={teacher?.qualification}
-                  // label="Qualification"
                   variant="outlined"
                   fullWidth
                   name="qualification"
@@ -246,7 +352,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 <Typography className="input-label">Bio</Typography>
                 <TextField
                   defaultValue={teacher?.bio}
-                  // label="Bio"
                   variant="outlined"
                   fullWidth
                   multiline
@@ -260,7 +365,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 <Typography className="input-label">Location</Typography>
                 <TextField
                   defaultValue={teacher?.location}
-                  // label="Location"
                   variant="outlined"
                   fullWidth
                   name="location"
@@ -278,6 +382,13 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
           </Grid>
         </Grid>
       </form>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+      />
     </Container>
   );
 };

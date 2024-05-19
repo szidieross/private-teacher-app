@@ -22,13 +22,14 @@ import { TeacherModel } from "@/app/api/models/teacher.model";
 import { CategoryModel } from "@/app/api/models/category.model";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import Link from "next/link";
+import { colors } from "@/app/(client)/constants/color.constant";
 
 type Props = {
   isSession: boolean;
 };
 
 const List: FC<Props> = ({ isSession }) => {
-  const { getTeachers, getTeacherByUserId } = useTeachersService();
+  const { getTeachers } = useTeachersService();
   const { getCategories } = useCategoriesService();
   const { filteredTeachers, setFilteredTeachers, allTeachers, setAllTeachers } =
     useSearchContext();
@@ -59,7 +60,7 @@ const List: FC<Props> = ({ isSession }) => {
           const session = await getSession();
           if (session.userId) {
             const user = await getUserById(session.userId);
-            console.log(user);
+
             setUserInfo((prevState) => {
               return {
                 ...prevState,
@@ -75,7 +76,7 @@ const List: FC<Props> = ({ isSession }) => {
           }
         }
         const fetchedTeachers = await getTeachers();
-        console.log("fetchedTeachers", fetchedTeachers);
+
         setAllTeachers(fetchedTeachers);
         setFilteredTeachers(fetchedTeachers);
         const fetchedCategories = await getCategories();
@@ -86,7 +87,15 @@ const List: FC<Props> = ({ isSession }) => {
     };
 
     fetchData();
-  }, [getTeachers]);
+  }, [
+    getTeachers,
+    getCategories,
+    getUserById,
+    isSession,
+    setAllTeachers,
+    setFilteredTeachers,
+    setUserInfo,
+  ]);
 
   const filterTeachersByCategory = (
     teachers: TeacherModel[],
@@ -116,7 +125,12 @@ const List: FC<Props> = ({ isSession }) => {
         </Select> */}
         <InputLabel
           id="category-select-label"
-          style={{ marginBottom: "8px", fontWeight: "bold", fontSize: "16px" }}
+          style={{
+            marginBottom: "8px",
+            fontWeight: "bold",
+            fontSize: "16px",
+            color: colors.primary,
+          }}
         >
           Choose a category
         </InputLabel>
@@ -124,6 +138,66 @@ const List: FC<Props> = ({ isSession }) => {
           value={selectedCategory}
           onChange={handleChange}
           style={{ width: "200px", marginBottom: "16px" }}
+          sx={{
+            width: "200px",
+            marginBottom: "16px",
+            backgroundColor: "background.paper",
+            borderRadius: 1,
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "primary.main",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "primary.dark",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "primary.dark",
+            },
+            // width: '200px',
+            // marginBottom: '16px',
+            // backgroundColor: 'background.paper',
+            // borderRadius: 1,
+            // '& .MuiOutlinedInput-notchedOutline': {
+            //   borderColor: colors.primary,
+            // },
+            // '&:hover .MuiOutlinedInput-notchedOutline': {
+            //   borderColor: colors.primary,
+            // },
+            // '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            //   borderColor: colors.primary,
+            // }
+          }}
+          MenuProps={{
+            PaperProps: {
+              sx: {
+                bgcolor: "background.paper",
+                boxShadow: 3,
+                maxHeight: 200,
+                "& .MuiMenuItem-root": {
+                  "&.Mui-selected": {
+                    backgroundColor: colors.primary,
+                  },
+                  "&:hover": {
+                    backgroundColor: colors.primary,
+                  },
+                },
+                "& ul": {
+                  "&::-webkit-scrollbar": {
+                    width: "8px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: colors.primary,
+                    borderRadius: "4px",
+                  },
+                  "&::-webkit-scrollbar-thumb:hover": {
+                    backgroundColor: colors.primary,
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    backgroundColor: colors.primary,
+                  },
+                },
+              },
+            },
+          }}
         >
           <MenuItem value="">All categories</MenuItem>
           {categories.map((category) => (

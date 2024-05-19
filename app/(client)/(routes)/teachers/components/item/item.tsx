@@ -2,7 +2,7 @@
 
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import { Typography, Card, CardContent, CardMedia, Box } from "@mui/material";
-import React, { FC, useState, useEffect } from "react";
+import React, { FC } from "react";
 import "./item.scss";
 
 type Props = {
@@ -10,13 +10,9 @@ type Props = {
 };
 
 const Item: FC<Props> = ({ teacher }) => {
-  const [image, setImage] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (teacher.userData.profilePicture) {
-      setImage(teacher.userData.profilePicture);
-    }
-  }, [teacher.userData.profilePicture]);
+  const imageSrc = teacher.userData.profilePicture
+    ? `/images/uploads/${teacher.userData.profilePicture}`
+    : "/images/default/person.jpg";
 
   return (
     <Card className="card">
@@ -25,10 +21,8 @@ const Item: FC<Props> = ({ teacher }) => {
           className="card-media"
           component="img"
           height="320"
-          image={
-            image ? `/images/uploads/${image}` : "/images/default/person.jpg"
-          }
-          alt="Profile"
+          image={imageSrc}
+          alt={`${teacher.userData.firstName} ${teacher.userData.lastName}`}
         />
         <Box className="content-box">
           <Typography gutterBottom variant="h5" component="div" className="">

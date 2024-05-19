@@ -5,10 +5,10 @@ import { toTeacherModel } from "../mappers/teacher.mapper";
 
 export const createTeacher = async (
   userId: number,
-  price: number,
-  bio: string,
-  qualification: string,
-  location: string
+  price: number | undefined,
+  bio: string | undefined,
+  qualification: string | undefined,
+  location: string | undefined
 ) => {
   try {
     const db = await pool.getConnection();
@@ -25,7 +25,6 @@ export const createTeacher = async (
       location,
     ]);
 
-    console.log("Teacher created successfully.");
     return result;
   } catch (error) {
     console.error("Error creating teacher", error);
@@ -301,13 +300,12 @@ export const getTeacherByUserId = async (
 export const updateTeacherData = async (
   userId: number,
   // teacherId?: number,
-  price: string,
-  qualification: string,
-  bio: string,
-  location: string
+  price: number | undefined,
+  qualification: string | undefined,
+  bio: string | undefined,
+  location: string | undefined
 ) => {
   try {
-    console.log("HELLO TEACHER SERVICEAPI");
     const db = await pool.getConnection();
     const query = `
         UPDATE Teachers
@@ -326,10 +324,26 @@ export const updateTeacherData = async (
       userId,
     ]);
     db.release();
-
-    console.log("User data updated successfully");
   } catch (error) {
     console.error("Error updating user:", error);
+    throw error;
+  }
+};
+
+
+export const deleteTeacherById = async (teacherId: number) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+    DELETE FROM Teachers 
+    WHERE teacher_id = ?  
+      `;
+    const [result] = await db.execute(query, [teacherId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error deleting teacher:", error);
     throw error;
   }
 };
