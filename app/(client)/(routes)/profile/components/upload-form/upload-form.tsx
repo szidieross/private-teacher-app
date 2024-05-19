@@ -10,7 +10,9 @@ interface Props {
 }
 
 const UploadForm: React.FC<Props> = ({ open, onClose }) => {
-  const [file, setFile] = useState<File>();
+  // const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | undefined>(undefined);
+
   const { userInfo, setUserInfo } = useUserContext();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -33,6 +35,7 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
         };
       });
       onClose();
+      setFile(undefined);
     } catch (error) {
       console.error(e);
     }
@@ -82,18 +85,20 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
             </Button>
           </label>
           {file && (
-            <Typography variant="body1" style={{ marginTop: "20px" }}>
-              File selected: {file.name}
-            </Typography>
+            <>
+              <Typography variant="body1" style={{ marginTop: "20px" }}>
+                File selected: {file.name}
+              </Typography>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ marginTop: "20px" }}
+              >
+                Upload
+              </Button>
+            </>
           )}
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            style={{ marginTop: "20px" }}
-          >
-            Upload
-          </Button>
         </form>
       </div>
     </Modal>
