@@ -10,6 +10,7 @@ import {
   Button,
   IconButton,
   Link,
+  Box,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { UserModel } from "@/app/api/models/user.model";
@@ -25,6 +26,7 @@ import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import SettingsIcon from "@mui/icons-material/Settings";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
+import "./profile.scss";
 
 type Props = {
   userId?: number;
@@ -89,23 +91,22 @@ const Profile: FC<Props> = ({ userId }) => {
       <Paper sx={{ padding: 2, marginBottom: 4 }}>
         <Grid container alignItems="center" spacing={2}>
           <Grid item xs={12} md={3} container justifyContent="center">
-            <Button onClick={handleOpen}>
-              <Avatar sx={{ width: 120, height: 120 }}>
+            <Button onClick={handleOpen} className="avatar-button">
+              <Avatar className="avatar">
                 {userInfo.userImg ? (
                   <img
+                    className="avatar-img"
                     src={`/images/uploads/${userInfo.userImg}`}
                     alt="Profile"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                      // objectPosition: "top",
-                    }}
                   />
                 ) : (
                   <AccountCircle sx={{ width: "100%", height: "100%" }} />
                 )}
+                <Box className="avatar-box">
+                  <Typography className="avatar-typography" variant="subtitle2">
+                    Upload new pic
+                  </Typography>
+                </Box>
               </Avatar>
             </Button>
           </Grid>
