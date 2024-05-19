@@ -103,7 +103,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
   const rows = appointments?.map((item, index) => {
     return {
       id: index + 1,
-      // appointmentId: item.appointmentId,
+      appointmentId: item.appointmentId,
       name: item.userId ? `${item.firstName} ${item.lastName}` : "-",
       subject: item.categoryName ? item.categoryName : "-",
       date: item.startTime,

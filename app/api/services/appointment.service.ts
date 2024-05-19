@@ -207,8 +207,6 @@ export const cancelAppointment = async (appointmentId: number) => {
     const [result] = await db.execute(query, [appointmentId]);
     db.release();
 
-    console.log("GOOODBYEEEEEEE")
-
     return result;
   } catch (error) {
     console.error("Error cancelling appointment:", error);
