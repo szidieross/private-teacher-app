@@ -1,0 +1,30 @@
+.grid-container {
+  .grid-item {
+    .card {
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.438);
+    }
+    .name {
+      font-size: 28px;
+    }
+    .location {
+      font-weight: bold;
+    }
+    .email {
+      font-weight: bold;
+    }
+    .phone {
+      font-weight: bold;
+    }
+    .school {
+      font-weight: bold;
+    }
+    .price {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .bio {
+      font-weight: bold;
+    }
+  }
+}

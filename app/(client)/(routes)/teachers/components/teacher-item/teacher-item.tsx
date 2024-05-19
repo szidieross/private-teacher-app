@@ -4,6 +4,8 @@ import { TeacherModel } from "@/app/api/models/teacher.model";
 import { Typography, Card, CardContent, CardMedia, Box } from "@mui/material";
 import React, { FC } from "react";
 import "./teacher-item.scss";
+import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 
 type Props = {
   teacher: TeacherModel;
@@ -28,11 +30,11 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
           <Typography gutterBottom variant="h5" component="div" className="">
             {teacher.userData.firstName} {teacher.userData.lastName}
           </Typography>
+          {/* <Typography variant="body2" color="text.secondary" className="">
+            <SchoolRoundedIcon /> {teacher.qualification}
+          </Typography> */}
           <Typography variant="body2" color="text.secondary" className="">
-            Qualification: {teacher.qualification}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" className="">
-            Location: {teacher.location}
+            <LocationOnRoundedIcon /> {teacher.location}
           </Typography>
         </Box>
       </CardContent>
