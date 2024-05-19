@@ -329,3 +329,21 @@ export const updateTeacherData = async (
     throw error;
   }
 };
+
+
+export const deleteTeacherById = async (teacherId: number) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+    DELETE FROM Teachers 
+    WHERE teacher_id = ?  
+      `;
+    const [result] = await db.execute(query, [teacherId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error deleting teacher:", error);
+    throw error;
+  }
+};

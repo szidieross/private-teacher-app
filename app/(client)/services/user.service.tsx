@@ -154,6 +154,19 @@ const useUsersService = () => {
     },
     []
   );
+  
+  const deleteUserById = async (userId: number) => {
+    try {
+      const { data } = await api.delete<UserModel>(
+        `/users/${userId}`,
+        "Couldn't delete user!"
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 
   return {
     getUsers,
@@ -161,7 +174,7 @@ const useUsersService = () => {
     createUser,
     loginUser,
     updateUserImage,
-    updateUserData,
+    updateUserData,deleteUserById
   };
 };
 

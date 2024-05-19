@@ -15,6 +15,9 @@ import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
 import "./settings.scss";
+import useAppointmentsService from "@/app/(client)/services/appointment.service";
+import useLessonsService from "@/app/(client)/services/lesson.service";
+import { logout } from "@/app/actions";
 
 type Props = {
   userId?: number;
@@ -48,14 +51,39 @@ const initContactForm: ContactUsRequest = {
 };
 
 const Settings: FC<Props> = ({ userId, teacherId }) => {
-  const { getUserById, updateUserData } = useUsersService();
-  const { getTeacherByUserId } = useTeachersService();
+  const { getUserById, updateUserData, deleteUserById } = useUsersService();
+  const { getTeacherByUserId, deleteTeacherById } = useTeachersService();
+  const { deleteAppointmentByTeacherId, cancelAppointmentsByUserId } =
+    useAppointmentsService();
+  const { deleteLessonsByTeacherId } = useLessonsService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [user, setUser] = useState<UserModel | null>(null);
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
   const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const handleDeleteUser = async (userId: number) => {
+    try {
+      await cancelAppointmentsByUserId(userId);
+      await deleteUserById(userId);
+      logout();
+    } catch (error) {
+      console.error("Failed deleting user", error);
+    }
+  };
+
+  const handleDeleteTeacher = async (userId: number, teacherId: number) => {
+    try {
+      await deleteAppointmentByTeacherId(teacherId);
+      await deleteLessonsByTeacherId(teacherId);
+      await deleteTeacherById(teacherId);
+      await deleteUserById(userId);
+      logout();
+    } catch (error) {
+      console.error("Failed deleting teacher", error);
+    }
+  };
 
   const validateForm = () => {
     const newErrors: Partial<ContactUsRequest> = {};
@@ -188,6 +216,16 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
 
   return (
     <Container maxWidth="sm">
+      {userId && !teacherId && (
+        <Button onClick={() => handleDeleteUser(userId)}>
+          Delete account
+        </Button>
+      )}
+      {userId && teacherId && (
+        <Button onClick={() => handleDeleteTeacher(userId, teacherId)}>
+          Delete account
+        </Button>
+      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
