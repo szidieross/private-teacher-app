@@ -6,21 +6,12 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
-import { Button } from "@mui/material";
+import { Button, Link } from "@mui/material";
 import { getSession } from "@/app/actions";
 
 type Props = {
   userId: number;
 };
-
-// type TableProps = {
-//   id: number;
-//   appointmentId: number;
-//   name: string;
-//   date: string;
-//   subject: string;
-//   action: string;
-// };
 
 const TeacherAppointments: FC<Props> = ({ userId }) => {
   const { getTeacherByUserId } = useTeachersService();
@@ -69,19 +60,26 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       field: "name",
       headerName: "Name",
       width: 150,
-      editable: true,
+      editable: false,
+      renderCell: (params) => (
+        // Use Link to wrap the name and provide the appropriate route
+        <Link href={`/users/${params.row.userId}`}>
+          {/* {`${item.firstName} ${item.lastName}`} */}
+          {`${params.row.name}`}
+        </Link>
+      ),
     },
     {
       field: "subject",
       headerName: "Subject",
       width: 110,
-      editable: true,
+      editable: false,
     },
     {
       field: "date",
       headerName: "Date",
       width: 150,
-      editable: true,
+      editable: false,
     },
     {
       field: "action",
@@ -104,6 +102,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     return {
       id: index + 1,
       appointmentId: item.appointmentId,
+      userId: item.userId,
       name: item.userId ? `${item.firstName} ${item.lastName}` : "-",
       subject: item.categoryName ? item.categoryName : "-",
       date: item.startTime,
