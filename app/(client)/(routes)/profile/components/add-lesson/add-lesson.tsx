@@ -3,11 +3,9 @@ import {
   Container,
   Button,
   Grid,
-  Typography,
   Paper,
   MenuItem,
   Select,
-  Box,
 } from "@mui/material";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import useCategoriesService from "@/app/(client)/services/category.service";
@@ -15,6 +13,7 @@ import { CategoryModel } from "@/app/api/models/category.model";
 import { SelectChangeEvent } from "@mui/material/Select";
 import PlaylistAddCircleRoundedIcon from "@mui/icons-material/PlaylistAddCircleRounded";
 import { colors } from "@/app/(client)/constants/color.constant";
+import { LessonModel } from "@/app/api/models/lesson.model";
 
 type Props = {
   teacherId: number;
@@ -26,12 +25,13 @@ interface LessonFormData {
 }
 
 const AddLesson: FC<Props> = ({ teacherId }) => {
-  const { createLesson } = useLessonsService();
+  const { createLesson, getLessonsByTeacherId } = useLessonsService();
   const { getCategories } = useCategoriesService();
   const [formData, setFormData] = useState<LessonFormData>({
     name: "",
     categoryId: null,
   });
+  const [lessons, setLessons] = useState<LessonModel[] | null>(null);
   const [categoryOptions, setCategoryOptions] = useState<CategoryModel[]>([]);
   const [showForm, setShowForm] = useState(false);
 
@@ -51,22 +51,27 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
         name: "",
         categoryId: null,
       });
-      setShowForm(false); // Hide the form after submission
+      setShowForm(false);
+      
+      const updatedLessons = await getLessonsByTeacherId(teacherId);
+      setLessons(updatedLessons);
     }
   };
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchData = async () => {
       try {
         const categories: CategoryModel[] = await getCategories();
+        const lessons = await getLessonsByTeacherId(teacherId);
+        setLessons(lessons);
         setCategoryOptions(categories);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchCategories();
-  }, [getCategories]);
+    fetchData();
+  }, [getCategories, getLessonsByTeacherId, teacherId]);
 
   return (
     <Container maxWidth="sm">
@@ -127,14 +132,22 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {categoryOptions.map((category) => (
-                    <MenuItem
-                      key={category.categoryId}
-                      value={category.categoryId}
-                    >
-                      {category.name}
-                    </MenuItem>
-                  ))}
+                  {categoryOptions
+                    .filter(
+                      (category) =>
+                        lessons &&
+                        !lessons.some(
+                          (lesson) => lesson.categoryId === category.categoryId
+                        )
+                    )
+                    .map((category) => (
+                      <MenuItem
+                        key={category.categoryId}
+                        value={category.categoryId}
+                      >
+                        {category.name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </Grid>
               <Grid item xs={12}>
