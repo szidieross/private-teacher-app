@@ -14,6 +14,7 @@ import {
   Typography,
   Button,
   Box,
+  Link,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
@@ -163,14 +164,16 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
             />
           </Grid>
         ) : (
-          <>
-            <Grid item xl={1}>
-              <Button onClick={() => to("/login")} sx={{ mr: 1 }}>
+          <Grid item xs={1}>
+            <Link
+              href={"/login"}
+              style={{ color: colors.darkPurple, textDecoration: "none" }}
+            >
+              <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
                 Login
-              </Button>
-              <Button onClick={() => to("/signup")}>Signup</Button>
-            </Grid>
-          </>
+              </Typography>
+            </Link>
+          </Grid>
         )}
       </Grid>
     </Container>

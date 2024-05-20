@@ -84,19 +84,25 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
       <Box alignItems="center" justifyContent="space-between" display={"flex"}>
         <Box>
           <Link href={"/teachers"} style={{ color: colors.secondary }}>
-            <Typography>Private Teacher App</Typography>
+            <Typography sx={{ fontWeight: "bold", fontSize: 24 }}>
+              Private Teacher App
+            </Typography>
           </Link>
         </Box>
         <Box justifyContent={"flex-end"}>
           <Box display={"flex"} alignItems={"center"} sx={{ gap: "20px" }}>
             <Link href={"/teachers"} style={{ color: colors.secondary }}>
-              <Typography>Teachers</Typography>
+              <Typography sx={{ fontWeight: 600, fontSize: 16 }}>
+                Teachers
+              </Typography>
             </Link>
             <Link
               href={"/profile/appointments"}
               style={{ color: colors.secondary }}
             >
-              <Typography>My Appointments</Typography>
+              <Typography sx={{ fontWeight: 600, fontSize: 16 }}>
+                My Appointments
+              </Typography>
             </Link>
             {userInfo.isLoggedIn ? (
               <Box>
@@ -140,15 +146,21 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                 >
                   <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
                   <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
-                  <MenuItem onClick={handleLogout}>
-                    Logout
-                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
               </Box>
             ) : (
               <>
-                <Button onClick={() => to("/login")}>Login</Button>
-                <Button onClick={() => to("/signup")}>Signup</Button>
+                <Link href={"/login"} style={{ color: colors.darkPurple }}>
+                  <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
+                    Login
+                  </Typography>
+                </Link>
+                <Link href={"/signup"} style={{ color: colors.darkPurple }}>
+                  <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
+                    Signup
+                  </Typography>
+                </Link>
               </>
             )}
           </Box>

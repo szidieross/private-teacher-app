@@ -28,12 +28,13 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
           sx={{ borderRadius: 2 }}
           alt={`${teacher.userData.firstName} ${teacher.userData.lastName}`}
         />
-        <Box className="teacher-details">
+        <Box className="teacher-details" pt={2}>
           <Typography
             gutterBottom
-            variant="h5"
+            variant="h2"
             component="div"
             className="teacher-name"
+            fontSize={21}
           >
             {teacher.userData.firstName} {teacher.userData.lastName}
           </Typography>
