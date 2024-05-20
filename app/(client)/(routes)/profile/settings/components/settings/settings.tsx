@@ -14,6 +14,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Box,
+  Paper,
 } from "@mui/material";
 import { UserModel } from "@/app/api/models/user.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
@@ -23,6 +25,7 @@ import "./settings.scss";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import { logout } from "@/app/actions";
+import { colors } from "@/app/(client)/constants/color.constant";
 
 type Props = {
   userId?: number;
@@ -238,8 +241,17 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
   };
 
   return (
-    <Container maxWidth="sm">
-        <Button onClick={openDeleteDialog}>Delete account</Button>
+    <Container maxWidth="md" className="settings-container">
+      <Box pt={3}>
+        <Button
+          onClick={openDeleteDialog}
+          variant="outlined"
+          color="secondary"
+          sx={{ fontSize: 12 }}
+        >
+          Delete account
+        </Button>
+      </Box>
 
       <Dialog
         open={openDeleteModal}
@@ -255,164 +267,204 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeDeleteDialog} color="primary">
+          <Button
+            onClick={closeDeleteDialog}
+            variant="outlined"
+            color="primary"
+          >
             Cancel
           </Button>
-          <Button onClick={confirmDelete} color="secondary">
+          <Button
+            onClick={confirmDelete}
+            variant="contained"
+            sx={{ backgroundColor: colors.primary }}
+          >
             Confirm
           </Button>
         </DialogActions>
       </Dialog>
 
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Typography className="input-label">First Name</Typography>
-            <TextField
-              defaultValue={user?.firstName}
-              variant="outlined"
-              fullWidth
-              name="firstName"
-              error={!!errors.firstName}
-              onChange={(e) =>
-                handleContactFormChange("firstName", e.target.value)
-              }
-            />
-            {errors.firstName && (
-              <Typography className="error-message">
-                {errors.firstName}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={6}>
-            <Typography className="input-label">Last Name</Typography>
-            <TextField
-              defaultValue={user?.lastName}
-              variant="outlined"
-              fullWidth
-              name="lastName"
-              error={!!errors.lastName}
-              onChange={(e) =>
-                handleContactFormChange("lastName", e.target.value)
-              }
-            />
-            {errors.lastName && (
-              <Typography className="error-message">
-                {errors.lastName}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <Typography className="input-label">Username</Typography>
-            <TextField
-              defaultValue={user?.username || ""}
-              variant="outlined"
-              fullWidth
-              name="username"
-              error={!!errors.username}
-              onChange={(e) =>
-                handleContactFormChange("username", e.target.value)
-              }
-            />
-            {errors.username && (
-              <Typography className="error-message">
-                {errors.username}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <Typography className="input-label">Email</Typography>
-            <TextField
-              defaultValue={user?.email}
-              type="email"
-              variant="outlined"
-              name="email"
-              fullWidth
-              error={!!errors.email}
-              onChange={(e) => handleContactFormChange("email", e.target.value)}
-            />
-            {errors.phone && (
-              <Typography className="error-message">{errors.phone}</Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <Typography className="input-label">Phone</Typography>
-            <TextField
-              defaultValue={user?.phone}
-              variant="outlined"
-              fullWidth
-              name="phone"
-              error={!!errors.phone}
-              onChange={(e) => handleContactFormChange("phone", e.target.value)}
-            />
-          </Grid>
-          {teacherId && (
-            <>
+      <Paper sx={{ backgroundColor: colors.background }}>
+        {" "}
+        <Box p={3} m={3}>
+          <form onSubmit={handleSubmit} className="settings-form">
+            <Grid container spacing={2}>
               <Grid item xs={6}>
-                <Typography className="input-label">Price</Typography>
+                <Typography className="input-label">First Name</Typography>
                 <TextField
-                  defaultValue={teacher?.price}
-                  type="number"
+                  defaultValue={user?.firstName}
                   variant="outlined"
-                  name="price"
                   fullWidth
-                  error={!!errors.price}
+                  name="firstName"
+                  error={!!errors.firstName}
+                  className="text-field"
                   onChange={(e) =>
-                    handleContactFormChange("price", e.target.value)
+                    handleContactFormChange("firstName", e.target.value)
                   }
                 />
-                {errors.price && (
+                {errors.firstName && (
                   <Typography className="error-message">
-                    {errors.price}
+                    {errors.firstName}
                   </Typography>
                 )}
               </Grid>
               <Grid item xs={6}>
-                <Typography className="input-label">Qualification</Typography>
+                <Typography className="input-label">Last Name</Typography>
                 <TextField
-                  defaultValue={teacher?.qualification}
+                  defaultValue={user?.lastName}
                   variant="outlined"
                   fullWidth
-                  name="qualification"
+                  name="lastName"
+                  className="text-field"
+                  error={!!errors.lastName}
                   onChange={(e) =>
-                    handleContactFormChange("qualification", e.target.value)
+                    handleContactFormChange("lastName", e.target.value)
                   }
                 />
+                {errors.lastName && (
+                  <Typography className="error-message">
+                    {errors.lastName}
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={12}>
-                <Typography className="input-label">Bio</Typography>
+                <Typography className="input-label">Username</Typography>
                 <TextField
-                  defaultValue={teacher?.bio}
+                  defaultValue={user?.username || ""}
                   variant="outlined"
                   fullWidth
-                  multiline
-                  name="bio"
+                  name="username"
+                  className="text-field"
+                  error={!!errors.username}
                   onChange={(e) =>
-                    handleContactFormChange("bio", e.target.value)
+                    handleContactFormChange("username", e.target.value)
                   }
                 />
+                {errors.username && (
+                  <Typography className="error-message">
+                    {errors.username}
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={12}>
-                <Typography className="input-label">Location</Typography>
+                <Typography className="input-label">Email</Typography>
                 <TextField
-                  defaultValue={teacher?.location}
+                  defaultValue={user?.email}
+                  type="email"
+                  variant="outlined"
+                  name="email"
+                  fullWidth
+                  className="text-field"
+                  error={!!errors.email}
+                  onChange={(e) =>
+                    handleContactFormChange("email", e.target.value)
+                  }
+                />
+                {errors.phone && (
+                  <Typography className="error-message">
+                    {errors.phone}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <Typography className="input-label">Phone</Typography>
+                <TextField
+                  defaultValue={user?.phone}
                   variant="outlined"
                   fullWidth
-                  name="location"
+                  name="phone"
+                  className="text-field"
+                  error={!!errors.phone}
                   onChange={(e) =>
-                    handleContactFormChange("location", e.target.value)
+                    handleContactFormChange("phone", e.target.value)
                   }
                 />
               </Grid>
-            </>
-          )}
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Update
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
+              {teacherId && (
+                <>
+                  <Grid item xs={6}>
+                    <Typography className="input-label">Price</Typography>
+                    <TextField
+                      defaultValue={teacher?.price}
+                      type="number"
+                      variant="outlined"
+                      name="price"
+                      fullWidth
+                      className="text-field"
+                      error={!!errors.price}
+                      onChange={(e) =>
+                        handleContactFormChange("price", e.target.value)
+                      }
+                    />
+                    {errors.price && (
+                      <Typography className="error-message">
+                        {errors.price}
+                      </Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography className="input-label">
+                      Qualification
+                    </Typography>
+                    <TextField
+                      defaultValue={teacher?.qualification}
+                      variant="outlined"
+                      fullWidth
+                      className="text-field"
+                      name="qualification"
+                      onChange={(e) =>
+                        handleContactFormChange("qualification", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography className="input-label">Bio</Typography>
+                    <TextField
+                      defaultValue={teacher?.bio}
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      className="text-field"
+                      name="bio"
+                      onChange={(e) =>
+                        handleContactFormChange("bio", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography className="input-label">Location</Typography>
+                    <TextField
+                      defaultValue={teacher?.location}
+                      variant="outlined"
+                      fullWidth
+                      name="location"
+                      className="text-field"
+                      onChange={(e) =>
+                        handleContactFormChange("location", e.target.value)
+                      }
+                    />
+                  </Grid>
+                </>
+              )}
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  sx={{
+                    bgcolor: colors.primary,
+                    "&:hover": {
+                      bgcolor: colors.darkPurple,
+                    },
+                  }}
+                >
+                  Update
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Box>
+      </Paper>
 
       <Snackbar
         open={openSnackbar}
