@@ -23,7 +23,7 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
         <CardMedia
           className="teacher-media"
           component="img"
-          height="320"
+          height="300"
           image={imageSrc}
           sx={{ borderRadius: 2 }}
           alt={`${teacher.userData.firstName} ${teacher.userData.lastName}`}
