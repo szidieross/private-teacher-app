@@ -49,7 +49,6 @@ export const login = async (
   }
 
   await session.save();
-  return { ...prevState, error: undefined };
 };
 
 
