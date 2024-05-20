@@ -8,6 +8,9 @@ import {
   Select,
   SelectChangeEvent,
   Typography,
+  Checkbox,
+  ListItemText,
+  OutlinedInput,
 } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import {
@@ -40,9 +43,18 @@ const TeacherList: FC<Props> = ({ isSession }) => {
 
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [categories, setCategories] = useState<CategoryModel[]>([]);
+  const [locations, setLocations] = useState<string[]>([]);
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value as string);
+  };
+
+  const handleLocationChange = (event: SelectChangeEvent<string[]>) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedLocations(typeof value === "string" ? value.split(",") : value);
   };
 
   useEffect(() => {
@@ -82,6 +94,12 @@ const TeacherList: FC<Props> = ({ isSession }) => {
         setFilteredTeachers(fetchedTeachers);
         const fetchedCategories = await getCategories();
         setCategories(fetchedCategories);
+
+        // Extract unique locations from fetched teachers
+        const uniqueLocations = Array.from(
+          new Set(fetchedTeachers.map((teacher) => teacher.location))
+        );
+        setLocations(uniqueLocations);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -102,12 +120,27 @@ const TeacherList: FC<Props> = ({ isSession }) => {
     teachers: TeacherModel[],
     categoryName: string
   ): TeacherModel[] => {
-    const filteredTeachers = teachers.filter((teacher) =>
+    return teachers.filter((teacher) =>
       teacher.lessons?.some((lesson) => lesson.categoryName === categoryName)
     );
-
-    return filteredTeachers;
   };
+
+  const filterTeachersByLocation = (
+    teachers: TeacherModel[],
+    locations: string[]
+  ): TeacherModel[] => {
+    if (locations.length === 0) return teachers;
+    return teachers.filter((teacher) => locations.includes(teacher.location));
+  };
+
+  const filteredByCategory = filterTeachersByCategory(
+    allTeachers,
+    selectedCategory
+  );
+  const finalFilteredTeachers = filterTeachersByLocation(
+    filteredByCategory,
+    selectedLocations
+  );
 
   return (
     <Grid container spacing={2} marginBottom={6}>
@@ -115,15 +148,6 @@ const TeacherList: FC<Props> = ({ isSession }) => {
         <SearchBar />
       </Grid>
       <Grid item xs={12}>
-        {/* <InputLabel id="category-select-label">Choose a category</InputLabel>
-        <Select value={selectedCategory} onChange={handleChange}>
-          <MenuItem value="">All categories</MenuItem>
-          {categories.map((category) => (
-            <MenuItem key={category.categoryId} value={category.name}>
-              {category.name}
-            </MenuItem>
-          ))}
-        </Select> */}
         <InputLabel
           id="category-select-label"
           style={{
@@ -153,19 +177,6 @@ const TeacherList: FC<Props> = ({ isSession }) => {
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: "primary.dark",
             },
-            // width: '200px',
-            // marginBottom: '16px',
-            // backgroundColor: 'background.paper',
-            // borderRadius: 1,
-            // '& .MuiOutlinedInput-notchedOutline': {
-            //   borderColor: colors.primary,
-            // },
-            // '&:hover .MuiOutlinedInput-notchedOutline': {
-            //   borderColor: colors.primary,
-            // },
-            // '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            //   borderColor: colors.primary,
-            // }
           }}
           MenuProps={{
             PaperProps: {
@@ -208,6 +219,66 @@ const TeacherList: FC<Props> = ({ isSession }) => {
           ))}
         </Select>
       </Grid>
+      <Grid item xs={12}>
+        <InputLabel
+          id="location-select-label"
+          style={{
+            marginBottom: "8px",
+            fontWeight: "bold",
+            fontSize: "16px",
+            color: colors.primary,
+          }}
+        >
+          Choose locations
+        </InputLabel>
+        <Select
+          multiple
+          value={selectedLocations}
+          onChange={handleLocationChange}
+          input={<OutlinedInput />}
+          renderValue={(selected) => selected.join(", ")}
+          style={{ width: "200px", marginBottom: "16px" }}
+          MenuProps={{
+            PaperProps: {
+              sx: {
+                bgcolor: "background.paper",
+                boxShadow: 3,
+                maxHeight: 200,
+                "& .MuiMenuItem-root": {
+                  "&.Mui-selected": {
+                    backgroundColor: colors.primary,
+                  },
+                  "&:hover": {
+                    backgroundColor: colors.primary,
+                  },
+                },
+                "& ul": {
+                  "&::-webkit-scrollbar": {
+                    width: "8px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: colors.primary,
+                    borderRadius: "4px",
+                  },
+                  "&::-webkit-scrollbar-thumb:hover": {
+                    backgroundColor: colors.primary,
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    backgroundColor: colors.primary,
+                  },
+                },
+              },
+            },
+          }}
+        >
+          {locations.map((location) => (
+            <MenuItem key={location} value={location}>
+              <Checkbox checked={selectedLocations.indexOf(location) > -1} />
+              <ListItemText primary={location} />
+            </MenuItem>
+          ))}
+        </Select>
+      </Grid>
       {allTeachers &&
         filteredTeachers.length == allTeachers.length &&
         allTeachers
@@ -215,6 +286,11 @@ const TeacherList: FC<Props> = ({ isSession }) => {
             (teacher) =>
               !selectedCategory ||
               filterTeachersByCategory([teacher], selectedCategory).length > 0
+          )
+          .filter(
+            (teacher) =>
+              !selectedLocations ||
+              filterTeachersByLocation([teacher], selectedLocations).length > 0
           )
           .map((teacher, index) => (
             <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={4}>
@@ -230,6 +306,11 @@ const TeacherList: FC<Props> = ({ isSession }) => {
             (teacher) =>
               !selectedCategory ||
               filterTeachersByCategory([teacher], selectedCategory).length > 0
+          )
+          .filter(
+            (teacher) =>
+              !selectedLocations ||
+              filterTeachersByLocation([teacher], selectedLocations).length > 0
           )
           .map((teacher, index) => (
             <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={4}>
