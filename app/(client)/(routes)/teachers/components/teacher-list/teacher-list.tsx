@@ -29,6 +29,7 @@ import useCategoriesService from "@/app/(client)/services/category.service";
 import Link from "next/link";
 import { colors } from "@/app/(client)/constants/color.constant";
 import TeacherItem from "../teacher-item/teacher-item";
+import SkeletonList from "../skeleton-list/skeleton-list";
 
 type Props = {
   isSession: boolean;
@@ -300,70 +301,71 @@ const TeacherList: FC<Props> = ({ isSession }) => {
         </Box>
       </Grid>
       {loading ? (
-        <>
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <Box>
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={400}
-                sx={{ borderRadius: 2 }}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <Box>
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={400}
-                sx={{ borderRadius: 2 }}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <Box>
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={400}
-                sx={{ borderRadius: 2 }}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <Box>
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={400}
-                sx={{ borderRadius: 2 }}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <Box>
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={400}
-                sx={{ borderRadius: 2 }}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <Box>
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={400}
-                sx={{ borderRadius: 2 }}
-              />
-            </Box>
-          </Grid>
-          
-        </>
+        <SkeletonList />
       ) : (
+        // <>
+        //   <Grid item xs={12} sm={6} md={4} lg={4}>
+        //     <Box>
+        //       <Skeleton
+        //         variant="rectangular"
+        //         width={"100%"}
+        //         height={400}
+        //         sx={{ borderRadius: 2 }}
+        //       />
+        //     </Box>
+        //   </Grid>
+        //   <Grid item xs={12} sm={6} md={4} lg={4}>
+        //     <Box>
+        //       <Skeleton
+        //         variant="rectangular"
+        //         width={"100%"}
+        //         height={400}
+        //         sx={{ borderRadius: 2 }}
+        //       />
+        //     </Box>
+        //   </Grid>
+        //   <Grid item xs={12} sm={6} md={4} lg={4}>
+        //     <Box>
+        //       <Skeleton
+        //         variant="rectangular"
+        //         width={"100%"}
+        //         height={400}
+        //         sx={{ borderRadius: 2 }}
+        //       />
+        //     </Box>
+        //   </Grid>
+        //   <Grid item xs={12} sm={6} md={4} lg={4}>
+        //     <Box>
+        //       <Skeleton
+        //         variant="rectangular"
+        //         width={"100%"}
+        //         height={400}
+        //         sx={{ borderRadius: 2 }}
+        //       />
+        //     </Box>
+        //   </Grid>
+        //   <Grid item xs={12} sm={6} md={4} lg={4}>
+        //     <Box>
+        //       <Skeleton
+        //         variant="rectangular"
+        //         width={"100%"}
+        //         height={400}
+        //         sx={{ borderRadius: 2 }}
+        //       />
+        //     </Box>
+        //   </Grid>
+        //   <Grid item xs={12} sm={6} md={4} lg={4}>
+        //     <Box>
+        //       <Skeleton
+        //         variant="rectangular"
+        //         width={"100%"}
+        //         height={400}
+        //         sx={{ borderRadius: 2 }}
+        //       />
+        //     </Box>
+        //   </Grid>
+
+        // </>
         <>
           {allTeachers &&
             filteredTeachers.length === allTeachers.length &&
