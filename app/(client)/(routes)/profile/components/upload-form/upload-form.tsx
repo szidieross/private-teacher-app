@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Modal, Button, Typography } from "@mui/material";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
+import { PhotoCameraRounded as PhotoCameraRoundedIcon } from "@mui/icons-material";
+import { colors } from "@/app/(client)/constants/color.constant";
 
 interface Props {
   open: boolean;
@@ -10,9 +12,7 @@ interface Props {
 }
 
 const UploadForm: React.FC<Props> = ({ open, onClose }) => {
-  // const [file, setFile] = useState<File>();
   const [file, setFile] = useState<File | undefined>(undefined);
-
   const { userInfo, setUserInfo } = useUserContext();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,12 +28,10 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
       });
 
       if (!res.ok) throw new Error(await res.text());
-      setUserInfo((prevState) => {
-        return {
-          ...prevState,
-          userImg: file.name,
-        };
-      });
+      setUserInfo((prevState) => ({
+        ...prevState,
+        userImg: file.name,
+      }));
       onClose();
       setFile(undefined);
     } catch (error) {
@@ -54,15 +52,14 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          backgroundColor: "white",
+          backgroundColor: colors.background,
           padding: "20px",
-          borderRadius: 2,
-          width: 400,
+          borderRadius: "10px",
+          width: "400px",
         }}
       >
-        <h2 id="modal-title">Upload your profile picture</h2>
         <Typography variant="h5" align="center" gutterBottom>
-          Upload Image
+          Upload Profile Picture
         </Typography>
         <form
           onSubmit={onSubmit}
@@ -80,20 +77,40 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
             onChange={(e) => setFile(e.target.files?.[0])}
           />
           <label htmlFor="contained-button-file">
-            <Button variant="contained" color="primary" component="span">
+            <Button
+              variant="contained"
+              color="primary"
+              component="span"
+              startIcon={<PhotoCameraRoundedIcon />}
+              sx={{
+                mb: 2,
+                backgroundColor: colors.primary,
+                "&:hover": {
+                  bgcolor: colors.darkPurple,
+                },
+              }}
+            >
               Choose Image
             </Button>
           </label>
           {file && (
             <>
-              <Typography variant="body1" style={{ marginTop: "20px" }}>
-                File selected: {file.name}
+              <Typography
+                variant="body1"
+                style={{ marginBottom: "20px", fontSize: 12 }}
+              >
+                Selected File: {file.name}
               </Typography>
               <Button
                 type="submit"
                 variant="contained"
-                color="primary"
-                style={{ marginTop: "20px" }}
+                sx={{
+                  width: "100%",
+                  backgroundColor: colors.primary,
+                  "&:hover": {
+                    bgcolor: colors.darkPurple,
+                  },
+                }}
               >
                 Upload
               </Button>
