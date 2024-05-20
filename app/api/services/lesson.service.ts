@@ -135,3 +135,20 @@ export const deleteLessonsByTeacherId = async (teacherId: number) => {
     throw error;
   }
 };
+
+export const deleteLessonsByLessonId = async (lessonId:number) => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+    DELETE FROM Lessons 
+    WHERE lesson_id = ?  
+      `;
+    const [result] = await db.execute(query, [lessonId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error deleting lesson:", error);
+    throw error;
+  }
+};

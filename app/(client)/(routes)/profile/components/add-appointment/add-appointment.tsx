@@ -14,7 +14,6 @@ import useAppointmentsService from "@/app/(client)/services/appointment.service"
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
-import ScheduleIcon from "@mui/icons-material/Schedule";
 import { colors } from "@/app/(client)/constants/color.constant";
 
 type Props = {
@@ -95,6 +94,7 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
                     onChange={handleChange}
                     InputLabelProps={{ shrink: true }}
                     variant="outlined"
+                    sx={{ cursor: "pointer" }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -108,7 +108,7 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
                       paddingY: 1.5,
                       backgroundColor: colors.primary,
                       "&:hover": {
-                        backgroundColor: colors.darkPurple,
+                        backgroundColor: colors.mediumPurple,
                       },
                     }}
                   >

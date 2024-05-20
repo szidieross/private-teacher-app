@@ -277,7 +277,12 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
           <Button
             onClick={confirmDelete}
             variant="contained"
-            sx={{ backgroundColor: colors.primary }}
+            sx={{
+              backgroundColor: colors.primary,
+              "&:hover": {
+                backgroundColor: colors.mediumPurple,
+              },
+            }}
           >
             Confirm
           </Button>

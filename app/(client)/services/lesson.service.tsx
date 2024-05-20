@@ -85,12 +85,29 @@ const useLessonsService = () => {
     }
   };
 
+  const deleteLessonsByLessonId = async (
+    teacherId: number,
+    lessonId: number
+  ) => {
+    console.log("teacherId lessons", lessonId);
+    try {
+      const { data } = await api.delete<LessonModel>(
+        `/teachers/${teacherId}/lessons/${lessonId}`
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
   return {
     getLessons,
     getLessonById,
     getLessonsByTeacherId,
     createLesson,
     deleteLessonsByTeacherId,
+    deleteLessonsByLessonId,
   };
 };
 
