@@ -12,6 +12,7 @@ import {
   ListItemText,
   OutlinedInput,
   Box,
+  Skeleton,
 } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import {
@@ -46,6 +47,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
   const [categories, setCategories] = useState<CategoryModel[]>([]);
   const [locations, setLocations] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value as string);
@@ -105,6 +107,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
         );
 
         setLocations(uniqueLocations);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -242,13 +245,13 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                 backgroundColor: "background.paper", // Match the background color
                 borderRadius: 1,
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "primary.main",
+                  borderColor: colors.primary,
                 },
                 "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "primary.dark",
+                  borderColor: colors.primary,
                 },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "primary.dark",
+                  borderColor: colors.primary,
                 },
               }}
               MenuProps={{
@@ -296,50 +299,122 @@ const TeacherList: FC<Props> = ({ isSession }) => {
           </Box>
         </Box>
       </Grid>
-      {allTeachers &&
-        filteredTeachers.length == allTeachers.length &&
-        allTeachers
-          .filter(
-            (teacher) =>
-              !selectedCategory ||
-              filterTeachersByCategory([teacher], selectedCategory).length > 0
-          )
-          .filter(
-            (teacher) =>
-              !selectedLocations ||
-              filterTeachersByLocation([teacher], selectedLocations).length > 0
-          )
-          .map((teacher, index) => (
-            <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={4}>
-              <Link href={`/teachers/${teacher.teacherId}`}>
-                <TeacherItem teacher={teacher} />
-              </Link>
+      {loading ? (
+        <>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <Box>
+              <Skeleton
+                variant="rectangular"
+                width={"100%"}
+                height={400}
+                sx={{ borderRadius: 2 }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <Box>
+              <Skeleton
+                variant="rectangular"
+                width={"100%"}
+                height={400}
+                sx={{ borderRadius: 2 }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <Box>
+              <Skeleton
+                variant="rectangular"
+                width={"100%"}
+                height={400}
+                sx={{ borderRadius: 2 }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <Box>
+              <Skeleton
+                variant="rectangular"
+                width={"100%"}
+                height={400}
+                sx={{ borderRadius: 2 }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <Box>
+              <Skeleton
+                variant="rectangular"
+                width={"100%"}
+                height={400}
+                sx={{ borderRadius: 2 }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <Box>
+              <Skeleton
+                variant="rectangular"
+                width={"100%"}
+                height={400}
+                sx={{ borderRadius: 2 }}
+              />
+            </Box>
+          </Grid>
+          
+        </>
+      ) : (
+        <>
+          {allTeachers &&
+            filteredTeachers.length === allTeachers.length &&
+            allTeachers
+              .filter(
+                (teacher) =>
+                  !selectedCategory ||
+                  filterTeachersByCategory([teacher], selectedCategory).length >
+                    0
+              )
+              .filter(
+                (teacher) =>
+                  !selectedLocations ||
+                  filterTeachersByLocation([teacher], selectedLocations)
+                    .length > 0
+              )
+              .map((teacher, index) => (
+                <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={4}>
+                  <Link href={`/teachers/${teacher.teacherId}`}>
+                    <TeacherItem teacher={teacher} />
+                  </Link>
+                </Grid>
+              ))}
+          {filteredTeachers &&
+            filteredTeachers.length !== allTeachers.length &&
+            filteredTeachers
+              .filter(
+                (teacher) =>
+                  !selectedCategory ||
+                  filterTeachersByCategory([teacher], selectedCategory).length >
+                    0
+              )
+              .filter(
+                (teacher) =>
+                  !selectedLocations ||
+                  filterTeachersByLocation([teacher], selectedLocations)
+                    .length > 0
+              )
+              .map((teacher, index) => (
+                <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={4}>
+                  <Link href={`/teachers/${teacher.teacherId}`}>
+                    <TeacherItem teacher={teacher} />
+                  </Link>
+                </Grid>
+              ))}
+          {filteredTeachers.length === 0 && (
+            <Grid item xs={12}>
+              <Typography textAlign={"center"}>No items found</Typography>
             </Grid>
-          ))}
-      {filteredTeachers &&
-        filteredTeachers.length != allTeachers.length &&
-        filteredTeachers
-          .filter(
-            (teacher) =>
-              !selectedCategory ||
-              filterTeachersByCategory([teacher], selectedCategory).length > 0
-          )
-          .filter(
-            (teacher) =>
-              !selectedLocations ||
-              filterTeachersByLocation([teacher], selectedLocations).length > 0
-          )
-          .map((teacher, index) => (
-            <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={4}>
-              <Link href={`/teachers/${teacher.teacherId}`}>
-                <TeacherItem teacher={teacher} />
-              </Link>
-            </Grid>
-          ))}
-      {filteredTeachers.length == 0 && (
-        <Grid item xs={12}>
-          <Typography textAlign={"center"}>No items found</Typography>
-        </Grid>
+          )}
+        </>
       )}
     </Grid>
   );
