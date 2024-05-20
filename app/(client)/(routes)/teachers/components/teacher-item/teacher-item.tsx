@@ -6,6 +6,7 @@ import React, { FC } from "react";
 import "./teacher-item.scss";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 
 type Props = {
   teacher: TeacherModel;
@@ -17,25 +18,59 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
     : "/images/default/person.jpg";
 
   return (
-    <Card className="card">
-      <CardContent className="card-content">
+    <Card className="teacher-card" sx={{ borderRadius: 2 }}>
+      <CardContent className="teacher-content">
         <CardMedia
-          className="card-media"
+          className="teacher-media"
           component="img"
           height="320"
           image={imageSrc}
+          sx={{ borderRadius: 2 }}
           alt={`${teacher.userData.firstName} ${teacher.userData.lastName}`}
         />
-        <Box className="content-box">
-          <Typography gutterBottom variant="h5" component="div" className="">
+        <Box className="teacher-details">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            className="teacher-name"
+          >
             {teacher.userData.firstName} {teacher.userData.lastName}
           </Typography>
-          {/* <Typography variant="body2" color="text.secondary" className="">
-            <SchoolRoundedIcon /> {teacher.qualification}
-          </Typography> */}
-          <Typography variant="body2" color="text.secondary" className="">
-            <LocationOnRoundedIcon /> {teacher.location}
-          </Typography>
+          <div className="teacher-info">
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              className="teacher-info-item"
+            >
+              <AutoStoriesIcon sx={{ fontSize: 16, marginRight: 1 }} />{" "}
+              {teacher.lessons && teacher.lessons.length > 0
+                ? teacher.lessons.map((item, index) => (
+                    <React.Fragment key={item.categoryName}>
+                      {item.categoryName}
+                      {index < (teacher.lessons?.length ?? 0) - 1 && " | "}
+                    </React.Fragment>
+                  ))
+                : " - "}
+            </Typography>
+
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              className="teacher-info-item"
+            >
+              <SchoolRoundedIcon sx={{ fontSize: 16, marginRight: 1 }} />{" "}
+              {teacher.qualification}
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              className="teacher-info-item"
+            >
+              <LocationOnRoundedIcon sx={{ fontSize: 16, marginRight: 1 }} />{" "}
+              {teacher.location}
+            </Typography>
+          </div>
         </Box>
       </CardContent>
     </Card>
