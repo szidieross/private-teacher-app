@@ -23,12 +23,12 @@ import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import SettingsIcon from "@mui/icons-material/Settings";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
-import "./profile.scss";
 import PhotoCameraRoundedIcon from "@mui/icons-material/PhotoCameraRounded";
 import AlternateEmailOutlinedIcon from "@mui/icons-material/AlternateEmailOutlined";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import CalendarMonthTwoToneIcon from "@mui/icons-material/CalendarMonthTwoTone";
+import "./profile.scss";
 
 type Props = {
   userId?: number;
@@ -118,8 +118,15 @@ const Profile: FC<Props> = ({ userId }) => {
           </Grid>
           <Grid item xs={12} md={9} position={"relative"}>
             <IconButton
-              sx={{ position: "absolute", right: 0 }}
+              sx={{ position: "absolute", right: 40 }}
               onClick={() => to("/profile/settings")}
+              title="My Appointments"
+            >
+              <CalendarMonthTwoToneIcon />
+            </IconButton>
+            <IconButton
+              sx={{ position: "absolute", right: 0 }}
+              onClick={() => to("/profile/settings")}title="Settings"
             >
               <SettingsIcon />
             </IconButton>
@@ -146,9 +153,9 @@ const Profile: FC<Props> = ({ userId }) => {
           </Grid>
         </Grid>
       </Paper>
-      <Button variant="contained" onClick={() => to("/profile/appointments")}>
+      {/* <Button variant="contained" onClick={() => to("/profile/appointments")}>
         Your appointments <CalendarMonthTwoToneIcon />
-      </Button>
+      </Button> */}
 
       <CustomModal open={open} onClose={handleClose} />
       {teacher && (
