@@ -17,6 +17,7 @@ import "./signup.scss";
 import useUsersService from "@/app/(client)/services/user.service";
 import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
 import { colors } from "@/app/(client)/constants/color.constant";
+import { UserModel } from "@/app/api/models/user.model";
 
 export interface ContactUsRequest {
   username: string;
@@ -25,7 +26,6 @@ export interface ContactUsRequest {
   password: string;
   email: string;
   phone: string;
-  //   profilePicture: string;
   role: string;
   price: number | string;
   bio: string;
@@ -40,7 +40,6 @@ const initContactForm: ContactUsRequest = {
   password: "",
   email: "",
   phone: "",
-  //   profilePicture: "",
   role: "",
   price: 0,
   bio: "",
@@ -50,7 +49,7 @@ const initContactForm: ContactUsRequest = {
 
 const Signup = () => {
   const [isTeacher, setIsTeacher] = useState<boolean>(false);
-  const { createUser } = useUsersService();
+  const { createUser, getUsers } = useUsersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -127,17 +126,54 @@ const Signup = () => {
     if (!isValid) return;
 
     try {
+      const users: UserModel[] = await getUsers();
+      const usernameExists = users.some(
+        (user) => user.username === form?.username
+      );
+      const emailExists = users.some((user) => user.email === form?.email);
+      if (usernameExists) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          username: "Username already exists, please choose another one",
+        }));
+        return;
+      }
+      if (emailExists) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "Email already exists.",
+        }));
+        return;
+      }
+
+      // const users: UserModel[] = await getUsers();
+      // console.log("userssssss", users);
+      // const usernameExists = users.filter(
+      //   (user) => user.username === form?.username
+      // );
+      // const emailExists = users.filter((user) => user.email === form?.email);
+      // if (usernameExists) {
+      //   setErrors({
+      //     username: "Username already exists, please chose another one",
+      //   });
+      //   return;
+      // }
+      // if (emailExists) {
+      //   setErrors({
+      //     email: "Email already exists.",
+      //   });
+      //   return;
+      // }
+
       let result = null;
 
       if (!form) return;
-      // if (form?.price && form?.bio && form?.qualification && form?.location) {
       if (isTeacher) {
         result = await createUser(
           form.username,
           form.password,
           form.email,
           form.phone,
-          // form.profilePicture,
           form.firstName,
           form.lastName,
           isTeacher ? "teacher" : "user",
@@ -147,13 +183,11 @@ const Signup = () => {
           form.location
         );
       } else {
-        // if (!form) return;
         result = await createUser(
           form.username,
           form.password,
           form.email,
           form.phone,
-          // form.profilePicture,
           form.firstName,
           form.lastName,
           isTeacher ? "teacher" : "user",
@@ -189,9 +223,11 @@ const Signup = () => {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Box 
-            sx={{ bgcolor: colors.background,borderRadius:5 }}
-             p={2} m={3}>
+            <Box
+              sx={{ bgcolor: colors.background, borderRadius: 5 }}
+              p={2}
+              m={3}
+            >
               <ToggleButtonGroup
                 value={isTeacher}
                 exclusive
@@ -200,7 +236,6 @@ const Signup = () => {
                 sx={{
                   width: "fit-content",
                   maxHeight: "fit-content",
-                  // border: "10px solid white",
                 }}
               >
                 <ToggleButton
@@ -235,16 +270,6 @@ const Signup = () => {
                 >
                   Teacher
                 </ToggleButton>
-                {/* <ToggleButton
-                value={false}
-                aria-label="left aligned"
-                disableRipple
-              >
-                User
-              </ToggleButton>
-              <ToggleButton value={true} aria-label="centered" disableRipple>
-                Teacher
-              </ToggleButton> */}
               </ToggleButtonGroup>
             </Box>
           </Grid>
@@ -257,7 +282,6 @@ const Signup = () => {
                   label="First Name*"
                   variant="outlined"
                   fullWidth
-                  // required
                   name="firstName"
                   error={!!errors.firstName}
                   value={form?.firstName}
@@ -276,7 +300,6 @@ const Signup = () => {
                   label="Last Name*"
                   variant="outlined"
                   fullWidth
-                  // required
                   name="lastName"
                   error={!!errors.lastName}
                   value={form?.lastName}
@@ -298,7 +321,6 @@ const Signup = () => {
                   name="username"
                   error={!!errors.username}
                   value={form?.username}
-                  // required
                   onChange={(e) =>
                     handleContactFormChange("username", e.target.value)
                   }
@@ -318,7 +340,6 @@ const Signup = () => {
                   fullWidth
                   error={!!errors.password}
                   value={form?.password}
-                  // required
                   onChange={(e) =>
                     handleContactFormChange("password", e.target.value)
                   }
@@ -338,7 +359,6 @@ const Signup = () => {
                   fullWidth
                   value={form?.email}
                   error={!!errors.email}
-                  // required
                   onChange={(e) =>
                     handleContactFormChange("email", e.target.value)
                   }
@@ -367,18 +387,6 @@ const Signup = () => {
                   </Typography>
                 )}
               </Grid>
-              {/* <Grid item xs={12}>
-            <TextField
-              type="file"
-              label="Profile Picture"
-              variant="outlined"
-              name="profilePicture"
-              fullWidth
-              onChange={(e) =>
-                handleContactFormChange("profilePicture", e.target.value)
-              }
-            />
-          </Grid> */}
               {isTeacher && (
                 <>
                   <Grid item xs={6}>
@@ -439,16 +447,6 @@ const Signup = () => {
                   </Grid>
                 </>
               )}
-              {/* Hibaüzenetek */}
-              {/* <Grid item xs={12}>
-            {!!Object.keys(errors).length && (
-              <div>
-                {Object.entries(errors).map(([key, value]) => (
-                  <span key={key}>{value}</span>
-                ))}
-              </div>
-            )}
-          </Grid> */}
               <Grid item xs={12}>
                 <Button
                   type="submit"
