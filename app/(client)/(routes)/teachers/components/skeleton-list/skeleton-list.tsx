@@ -20,6 +20,7 @@ const SkeletonList = () => {
               variant="rectangular"
               width={"100%"}
               height={item.height}
+              animation="pulse"
               sx={{ borderRadius: 2 }}
             />
           </Box>
