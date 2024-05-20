@@ -44,7 +44,6 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
         <Card className="card">
           <CardMedia
             component="img"
-            height="360"
             width="auto"
             image={
               image ? `/images/uploads/${image}` : "/images/default/person.jpg"

@@ -37,8 +37,7 @@ export const login = async (
   const user = await loginUser(formUsername, formPassword);
 
   if (user == null || user.userId == null) {
-    ("Wrong credentials. Try again.");
-    return;
+    return { ...prevState, error: "Wrong credentials. Try again." };
   }
 
   session.userId = user.userId;
@@ -50,7 +49,9 @@ export const login = async (
   }
 
   await session.save();
+  return { ...prevState, error: undefined };
 };
+
 
 export const logout = async () => {
   const session = await getSession();

@@ -2,12 +2,26 @@
 
 import { colors } from "@/app/(client)/constants/color.constant";
 import { login } from "@/app/actions";
-import { Button, TextField, Typography, Box, Paper } from "@mui/material";
-import { FC } from "react";
+import { Button, TextField, Typography, Box, Paper, Snackbar, Alert } from "@mui/material";
+import { FC, useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 
 const LoginForm: FC = () => {
   const [state, formAction] = useFormState<any, FormData>(login, undefined);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  useEffect(() => {
+    if (state?.error) {
+      setSnackbarOpen(true);
+    }
+  }, [state]);
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   return (
     <Box display={"flex"} justifyContent={"center"} pt={3}>
@@ -54,17 +68,14 @@ const LoginForm: FC = () => {
             >
               Login
             </Button>
-            {state?.error && (
-              <Typography
-                variant="body2"
-                sx={{ marginTop: "16px", color: colors.error }}
-              >
-                {state.error}
-              </Typography>
-            )}
           </Box>
         </Paper>
       </form>
+      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {state?.error}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
