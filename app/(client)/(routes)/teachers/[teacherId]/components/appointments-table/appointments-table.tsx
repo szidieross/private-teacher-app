@@ -46,8 +46,13 @@ const AppointmentsTable: FC<Props> = ({
   const fetchAppointments = async () => {
     try {
       const fetchedAppointments = await getAppointmentByTeacherId(teacherId);
-      console.log("fetchedAppointments", fetchedAppointments);
-      setAppointments(fetchedAppointments);
+      const currentDate = new Date();
+      if (!fetchedAppointments) return;
+      const filteredAppointments = fetchedAppointments.filter(
+        (appointment) => new Date(appointment.startTime) >= currentDate
+      );
+      console.log("filteredAppointments", filteredAppointments);
+      setAppointments(filteredAppointments);
     } catch (error) {
       console.error("Error fetching appointments:", error);
     }

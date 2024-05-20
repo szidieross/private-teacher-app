@@ -64,7 +64,12 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
           const fetchedAppointments = await getAppointmentByTeacherId(
             session?.teacherId
           );
-          setAppointments(fetchedAppointments);
+          if (!fetchedAppointments) return;
+          const currentDate = new Date();
+          const filteredAppointments = fetchedAppointments.filter(
+            (appointment) => new Date(appointment.startTime) >= currentDate
+          );
+          setAppointments(filteredAppointments);
         }
       } catch (error) {
         console.error("Error fetching appointments:", error);

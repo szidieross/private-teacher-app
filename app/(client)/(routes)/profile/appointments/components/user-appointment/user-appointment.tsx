@@ -51,6 +51,11 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     const fetchData = async () => {
       try {
         const fetchedAppointments = await getAppointmentByUserId(userId);
+        if (!fetchedAppointments) return;
+        const currentDate = new Date();
+        const filteredAppointments = fetchedAppointments.filter(
+          (appointment) => new Date(appointment.startTime) >= currentDate
+        );
         setAppointments(fetchedAppointments);
       } catch (error) {
         console.error("Error fetching appointments:", error);
@@ -153,7 +158,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
               onCellClick={handleCellClick}
               autoHeight
               autosizeOnMount
-              sx={{ maxWidth: "90vw",backgroundColor:colors.background }}
+              sx={{ maxWidth: "90vw", backgroundColor: colors.background }}
             />
           )}
         </Paper>
