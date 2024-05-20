@@ -215,17 +215,19 @@ export const getTeacherById = async (
           first_name: row.first_name,
           last_name: row.last_name,
           role: row.role,
-          location: row.location,
         },
         teacher_id: row.teacher_id,
         user_id: row.user_id,
         price: row.price,
         bio: row.bio,
         qualification: row.qualification,
+        location: row.location,
       };
     });
 
     const teacher: TeacherModel = toTeacherModel(data[0]);
+
+    console.log("teacher data", teacher);
 
     return teacher;
   } catch (error) {
@@ -329,7 +331,6 @@ export const updateTeacherData = async (
     throw error;
   }
 };
-
 
 export const deleteTeacherById = async (teacherId: number) => {
   try {
