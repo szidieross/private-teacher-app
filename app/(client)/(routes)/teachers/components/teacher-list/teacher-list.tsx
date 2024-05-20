@@ -11,6 +11,7 @@ import {
   Checkbox,
   ListItemText,
   OutlinedInput,
+  Box,
 } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import {
@@ -95,10 +96,14 @@ const TeacherList: FC<Props> = ({ isSession }) => {
         const fetchedCategories = await getCategories();
         setCategories(fetchedCategories);
 
-        // Extract unique locations from fetched teachers
         const uniqueLocations = Array.from(
-          new Set(fetchedTeachers.map((teacher) => teacher.location))
+          new Set(
+            fetchedTeachers
+              .map((teacher) => teacher.location)
+              .filter((location) => location && location.trim() !== "")
+          )
         );
+
         setLocations(uniqueLocations);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -133,151 +138,148 @@ const TeacherList: FC<Props> = ({ isSession }) => {
     return teachers.filter((teacher) => locations.includes(teacher.location));
   };
 
-  const filteredByCategory = filterTeachersByCategory(
-    allTeachers,
-    selectedCategory
-  );
-  const finalFilteredTeachers = filterTeachersByLocation(
-    filteredByCategory,
-    selectedLocations
-  );
-
   return (
     <Grid container spacing={2} marginBottom={6}>
       <Grid item xs={12}>
         <SearchBar />
       </Grid>
       <Grid item xs={12}>
-        <InputLabel
-          id="category-select-label"
-          style={{
-            marginBottom: "8px",
-            fontWeight: "bold",
-            fontSize: "16px",
-            color: colors.primary,
-          }}
-        >
-          Choose a category
-        </InputLabel>
-        <Select
-          value={selectedCategory}
-          onChange={handleChange}
-          style={{ width: "200px", marginBottom: "16px" }}
-          sx={{
-            width: "200px",
-            marginBottom: "16px",
-            backgroundColor: "background.paper",
-            borderRadius: 1,
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "primary.main",
-            },
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "primary.dark",
-            },
-            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              borderColor: "primary.dark",
-            },
-          }}
-          MenuProps={{
-            PaperProps: {
-              sx: {
-                bgcolor: "background.paper",
-                boxShadow: 3,
-                maxHeight: 200,
-                "& .MuiMenuItem-root": {
-                  "&.Mui-selected": {
-                    backgroundColor: colors.primary,
-                  },
-                  "&:hover": {
-                    backgroundColor: colors.primary,
+        <Box display={"flex"} gap={4}>
+          <Box>
+            <InputLabel
+              id="category-select-label"
+              style={{
+                marginBottom: "8px",
+                fontWeight: "bold",
+                fontSize: "16px",
+                color: colors.primary,
+              }}
+            >
+              Choose a category
+            </InputLabel>
+            <Select
+              value={selectedCategory}
+              onChange={handleChange}
+              style={{ width: "200px", marginBottom: "16px" }}
+              sx={{
+                width: "200px",
+                marginBottom: "16px",
+                backgroundColor: "background.paper",
+                borderRadius: 1,
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "primary.main",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "primary.dark",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "primary.dark",
+                },
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    bgcolor: "background.paper",
+                    boxShadow: 3,
+                    maxHeight: 200,
+                    "& .MuiMenuItem-root": {
+                      "&.Mui-selected": {
+                        backgroundColor: colors.primary,
+                      },
+                      "&:hover": {
+                        backgroundColor: colors.primary,
+                      },
+                    },
+                    "& ul": {
+                      "&::-webkit-scrollbar": {
+                        width: "8px",
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: colors.primary,
+                        borderRadius: "4px",
+                      },
+                      "&::-webkit-scrollbar-thumb:hover": {
+                        backgroundColor: colors.primary,
+                      },
+                      "&::-webkit-scrollbar-track": {
+                        backgroundColor: colors.primary,
+                      },
+                    },
                   },
                 },
-                "& ul": {
-                  "&::-webkit-scrollbar": {
-                    width: "8px",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    backgroundColor: colors.primary,
-                    borderRadius: "4px",
-                  },
-                  "&::-webkit-scrollbar-thumb:hover": {
-                    backgroundColor: colors.primary,
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    backgroundColor: colors.primary,
-                  },
-                },
-              },
-            },
-          }}
-        >
-          <MenuItem value="">All categories</MenuItem>
-          {categories.map((category) => (
-            <MenuItem key={category.categoryId} value={category.name}>
-              {category.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </Grid>
-      <Grid item xs={12}>
-        <InputLabel
-          id="location-select-label"
-          style={{
-            marginBottom: "8px",
-            fontWeight: "bold",
-            fontSize: "16px",
-            color: colors.primary,
-          }}
-        >
-          Choose locations
-        </InputLabel>
-        <Select
-          multiple
-          value={selectedLocations}
-          onChange={handleLocationChange}
-          input={<OutlinedInput />}
-          renderValue={(selected) => selected.join(", ")}
-          style={{ width: "200px", marginBottom: "16px" }}
-          MenuProps={{
-            PaperProps: {
-              sx: {
-                bgcolor: "background.paper",
-                boxShadow: 3,
-                maxHeight: 200,
-                "& .MuiMenuItem-root": {
-                  "&.Mui-selected": {
-                    backgroundColor: colors.primary,
-                  },
-                  "&:hover": {
-                    backgroundColor: colors.primary,
-                  },
-                },
-                "& ul": {
-                  "&::-webkit-scrollbar": {
-                    width: "8px",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    backgroundColor: colors.primary,
-                    borderRadius: "4px",
-                  },
-                  "&::-webkit-scrollbar-thumb:hover": {
-                    backgroundColor: colors.primary,
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    backgroundColor: colors.primary,
+              }}
+            >
+              <MenuItem value="">All categories</MenuItem>
+              {categories.map((category) => (
+                <MenuItem key={category.categoryId} value={category.name}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+          <Box>
+            <InputLabel
+              id="location-select-label"
+              style={{
+                marginBottom: "8px",
+                fontWeight: "bold",
+                fontSize: "16px",
+                color: colors.primary,
+              }}
+            >
+              Choose locations
+            </InputLabel>
+            <Select
+              multiple
+              value={selectedLocations}
+              onChange={handleLocationChange}
+              input={<OutlinedInput />}
+              renderValue={(selected) => selected.join(", ")}
+              style={{ width: "200px", marginBottom: "16px" }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    bgcolor: "background.paper",
+                    boxShadow: 3,
+                    maxHeight: 200,
+                    "& .MuiMenuItem-root": {
+                      "&.Mui-selected": {
+                        backgroundColor: colors.primary,
+                      },
+                      "&:hover": {
+                        backgroundColor: colors.primary,
+                      },
+                    },
+                    "& ul": {
+                      "&::-webkit-scrollbar": {
+                        width: "8px",
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: colors.primary,
+                        borderRadius: "4px",
+                      },
+                      "&::-webkit-scrollbar-thumb:hover": {
+                        backgroundColor: colors.primary,
+                      },
+                      "&::-webkit-scrollbar-track": {
+                        backgroundColor: colors.primary,
+                      },
+                    },
                   },
                 },
-              },
-            },
-          }}
-        >
-          {locations.map((location) => (
-            <MenuItem key={location} value={location}>
-              <Checkbox checked={selectedLocations.indexOf(location) > -1} />
-              <ListItemText primary={location} />
-            </MenuItem>
-          ))}
-        </Select>
+              }}
+            >
+              {locations.map((location) => (
+                <MenuItem key={location} value={location}>
+                  <Checkbox
+                    checked={selectedLocations.indexOf(location) > -1}
+                  />
+                  <ListItemText primary={location} />
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+        </Box>
       </Grid>
       {allTeachers &&
         filteredTeachers.length == allTeachers.length &&
