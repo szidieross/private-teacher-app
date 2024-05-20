@@ -57,7 +57,6 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          // height="100vh"
           flexDirection="column"
         >
           <Typography variant="h6" color="textSecondary" align="center">
@@ -69,7 +68,6 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
           display="flex"
           justifyContent="center"
           alignItems="center"
-          // height="100vh"
           bgcolor={colors.background}
           padding={2}
         >
@@ -110,7 +108,7 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
                       paddingY: 1.5,
                       backgroundColor: colors.primary,
                       "&:hover": {
-                        backgroundColor: colors.background,
+                        backgroundColor: colors.darkPurple,
                       },
                     }}
                   >

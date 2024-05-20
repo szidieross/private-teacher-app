@@ -7,12 +7,14 @@ import {
   Paper,
   MenuItem,
   Select,
+  Box,
 } from "@mui/material";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import useCategoriesService from "@/app/(client)/services/category.service";
 import { CategoryModel } from "@/app/api/models/category.model";
 import { SelectChangeEvent } from "@mui/material/Select";
 import PlaylistAddCircleRoundedIcon from "@mui/icons-material/PlaylistAddCircleRounded";
+import { colors } from "@/app/(client)/constants/color.constant";
 
 type Props = {
   teacherId: number;
@@ -68,29 +70,59 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
 
   return (
     <Container maxWidth="sm">
-      {/* <Paper style={{ padding: 20, marginBottom: 20 }} elevation={3}> */}
-      {/* <Typography variant="h5" gutterBottom>
-          Add a new Lesson
-        </Typography> */}
-      {!showForm && (
-        <Button variant="contained" onClick={() => setShowForm(true)}>
-          new lesson <PlaylistAddCircleRoundedIcon />
+      {!showForm ? (
+        <Button
+          variant="contained"
+          onClick={() => setShowForm(true)}
+          sx={{
+            mt: 2,
+            mb: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            bgcolor: colors.primary,
+            "&:hover": {
+              bgcolor: colors.darkPurple,
+            },
+          }}
+        >
+          New Lesson <PlaylistAddCircleRoundedIcon sx={{ ml: 1 }} />
         </Button>
-      )}
-      {showForm && (
-        <Paper style={{ padding: 20, marginBottom: 20 }} elevation={3}>
+      ) : (
+        <Paper
+          sx={{
+            padding: 3,
+            marginBottom: 4,
+            borderRadius: 3,
+            boxShadow: 3,
+            bgcolor: colors.background,
+          }}
+        >
           <form
-            style={{ width: "100%", marginTop: 10 }}
             onSubmit={handleSubmit}
+            style={{ width: "100%", marginTop: 10 }}
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Select
                   fullWidth
-                  label="Category"
-                  name="categoryId"
+                  displayEmpty
                   value={formData.categoryId || ""}
                   onChange={handleChange}
+                  name="categoryId"
+                  renderValue={(selected) => {
+                    if (!selected) {
+                      return <em>None</em>;
+                    }
+                    const selectedCategory = categoryOptions.find(
+                      (category) => category.categoryId === selected
+                    );
+                    return selectedCategory ? (
+                      selectedCategory.name
+                    ) : (
+                      <em>None</em>
+                    );
+                  }}
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -111,6 +143,15 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
                   variant="contained"
                   color="primary"
                   fullWidth
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    bgcolor: colors.primary,
+                    "&:hover": {
+                      bgcolor: colors.darkPurple,
+                    },
+                  }}
                 >
                   Add Lesson
                 </Button>
@@ -119,7 +160,6 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
           </form>
         </Paper>
       )}
-      {/* </Paper> */}
     </Container>
   );
 };

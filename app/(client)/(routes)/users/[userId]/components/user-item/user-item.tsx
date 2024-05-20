@@ -31,7 +31,7 @@ const UserItem: FC<Props> = ({ userId }) => {
     };
 
     fetchData();
-  }, [getUserById]);
+  }, [getUserById, userId]);
 
   if (!user) return <>No data found.</>;
 
