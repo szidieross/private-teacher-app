@@ -189,14 +189,53 @@ const Signup = () => {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <ToggleButtonGroup
-              value={isTeacher}
-              exclusive
-              onChange={handleToggeleButtonChange}
-              aria-label="user-type"
-              sx={{ margin: "30px auto", width: "fit-content" }}
-            >
-              <ToggleButton
+            <Box 
+            sx={{ bgcolor: colors.background,borderRadius:5 }}
+             p={2} m={3}>
+              <ToggleButtonGroup
+                value={isTeacher}
+                exclusive
+                onChange={handleToggeleButtonChange}
+                aria-label="user-type"
+                sx={{
+                  width: "fit-content",
+                  maxHeight: "fit-content",
+                  // border: "10px solid white",
+                }}
+              >
+                <ToggleButton
+                  value={false}
+                  aria-label="left aligned"
+                  disableRipple
+                  sx={{
+                    "&.Mui-selected": {
+                      bgcolor: colors.primary,
+                      color: "#fff",
+                    },
+                    "&:hover": {
+                      bgcolor: colors.mediumPurple,
+                    },
+                  }}
+                >
+                  User
+                </ToggleButton>
+                <ToggleButton
+                  value={true}
+                  aria-label="centered"
+                  disableRipple
+                  sx={{
+                    "&.Mui-selected": {
+                      bgcolor: colors.primary,
+                      color: "#fff",
+                    },
+                    "&:hover": {
+                      bgcolor: colors.mediumPurple,
+                    },
+                  }}
+                >
+                  Teacher
+                </ToggleButton>
+                {/* <ToggleButton
                 value={false}
                 aria-label="left aligned"
                 disableRipple
@@ -205,8 +244,9 @@ const Signup = () => {
               </ToggleButton>
               <ToggleButton value={true} aria-label="centered" disableRipple>
                 Teacher
-              </ToggleButton>
-            </ToggleButtonGroup>
+              </ToggleButton> */}
+              </ToggleButtonGroup>
+            </Box>
           </Grid>
         </Grid>
         <Paper>
