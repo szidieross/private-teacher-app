@@ -6,6 +6,8 @@ import {
   Paper,
   MenuItem,
   Select,
+  Box,
+  Typography,
 } from "@mui/material";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import useCategoriesService from "@/app/(client)/services/category.service";
@@ -14,6 +16,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import PlaylistAddCircleRoundedIcon from "@mui/icons-material/PlaylistAddCircleRounded";
 import { colors } from "@/app/(client)/constants/color.constant";
 import { LessonModel } from "@/app/api/models/lesson.model";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 type Props = {
   teacherId: number;
@@ -25,7 +28,8 @@ interface LessonFormData {
 }
 
 const AddLesson: FC<Props> = ({ teacherId }) => {
-  const { createLesson, getLessonsByTeacherId } = useLessonsService();
+  const { createLesson, getLessonsByTeacherId, deleteLessonsByLessonId } =
+    useLessonsService();
   const { getCategories } = useCategoriesService();
   const [formData, setFormData] = useState<LessonFormData>({
     name: "",
@@ -52,10 +56,17 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
         categoryId: null,
       });
       setShowForm(false);
-      
+
       const updatedLessons = await getLessonsByTeacherId(teacherId);
       setLessons(updatedLessons);
     }
+  };
+
+  const removeLesson = async (lessonId: number) => {
+    await deleteLessonsByLessonId(teacherId, lessonId);
+
+    const updatedLessons = await getLessonsByTeacherId(teacherId);
+    setLessons(updatedLessons);
   };
 
   useEffect(() => {
@@ -173,6 +184,37 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
           </form>
         </Paper>
       )}
+      <Typography variant="h4" fontSize={18} color={colors.secondary}>
+        Your lessons
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          gap: 1.5,
+          flexWrap: "wrap",
+        }}
+      >
+        {lessons?.map((item, index) => (
+          <Button
+            key={index}
+            onClick={() => removeLesson(item.lessonId)}
+            variant="contained"
+            endIcon={<RemoveCircleOutlineIcon />}
+            sx={{
+              fontSize: 12,
+              textTransform: "none",
+              marginBottom: 1,
+              bgcolor: colors.primary,
+              "&:hover": {
+                bgcolor: colors.mediumPurple,
+              },
+            }}
+          >
+            {item.categoryName}
+          </Button>
+        ))}
+      </Box>
     </Container>
   );
 };
