@@ -167,13 +167,13 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                 backgroundColor: "background.paper",
                 borderRadius: 1,
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "primary.main",
+                  borderColor: colors.primary,
                 },
                 "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "primary.dark",
+                  borderColor: colors.mediumPurple,
                 },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "primary.dark",
+                  borderColor: colors.mediumPurple,
                 },
               }}
               MenuProps={{
@@ -187,7 +187,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                         backgroundColor: colors.primary,
                       },
                       "&:hover": {
-                        backgroundColor: colors.primary,
+                        backgroundColor: colors.mediumPurple,
                       },
                     },
                     "& ul": {
@@ -236,6 +236,21 @@ const TeacherList: FC<Props> = ({ isSession }) => {
               input={<OutlinedInput />}
               renderValue={(selected) => selected.join(", ")}
               style={{ width: "200px", marginBottom: "16px" }}
+              sx={{
+                width: "200px",
+                marginBottom: "16px",
+                backgroundColor: "background.paper", // Match the background color
+                borderRadius: 1,
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "primary.main",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "primary.dark",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "primary.dark",
+                },
+              }}
               MenuProps={{
                 PaperProps: {
                   sx: {
@@ -247,7 +262,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                         backgroundColor: colors.primary,
                       },
                       "&:hover": {
-                        backgroundColor: colors.primary,
+                        backgroundColor: colors.mediumPurple,
                       },
                     },
                     "& ul": {
