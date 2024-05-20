@@ -2,7 +2,15 @@
 
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import React, { FC, useEffect, useState } from "react";
-import { Container, Grid, IconButton, Typography } from "@mui/material";
+import {
+  Container,
+  Grid,
+  IconButton,
+  Typography,
+  Paper,
+  Box,
+  Button,
+} from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
@@ -28,6 +36,7 @@ const Item: FC<Props> = ({ teacherId }) => {
       try {
         const fetchedTeacher = await getTeacherById(teacherId);
         setTeacher(fetchedTeacher);
+        console.log("fetchedTeacher", fetchedTeacher);
 
         const fetchedLessons = await getLessonsByTeacherId(teacherId);
         setLessons(fetchedLessons);
@@ -37,23 +46,30 @@ const Item: FC<Props> = ({ teacherId }) => {
     };
 
     fetchData();
-  }, [getTeacherById, teacherId,getLessonsByTeacherId]);
+  }, [getTeacherById, teacherId, getLessonsByTeacherId]);
 
   if (!teacher) return <>No data found.</>;
 
   return (
     <Container>
-      <IconButton onClick={() => to("/teachers")}>
-        <KeyboardBackspaceIcon />
-      </IconButton>
-      <PersonalData teacher={teacher} lessons={lessons} />
-      {lessons && lessons.length > 0 ? (
-        <Booking teacherId={teacherId} teacher={teacher} lessons={lessons} />
-      ) : (
-        <Typography>No lesson yet.</Typography>
-      )}
+      <Box mb={2} display="flex" alignItems="center">
+        <IconButton onClick={() => to("/teachers")} aria-label="Go back">
+          <KeyboardBackspaceIcon />
+        </IconButton>
+      </Box>
+      <Paper elevation={3} variant="outlined">
+        <Box p={3}>
+          <PersonalData teacher={teacher} lessons={lessons} />
+        </Box>
+      </Paper>
+      <Box mt={2}>
+        {lessons && lessons.length > 0 ? (
+          <Booking teacherId={teacherId} teacher={teacher} lessons={lessons} />
+        ) : (
+          <Typography>No lesson yet.</Typography>
+        )}
+      </Box>
     </Container>
-    
   );
 };
 

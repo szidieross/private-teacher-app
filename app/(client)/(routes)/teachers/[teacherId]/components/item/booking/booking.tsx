@@ -19,6 +19,7 @@ import AppointmentsTable from "../../appointments-table/appointments-table";
 import { getSession } from "@/app/actions";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import "./booking.scss";
+import { colors } from "@/app/(client)/constants/color.constant";
 
 type Props = {
   teacherId: number;
@@ -43,8 +44,6 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
       if (session.teacherId) {
         setOwnTeacherId(session.teacherId);
       }
-      const hasTeacherId = session.teacherId;
-      console.log("hasTeacherId", hasTeacherId);
     };
     getSessionData();
   }, []);
@@ -85,14 +84,20 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
           >
             {lessons?.map((item, index) => (
               <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleOpenModal(item)}
                 key={index}
-                startIcon={<AddCircleRoundedIcon />}
-                sx={{ textTransform: "none" }}
+                onClick={() => handleOpenModal(item)}
+                variant="contained"
+                endIcon={<AddCircleRoundedIcon />}
+                sx={{
+                  textTransform: "none",
+                  marginBottom: 1,
+                  bgcolor: colors.primary,
+                  "&:hover": {
+                    bgcolor: colors.darkPurple,
+                  },
+                }}
               >
-                <Box sx={{ ml: 1 }}>{item.categoryName}</Box>
+                {item.categoryName}
               </Button>
             ))}
           </Box>
@@ -127,7 +132,12 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
           >
             <CloseIcon />
           </IconButton>
-          <Typography id="modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
+          <Typography
+            id="modal-title"
+            variant="h6"
+            component="h2"
+            sx={{ mb: 2 }}
+          >
             {selectedLesson.lesson?.categoryName} Appointment
           </Typography>
           {selectedLesson && selectedLesson.lesson?.lessonId && (
@@ -147,7 +157,11 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
-        <Alert onClose={handleSnackbarClose} severity="info" sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="info"
+          sx={{ width: "100%" }}
+        >
           Please log in to see the appointments
         </Alert>
       </Snackbar>
