@@ -87,8 +87,8 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
           <IconButton
             onClick={toggleDrawer}
             edge="start"
-            color="inherit"
             aria-label="menu"
+            sx={{color:colors.secondary}}
           >
             <MenuIcon />
           </IconButton>
@@ -141,7 +141,11 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
         <Grid item xl={1}>
           <Typography
             onClick={() => to("/")}
-            sx={{ color: colors.secondary, cursor: "pointer" }}
+            sx={{
+              color: colors.secondary,
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
             className="mobile-title"
             variant="h6"
           >

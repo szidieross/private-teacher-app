@@ -126,18 +126,30 @@ const Profile: FC<Props> = ({ userId }) => {
           </Grid>
           <Grid item xs={12} md={9} position="relative">
             <Box display="flex" justifyContent="flex-end" mb={2}>
-              <IconButton onClick={() => to("/profile/appointments")} title="My Appointments">
+              <IconButton
+                onClick={() => to("/profile/appointments")}
+                title="My Appointments"
+              >
                 <CalendarMonthTwoToneIcon sx={{ color: colors.darkPurple }} />
               </IconButton>
-              <IconButton onClick={() => to("/profile/settings")} title="Settings">
+              <IconButton
+                onClick={() => to("/profile/settings")}
+                title="Settings"
+              >
                 <SettingsIcon sx={{ color: colors.darkPurple }} />
               </IconButton>
             </Box>
-            <Typography variant="h4" gutterBottom>
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{ color: colors.secondary }}
+            >
               {user.firstName} {user.lastName}
             </Typography>
             <Box display="flex" alignItems="center" mb={1}>
-              <AlternateEmailOutlinedIcon sx={{ mr: 1, color: colors.darkPurple }} />
+              <AlternateEmailOutlinedIcon
+                sx={{ mr: 1, color: colors.darkPurple }}
+              />
               <Typography variant="subtitle1">{user.username}</Typography>
             </Box>
             <Box display="flex" alignItems="center" mb={1}>
