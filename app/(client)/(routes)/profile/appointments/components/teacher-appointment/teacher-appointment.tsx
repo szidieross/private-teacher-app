@@ -96,7 +96,10 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       editable: false,
       renderCell: (params) =>
         params.row.userId ? (
-          <Link href={`/users/${params.row.userId}`}>
+          <Link
+            // sx={{ color: colors.darkPurple }}
+            href={`/users/${params.row.userId}`}
+          >
             {`${params.row.name}`}
           </Link>
         ) : null,
@@ -119,15 +122,8 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       sortable: false,
       width: 160,
       renderCell: (params) => (
-        // <Button
-        //   variant="text"
-        //   color="error"
-        //   onClick={() => handleDelete(params.row.appointmentId)}
-        // >
-        //   Delete
-        // </Button>
         <IconButton
-          color="error"
+          sx={{color:colors.error}}
           onClick={() => handleDelete(params.row.appointmentId)}
         >
           <DeleteRoundedIcon />
@@ -157,7 +153,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     >
       <Typography
         variant="h5"
-        sx={{ mb: 2, fontWeight: "bold", color: "primary.main" }}
+        sx={{ mb: 2, fontWeight: "bold", color: colors.secondary }}
       >
         Your Appointments
       </Typography>

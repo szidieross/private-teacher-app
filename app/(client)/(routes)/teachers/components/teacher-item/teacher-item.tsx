@@ -7,6 +7,7 @@ import "./teacher-item.scss";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import { colors } from "@/app/(client)/constants/color.constant";
 
 type Props = {
   teacher: TeacherModel;
@@ -18,14 +19,21 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
     : "/images/default/person.jpg";
 
   return (
-    <Card className="teacher-card" sx={{ borderRadius: 2 }}>
+    <Card
+      className="teacher-card"
+      sx={{
+        borderRadius: 2,
+        "&:hover": {
+          backgroundColor: colors.background,
+        },
+      }}
+    >
       <CardContent className="teacher-content">
         <CardMedia
           className="teacher-media"
           component="img"
-          height="300"
           image={imageSrc}
-          sx={{ borderRadius: 2 }}
+          sx={{ borderRadius: 2, aspectRatio: "1 / 1" }}
           alt={`${teacher.userData.firstName} ${teacher.userData.lastName}`}
         />
         <Box className="teacher-details" pt={2}>

@@ -134,14 +134,14 @@ const Signup = () => {
       if (usernameExists) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          username: "Username already exists, please choose another one",
+          username: "This username is already used, please choose another one.",
         }));
         return;
       }
       if (emailExists) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          email: "Email already exists.",
+          email: "This email is already used.",
         }));
         return;
       }

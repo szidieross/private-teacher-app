@@ -111,7 +111,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       width: 120,
       renderCell: (params) => (
         <IconButton
-          color="error"
+          sx={{ color: colors.error }}
           onClick={() => handleCancel(params.row.appointmentId)}
         >
           <CancelRoundedIcon />

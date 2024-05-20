@@ -57,8 +57,7 @@ const LoginForm: FC = () => {
             {state?.error && (
               <Typography
                 variant="body2"
-                color="error"
-                sx={{ marginTop: "16px" }}
+                sx={{ marginTop: "16px", color: colors.error }}
               >
                 {state.error}
               </Typography>
