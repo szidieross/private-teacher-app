@@ -99,9 +99,9 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
           >
             <Box
               className="drawer-box"
-              sx={{ backgroundColor: "beige", height: "100%" }}
+              sx={{ backgroundColor: colors.background, height: "100%" }}
             >
-              <IconButton onClick={toggleDrawer}>
+              <IconButton onClick={toggleDrawer} sx={{ padding: "16px" }}>
                 <MenuIcon />
               </IconButton>
               <List>
@@ -110,26 +110,25 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
                 </ListItem>
                 {userInfo.isLoggedIn ? (
                   <>
-                    <ListItem onClick={handleProfileClick}>
+                    <ListItem button onClick={handleProfileClick}>
                       <ListItemText primary="Profile" />
                     </ListItem>
-                    <ListItem onClick={handleAppointmentsClick}>
+                    <ListItem button onClick={handleAppointmentsClick}>
                       <ListItemText primary="My Appointments" />
                     </ListItem>
-                    <ListItem onClick={handleSettingsClick}>
+                    <ListItem button onClick={handleSettingsClick}>
                       <ListItemText primary="Settings" />
                     </ListItem>
-                    <ListItem onClick={handleLogout}>
-                      {/* <LogoutForm /> */}
-                      Logout
+                    <ListItem button onClick={handleLogout}>
+                      <ListItemText primary="Logout" />
                     </ListItem>
                   </>
                 ) : (
                   <>
-                    <ListItem onClick={() => to("/login")}>
+                    <ListItem button onClick={() => to("/login")}>
                       <ListItemText primary="Login" />
                     </ListItem>
-                    <ListItem onClick={() => to("/signup")}>
+                    <ListItem button onClick={() => to("/signup")}>
                       <ListItemText primary="Signup" />
                     </ListItem>
                   </>
@@ -141,8 +140,9 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
         <Grid item xl={1}>
           <Typography
             onClick={() => to("/")}
-            style={{ color: colors.secondary }}
+            sx={{ color: colors.secondary, cursor: "pointer" }}
             className="mobile-title"
+            variant="h6"
           >
             Private Teacher App
           </Typography>
@@ -165,7 +165,9 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
         ) : (
           <>
             <Grid item xl={1}>
-              <Button onClick={() => to("/login")}>Login</Button>
+              <Button onClick={() => to("/login")} sx={{ mr: 1 }}>
+                Login
+              </Button>
               <Button onClick={() => to("/signup")}>Signup</Button>
             </Grid>
           </>
