@@ -82,7 +82,7 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
             justifyContent: "center",
             bgcolor: colors.primary,
             "&:hover": {
-              bgcolor: colors.darkPurple,
+              bgcolor: colors.mediumPurple,
             },
           }}
         >
@@ -149,7 +149,7 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
                     justifyContent: "center",
                     bgcolor: colors.primary,
                     "&:hover": {
-                      bgcolor: colors.darkPurple,
+                      bgcolor: colors.mediumPurple,
                     },
                   }}
                 >

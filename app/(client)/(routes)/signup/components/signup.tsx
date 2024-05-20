@@ -10,10 +10,13 @@ import {
   ToggleButton,
   Typography,
   Snackbar,
+  Paper,
+  Box,
 } from "@mui/material";
 import "./signup.scss";
 import useUsersService from "@/app/(client)/services/user.service";
 import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
+import { colors } from "@/app/(client)/constants/color.constant";
 
 export interface ContactUsRequest {
   username: string;
@@ -125,7 +128,7 @@ const Signup = () => {
 
     try {
       let result = null;
-      
+
       if (!form) return;
       // if (form?.price && form?.bio && form?.qualification && form?.location) {
       if (isTeacher) {
@@ -179,12 +182,19 @@ const Signup = () => {
     <Container maxWidth="sm">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid
+            item
+            xs={12}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
             <ToggleButtonGroup
               value={isTeacher}
               exclusive
               onChange={handleToggeleButtonChange}
               aria-label="user-type"
+              sx={{ margin: "30px auto", width: "fit-content" }}
             >
               <ToggleButton
                 value={false}
@@ -198,114 +208,126 @@ const Signup = () => {
               </ToggleButton>
             </ToggleButtonGroup>
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="First Name*"
-              variant="outlined"
-              fullWidth
-              // required
-              name="firstName"
-              error={!!errors.firstName}
-              value={form?.firstName}
-              onChange={(e) =>
-                handleContactFormChange("firstName", e.target.value)
-              }
-            />{" "}
-            {errors.firstName && (
-              <Typography className="error-message">
-                {errors.firstName}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Last Name*"
-              variant="outlined"
-              fullWidth
-              // required
-              name="lastName"
-              error={!!errors.lastName}
-              value={form?.lastName}
-              onChange={(e) =>
-                handleContactFormChange("lastName", e.target.value)
-              }
-            />{" "}
-            {errors.lastName && (
-              <Typography className="error-message">
-                {errors.lastName}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Username*"
-              variant="outlined"
-              fullWidth
-              name="username"
-              error={!!errors.username}
-              value={form?.username}
-              // required
-              onChange={(e) =>
-                handleContactFormChange("username", e.target.value)
-              }
-            />
-            {errors.username && (
-              <Typography className="error-message">
-                {errors.username}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              type="password"
-              label="Password*"
-              variant="outlined"
-              name="password"
-              fullWidth
-              error={!!errors.password}
-              value={form?.password}
-              // required
-              onChange={(e) =>
-                handleContactFormChange("password", e.target.value)
-              }
-            />
-            {errors.password && (
-              <Typography className="error-message">
-                {errors.password}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              type="email"
-              label="Email*"
-              variant="outlined"
-              name="email"
-              fullWidth
-              value={form?.email}
-              error={!!errors.email}
-              // required
-              onChange={(e) => handleContactFormChange("email", e.target.value)}
-            />{" "}
-            {errors.email && (
-              <Typography className="error-message">{errors.email}</Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Phone*"
-              variant="outlined"
-              fullWidth
-              name="phone"
-              error={!!errors.phone}
-              value={form?.phone}
-              onChange={(e) => handleContactFormChange("phone", e.target.value)}
-            />{" "}
-            {errors.phone && (
-              <Typography className="error-message">{errors.phone}</Typography>
-            )}
-          </Grid>
-          {/* <Grid item xs={12}>
+        </Grid>
+        <Paper>
+          <Box p={3}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  label="First Name*"
+                  variant="outlined"
+                  fullWidth
+                  // required
+                  name="firstName"
+                  error={!!errors.firstName}
+                  value={form?.firstName}
+                  onChange={(e) =>
+                    handleContactFormChange("firstName", e.target.value)
+                  }
+                />{" "}
+                {errors.firstName && (
+                  <Typography className="error-message">
+                    {errors.firstName}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Last Name*"
+                  variant="outlined"
+                  fullWidth
+                  // required
+                  name="lastName"
+                  error={!!errors.lastName}
+                  value={form?.lastName}
+                  onChange={(e) =>
+                    handleContactFormChange("lastName", e.target.value)
+                  }
+                />{" "}
+                {errors.lastName && (
+                  <Typography className="error-message">
+                    {errors.lastName}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Username*"
+                  variant="outlined"
+                  fullWidth
+                  name="username"
+                  error={!!errors.username}
+                  value={form?.username}
+                  // required
+                  onChange={(e) =>
+                    handleContactFormChange("username", e.target.value)
+                  }
+                />
+                {errors.username && (
+                  <Typography className="error-message">
+                    {errors.username}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="password"
+                  label="Password*"
+                  variant="outlined"
+                  name="password"
+                  fullWidth
+                  error={!!errors.password}
+                  value={form?.password}
+                  // required
+                  onChange={(e) =>
+                    handleContactFormChange("password", e.target.value)
+                  }
+                />
+                {errors.password && (
+                  <Typography className="error-message">
+                    {errors.password}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="email"
+                  label="Email*"
+                  variant="outlined"
+                  name="email"
+                  fullWidth
+                  value={form?.email}
+                  error={!!errors.email}
+                  // required
+                  onChange={(e) =>
+                    handleContactFormChange("email", e.target.value)
+                  }
+                />{" "}
+                {errors.email && (
+                  <Typography className="error-message">
+                    {errors.email}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Phone*"
+                  variant="outlined"
+                  fullWidth
+                  name="phone"
+                  error={!!errors.phone}
+                  value={form?.phone}
+                  onChange={(e) =>
+                    handleContactFormChange("phone", e.target.value)
+                  }
+                />{" "}
+                {errors.phone && (
+                  <Typography className="error-message">
+                    {errors.phone}
+                  </Typography>
+                )}
+              </Grid>
+              {/* <Grid item xs={12}>
             <TextField
               type="file"
               label="Profile Picture"
@@ -317,68 +339,68 @@ const Signup = () => {
               }
             />
           </Grid> */}
-          {isTeacher && (
-            <>
-              <Grid item xs={6}>
-                <TextField
-                  label="Location"
-                  variant="outlined"
-                  fullWidth
-                  name="location"
-                  value={form?.location}
-                  onChange={(e) =>
-                    handleContactFormChange("location", e.target.value)
-                  }
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  type="number"
-                  label="Price"
-                  variant="outlined"
-                  name="price"
-                  fullWidth
-                  error={!!errors.price}
-                  value={form?.price}
-                  onChange={(e) =>
-                    handleContactFormChange("price", e.target.value)
-                  }
-                />{" "}
-                {errors.price && (
-                  <Typography className="error-message">
-                    {errors.price}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Qualification"
-                  variant="outlined"
-                  fullWidth
-                  name="qualification"
-                  value={form?.qualification}
-                  onChange={(e) =>
-                    handleContactFormChange("qualification", e.target.value)
-                  }
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Bio"
-                  variant="outlined"
-                  fullWidth
-                  multiline
-                  value={form?.bio}
-                  name="bio"
-                  onChange={(e) =>
-                    handleContactFormChange("bio", e.target.value)
-                  }
-                />
-              </Grid>
-            </>
-          )}
-          {/* Hibaüzenetek */}
-          {/* <Grid item xs={12}>
+              {isTeacher && (
+                <>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="Location"
+                      variant="outlined"
+                      fullWidth
+                      name="location"
+                      value={form?.location}
+                      onChange={(e) =>
+                        handleContactFormChange("location", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      type="number"
+                      label="Price"
+                      variant="outlined"
+                      name="price"
+                      fullWidth
+                      error={!!errors.price}
+                      value={form?.price}
+                      onChange={(e) =>
+                        handleContactFormChange("price", e.target.value)
+                      }
+                    />{" "}
+                    {errors.price && (
+                      <Typography className="error-message">
+                        {errors.price}
+                      </Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Qualification"
+                      variant="outlined"
+                      fullWidth
+                      name="qualification"
+                      value={form?.qualification}
+                      onChange={(e) =>
+                        handleContactFormChange("qualification", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Bio"
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      value={form?.bio}
+                      name="bio"
+                      onChange={(e) =>
+                        handleContactFormChange("bio", e.target.value)
+                      }
+                    />
+                  </Grid>
+                </>
+              )}
+              {/* Hibaüzenetek */}
+              {/* <Grid item xs={12}>
             {!!Object.keys(errors).length && (
               <div>
                 {Object.entries(errors).map(([key, value]) => (
@@ -387,12 +409,25 @@ const Signup = () => {
               </div>
             )}
           </Grid> */}
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Register
-            </Button>
-          </Grid>
-        </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  sx={{
+                    bgcolor: colors.primary,
+                    "&:hover": {
+                      bgcolor: colors.mediumPurple,
+                    },
+                  }}
+                >
+                  Register
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Paper>
       </form>
 
       <Snackbar

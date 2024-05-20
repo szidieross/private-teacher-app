@@ -93,7 +93,7 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
                   marginBottom: 1,
                   bgcolor: colors.primary,
                   "&:hover": {
-                    bgcolor: colors.darkPurple,
+                    bgcolor: colors.mediumPurple,
                   },
                 }}
               >

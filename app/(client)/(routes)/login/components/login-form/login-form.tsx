@@ -1,7 +1,8 @@
 "use client";
 
+import { colors } from "@/app/(client)/constants/color.constant";
 import { login } from "@/app/actions";
-import { Button, TextField, Typography, Box } from "@mui/material";
+import { Button, TextField, Typography, Box, Paper } from "@mui/material";
 import { FC } from "react";
 import { useFormState } from "react-dom";
 
@@ -10,48 +11,60 @@ const LoginForm: FC = () => {
 
   return (
     <form action={formAction}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          maxWidth: "300px",
-          margin: "auto",
-        }}
-      >
-        <Typography variant="h5" gutterBottom>
-          Login
-        </Typography>
-        <TextField
-          type="text"
-          name="username"
-          required
-          label="Username"
-          margin="normal"
-          variant="outlined"
-        />
-        <TextField
-          type="password"
-          name="password"
-          required
-          label="Password"
-          margin="normal"
-          variant="outlined"
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{ marginTop: "16px" }}
+      <Paper>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            maxWidth: "300px",
+            margin: "auto",
+            padding: "20px",
+          }}
         >
-          Login
-        </Button>
-        {state?.error && (
-          <Typography variant="body2" color="error" sx={{ marginTop: "16px" }}>
-            {state.error}
+          <Typography variant="h5" gutterBottom>
+            Login
           </Typography>
-        )}
-      </Box>
+          <TextField
+            type="text"
+            name="username"
+            required
+            label="Username"
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            type="password"
+            name="password"
+            required
+            label="Password"
+            margin="normal"
+            variant="outlined"
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              marginTop: "16px",
+              bgcolor: colors.primary,
+              "&:hover": {
+                bgcolor: colors.mediumPurple,
+              },
+            }}
+          >
+            Login
+          </Button>
+          {state?.error && (
+            <Typography
+              variant="body2"
+              color="error"
+              sx={{ marginTop: "16px" }}
+            >
+              {state.error}
+            </Typography>
+          )}
+        </Box>
+      </Paper>
     </form>
   );
 };

@@ -86,7 +86,7 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
                 mb: 2,
                 backgroundColor: colors.primary,
                 "&:hover": {
-                  bgcolor: colors.darkPurple,
+                  bgcolor: colors.mediumPurple,
                 },
               }}
             >
@@ -108,7 +108,7 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
                   width: "100%",
                   backgroundColor: colors.primary,
                   "&:hover": {
-                    bgcolor: colors.darkPurple,
+                    bgcolor: colors.mediumPurple,
                   },
                 }}
               >

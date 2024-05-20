@@ -454,7 +454,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                   sx={{
                     bgcolor: colors.primary,
                     "&:hover": {
-                      bgcolor: colors.darkPurple,
+                      bgcolor: colors.mediumPurple,
                     },
                   }}
                 >
