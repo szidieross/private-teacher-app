@@ -177,7 +177,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                   borderColor: colors.mediumPurple,
                 },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: colors.mediumPurple,
+                  borderColor: colors.primary,
                 },
               }}
               MenuProps={{
@@ -192,21 +192,6 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                       },
                       "&:hover": {
                         backgroundColor: colors.mediumPurple,
-                      },
-                    },
-                    "& ul": {
-                      "&::-webkit-scrollbar": {
-                        width: "8px",
-                      },
-                      "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: colors.primary,
-                        borderRadius: "4px",
-                      },
-                      "&::-webkit-scrollbar-thumb:hover": {
-                        backgroundColor: colors.primary,
-                      },
-                      "&::-webkit-scrollbar-track": {
-                        backgroundColor: colors.primary,
                       },
                     },
                   },
@@ -243,7 +228,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
               sx={{
                 width: "200px",
                 marginBottom: "16px",
-                backgroundColor: "background.paper", // Match the background color
+                backgroundColor: "background.paper",
                 borderRadius: 1,
                 "& .MuiOutlinedInput-notchedOutline": {
                   borderColor: colors.primary,
@@ -269,21 +254,6 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                         backgroundColor: colors.mediumPurple,
                       },
                     },
-                    "& ul": {
-                      "&::-webkit-scrollbar": {
-                        width: "8px",
-                      },
-                      "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: colors.primary,
-                        borderRadius: "4px",
-                      },
-                      "&::-webkit-scrollbar-thumb:hover": {
-                        backgroundColor: colors.primary,
-                      },
-                      "&::-webkit-scrollbar-track": {
-                        backgroundColor: colors.primary,
-                      },
-                    },
                   },
                 },
               }}
@@ -303,69 +273,6 @@ const TeacherList: FC<Props> = ({ isSession }) => {
       {loading ? (
         <SkeletonList />
       ) : (
-        // <>
-        //   <Grid item xs={12} sm={6} md={4} lg={4}>
-        //     <Box>
-        //       <Skeleton
-        //         variant="rectangular"
-        //         width={"100%"}
-        //         height={400}
-        //         sx={{ borderRadius: 2 }}
-        //       />
-        //     </Box>
-        //   </Grid>
-        //   <Grid item xs={12} sm={6} md={4} lg={4}>
-        //     <Box>
-        //       <Skeleton
-        //         variant="rectangular"
-        //         width={"100%"}
-        //         height={400}
-        //         sx={{ borderRadius: 2 }}
-        //       />
-        //     </Box>
-        //   </Grid>
-        //   <Grid item xs={12} sm={6} md={4} lg={4}>
-        //     <Box>
-        //       <Skeleton
-        //         variant="rectangular"
-        //         width={"100%"}
-        //         height={400}
-        //         sx={{ borderRadius: 2 }}
-        //       />
-        //     </Box>
-        //   </Grid>
-        //   <Grid item xs={12} sm={6} md={4} lg={4}>
-        //     <Box>
-        //       <Skeleton
-        //         variant="rectangular"
-        //         width={"100%"}
-        //         height={400}
-        //         sx={{ borderRadius: 2 }}
-        //       />
-        //     </Box>
-        //   </Grid>
-        //   <Grid item xs={12} sm={6} md={4} lg={4}>
-        //     <Box>
-        //       <Skeleton
-        //         variant="rectangular"
-        //         width={"100%"}
-        //         height={400}
-        //         sx={{ borderRadius: 2 }}
-        //       />
-        //     </Box>
-        //   </Grid>
-        //   <Grid item xs={12} sm={6} md={4} lg={4}>
-        //     <Box>
-        //       <Skeleton
-        //         variant="rectangular"
-        //         width={"100%"}
-        //         height={400}
-        //         sx={{ borderRadius: 2 }}
-        //       />
-        //     </Box>
-        //   </Grid>
-
-        // </>
         <>
           {allTeachers &&
             filteredTeachers.length === allTeachers.length &&
