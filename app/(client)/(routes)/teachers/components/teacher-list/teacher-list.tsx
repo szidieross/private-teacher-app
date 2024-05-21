@@ -12,6 +12,7 @@ import {
   ListItemText,
   OutlinedInput,
   Box,
+  Skeleton,
 } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import {
@@ -28,6 +29,7 @@ import useCategoriesService from "@/app/(client)/services/category.service";
 import Link from "next/link";
 import { colors } from "@/app/(client)/constants/color.constant";
 import TeacherItem from "../teacher-item/teacher-item";
+import SkeletonList from "../skeleton-list/skeleton-list";
 
 type Props = {
   isSession: boolean;
@@ -46,6 +48,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
   const [categories, setCategories] = useState<CategoryModel[]>([]);
   const [locations, setLocations] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value as string);
@@ -105,6 +108,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
         );
 
         setLocations(uniqueLocations);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -173,7 +177,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                   borderColor: colors.mediumPurple,
                 },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: colors.mediumPurple,
+                  borderColor: colors.primary,
                 },
               }}
               MenuProps={{
@@ -188,21 +192,6 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                       },
                       "&:hover": {
                         backgroundColor: colors.mediumPurple,
-                      },
-                    },
-                    "& ul": {
-                      "&::-webkit-scrollbar": {
-                        width: "8px",
-                      },
-                      "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: colors.primary,
-                        borderRadius: "4px",
-                      },
-                      "&::-webkit-scrollbar-thumb:hover": {
-                        backgroundColor: colors.primary,
-                      },
-                      "&::-webkit-scrollbar-track": {
-                        backgroundColor: colors.primary,
                       },
                     },
                   },
@@ -239,16 +228,16 @@ const TeacherList: FC<Props> = ({ isSession }) => {
               sx={{
                 width: "200px",
                 marginBottom: "16px",
-                backgroundColor: "background.paper", // Match the background color
+                backgroundColor: "background.paper",
                 borderRadius: 1,
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "primary.main",
+                  borderColor: colors.primary,
                 },
                 "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "primary.dark",
+                  borderColor: colors.primary,
                 },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "primary.dark",
+                  borderColor: colors.primary,
                 },
               }}
               MenuProps={{
@@ -263,21 +252,6 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                       },
                       "&:hover": {
                         backgroundColor: colors.mediumPurple,
-                      },
-                    },
-                    "& ul": {
-                      "&::-webkit-scrollbar": {
-                        width: "8px",
-                      },
-                      "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: colors.primary,
-                        borderRadius: "4px",
-                      },
-                      "&::-webkit-scrollbar-thumb:hover": {
-                        backgroundColor: colors.primary,
-                      },
-                      "&::-webkit-scrollbar-track": {
-                        backgroundColor: colors.primary,
                       },
                     },
                   },
@@ -296,50 +270,60 @@ const TeacherList: FC<Props> = ({ isSession }) => {
           </Box>
         </Box>
       </Grid>
-      {allTeachers &&
-        filteredTeachers.length == allTeachers.length &&
-        allTeachers
-          .filter(
-            (teacher) =>
-              !selectedCategory ||
-              filterTeachersByCategory([teacher], selectedCategory).length > 0
-          )
-          .filter(
-            (teacher) =>
-              !selectedLocations ||
-              filterTeachersByLocation([teacher], selectedLocations).length > 0
-          )
-          .map((teacher, index) => (
-            <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={4}>
-              <Link href={`/teachers/${teacher.teacherId}`}>
-                <TeacherItem teacher={teacher} />
-              </Link>
+      {loading ? (
+        <SkeletonList />
+      ) : (
+        <>
+          {allTeachers &&
+            filteredTeachers.length === allTeachers.length &&
+            allTeachers
+              .filter(
+                (teacher) =>
+                  !selectedCategory ||
+                  filterTeachersByCategory([teacher], selectedCategory).length >
+                    0
+              )
+              .filter(
+                (teacher) =>
+                  !selectedLocations ||
+                  filterTeachersByLocation([teacher], selectedLocations)
+                    .length > 0
+              )
+              .map((teacher, index) => (
+                <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={4}>
+                  <Link href={`/teachers/${teacher.teacherId}`}>
+                    <TeacherItem teacher={teacher} />
+                  </Link>
+                </Grid>
+              ))}
+          {filteredTeachers &&
+            filteredTeachers.length !== allTeachers.length &&
+            filteredTeachers
+              .filter(
+                (teacher) =>
+                  !selectedCategory ||
+                  filterTeachersByCategory([teacher], selectedCategory).length >
+                    0
+              )
+              .filter(
+                (teacher) =>
+                  !selectedLocations ||
+                  filterTeachersByLocation([teacher], selectedLocations)
+                    .length > 0
+              )
+              .map((teacher, index) => (
+                <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={4}>
+                  <Link href={`/teachers/${teacher.teacherId}`}>
+                    <TeacherItem teacher={teacher} />
+                  </Link>
+                </Grid>
+              ))}
+          {filteredTeachers.length === 0 && (
+            <Grid item xs={12}>
+              <Typography textAlign={"center"}>No items found</Typography>
             </Grid>
-          ))}
-      {filteredTeachers &&
-        filteredTeachers.length != allTeachers.length &&
-        filteredTeachers
-          .filter(
-            (teacher) =>
-              !selectedCategory ||
-              filterTeachersByCategory([teacher], selectedCategory).length > 0
-          )
-          .filter(
-            (teacher) =>
-              !selectedLocations ||
-              filterTeachersByLocation([teacher], selectedLocations).length > 0
-          )
-          .map((teacher, index) => (
-            <Grid key={teacher.teacherId} item xs={12} sm={6} md={4} lg={4}>
-              <Link href={`/teachers/${teacher.teacherId}`}>
-                <TeacherItem teacher={teacher} />
-              </Link>
-            </Grid>
-          ))}
-      {filteredTeachers.length == 0 && (
-        <Grid item xs={12}>
-          <Typography textAlign={"center"}>No items found</Typography>
-        </Grid>
+          )}
+        </>
       )}
     </Grid>
   );
