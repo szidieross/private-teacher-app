@@ -83,10 +83,10 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
 
   const handleDeleteTeacher = async (userId: number, teacherId: number) => {
     try {
-      await deleteAppointmentByTeacherId(teacherId);
-      await deleteLessonsByTeacherId(teacherId);
+      // await deleteAppointmentByTeacherId(teacherId);
+      // await deleteLessonsByTeacherId(teacherId);
       await deleteTeacherById(teacherId);
-      await deleteUserById(userId);
+      // await deleteUserById(userId);
       logout();
     } catch (error) {
       console.error("Failed deleting teacher", error);

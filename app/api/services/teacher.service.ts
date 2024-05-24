@@ -332,19 +332,65 @@ export const updateTeacherData = async (
   }
 };
 
-export const deleteTeacherById = async (teacherId: number) => {
-  try {
-    const db = await pool.getConnection();
-    const query = `
-    DELETE FROM Teachers 
-    WHERE teacher_id = ?  
-      `;
-    const [result] = await db.execute(query, [teacherId]);
-    db.release();
+export const handleDeleteTeacher = async (
+  userId: number,
+  teacherId: number
+) => {
+  const db = await pool.getConnection();
 
-    return result;
+  try {
+    await db.beginTransaction();
+
+    await deleteAppointmentsByTeacherId(db, teacherId);
+    await deleteLessonsByTeacherId(db, teacherId);
+    await deleteTeacherById(db, teacherId);
+    await deleteUserById(db, userId);
+
+    await db.commit();
+  } catch (error) {
+    await db.rollback();
+    console.error("Failed deleting teacher", error);
+  } finally {
+    db.release();
+  }
+};
+
+const deleteAppointmentsByTeacherId = async (db: any, teacherId: number) => {
+  try {
+    const query = `DELETE FROM Appointments WHERE teacher_id = ?`;
+    await db.execute(query, [teacherId]);
+  } catch (error) {
+    console.error("Error deleting appointments:", error);
+    throw error;
+  }
+};
+
+const deleteLessonsByTeacherId = async (db: any, teacherId: number) => {
+  try {
+    const query = `DELETE FROM Lessons WHERE teacher_id = ?`;
+    await db.execute(query, [teacherId]);
+  } catch (error) {
+    console.error("Error deleting lessons:", error);
+    throw error;
+  }
+};
+
+const deleteTeacherById = async (db: any, teacherId: number) => {
+  try {
+    const query = `DELETE FROM Teachers WHERE teacher_id = ?`;
+    await db.execute(query, [teacherId]);
   } catch (error) {
     console.error("Error deleting teacher:", error);
+    throw error;
+  }
+};
+
+const deleteUserById = async (db: any, userId: number) => {
+  try {
+    const query = `DELETE FROM Users WHERE user_id = ?`;
+    await db.execute(query, [userId]);
+  } catch (error) {
+    console.error("Error deleting user:", error);
     throw error;
   }
 };
