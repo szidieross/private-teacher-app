@@ -158,6 +158,97 @@ export const getAppointmentByTeacherId = async (
   }
 };
 
+// export const getAppointmentsByLessonId = async (
+//   lessonId: number
+// ): Promise<AppointmentModel[]> => {
+//   try {
+//     const db = await pool.getConnection();
+//     const query = `
+//     SELECT
+//         Appointments.appointment_id,
+//         Appointments.user_id,
+//         Teachers.teacher_id,
+//         Users.first_name AS first_name,
+//         Users.last_name AS last_name,
+//         Categories.name AS category_name,
+//         Appointments.start_time
+//     FROM
+//         Appointments
+//         LEFT JOIN Teachers ON Appointments.teacher_id = Teachers.teacher_id
+//         LEFT JOIN Users ON Appointments.user_id = Users.user_id
+//         LEFT JOIN Lessons ON Appointments.lesson_id = Lessons.lesson_id
+//         LEFT JOIN Categories ON Lessons.category_id = Categories.category_id
+//     WHERE
+//         Lessons.lesson_id = ?;
+//     `;
+//     const [rows] = await db.execute(query, [lessonId]);
+//     db.release();
+
+//     if (!Array.isArray(rows)) {
+//       throw new Error("Query result is not an array");
+//     }
+
+//     const data: AppointmentDto[] = (rows as any).map((row: any) => {
+//       return {
+//         appointment_id: row.appointment_id,
+//         user_id: row.user_id,
+//         teacher_id: row.teacher_id,
+//         first_name: row.first_name,
+//         last_name: row.last_name,
+//         category_name: row.category_name,
+//         start_time: row.start_time,
+//       };
+//     });
+
+//     const appointments: AppointmentModel[] = data.map((row: AppointmentDto) => {
+//       return toAppointmentModel(row);
+//     });
+
+//     return appointments;
+//   } catch (error) {
+//     console.error("Error fetching appointments:", error);
+//     throw error;
+//   }
+// };
+
+export const getAppointmentsByLessonId = async (
+  lessonId: number
+): Promise<AppointmentModel[]> => {
+  try {
+    const db = await pool.getConnection();
+    const query = `
+    SELECT * FROM Appointments WHERE lesson_id = ?;
+    `;
+    const [rows] = await db.execute(query, [lessonId]);
+    db.release();
+
+    if (!Array.isArray(rows)) {
+      throw new Error("Query result is not an array");
+    }
+
+    const data: AppointmentDto[] = (rows as any).map((row: any) => {
+      return {
+        appointment_id: row.appointment_id,
+        user_id: row.user_id,
+        teacher_id: row.teacher_id,
+        first_name: row.first_name,
+        last_name: row.last_name,
+        category_name: row.category_name,
+        start_time: row.start_time,
+      };
+    });
+
+    const appointments: AppointmentModel[] = data.map((row: AppointmentDto) => {
+      return toAppointmentModel(row);
+    });
+
+    return appointments;
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    throw error;
+  }
+};
+
 export const createAppointment = async (teacherId: string, startTime: Date) => {
   try {
     const db = await pool.getConnection();

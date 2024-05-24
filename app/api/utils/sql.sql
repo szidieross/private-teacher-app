@@ -60,7 +60,7 @@ CREATE TABLE Lessons_Archive (
     lesson_id INT,
     teacher_id INT NOT NULL,
     category_id INT NOT NULL,
-    archived_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Appointments_Archive (
