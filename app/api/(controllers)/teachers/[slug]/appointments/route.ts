@@ -43,24 +43,24 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function DELETE(request: NextRequest, context: { params: { slug: number } }) {
-  try {
-    const teacherId = context.params.slug;
+// export async function DELETE(request: NextRequest, context: { params: { slug: number } }) {
+//   try {
+//     const teacherId = context.params.slug;
 
-    if (!teacherId) {
-      throw new Error("Missing teacherId");
-    }
+//     if (!teacherId) {
+//       throw new Error("Missing teacherId");
+//     }
 
-    const result = await deleteAppointmentsByTeacherId(teacherId);
+//     const result = await deleteAppointmentsByTeacherId(teacherId);
 
-    return NextResponse.json({ affectedRows: result }, { status: 201 });
-  } catch (error) {
-    return NextResponse.json(
-      {
-        error: error,
-      },
-      { status: 500 }
-    );
-  }
-}
+//     return NextResponse.json({ affectedRows: result }, { status: 201 });
+//   } catch (error) {
+//     return NextResponse.json(
+//       {
+//         error: error,
+//       },
+//       { status: 500 }
+//     );
+//   }
+// }
 

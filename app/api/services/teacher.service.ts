@@ -343,8 +343,8 @@ export const handleDeleteTeacher = async (
 
     await deleteAppointmentsByTeacherId(db, teacherId);
     await deleteLessonsByTeacherId(db, teacherId);
-    await deleteTeacherById(db, teacherId);
-    await deleteUserById(db, userId);
+    await deleteTeacher(db, teacherId);
+    await deleteUser(db, userId);
 
     await db.commit();
   } catch (error) {
@@ -375,7 +375,7 @@ const deleteLessonsByTeacherId = async (db: any, teacherId: number) => {
   }
 };
 
-const deleteTeacherById = async (db: any, teacherId: number) => {
+const deleteTeacher = async (db: any, teacherId: number) => {
   try {
     const query = `DELETE FROM Teachers WHERE teacher_id = ?`;
     await db.execute(query, [teacherId]);
@@ -385,7 +385,7 @@ const deleteTeacherById = async (db: any, teacherId: number) => {
   }
 };
 
-const deleteUserById = async (db: any, userId: number) => {
+export const deleteUser = async (db: any, userId: number) => {
   try {
     const query = `DELETE FROM Users WHERE user_id = ?`;
     await db.execute(query, [userId]);

@@ -216,39 +216,22 @@ export const cancelAppointment = async (appointmentId: number) => {
   }
 };
 
-export const deleteAppointment = async (appointmentId: number) => {
-  try {
-    const db = await pool.getConnection();
-    const query = `
-    DELETE FROM Appointments 
-    WHERE appointment_id = ?  
-      `;
-    const [result] = await db.execute(query, [appointmentId]);
-    db.release();
+// export const deleteAppointment = async (appointmentId: number) => {
+//   try {
+//     const db = await pool.getConnection();
+//     const query = `
+//     DELETE FROM Appointments
+//     WHERE appointment_id = ?
+//       `;
+//     const [result] = await db.execute(query, [appointmentId]);
+//     db.release();
 
-    return result;
-  } catch (error) {
-    console.error("Error deleting appointment:", error);
-    throw error;
-  }
-};
-
-export const deleteAppointmentsByTeacherId = async (teacherId: number) => {
-  try {
-    const db = await pool.getConnection();
-    const query = `
-    DELETE FROM Appointments 
-    WHERE teacher_id = ?  
-      `;
-    const [result] = await db.execute(query, [teacherId]);
-    db.release();
-
-    return result;
-  } catch (error) {
-    console.error("Error deleting appointments:", error);
-    throw error;
-  }
-};
+//     return result;
+//   } catch (error) {
+//     console.error("Error deleting appointment:", error);
+//     throw error;
+//   }
+// };
 
 export const cancelAppointmentsByUserId = async (teacherId: number) => {
   try {
@@ -264,6 +247,85 @@ export const cancelAppointmentsByUserId = async (teacherId: number) => {
     return result;
   } catch (error) {
     console.error("Error cancelling appointments:", error);
+    throw error;
+  }
+};
+
+export const deleteAppointmentsByTeacherId = async (
+  db: any,
+  teacherId: number
+) => {
+  try {
+    const query = `
+    DELETE FROM Appointments 
+    WHERE teacher_id = ?  
+    `;
+    const [result] = await db.execute(query, [teacherId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error deleting appointments:", error);
+    throw error;
+  }
+};
+
+export const handleDeleteAppointment = async (appointmentId: number) => {
+  const db = await pool.getConnection();
+console.log("helou")
+  try {
+    console.log("helou2")
+    await db.beginTransaction();
+
+    await copyAppointmentsToArchive(db, appointmentId);
+    await deleteAppointment(db, appointmentId);
+
+    await db.commit();
+  } catch (error) {
+    await db.rollback();
+    console.error("Failed deleting user", error);
+  } finally {
+    db.release();
+  }
+};
+
+export const copyAppointmentsToArchive = async (
+  db: any,
+  appointmentId: number
+) => {
+  try {
+    await db.beginTransaction();
+
+    const query = `
+      INSERT INTO Appointments_Archive (appointment_id, teacher_id, user_id, lesson_id, start_time, deleted_at)
+      SELECT appointment_id, teacher_id, user_id, lesson_id, start_time, NOW()
+      FROM Appointments WHERE appointment_id = ?
+    `;
+    const [result] = await db.execute(query, [appointmentId]);
+
+    await db.commit();
+    return result;
+  } catch (error) {
+    await db.rollback();
+    console.error("Error copying appointments to archive:", error);
+    throw error;
+  } finally {
+    db.release();
+  }
+};
+
+export const deleteAppointment = async (db: any, appointmentId: number) => {
+  try {
+    const query = `
+    DELETE FROM Appointments 
+    WHERE appointment_id = ?  
+    `;
+    const [result] = await db.execute(query, [appointmentId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error deleting appointments:", error);
     throw error;
   }
 };

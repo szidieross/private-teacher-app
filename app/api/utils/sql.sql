@@ -40,7 +40,10 @@ CREATE TABLE Lessons (
     FOREIGN KEY (category_id) REFERENCES Categories(category_id)
 );
 
-ALTER TABLE lessons ADD UNIQUE unique_index (teacher_id, category_id);
+ALTER TABLE
+    lessons
+ADD
+    UNIQUE unique_index (teacher_id, category_id);
 
 CREATE TABLE Appointments (
     appointment_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,4 +54,20 @@ CREATE TABLE Appointments (
     FOREIGN KEY (teacher_id) REFERENCES Teachers(teacher_id),
     FOREIGN KEY (lesson_id) REFERENCES Lessons(lesson_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+CREATE TABLE Lessons_Archive (
+    lesson_id INT,
+    teacher_id INT NOT NULL,
+    category_id INT NOT NULL,
+    archived_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Appointments_Archive (
+    appointment_id INT,
+    teacher_id INT NOT NULL,
+    user_id INT,
+    lesson_id INT,
+    start_time DATETIME NOT NULL,
+    deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

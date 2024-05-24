@@ -4,6 +4,7 @@ import {
   cancelAppointment,
   deleteAppointment,
   getAppointmentByUserId,
+  handleDeleteAppointment,
 } from "@/app/api/services/appointment.service";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -76,7 +77,7 @@ export async function DELETE(request: NextRequest, context: { params: { slug: nu
       throw new Error("Missing appointmentId");
     }
 
-    const result = await deleteAppointment(appointmentId);
+    const result = await handleDeleteAppointment(appointmentId);
 
     return NextResponse.json({ affectedRows: result }, { status: 201 });
   } catch (error) {
