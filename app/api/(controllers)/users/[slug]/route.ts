@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { UserModel } from "@/app/api/models/user.model";
-import { deleteUserById, getUserById, updateUserData } from "@/app/api/services/user.service";
+import { getUserById, handleDeleteUser, updateUserData } from "@/app/api/services/user.service";
 
 export const GET = async (
   request: NextRequest,
@@ -85,7 +85,7 @@ export async function DELETE(request: NextRequest, context: { params: { slug: nu
       throw new Error("Missing userId");
     }
 
-    const result = await deleteUserById(userId);
+    const result = await handleDeleteUser(userId);
 
     return NextResponse.json({ affectedRows: result }, { status: 201 });
   } catch (error) {
