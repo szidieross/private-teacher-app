@@ -50,7 +50,7 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
         <Typography variant="h4" gutterBottom className="name">
           {teacher.userData.firstName} {teacher.userData.lastName}
         </Typography>
-        <Box display="flex" alignItems="center" className="location">
+        {/* <Box display="flex" alignItems="center" className="location">
           <LocationOnRoundedIcon
             sx={{ marginRight: 1, color: colors.darkPurple }}
           />
@@ -59,7 +59,22 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
             ${teacher.street ? teacher.street + ", " : ""}
             ${teacher.location}`}
           </Typography>
-        </Box>
+        </Box> */}
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${teacher.location}`}
+          target="_blank"
+        >
+          <Box display="flex" alignItems="center" className="location">
+            <LocationOnRoundedIcon
+              sx={{ marginRight: 1, color: colors.darkPurple }}
+            />
+            <Typography variant="body1" color={colors.secondary}>
+              {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
+            ${teacher.street ? teacher.street + ", " : ""}
+            ${teacher.location}`}
+            </Typography>
+          </Box>
+        </a>
         <Box display="flex" alignItems="center" className="school">
           <SchoolRoundedIcon
             sx={{ marginRight: 1, color: colors.darkPurple }}
@@ -68,20 +83,26 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
             {teacher.qualification}
           </Typography>
         </Box>
-        <Box display="flex" alignItems="center" className="email">
-          <EmailRoundedIcon sx={{ marginRight: 1, color: colors.darkPurple }} />
-          <Typography variant="body1" color="textSecondary">
-            {teacher.userData.email}
-          </Typography>
-        </Box>
-        <Box display="flex" alignItems="center" className="phone">
-          <LocalPhoneRoundedIcon
-            sx={{ marginRight: 1, color: colors.darkPurple }}
-          />
-          <Typography variant="body1" color="textSecondary">
-            {teacher.userData.phone}
-          </Typography>
-        </Box>
+        <a href={`mailto:${teacher.userData.email}`}>
+          <Box display="flex" alignItems="center" className="email">
+            <EmailRoundedIcon
+              sx={{ marginRight: 1, color: colors.darkPurple }}
+            />
+            <Typography variant="body1" color="textSecondary">
+              {teacher.userData.email}
+            </Typography>
+          </Box>
+        </a>
+        <a href={`tel:${teacher.userData.phone}`}>
+          <Box display="flex" alignItems="center" className="phone">
+            <LocalPhoneRoundedIcon
+              sx={{ marginRight: 1, color: colors.darkPurple }}
+            />
+            <Typography variant="body1" color="textSecondary">
+              {teacher.userData.phone}
+            </Typography>
+          </Box>
+        </a>
         <Typography
           variant="body1"
           color="textSecondary"
