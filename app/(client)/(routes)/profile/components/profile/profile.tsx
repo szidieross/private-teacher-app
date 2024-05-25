@@ -183,7 +183,11 @@ const Profile: FC<Props> = ({ userId }) => {
                   <LocationOnRoundedIcon
                     sx={{ marginRight: 1, color: colors.darkPurple }}
                   />
-                  <Typography variant="body1">{`${teacher.houseNumber} ${teacher.street}, ${teacher.location}`}</Typography>
+                  <Typography variant="body1" color={colors.secondary}>
+                    {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
+                    ${teacher.street ? teacher.street + ", " : ""}
+                    ${teacher.location}`}
+                  </Typography>{" "}
                 </Box>
                 <Box display="flex" alignItems="center" mb={1}>
                   <SchoolRoundedIcon

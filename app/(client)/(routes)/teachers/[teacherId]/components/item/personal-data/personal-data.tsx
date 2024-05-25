@@ -54,13 +54,11 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
           <LocationOnRoundedIcon
             sx={{ marginRight: 1, color: colors.darkPurple }}
           />
-          {/* <Typography variant="body1" color={colors.secondary}>
-            {teacher.location}
-          </Typography> */}
-          <Typography
-            variant="body1"
-            color={colors.secondary}
-          >{`${teacher.houseNumber} ${teacher.street}, ${teacher.location}`}</Typography>
+          <Typography variant="body1" color={colors.secondary}>
+            {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
+            ${teacher.street ? teacher.street + ", " : ""}
+            ${teacher.location}`}
+          </Typography>
         </Box>
         <Box display="flex" alignItems="center" className="school">
           <SchoolRoundedIcon
