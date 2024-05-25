@@ -49,7 +49,6 @@ const AppointmentsTable: FC<Props> = ({
       const filteredAppointments = fetchedAppointments.filter(
         (appointment) => new Date(appointment.startTime) >= currentDate
       );
-      console.log("filteredAppointments", filteredAppointments);
       setAppointments(filteredAppointments);
     } catch (error) {
       console.error("Error fetching appointments:", error);

@@ -148,25 +148,6 @@ const Signup = () => {
         return;
       }
 
-      // const users: UserModel[] = await getUsers();
-      // console.log("userssssss", users);
-      // const usernameExists = users.filter(
-      //   (user) => user.username === form?.username
-      // );
-      // const emailExists = users.filter((user) => user.email === form?.email);
-      // if (usernameExists) {
-      //   setErrors({
-      //     username: "Username already exists, please chose another one",
-      //   });
-      //   return;
-      // }
-      // if (emailExists) {
-      //   setErrors({
-      //     email: "Email already exists.",
-      //   });
-      //   return;
-      // }
-
       let result = null;
 
       if (!form) return;

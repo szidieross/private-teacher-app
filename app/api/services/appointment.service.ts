@@ -244,9 +244,7 @@ export const deleteAppointmentsByTeacherId = async (
 
 export const handleDeleteAppointment = async (appointmentId: number) => {
   const db = await pool.getConnection();
-console.log("helou")
   try {
-    console.log("helou2")
     await db.beginTransaction();
 
     await copyAppointmentsToArchive(db, appointmentId);

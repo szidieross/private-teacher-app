@@ -33,8 +33,6 @@ const Item: FC<Props> = ({ teacherId }) => {
       try {
         const fetchedTeacher = await getTeacherById(teacherId);
         setTeacher(fetchedTeacher);
-        console.log("fetchedTeacher", fetchedTeacher);
-
         const fetchedLessons = await getLessonsByTeacherId(teacherId);
         setLessons(fetchedLessons);
       } catch (error) {

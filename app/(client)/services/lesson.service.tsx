@@ -73,7 +73,6 @@ const useLessonsService = () => {
   );
 
   const deleteLessonsByTeacherId = async (teacherId: number) => {
-    console.log("teacherId lessons", teacherId);
     try {
       const { data } = await api.delete<LessonModel>(
         `/teachers/${teacherId}/lessons`
@@ -89,7 +88,6 @@ const useLessonsService = () => {
     teacherId: number,
     lessonId: number
   ) => {
-    console.log("teacherId lessons", lessonId);
     try {
       const { data } = await api.delete<LessonModel>(
         `/teachers/${teacherId}/lessons/${lessonId}`

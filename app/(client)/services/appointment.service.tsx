@@ -133,9 +133,6 @@ const useAppointmentsService = () => {
     try {
       const { data } = await api.delete<AppointmentModel>(
         `/appointments/${appointmentId}`,
-        // {
-        //   appointmentId,
-        // },
         "Couldn't delete appointment!"
       );
       return data;
@@ -146,13 +143,9 @@ const useAppointmentsService = () => {
   };
 
   const deleteAppointmentByTeacherId = async (teacherId: number) => {
-    console.log("teacherId", teacherId);
     try {
       const { data } = await api.delete<AppointmentModel>(
         `/teachers/${teacherId}/appointments`,
-        // {
-        //   appointmentId,
-        // },
         "Couldn't delete appointments!"
       );
       return data;
@@ -163,13 +156,9 @@ const useAppointmentsService = () => {
   };
 
   const cancelAppointmentsByUserId = async (teacherId: number) => {
-    console.log("teacherId", teacherId);
     try {
       const { data } = await api.delete<AppointmentModel>(
         `/users/${teacherId}/appointments`,
-        // {
-        //   appointmentId,
-        // },
         "Couldn't delete appointments!"
       );
       return data;

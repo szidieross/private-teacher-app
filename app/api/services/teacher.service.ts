@@ -172,8 +172,6 @@ export const getTeacherById = async (
 
     const teacher: TeacherModel = toTeacherModel(data[0]);
 
-    console.log("teacher data", teacher);
-
     return teacher;
   } catch (error) {
     console.error("Error fetching teacher:", error);
