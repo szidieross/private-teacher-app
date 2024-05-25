@@ -21,6 +21,9 @@ import {
   CalendarMonthTwoTone as CalendarMonthTwoToneIcon,
   LogoutRounded as LogoutRoundedIcon,
 } from "@mui/icons-material";
+import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
+import MoneyRoundedIcon from "@mui/icons-material/MoneyRounded";
 import { UserModel } from "@/app/api/models/user.model";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
@@ -165,6 +168,31 @@ const Profile: FC<Props> = ({ userId }) => {
               <LocalPhoneRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
               <Typography variant="subtitle1">{user.phone}</Typography>
             </Box>
+            {teacher && (
+              <>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <LocationOnRoundedIcon
+                    sx={{ marginRight: 1, color: colors.darkPurple }}
+                  />
+                  <Typography variant="body1">{teacher.location}</Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <SchoolRoundedIcon
+                    sx={{ marginRight: 1, color: colors.darkPurple }}
+                  />
+                  <Typography variant="body1">
+                    {teacher.qualification}
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <MoneyRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
+                  <Typography variant="subtitle1">{teacher.price}</Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <Typography variant="subtitle1">{teacher.bio}</Typography>
+                </Box>
+              </>
+            )}
             {formattedDate && (
               <Typography variant="subtitle2" color="textSecondary">
                 Member since: {formattedDate}

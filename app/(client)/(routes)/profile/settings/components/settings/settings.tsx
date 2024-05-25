@@ -23,7 +23,6 @@ import { TeacherModel } from "@/app/api/models/teacher.model";
 import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
 import "./settings.scss";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
-import useLessonsService from "@/app/(client)/services/lesson.service";
 import { logout } from "@/app/actions";
 import { colors } from "@/app/(client)/constants/color.constant";
 
@@ -59,8 +58,7 @@ const initContactForm: ContactUsRequest = {
 const Settings: FC<Props> = ({ userId, teacherId }) => {
   const { getUserById, updateUserData, deleteUserById } = useUsersService();
   const { getTeacherByUserId, deleteTeacherById } = useTeachersService();
-  const { cancelAppointmentsByUserId } =
-    useAppointmentsService();
+  const { cancelAppointmentsByUserId } = useAppointmentsService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [user, setUser] = useState<UserModel | null>(null);
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
@@ -81,10 +79,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
 
   const handleDeleteTeacher = async (userId: number, teacherId: number) => {
     try {
-      // await deleteAppointmentByTeacherId(teacherId);
-      // await deleteLessonsByTeacherId(teacherId);
       await deleteTeacherById(teacherId);
-      // await deleteUserById(userId);
       logout();
     } catch (error) {
       console.error("Failed deleting teacher", error);
@@ -92,12 +87,10 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
   };
 
   const openDeleteDialog = () => {
-    // setDeleteType(type);
     setOpenDeleteModal(true);
   };
 
   const closeDeleteDialog = () => {
-    // setDeleteType(null);
     setOpenDeleteModal(false);
   };
 
@@ -153,6 +146,9 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               lastName: userData.lastName,
               email: userData.email,
               phone: userData.phone,
+              qualification: "",
+              bio: "",
+              location: "",
             });
           }
           if (teacherId) {
@@ -197,9 +193,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
     });
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     if (!userId) return;
@@ -288,7 +282,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
       </Dialog>
 
       <Paper sx={{ backgroundColor: colors.background }}>
-        {" "}
         <Box p={3} m={3}>
           <form onSubmit={handleSubmit} className="settings-form">
             <Grid container spacing={2}>
@@ -363,9 +356,9 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     handleContactFormChange("email", e.target.value)
                   }
                 />
-                {errors.phone && (
+                {errors.email && (
                   <Typography className="error-message">
-                    {errors.phone}
+                    {errors.email}
                   </Typography>
                 )}
               </Grid>
@@ -382,6 +375,11 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     handleContactFormChange("phone", e.target.value)
                   }
                 />
+                {errors.phone && (
+                  <Typography className="error-message">
+                    {errors.phone}
+                  </Typography>
+                )}
               </Grid>
               {teacherId && (
                 <>
@@ -406,9 +404,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     )}
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography className="input-label">
-                      Qualification
-                    </Typography>
+                    <Typography className="input-label">Qualification</Typography>
                     <TextField
                       defaultValue={teacher?.qualification}
                       variant="outlined"

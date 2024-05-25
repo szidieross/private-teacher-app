@@ -299,8 +299,8 @@ export const updateUserData = async (
       const teacher = await updateTeacherData(
         userId,
         price,
-        bio,
         qualification,
+        bio,
         location
       );
     }

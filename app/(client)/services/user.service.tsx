@@ -120,7 +120,6 @@ const useUsersService = () => {
       lastName: string,
       email: string,
       phone: string,
-      // teacherId?: number,
       price?: number,
       qualification?: string,
       bio?: string,
