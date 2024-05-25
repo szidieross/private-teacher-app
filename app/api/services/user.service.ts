@@ -98,7 +98,9 @@ export const createUser = async (
   price: number | undefined,
   bio: string | undefined,
   qualification: string | undefined,
-  location: string | undefined
+  location: string | undefined,
+  street: string | undefined,
+  houseNumber: string | undefined
 ) => {
   try {
     if (
@@ -174,7 +176,9 @@ export const createUser = async (
         price,
         bio,
         qualification,
-        location
+        location,
+        street,
+        houseNumber
       );
       return user_id;
     }
@@ -255,7 +259,9 @@ export const updateUserData = async (
   price?: number | undefined,
   qualification?: string | undefined,
   bio?: string | undefined,
-  location?: string | undefined
+  location?: string | undefined,
+  street?: string | undefined,
+  houseNumber?: string | undefined
 ) => {
   try {
     // if (!isStrongPassword(password)) {
@@ -301,7 +307,9 @@ export const updateUserData = async (
         price,
         qualification,
         bio,
-        location
+        location,
+        street,
+        houseNumber
       );
     }
   } catch (error) {

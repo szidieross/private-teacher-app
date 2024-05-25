@@ -41,6 +41,8 @@ export interface ContactUsRequest {
   qualification?: string;
   bio?: string;
   location?: string;
+  street?: string;
+  houseNumber?: string;
 }
 
 const initContactForm: ContactUsRequest = {
@@ -53,6 +55,8 @@ const initContactForm: ContactUsRequest = {
   qualification: "",
   bio: "",
   location: "",
+  street: "",
+  houseNumber: "",
 };
 
 const Settings: FC<Props> = ({ userId, teacherId }) => {
@@ -149,6 +153,8 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               qualification: "",
               bio: "",
               location: "",
+              street: "",
+              houseNumber: "",
             });
           }
           if (teacherId) {
@@ -161,6 +167,8 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 qualification: teacherData.qualification,
                 bio: teacherData.bio,
                 location: teacherData.location,
+                street: teacherData.street,
+                houseNumber: teacherData.houseNumber,
               }));
             }
           }
@@ -193,7 +201,9 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
     if (!userId) return;
@@ -404,7 +414,9 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     )}
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography className="input-label">Qualification</Typography>
+                    <Typography className="input-label">
+                      Qualification
+                    </Typography>
                     <TextField
                       defaultValue={teacher?.qualification}
                       variant="outlined"
@@ -440,6 +452,32 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                       className="text-field"
                       onChange={(e) =>
                         handleContactFormChange("location", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <Typography className="input-label">Street</Typography>
+                    <TextField
+                      defaultValue={teacher?.street}
+                      variant="outlined"
+                      fullWidth
+                      name="location"
+                      className="text-field"
+                      onChange={(e) =>
+                        handleContactFormChange("street", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography className="input-label">Nr.</Typography>
+                    <TextField
+                      defaultValue={teacher?.houseNumber}
+                      variant="outlined"
+                      fullWidth
+                      name="location"
+                      className="text-field"
+                      onChange={(e) =>
+                        handleContactFormChange("houseNumber", e.target.value)
                       }
                     />
                   </Grid>

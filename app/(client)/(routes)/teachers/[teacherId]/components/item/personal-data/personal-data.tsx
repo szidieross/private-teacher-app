@@ -1,13 +1,7 @@
 "use client";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import React, { FC, useEffect, useState } from "react";
-import {
-  Card,
-  Typography,
-  Grid,
-  CardMedia,
-  Box,
-} from "@mui/material";
+import { Card, Typography, Grid, CardMedia, Box } from "@mui/material";
 import { LessonModel } from "@/app/api/models/lesson.model";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
@@ -60,9 +54,13 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
           <LocationOnRoundedIcon
             sx={{ marginRight: 1, color: colors.darkPurple }}
           />
-          <Typography variant="body1" color={colors.secondary}>
+          {/* <Typography variant="body1" color={colors.secondary}>
             {teacher.location}
-          </Typography>
+          </Typography> */}
+          <Typography
+            variant="body1"
+            color={colors.secondary}
+          >{`${teacher.houseNumber} ${teacher.street}, ${teacher.location}`}</Typography>
         </Box>
         <Box display="flex" alignItems="center" className="school">
           <SchoolRoundedIcon

@@ -8,14 +8,16 @@ export const createTeacher = async (
   price: number | undefined,
   bio: string | undefined,
   qualification: string | undefined,
-  location: string | undefined
+  location: string | undefined,
+  street: string | undefined,
+  houseNumber: string | undefined
 ) => {
   try {
     const db = await pool.getConnection();
     const query = `
         INSERT INTO Teachers 
-          (user_id, price, bio, qualification, location)  
-        VALUES (?, ?, ?, ?, ?)
+          (user_id, price, bio, qualification, location, street, house_number)  
+        VALUES (?, ?, ?, ?, ?, ?, ?)
       `;
     const [result] = await db.execute(query, [
       userId,
@@ -23,6 +25,8 @@ export const createTeacher = async (
       bio,
       qualification,
       location,
+      street,
+      houseNumber,
     ]);
 
     return result;
@@ -87,6 +91,8 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
           bio: row.bio,
           qualification: row.qualification,
           location: row.location,
+          street: row.street,
+          houseNumber: row.house_number,
           lessons: [],
         };
       }
@@ -125,11 +131,7 @@ export const getTeacherById = async (
     const query = `
             SELECT
                 u.*,
-                t.teacher_id,
-                t.price,
-                t.bio,
-                t.qualification,
-                t.location
+                t.*
             FROM
                 Users u
             INNER JOIN
@@ -167,6 +169,8 @@ export const getTeacherById = async (
         bio: row.bio,
         qualification: row.qualification,
         location: row.location,
+        street: row.street,
+        house_number: row.house_number,
       };
     });
 
@@ -188,11 +192,7 @@ export const getTeacherByUserId = async (
     const query = `
             SELECT
                 u.*,
-                t.teacher_id,
-                t.price,
-                t.bio,
-                t.qualification,
-                t.location
+                t.*
             FROM
                 Users u
             INNER JOIN
@@ -230,6 +230,8 @@ export const getTeacherByUserId = async (
         bio: row.bio,
         qualification: row.qualification,
         location: row.location,
+        street: row.street,
+        house_number: row.house_number,
       };
     });
 
@@ -248,7 +250,9 @@ export const updateTeacherData = async (
   price: number | undefined,
   qualification: string | undefined,
   bio: string | undefined,
-  location: string | undefined
+  location: string | undefined,
+  street: string | undefined,
+  houseNumber: string | undefined
 ) => {
   try {
     const db = await pool.getConnection();
@@ -257,7 +261,9 @@ export const updateTeacherData = async (
         SET price = ?,
         qualification = ?,
         bio = ?,
-        location = ?
+        location = ?,
+        street = ?,
+        house_number = ?
         WHERE user_id = ?
     `;
 
@@ -266,6 +272,8 @@ export const updateTeacherData = async (
       qualification,
       bio,
       location,
+      street,
+      houseNumber,
       userId,
     ]);
     db.release();

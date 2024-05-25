@@ -9,5 +9,7 @@ export interface TeacherModel {
   bio: string;
   qualification: string;
   location: string;
+  street: string;
+  houseNumber: string;
   lessons?: LessonModel[];
 }
