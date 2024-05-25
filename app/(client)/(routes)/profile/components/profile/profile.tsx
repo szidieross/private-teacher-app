@@ -36,6 +36,7 @@ import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { colors } from "@/app/(client)/constants/color.constant";
 import "./profile.scss";
 import { logout } from "@/app/actions";
+import { LessonModel } from "@/app/api/models/lesson.model";
 
 type Props = {
   userId?: number;
@@ -50,6 +51,8 @@ const Profile: FC<Props> = ({ userId }) => {
   const [formattedDate, setFormattedDate] = useState<string | null>(null);
   const { userInfo } = useUserContext();
   const { to } = useNavigation();
+  const [lessons, setLessons] = useState<LessonModel[] | null>(null);
+  const [showAddAppointment, setShowAddAppointment] = useState<boolean>(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -91,6 +94,11 @@ const Profile: FC<Props> = ({ userId }) => {
 
     fetchData();
   }, [getUserById, userId, getTeacherByUserId]);
+
+  const handleLessonsUpdate = (updatedLessons: LessonModel[] | null) => {
+    setLessons(updatedLessons);
+    setShowAddAppointment(updatedLessons !== null && updatedLessons.length > 0);
+  };
 
   if (!user) return <>Loading...</>;
 
@@ -205,8 +213,13 @@ const Profile: FC<Props> = ({ userId }) => {
       <CustomModal open={open} onClose={handleClose} />
       {teacher && (
         <Box mt={4}>
-          <AddLesson teacherId={teacher.teacherId} />
-          <AddAppointment teacherId={teacher.teacherId} />
+          <AddLesson
+            teacherId={teacher.teacherId}
+            onLessonsUpdate={handleLessonsUpdate}
+          />
+          {showAddAppointment && (
+            <AddAppointment teacherId={teacher.teacherId} />
+          )}
         </Box>
       )}
     </Container>

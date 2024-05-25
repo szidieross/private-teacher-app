@@ -20,6 +20,7 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 type Props = {
   teacherId: number;
+  onLessonsUpdate: (lessons: LessonModel[] | null) => void;
 };
 
 interface LessonFormData {
@@ -27,7 +28,7 @@ interface LessonFormData {
   categoryId: number | null;
 }
 
-const AddLesson: FC<Props> = ({ teacherId }) => {
+const AddLesson: FC<Props> = ({ teacherId, onLessonsUpdate }) => {
   const { createLesson, getLessonsByTeacherId, deleteLessonsByLessonId } =
     useLessonsService();
   const { getCategories } = useCategoriesService();
@@ -59,6 +60,7 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
 
       const updatedLessons = await getLessonsByTeacherId(teacherId);
       setLessons(updatedLessons);
+      onLessonsUpdate(updatedLessons);
     }
   };
 
@@ -67,6 +69,7 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
 
     const updatedLessons = await getLessonsByTeacherId(teacherId);
     setLessons(updatedLessons);
+    onLessonsUpdate(updatedLessons);
   };
 
   useEffect(() => {
@@ -75,6 +78,7 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
         const categories: CategoryModel[] = await getCategories();
         const lessons = await getLessonsByTeacherId(teacherId);
         setLessons(lessons);
+        onLessonsUpdate(lessons);
         setCategoryOptions(categories);
       } catch (error) {
         console.error("Error fetching data:", error);
