@@ -3,7 +3,7 @@ import { AppointmentModel } from "../models/appointment.model";
 import { AppointmentDto } from "../dtos/appointment.dto";
 import { toAppointmentModel } from "../mappers/appointment.mapper";
 
-export const getAppointmentByUserId = async (
+export const getAppointmentsByUserId = async (
   userId: number
 ): Promise<AppointmentModel[]> => {
   try {
@@ -56,7 +56,7 @@ export const getAppointmentByUserId = async (
   }
 };
 
-export const getAppointmentByTeacherId = async (
+export const getAppointmentsByTeacherId = async (
   teacherId: number
 ): Promise<AppointmentModel[]> => {
   try {

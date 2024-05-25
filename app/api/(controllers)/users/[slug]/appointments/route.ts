@@ -1,5 +1,5 @@
 import { AppointmentModel } from "@/app/api/models/appointment.model";
-import { cancelAppointmentByUserId, getAppointmentByUserId } from "@/app/api/services/appointment.service";
+import { cancelAppointmentByUserId, getAppointmentsByUserId } from "@/app/api/services/appointment.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -8,7 +8,7 @@ export const GET = async (
 ) => {
   const userId = context.params.slug;
   try {
-    const appointment: AppointmentModel[] | null = await getAppointmentByUserId(
+    const appointment: AppointmentModel[] | null = await getAppointmentsByUserId(
       userId
     );
     return NextResponse.json(appointment);
