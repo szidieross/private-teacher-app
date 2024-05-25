@@ -200,3 +200,13 @@ export const deleteLessonByLessonId = async (db: any, lessonId: number) => {
     throw error;
   }
 };
+
+export const deleteLessonsByTeacherId = async (db: any, teacherId: number) => {
+  try {
+    const query = `DELETE FROM Lessons WHERE teacher_id = ?`;
+    await db.execute(query, [teacherId]);
+  } catch (error) {
+    console.error("Error deleting lessons:", error);
+    throw error;
+  }
+};
