@@ -37,6 +37,7 @@ import { colors } from "@/app/(client)/constants/color.constant";
 import "./profile.scss";
 import { logout } from "@/app/actions";
 import { LessonModel } from "@/app/api/models/lesson.model";
+import { formatDate } from "@/app/api/utils/user.util";
 
 type Props = {
   userId?: number;
@@ -48,7 +49,7 @@ const Profile: FC<Props> = ({ userId }) => {
   const [open, setOpen] = useState(false);
   const { getUserById } = useUsersService();
   const { getTeacherByUserId } = useTeachersService();
-  const [formattedDate, setFormattedDate] = useState<string | null>(null);
+  // const [formattedDate, setFormattedDate] = useState<string | null>(null);
   const { userInfo } = useUserContext();
   const { to } = useNavigation();
   const [lessons, setLessons] = useState<LessonModel[] | null>(null);
@@ -69,16 +70,16 @@ const Profile: FC<Props> = ({ userId }) => {
           const user = await getUserById(userId);
           if (user) {
             setUser(user);
-            if (user.createdAt) {
-              const date = new Date(user.createdAt);
-              setFormattedDate(
-                date.toLocaleDateString("en-GB", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })
-              );
-            }
+            // if (user.createdAt) {
+            //   const date = new Date(user.createdAt);
+            //   setFormattedDate(
+            //     date.toLocaleDateString("en-GB", {
+            //       year: "numeric",
+            //       month: "long",
+            //       day: "numeric",
+            //     })
+            //   );
+            // }
             if (user.role === "teacher" && user.userId) {
               const teacher = await getTeacherByUserId(user.userId);
               if (teacher) {
@@ -201,11 +202,11 @@ const Profile: FC<Props> = ({ userId }) => {
                 </Box>
               </>
             )}
-            {formattedDate && (
+            {user.createdAt && (
               <Typography variant="subtitle2" color="textSecondary">
-                Member since: {formattedDate}
+                Member since: {formatDate(user.createdAt)}
               </Typography>
-            )}
+              )}
           </Grid>
         </Grid>
       </Paper>

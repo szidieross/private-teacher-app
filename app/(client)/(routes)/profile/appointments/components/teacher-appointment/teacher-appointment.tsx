@@ -17,13 +17,13 @@ import {
 import { getSession } from "@/app/actions";
 import { colors } from "@/app/(client)/constants/color.constant";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import { formatDate } from "@/app/api/utils/user.util";
 
 type Props = {
   userId: number;
 };
 
 const TeacherAppointments: FC<Props> = ({ userId }) => {
-  const { getTeacherByUserId } = useTeachersService();
   const { getAppointmentByTeacherId, deleteAppointment } =
     useAppointmentsService();
   const [appointments, setAppointments] = useState<AppointmentModel[] | null>(
@@ -138,7 +138,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       userId: item.userId,
       name: item.userId ? `${item.firstName} ${item.lastName}` : "-",
       subject: item.categoryName ? item.categoryName : "-",
-      date: item.startTime,
+      date: formatDate(item.startTime),
       action: "",
     };
   });

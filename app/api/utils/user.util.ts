@@ -30,3 +30,12 @@ export const isValidPhoneNumber = (phoneNumber: string): boolean => {
   const phoneRegex = /^\d{10,}$/;
   return phoneRegex.test(phoneNumber);
 };
+
+export const formatDate = (date: string | Date): string => {
+  const parsedDate = typeof date === "string" ? new Date(date) : date;
+  return parsedDate.toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};

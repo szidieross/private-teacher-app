@@ -16,6 +16,7 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 import "./user-appointment";
 import { colors } from "@/app/(client)/constants/color.constant";
+import { formatDate } from "@/app/api/utils/user.util";
 
 type Props = {
   userId: number;
@@ -64,22 +65,6 @@ const UserAppointments: FC<Props> = ({ userId }) => {
 
     fetchData();
   }, [getAppointmentByUserId, userId]);
-
-  const formatDate = (date: string) => {
-    const dateObj = new Date(date);
-    return (
-      dateObj.toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }) +
-      " " +
-      dateObj.toLocaleTimeString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    );
-  };
 
   const columns: GridColDef[] = [
     {
