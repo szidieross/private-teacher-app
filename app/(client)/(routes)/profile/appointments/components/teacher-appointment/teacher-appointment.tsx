@@ -86,18 +86,20 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     {
       field: "id",
       headerName: "#",
-      width: 90,
+      width: 1,
     },
     {
       field: "name",
       headerName: "Name",
-      width: 150,
+      width: 140,
       editable: false,
       renderCell: (params) =>
         params.row.userId ? (
           <Link
-            // sx={{ color: colors.darkPurple }}
             href={`/users/${params.row.userId}`}
+            underline="none"
+            color={colors.mediumPurple}
+            fontWeight={"bold"}
           >
             {`${params.row.name}`}
           </Link>
@@ -106,7 +108,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     {
       field: "subject",
       headerName: "Subject",
-      width: 110,
+      width: 140,
       editable: false,
     },
     {
@@ -117,13 +119,14 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: "",
       sortable: false,
-      width: 160,
+      width: 60,
       renderCell: (params) => (
         <IconButton
           sx={{ color: colors.error }}
           onClick={() => handleDelete(params.row.appointmentId)}
+          title="Delete appointment"
         >
           <DeleteRoundedIcon />
         </IconButton>
