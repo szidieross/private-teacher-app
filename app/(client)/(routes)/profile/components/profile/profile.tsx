@@ -19,7 +19,10 @@ import {
   EmailRounded as EmailRoundedIcon,
   LocalPhoneRounded as LocalPhoneRoundedIcon,
   CalendarMonthTwoTone as CalendarMonthTwoToneIcon,
+  ExitToAppRounded as ExitToAppRoundedIcon,
+  LogoutRounded as LogoutRoundedIcon,
 } from "@mui/icons-material";
+// import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { UserModel } from "@/app/api/models/user.model";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
@@ -31,6 +34,7 @@ import { TeacherModel } from "@/app/api/models/teacher.model";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { colors } from "@/app/(client)/constants/color.constant";
 import "./profile.scss";
+import { logout } from "@/app/actions";
 
 type Props = {
   userId?: number;
@@ -137,6 +141,9 @@ const Profile: FC<Props> = ({ userId }) => {
                 title="Settings"
               >
                 <SettingsIcon sx={{ color: colors.darkPurple }} />
+              </IconButton>
+              <IconButton onClick={() => logout()} title="Logout">
+                <LogoutRoundedIcon sx={{ color: colors.darkPurple }} />
               </IconButton>
             </Box>
             <Typography
