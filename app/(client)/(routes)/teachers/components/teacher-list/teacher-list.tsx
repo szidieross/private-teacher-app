@@ -1,6 +1,5 @@
 "use client";
 import React, { FC, useEffect, useState } from "react";
-import Item from "../teacher-item/teacher-item";
 import {
   Grid,
   InputLabel,
@@ -12,7 +11,6 @@ import {
   ListItemText,
   OutlinedInput,
   Box,
-  Skeleton,
 } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import {
@@ -41,9 +39,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
   const { filteredTeachers, setFilteredTeachers, allTeachers, setAllTeachers } =
     useSearchContext();
   const { getUserById } = useUsersService();
-  const { userInfo, setUserInfo } = useUserContext();
-  const { to } = useNavigation();
-
+  const { setUserInfo } = useUserContext();
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [categories, setCategories] = useState<CategoryModel[]>([]);
   const [locations, setLocations] = useState<string[]>([]);

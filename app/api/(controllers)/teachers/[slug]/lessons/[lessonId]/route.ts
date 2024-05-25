@@ -6,7 +6,6 @@ export async function DELETE(
   context: { params: { slug: number; lessonId: number } }
 ) {
   try {
-    const teacherId = context.params.slug;
     const lessonId = context.params.lessonId;
 
     if (!lessonId) {

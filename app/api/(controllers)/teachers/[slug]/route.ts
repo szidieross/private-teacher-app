@@ -14,7 +14,6 @@ export const GET = async (request: NextRequest, context: { params: { slug: numbe
     }
 };
 
-
 export async function DELETE(request: NextRequest, context: { params: { slug: number } }) {
   try {
     const teacherId = context.params.slug;

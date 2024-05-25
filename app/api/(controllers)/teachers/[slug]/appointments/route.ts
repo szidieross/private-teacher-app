@@ -1,5 +1,5 @@
 import { AppointmentModel } from "@/app/api/models/appointment.model";
-import { createAppointment, deleteAppointmentsByTeacherId, getAppointmentByTeacherId } from "@/app/api/services/appointment.service";
+import { createAppointment, getAppointmentByTeacherId } from "@/app/api/services/appointment.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -42,25 +42,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-// export async function DELETE(request: NextRequest, context: { params: { slug: number } }) {
-//   try {
-//     const teacherId = context.params.slug;
-
-//     if (!teacherId) {
-//       throw new Error("Missing teacherId");
-//     }
-
-//     const result = await deleteAppointmentsByTeacherId(teacherId);
-
-//     return NextResponse.json({ affectedRows: result }, { status: 201 });
-//   } catch (error) {
-//     return NextResponse.json(
-//       {
-//         error: error,
-//       },
-//       { status: 500 }
-//     );
-//   }
-// }
 

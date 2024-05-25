@@ -59,9 +59,8 @@ const initContactForm: ContactUsRequest = {
 const Settings: FC<Props> = ({ userId, teacherId }) => {
   const { getUserById, updateUserData, deleteUserById } = useUsersService();
   const { getTeacherByUserId, deleteTeacherById } = useTeachersService();
-  const { deleteAppointmentByTeacherId, cancelAppointmentsByUserId } =
+  const { cancelAppointmentsByUserId } =
     useAppointmentsService();
-  const { deleteLessonsByTeacherId } = useLessonsService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [user, setUser] = useState<UserModel | null>(null);
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
@@ -69,7 +68,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  // const [deleteType, setDeleteType] = useState<"user" | "teacher" | null>(null);
 
   const handleDeleteUser = async (userId: number) => {
     try {

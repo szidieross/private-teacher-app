@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { UserModel } from "@/app/api/models/user.model";
-import { getUserById, handleDeleteUser, updateUserData } from "@/app/api/services/user.service";
+import {
+  getUserById,
+  handleDeleteUser,
+  updateUserData,
+} from "@/app/api/services/user.service";
 
 export const GET = async (
   request: NextRequest,
@@ -47,37 +51,16 @@ export async function POST(request: NextRequest) {
       location
     );
 
-    // const id=result
-
-    // console.log("result", result.user_id);
-    // // const user_id=result
-
-    // const teacher = await createTeacher();
-
-    // // Adatbáziskapcsolat létrehozása
-    // const db = await pool.getConnection();
-
-    // // SQL beszúrási lekérdezés
-    // const query = "INSERT INTO account (name, email) VALUES (?, ?)";
-    // const [result] = await db.execute(query, [name, email]);
-
-    // // Kapcsolat felszabadítása
-    // db.release();
-
-    // Az új rekord azonosítójának visszaadása
     return NextResponse.json({ id: result }, { status: 201 });
   } catch (error) {
-    // Hiba esetén JSON formátumban visszaadunk egy hibaüzenetet
-    return NextResponse.json(
-      {
-        error: error,
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
 
-export async function DELETE(request: NextRequest, context: { params: { slug: number } }) {
+export async function DELETE(
+  request: NextRequest,
+  context: { params: { slug: number } }
+) {
   try {
     const userId = context.params.slug;
 

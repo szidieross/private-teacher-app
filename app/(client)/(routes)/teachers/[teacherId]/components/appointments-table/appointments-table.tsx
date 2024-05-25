@@ -11,11 +11,9 @@ import Paper from "@mui/material/Paper";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
 import {
-  Button,
   Container,
   Snackbar,
   Alert,
-  Typography,
   IconButton,
 } from "@mui/material";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";

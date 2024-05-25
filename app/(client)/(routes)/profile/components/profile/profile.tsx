@@ -19,10 +19,8 @@ import {
   EmailRounded as EmailRoundedIcon,
   LocalPhoneRounded as LocalPhoneRoundedIcon,
   CalendarMonthTwoTone as CalendarMonthTwoToneIcon,
-  ExitToAppRounded as ExitToAppRoundedIcon,
   LogoutRounded as LogoutRoundedIcon,
 } from "@mui/icons-material";
-// import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { UserModel } from "@/app/api/models/user.model";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
@@ -47,7 +45,7 @@ const Profile: FC<Props> = ({ userId }) => {
   const { getUserById } = useUsersService();
   const { getTeacherByUserId } = useTeachersService();
   const [formattedDate, setFormattedDate] = useState<string | null>(null);
-  const { userInfo, setUserInfo } = useUserContext();
+  const { userInfo } = useUserContext();
   const { to } = useNavigation();
 
   const handleOpen = () => {

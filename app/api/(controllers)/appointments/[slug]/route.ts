@@ -2,7 +2,6 @@ import { AppointmentModel } from "@/app/api/models/appointment.model";
 import {
   bookAppointment,
   cancelAppointment,
-  deleteAppointment,
   getAppointmentByUserId,
   handleDeleteAppointment,
 } from "@/app/api/services/appointment.service";

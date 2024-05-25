@@ -131,7 +131,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     })) || [];
 
   const handleCellClick = (params: any) => {
-    params.event?.stopPropagation(); // Prevent focusing on cells
+    params.event?.stopPropagation();
   };
 
   return (

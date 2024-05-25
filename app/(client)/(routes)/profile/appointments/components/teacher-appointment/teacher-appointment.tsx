@@ -8,7 +8,6 @@ import { AppointmentModel } from "@/app/api/models/appointment.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import {
   Alert,
-  Button,
   IconButton,
   Link,
   Paper,
