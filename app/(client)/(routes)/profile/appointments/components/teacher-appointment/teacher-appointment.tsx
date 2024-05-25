@@ -153,7 +153,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     >
       <Typography
         variant="h5"
-        sx={{ mb: 2, fontWeight: "bold", color: colors.secondary }}
+        sx={{ mb: 2, fontWeight: "bold", color: colors.primary }}
       >
         Your Appointments
       </Typography>

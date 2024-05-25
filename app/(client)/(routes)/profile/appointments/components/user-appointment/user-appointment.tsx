@@ -143,25 +143,29 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     >
       <Typography
         variant="h5"
-        sx={{ mb: 2, fontWeight: "bold", color: "primary.main" }}
+        sx={{ mb: 2, fontWeight: "bold", color: colors.primary }}
       >
         Your Appointments
       </Typography>
       <Box>
-        <Paper elevation={2}>
-          {rows && (
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              checkboxSelection={false}
-              disableRowSelectionOnClick
-              onCellClick={handleCellClick}
-              autoHeight
-              autosizeOnMount
-              sx={{ maxWidth: "90vw", backgroundColor: colors.background }}
-            />
-          )}
-        </Paper>
+        {rows && rows?.length > 0 ? (
+          <Paper elevation={2}>
+            {rows && (
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                checkboxSelection={false}
+                disableRowSelectionOnClick
+                onCellClick={handleCellClick}
+                autoHeight
+                autosizeOnMount
+                sx={{ maxWidth: "90vw", backgroundColor: colors.background }}
+              />
+            )}
+          </Paper>
+        ) : (
+          <Typography>No appointments yet.</Typography>
+        )}
       </Box>
       <Snackbar
         open={snackbarOpen}
