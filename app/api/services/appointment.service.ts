@@ -24,7 +24,8 @@ export const getAppointmentsByUserId = async (
         INNER JOIN Lessons ON Appointments.lesson_id = Lessons.lesson_id
         INNER JOIN Categories ON Lessons.category_id = Categories.category_id
     WHERE
-        Appointments.user_id = ?;
+        Appointments.user_id = ?
+        AND Appointments.start_time >= CURRENT_TIMESTAMP;
     `;
     const [rows] = await db.execute(query, [userId]);
     db.release();
@@ -77,7 +78,8 @@ export const getAppointmentsByTeacherId = async (
         LEFT JOIN Lessons ON Appointments.lesson_id = Lessons.lesson_id
         LEFT JOIN Categories ON Lessons.category_id = Categories.category_id
     WHERE
-        Teachers.teacher_id = ?;
+        Teachers.teacher_id = ?
+        AND Appointments.start_time >= CURRENT_TIMESTAMP;
     `;
     const [rows] = await db.execute(query, [teacherId]);
     db.release();
@@ -313,10 +315,7 @@ export const deleteAppointmentsByTeacherId = async (
   }
 };
 
-export const cancelAppointments = async (
-  db: any,
-  teacherId: number
-) => {
+export const cancelAppointments = async (db: any, teacherId: number) => {
   try {
     const query = `
     UPDATE Appointments 
