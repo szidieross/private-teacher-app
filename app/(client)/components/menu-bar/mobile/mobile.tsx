@@ -12,9 +12,9 @@ import {
   ListItem,
   ListItemText,
   Typography,
-  Button,
   Box,
-  Link,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
@@ -22,6 +22,7 @@ import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
 import "./mobile.scss";
 import { logout } from "@/app/actions";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 
 type Props = {
   profilePicture?: string;
@@ -72,6 +73,21 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
     toggleDrawer();
   };
 
+  const handleLoginClick = () => {
+    handleCloseMenu();
+    to("/login");
+  };
+
+  const handleSignupClick = () => {
+    handleCloseMenu();
+    to("/signup");
+  };
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+    document.body.classList.add("menu-open");
+  };
+
   return (
     <Container
       className="mobile-container"
@@ -88,7 +104,7 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
             onClick={toggleDrawer}
             edge="start"
             aria-label="menu"
-            sx={{color:colors.secondary}}
+            sx={{ color: colors.secondary }}
           >
             <MenuIcon />
           </IconButton>
@@ -169,14 +185,43 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
           </Grid>
         ) : (
           <Grid item xs={1}>
-            <Link
-              href={"/login"}
-              style={{ color: colors.darkPurple, textDecoration: "none" }}
+            <IconButton
+              onClick={handleOpenMenu}
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              disableRipple
             >
-              <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
-                Login
-              </Typography>
-            </Link>
+              <PersonRoundedIcon
+                sx={{
+                  color: colors.darkPurple,
+                  height: "35px",
+                  width: "35px",
+                }}
+              />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleCloseMenu}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              PaperProps={{
+                style: {
+                  backgroundColor: colors.background,
+                },
+              }}
+              disableScrollLock={false}
+            >
+              <MenuItem onClick={handleLoginClick}>Login</MenuItem>
+              <MenuItem onClick={handleSignupClick}>Signup</MenuItem>
+            </Menu>
           </Grid>
         )}
       </Grid>

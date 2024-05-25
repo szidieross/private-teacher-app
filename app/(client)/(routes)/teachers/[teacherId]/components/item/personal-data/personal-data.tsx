@@ -3,7 +3,6 @@ import { TeacherModel } from "@/app/api/models/teacher.model";
 import React, { FC, useEffect, useState } from "react";
 import {
   Card,
-  CardContent,
   Typography,
   Grid,
   CardMedia,

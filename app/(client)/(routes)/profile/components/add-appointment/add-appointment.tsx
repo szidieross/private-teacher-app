@@ -59,7 +59,7 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
           flexDirection="column"
         >
           <Typography variant="h6" color="textSecondary" align="center">
-            No lessons available. Add a lesson to create appointments.
+            Add a lesson to create appointments.
           </Typography>
         </Box>
       ) : (

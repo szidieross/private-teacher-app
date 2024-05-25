@@ -2,9 +2,7 @@
 
 import {
   Box,
-  Button,
   Container,
-  Grid,
   IconButton,
   Menu,
   MenuItem,
@@ -18,7 +16,7 @@ import Image from "next/image";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Link from "next/link";
 import useUsersService from "@/app/(client)/services/user.service";
-import { logout } from "@/app/actions";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 
 type Props = {
   profilePicture?: string;
@@ -35,19 +33,14 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
     setAnchorEl(null);
   };
 
-  const handleProfileClick = () => {
+  const handleLoginClick = () => {
     handleCloseMenu();
-    to("/profile");
+    to("/login");
   };
 
-  const handleSettingsClick = () => {
+  const handleSignupClick = () => {
     handleCloseMenu();
-    to("/profile/settings");
-  };
-
-  const handleLogout = () => {
-    handleCloseMenu();
-    logout();
+    to("/signup");
   };
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -107,7 +100,8 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
             {userInfo.isLoggedIn ? (
               <Box>
                 <IconButton
-                  onClick={handleOpenMenu}
+                  // onClick={handleOpenMenu}
+                  onClick={() => to("/profile")}
                   edge="start"
                   color="inherit"
                   aria-label="menu"
@@ -123,6 +117,21 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                     }
                     alt="Profile"
                     className="profile-img"
+                  />
+                </IconButton>
+                {/* <IconButton
+                  onClick={handleOpenMenu}
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  disableRipple
+                >
+                  <PersonIcon
+                    sx={{
+                      color: colors.darkPurple,
+                      height: "35px",
+                      width: "35px",
+                    }}
                   />
                 </IconButton>
                 <Menu
@@ -144,14 +153,13 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                   }}
                   disableScrollLock={false}
                 >
-                  <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-                  <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </Menu>
+                  <MenuItem onClick={handleProfileClick}>Login</MenuItem>
+                  <MenuItem onClick={handleSettingsClick}>Signup</MenuItem>
+                </Menu> */}
               </Box>
             ) : (
-              <>
-                <Link href={"/login"} style={{ color: colors.darkPurple }}>
+              <Box>
+                {/* <Link href={"/login"} style={{ color: colors.darkPurple }}>
                   <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
                     Login
                   </Typography>
@@ -160,8 +168,45 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                   <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
                     Signup
                   </Typography>
-                </Link>
-              </>
+                </Link> */}
+                <IconButton
+                  onClick={handleOpenMenu}
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  disableRipple
+                >
+                  <PersonRoundedIcon
+                    sx={{
+                      color: colors.darkPurple,
+                      height: "35px",
+                      width: "35px",
+                    }}
+                  />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleCloseMenu}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  PaperProps={{
+                    style: {
+                      backgroundColor: colors.background,
+                    },
+                  }}
+                  disableScrollLock={false}
+                >
+                  <MenuItem onClick={handleLoginClick}>Login</MenuItem>
+                  <MenuItem onClick={handleSignupClick}>Signup</MenuItem>
+                </Menu>
+              </Box>
             )}
           </Box>
         </Box>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FC, useEffect, useState } from "react";
-import { Container, Grid, IconButton, Typography } from "@mui/material";
+import { Container, IconButton, Typography } from "@mui/material";
 import { LessonModel } from "@/app/api/models/lesson.model";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
@@ -15,7 +15,6 @@ type Props = {
 const UserItem: FC<Props> = ({ userId }) => {
   const { getUserById } = useUsersService();
   const [user, setUser] = useState<UserModel | null>(null);
-  const [lessons, setLessons] = useState<LessonModel[] | null>(null);
   const { to } = useNavigation();
 
   useEffect(() => {

@@ -4,17 +4,14 @@ import { TeacherModel } from "@/app/api/models/teacher.model";
 import React, { FC, useEffect, useState } from "react";
 import {
   Container,
-  Grid,
   IconButton,
   Typography,
   Paper,
   Box,
-  Button,
 } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
-import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import PersonalData from "./personal-data/personal-data";
 import Booking from "./booking/booking";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";

@@ -8,7 +8,6 @@ import { AppointmentModel } from "@/app/api/models/appointment.model";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import {
   Alert,
-  Button,
   IconButton,
   Link,
   Paper,
@@ -123,7 +122,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       width: 160,
       renderCell: (params) => (
         <IconButton
-          sx={{color:colors.error}}
+          sx={{ color: colors.error }}
           onClick={() => handleDelete(params.row.appointmentId)}
         >
           <DeleteRoundedIcon />
@@ -153,13 +152,13 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     >
       <Typography
         variant="h5"
-        sx={{ mb: 2, fontWeight: "bold", color: colors.secondary }}
+        sx={{ mb: 2, fontWeight: "bold", color: colors.primary }}
       >
         Your Appointments
       </Typography>
       <Box>
-        <Paper elevation={2}>
-          {rows && (
+        {rows && rows?.length > 0 ? (
+          <Paper elevation={2}>
             <DataGrid
               rows={rows}
               columns={columns}
@@ -170,8 +169,10 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
               autosizeOnMount
               sx={{ maxWidth: "90vw", backgroundColor: colors.background }}
             />
-          )}
-        </Paper>
+          </Paper>
+        ) : (
+          <Typography>No appointments yet.</Typography>
+        )}
       </Box>
       <Snackbar
         open={snackbarOpen}

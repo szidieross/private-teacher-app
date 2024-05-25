@@ -184,37 +184,45 @@ const AddLesson: FC<Props> = ({ teacherId }) => {
           </form>
         </Paper>
       )}
-      <Typography variant="h4" fontSize={18} color={colors.secondary}>
-        Your lessons
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          gap: 1.5,
-          flexWrap: "wrap",
-        }}
-      >
-        {lessons?.map((item, index) => (
-          <Button
-            key={index}
-            onClick={() => removeLesson(item.lessonId)}
-            variant="contained"
-            endIcon={<RemoveCircleOutlineIcon />}
+      {lessons && lessons.length > 0 ? (
+        <>
+          <Typography variant="h4" fontSize={18} color={colors.secondary}>
+            Your lessons
+          </Typography>
+          <Box
             sx={{
-              fontSize: 12,
-              textTransform: "none",
-              marginBottom: 1,
-              bgcolor: colors.primary,
-              "&:hover": {
-                bgcolor: colors.mediumPurple,
-              },
+              display: "flex",
+              flexDirection: "row",
+              gap: 1.5,
+              flexWrap: "wrap",
             }}
           >
-            {item.categoryName}
-          </Button>
-        ))}
-      </Box>
+            {lessons?.map((item, index) => (
+              <Button
+                key={index}
+                onClick={() => removeLesson(item.lessonId)}
+                variant="contained"
+                endIcon={<RemoveCircleOutlineIcon />}
+                sx={{
+                  fontSize: 12,
+                  textTransform: "none",
+                  marginBottom: 1,
+                  bgcolor: colors.primary,
+                  "&:hover": {
+                    bgcolor: colors.mediumPurple,
+                  },
+                }}
+              >
+                {item.categoryName}
+              </Button>
+            ))}
+          </Box>
+        </>
+      ) : (
+        <Typography variant="body1" fontSize={14} color={colors.secondary}>
+          No lesson yet.
+        </Typography>
+      )}
     </Container>
   );
 };
