@@ -60,22 +60,22 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
             ${teacher.location}`}
           </Typography>
         </Box> */}
-        <a
-          href={`https://www.google.com/maps/search/?api=1&query=${teacher.location}`}
-          target="_blank"
-        >
-          <Box display="flex" alignItems="center" className="location">
-            <LocationOnRoundedIcon
-              sx={{ marginRight: 1, color: colors.darkPurple }}
-            />
+        <Box display="flex" alignItems="center" className="location" mt={2}>
+          <LocationOnRoundedIcon
+            sx={{ marginRight: 1, color: colors.darkPurple }}
+          />
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${teacher.location}`}
+            target="_blank"
+          >
             <Typography variant="body1" color={colors.secondary}>
               {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
             ${teacher.street ? teacher.street + ", " : ""}
             ${teacher.location}`}
             </Typography>
-          </Box>
-        </a>
-        <Box display="flex" alignItems="center" className="school">
+          </a>
+        </Box>
+        <Box display="flex" alignItems="center" className="school" mt={1}>
           <SchoolRoundedIcon
             sx={{ marginRight: 1, color: colors.darkPurple }}
           />
@@ -83,42 +83,39 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
             {teacher.qualification}
           </Typography>
         </Box>
-        <a href={`mailto:${teacher.userData.email}`}>
-          <Box display="flex" alignItems="center" className="email">
-            <EmailRoundedIcon
-              sx={{ marginRight: 1, color: colors.darkPurple }}
-            />
+        <Box display="flex" alignItems="center" className="email" mt={1}>
+          <EmailRoundedIcon sx={{ marginRight: 1, color: colors.darkPurple }} />
+          <a href={`mailto:${teacher.userData.email}`}>
             <Typography variant="body1" color="textSecondary">
               {teacher.userData.email}
             </Typography>
-          </Box>
-        </a>
-        <a href={`tel:${teacher.userData.phone}`}>
-          <Box display="flex" alignItems="center" className="phone">
-            <LocalPhoneRoundedIcon
-              sx={{ marginRight: 1, color: colors.darkPurple }}
-            />
+          </a>
+        </Box>
+        <Box display="flex" alignItems="center" className="phone" mt={1}>
+          <LocalPhoneRoundedIcon
+            sx={{ marginRight: 1, color: colors.darkPurple }}
+          />
+          <a href={`tel:${teacher.userData.phone}`}>
             <Typography variant="body1" color="textSecondary">
               {teacher.userData.phone}
             </Typography>
-          </Box>
-        </a>
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          gutterBottom
-          className="price"
-        >
-          Price/hour: {teacher.price}
-        </Typography>
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          gutterBottom
-          className="bio"
-        >
-          {teacher.bio}
-        </Typography>
+          </a>
+        </Box>
+        {/* <Box display="flex" alignItems="center" className="phone" mt={1}>
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            gutterBottom
+            className="price"
+          >
+            Price/hour: {teacher.price}
+          </Typography>
+        </Box> */}
+        <Box display="flex" alignItems="center" className="phone" mt={3}>
+          <Typography variant="body1" color="textSecondary" className="bio">
+            {teacher.bio}
+          </Typography>
+        </Box>
       </Grid>
     </Grid>
   );

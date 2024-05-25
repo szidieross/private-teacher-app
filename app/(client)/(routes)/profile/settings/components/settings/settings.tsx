@@ -433,12 +433,14 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                   <Grid item xs={12}>
                     <Typography className="input-label">Bio</Typography>
                     <TextField
+                    placeholder="Tell us about yourself..."
                       defaultValue={teacher?.bio}
                       variant="outlined"
                       fullWidth
                       multiline
                       className="text-field"
                       name="bio"
+                      rows={8}
                       onChange={(e) =>
                         handleContactFormChange("bio", e.target.value)
                       }
