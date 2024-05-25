@@ -111,27 +111,92 @@ export const createLesson = async (teacherId: string, categoryId: Date) => {
       `;
     const [result] = await db.execute(query, [teacherId, categoryId]);
     db.release();
-
   } catch (error) {
     console.error("Error creating lesson:", error);
     throw error;
   }
 };
 
-
-export const deleteLessonsByTeacherId = async (teacherId: number) => {
+export const deleteLessonsByLessonId = async (lessonId: number) => {
+  const db = await pool.getConnection();
   try {
-    const db = await pool.getConnection();
-    const query = `
-    DELETE FROM Lessons 
-    WHERE teacher_id = ?  
-      `;
-    const [result] = await db.execute(query, [teacherId]);
+    await db.beginTransaction();
+
+    await copyAppointmentsToArchive(db, lessonId);
+    await deleteAppointmentsByLessonId(db, lessonId);
+    await copyLessonToArchive(db, lessonId);
+    await deleteLessonByLessonId(db, lessonId);
+
+    await db.commit();
+  } catch (error) {
+    await db.rollback();
+    console.error("Error deleting lessons:", error);
+    throw error;
+  } finally {
     db.release();
+  }
+};
+
+export const deleteAppointmentsByLessonId = async (
+  db: any,
+  lessonId: number
+) => {
+  try {
+    const query = `
+    DELETE FROM Appointments
+    WHERE lesson_id = ?
+      `;
+    const [result] = await db.execute(query, [lessonId]);
 
     return result;
   } catch (error) {
-    console.error("Error deleting lessons:", error);
+    console.error("Error deleting appointments:", error);
+    throw error;
+  }
+};
+
+export const copyAppointmentsToArchive = async (db: any, lessonId: number) => {
+  try {
+    const query = `
+      INSERT INTO Appointments_Archive (appointment_id, teacher_id, user_id, lesson_id, start_time, deleted_at)
+      SELECT appointment_id, teacher_id, user_id, lesson_id, start_time, NOW()
+      FROM Appointments WHERE lesson_id = ?
+    `;
+    const [result] = await db.execute(query, [lessonId]);
+    return result;
+  } catch (error) {
+    console.error("Error copying appointments to archive:", error);
+    throw error;
+  }
+};
+
+const copyLessonToArchive = async (db: any, lessonId: number) => {
+  try {
+    const query = `
+      INSERT INTO Lessons_Archive (lesson_id, teacher_id, category_id, deleted_at)
+      SELECT lesson_id, teacher_id, category_id, NOW()
+      FROM Lessons WHERE lesson_id = ?
+    `;
+    const [result] = await db.execute(query, [lessonId]);
+
+    return result;
+  } catch (error) {
+    console.error("Error copying lesson to archive:", error);
+    throw error;
+  }
+};
+
+export const deleteLessonByLessonId = async (db: any, lessonId: number) => {
+  try {
+    const query = `
+    DELETE FROM Lessons
+    WHERE lesson_id = ?
+      `;
+    const [result] = await db.execute(query, [lessonId]);
+
+    return result;
+  } catch (error) {
+    console.error("Error deleting lesson:", error);
     throw error;
   }
 };

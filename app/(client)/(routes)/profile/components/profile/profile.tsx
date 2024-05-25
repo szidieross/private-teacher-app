@@ -9,22 +9,30 @@ import {
   Grid,
   Button,
   IconButton,
-  Link,
+  Box,
 } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
-import { UserModel } from "@/app/api/models/user.model";
 import {
-  useStoreContext,
-  useUserContext,
-} from "@/app/(client)/hooks/context.hook";
+  AccountCircle,
+  Settings as SettingsIcon,
+  PhotoCameraRounded as PhotoCameraRoundedIcon,
+  AlternateEmailOutlined as AlternateEmailOutlinedIcon,
+  EmailRounded as EmailRoundedIcon,
+  LocalPhoneRounded as LocalPhoneRoundedIcon,
+  CalendarMonthTwoTone as CalendarMonthTwoToneIcon,
+  LogoutRounded as LogoutRoundedIcon,
+} from "@mui/icons-material";
+import { UserModel } from "@/app/api/models/user.model";
+import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";
 import CustomModal from "../upload-form/upload-form";
 import AddAppointment from "../add-appointment/add-appointment";
 import AddLesson from "../add-lesson/add-lesson";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import { TeacherModel } from "@/app/api/models/teacher.model";
-import SettingsIcon from "@mui/icons-material/Settings";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
+import { colors } from "@/app/(client)/constants/color.constant";
+import "./profile.scss";
+import { logout } from "@/app/actions";
 
 type Props = {
   userId?: number;
@@ -37,8 +45,7 @@ const Profile: FC<Props> = ({ userId }) => {
   const { getUserById } = useUsersService();
   const { getTeacherByUserId } = useTeachersService();
   const [formattedDate, setFormattedDate] = useState<string | null>(null);
-  const { setNavbarSettings } = useStoreContext();
-  const { userInfo, setUserInfo } = useUserContext();
+  const { userInfo } = useUserContext();
   const { to } = useNavigation();
 
   const handleOpen = () => {
@@ -56,7 +63,7 @@ const Profile: FC<Props> = ({ userId }) => {
           const user = await getUserById(userId);
           if (user) {
             setUser(user);
-            if (user && user.createdAt) {
+            if (user.createdAt) {
               const date = new Date(user.createdAt);
               setFormattedDate(
                 date.toLocaleDateString("en-GB", {
@@ -80,57 +87,84 @@ const Profile: FC<Props> = ({ userId }) => {
     };
 
     fetchData();
-  }, [getUserById, userId, setUserInfo, getTeacherByUserId]);
+  }, [getUserById, userId, getTeacherByUserId]);
 
   if (!user) return <>Loading...</>;
 
   return (
     <Container maxWidth="md">
-      <Paper sx={{ padding: 2, marginBottom: 4 }}>
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item xs={12} md={3} container justifyContent="center">
-            <Button onClick={handleOpen}>
-              <Avatar sx={{ width: 120, height: 120 }}>
+      <Paper
+        sx={{
+          padding: 4,
+          marginBottom: 4,
+          borderRadius: 3,
+          boxShadow: 3,
+          bgcolor: colors.background,
+        }}
+      >
+        <Grid container alignItems="center" spacing={3}>
+          <Grid item xs={12} md={3} display="flex" justifyContent="center">
+            <Button
+              onClick={handleOpen}
+              className="avatar-button"
+              disableRipple
+              disableElevation
+            >
+              <Avatar className="avatar">
                 {userInfo.userImg ? (
                   <img
+                    className="avatar-img"
                     src={`/images/uploads/${userInfo.userImg}`}
                     alt="Profile"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                      // objectPosition: "top",
-                    }}
                   />
                 ) : (
-                  <AccountCircle sx={{ width: "100%", height: "100%" }} />
+                  <AccountCircle className="avatar-circle" />
                 )}
+                <Box className="avatar-box">
+                  <PhotoCameraRoundedIcon className="avatar-icon" />
+                </Box>
               </Avatar>
             </Button>
           </Grid>
-          <Grid item xs={12} md={9} position={"relative"}>
-            <IconButton
-              sx={{ position: "absolute", right: 0 }}
-              onClick={() => to("/profile/settings")}
+          <Grid item xs={12} md={9} position="relative">
+            <Box display="flex" justifyContent="flex-end" mb={2}>
+              <IconButton
+                onClick={() => to("/profile/appointments")}
+                title="My Appointments"
+              >
+                <CalendarMonthTwoToneIcon sx={{ color: colors.darkPurple }} />
+              </IconButton>
+              <IconButton
+                onClick={() => to("/profile/settings")}
+                title="Settings"
+              >
+                <SettingsIcon sx={{ color: colors.darkPurple }} />
+              </IconButton>
+              <IconButton onClick={() => logout()} title="Logout">
+                <LogoutRoundedIcon sx={{ color: colors.darkPurple }} />
+              </IconButton>
+            </Box>
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{ color: colors.secondary }}
             >
-              <SettingsIcon />
-            </IconButton>
-            <Typography variant="h4" gutterBottom>
               {user.firstName} {user.lastName}
             </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              Username: {user.username}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              Email: {user.email}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              Phone: {user.phone}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              Role: {user.role}
-            </Typography>
+            <Box display="flex" alignItems="center" mb={1}>
+              <AlternateEmailOutlinedIcon
+                sx={{ mr: 1, color: colors.darkPurple }}
+              />
+              <Typography variant="subtitle1">{user.username}</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" mb={1}>
+              <EmailRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
+              <Typography variant="subtitle1">{user.email}</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" mb={1}>
+              <LocalPhoneRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
+              <Typography variant="subtitle1">{user.phone}</Typography>
+            </Box>
             {formattedDate && (
               <Typography variant="subtitle2" color="textSecondary">
                 Member since: {formattedDate}
@@ -139,16 +173,13 @@ const Profile: FC<Props> = ({ userId }) => {
           </Grid>
         </Grid>
       </Paper>
-      <Button variant="contained" onClick={() => to("/profile/appointments")}>
-        See you appointments
-      </Button>
 
       <CustomModal open={open} onClose={handleClose} />
       {teacher && (
-        <>
+        <Box mt={4}>
           <AddLesson teacherId={teacher.teacherId} />
           <AddAppointment teacherId={teacher.teacherId} />
-        </>
+        </Box>
       )}
     </Container>
   );

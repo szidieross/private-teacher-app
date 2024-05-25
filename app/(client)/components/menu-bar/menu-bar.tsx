@@ -67,10 +67,19 @@ const MenuBar: FC = () => {
 
   return (
     <Box
-      sx={{ position: "fixed", backgroundColor: colors.primary }}
+      sx={{
+        position: "fixed",
+        backgroundColor: colors.primary,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
       className="menu-bar--box"
     >
-      <Toolbar className="menu-bar--toolbar">
+      <Toolbar
+        className="menu-bar--toolbar"
+        sx={{ minWidth: "100%" }}
+      >
         <Mobile profilePicture={userInfo?.userImg} />
         <Desktop profilePicture={userInfo?.userImg} />
       </Toolbar>

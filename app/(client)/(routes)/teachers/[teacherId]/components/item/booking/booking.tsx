@@ -10,13 +10,16 @@ import {
   Box,
   Snackbar,
   Alert,
+  IconButton,
 } from "@mui/material";
-import useTeachersService from "@/app/(client)/services/teacher.service";
-import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
 import CloseIcon from "@mui/icons-material/Close";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import AppointmentsTable from "../../appointments-table/appointments-table";
+import { getSession } from "@/app/actions";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import "./booking.scss";
+import { colors } from "@/app/(client)/constants/color.constant";
 
 type Props = {
   teacherId: number;
@@ -33,6 +36,17 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
     categoryId: number | null;
   }>({ lesson: null, categoryId: null });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [ownTeacherId, setOwnTeacherId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const getSessionData = async () => {
+      const session = await getSession();
+      if (session.teacherId) {
+        setOwnTeacherId(session.teacherId);
+      }
+    };
+    getSessionData();
+  }, []);
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -52,28 +66,36 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
   };
 
   return (
-    <Grid
-      container
-      spacing={2}
-      justifyContent="center"
-      marginTop={2}
-      marginBottom={6}
-    >
+    <Grid container spacing={2} justifyContent="center" sx={{ mt: 2, mb: 6 }}>
       {teacher && (
         <Grid item xs={12}>
-          <Box>
-            <Typography>You can book appointment for:</Typography>
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h4" gutterBottom>
+              Book an Appointment
+            </Typography>
           </Box>
           <Box
-            display={"flex"}
-            sx={{ flexDirection: "row", gap: 1.5, flexWrap: "wrap" }}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 1.5,
+              flexWrap: "wrap",
+            }}
           >
             {lessons?.map((item, index) => (
               <Button
-                variant="contained"
-                style={{ backgroundColor: "purple" }}
-                onClick={() => handleOpenModal(item)}
                 key={index}
+                onClick={() => handleOpenModal(item)}
+                variant="contained"
+                endIcon={<AddCircleRoundedIcon />}
+                sx={{
+                  textTransform: "none",
+                  marginBottom: 1,
+                  bgcolor: colors.primary,
+                  "&:hover": {
+                    bgcolor: colors.mediumPurple,
+                  },
+                }}
               >
                 {item.categoryName}
               </Button>
@@ -85,40 +107,46 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
       <Modal
         open={isModalOpen}
         onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
       >
         <Box
           sx={{
-            overflowY: "scroll",
-            minHeight: "100vh",
-            minWidth: "100vw",
-            backgroundColor: "beige",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            bgcolor: "background.paper",
+            p: 4,
+            borderRadius: 1,
+            boxShadow: 24,
+            maxWidth: 1000,
+            mx: "auto",
+            my: "10%",
+            position: "relative",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
+          <IconButton
+            onClick={handleCloseModal}
+            sx={{ position: "absolute", top: 8, right: 8 }}
           >
-            <Typography>
-              {selectedLesson.lesson?.categoryName} Appointment
-            </Typography>
-            <Button onClick={handleCloseModal}>
-              <CloseIcon />
-            </Button>
-          </Box>
+            <CloseIcon />
+          </IconButton>
+          <Typography
+            id="modal-title"
+            variant="h6"
+            component="h2"
+            sx={{ mb: 2 }}
+          >
+            {selectedLesson.lesson?.categoryName} Appointment
+          </Typography>
           {selectedLesson && selectedLesson.lesson?.lessonId && (
-            <>
-              <AppointmentsTable
-                teacherId={teacherId}
-                lessonId={selectedLesson.lesson?.lessonId}
-                categoryName={selectedLesson.lesson.categoryName}
-              />
-            </>
+            <AppointmentsTable
+              teacherId={teacherId}
+              lessonId={selectedLesson.lesson?.lessonId}
+              categoryName={selectedLesson.lesson.categoryName}
+              ownTeacherId={ownTeacherId}
+            />
           )}
         </Box>
       </Modal>
@@ -129,7 +157,11 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
-        <Alert onClose={handleSnackbarClose} severity="info">
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="info"
+          sx={{ width: "100%" }}
+        >
           Please log in to see the appointments
         </Alert>
       </Snackbar>

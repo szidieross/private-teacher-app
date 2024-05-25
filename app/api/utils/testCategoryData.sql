@@ -1,6 +1,5 @@
 USE private_teacher_app;
 
--- Insert categories
 INSERT INTO Categories (name)
 VALUES 
     ('Science'),

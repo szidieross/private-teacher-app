@@ -87,7 +87,6 @@ const useUsersService = () => {
           },
           "Couldn't login.!"
         );
-        localStorage.setItem("userData", JSON.stringify(data));
         return data;
       } catch (error) {
         console.error(error);

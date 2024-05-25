@@ -12,15 +12,17 @@ import {
   ListItem,
   ListItemText,
   Typography,
-  Button,
   Box,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Image from "next/image";
-import LogoutForm from "../logout-form/logout-form";
 import "./mobile.scss";
+import { logout } from "@/app/actions";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 
 type Props = {
   profilePicture?: string;
@@ -66,9 +68,24 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("userData");
+    logout();
     handleCloseMenu();
     toggleDrawer();
+  };
+
+  const handleLoginClick = () => {
+    handleCloseMenu();
+    to("/login");
+  };
+
+  const handleSignupClick = () => {
+    handleCloseMenu();
+    to("/signup");
+  };
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+    document.body.classList.add("menu-open");
   };
 
   return (
@@ -86,8 +103,8 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
           <IconButton
             onClick={toggleDrawer}
             edge="start"
-            color="inherit"
             aria-label="menu"
+            sx={{ color: colors.secondary }}
           >
             <MenuIcon />
           </IconButton>
@@ -99,9 +116,9 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
           >
             <Box
               className="drawer-box"
-              sx={{ backgroundColor: "beige", height: "100%" }}
+              sx={{ backgroundColor: colors.background, height: "100%" }}
             >
-              <IconButton onClick={toggleDrawer}>
+              <IconButton onClick={toggleDrawer} sx={{ padding: "16px" }}>
                 <MenuIcon />
               </IconButton>
               <List>
@@ -110,25 +127,25 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
                 </ListItem>
                 {userInfo.isLoggedIn ? (
                   <>
-                    <ListItem onClick={handleProfileClick}>
+                    <ListItem button onClick={handleProfileClick}>
                       <ListItemText primary="Profile" />
                     </ListItem>
-                    <ListItem onClick={handleAppointmentsClick}>
+                    <ListItem button onClick={handleAppointmentsClick}>
                       <ListItemText primary="My Appointments" />
                     </ListItem>
-                    <ListItem onClick={handleSettingsClick}>
+                    <ListItem button onClick={handleSettingsClick}>
                       <ListItemText primary="Settings" />
                     </ListItem>
-                    <ListItem onClick={handleLogout}>
-                      <LogoutForm />
+                    <ListItem button onClick={handleLogout}>
+                      <ListItemText primary="Logout" />
                     </ListItem>
                   </>
                 ) : (
                   <>
-                    <ListItem onClick={() => to("/login")}>
+                    <ListItem button onClick={() => to("/login")}>
                       <ListItemText primary="Login" />
                     </ListItem>
-                    <ListItem onClick={() => to("/signup")}>
+                    <ListItem button onClick={() => to("/signup")}>
                       <ListItemText primary="Signup" />
                     </ListItem>
                   </>
@@ -140,8 +157,13 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
         <Grid item xl={1}>
           <Typography
             onClick={() => to("/")}
-            style={{ color: colors.secondary }}
+            sx={{
+              color: colors.secondary,
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
             className="mobile-title"
+            variant="h6"
           >
             Private Teacher App
           </Typography>
@@ -162,12 +184,45 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
             />
           </Grid>
         ) : (
-          <>
-            <Grid item xl={1}>
-              <Button onClick={() => to("/login")}>Login</Button>
-              <Button onClick={() => to("/signup")}>Signup</Button>
-            </Grid>
-          </>
+          <Grid item xs={1}>
+            <IconButton
+              onClick={handleOpenMenu}
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              disableRipple
+            >
+              <PersonRoundedIcon
+                sx={{
+                  color: colors.darkPurple,
+                  height: "35px",
+                  width: "35px",
+                }}
+              />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleCloseMenu}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              PaperProps={{
+                style: {
+                  backgroundColor: colors.background,
+                },
+              }}
+              disableScrollLock={false}
+            >
+              <MenuItem onClick={handleLoginClick}>Login</MenuItem>
+              <MenuItem onClick={handleSignupClick}>Signup</MenuItem>
+            </Menu>
+          </Grid>
         )}
       </Grid>
     </Container>

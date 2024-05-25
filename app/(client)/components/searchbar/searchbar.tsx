@@ -1,24 +1,10 @@
-import { Box, Container, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { FC, useCallback } from "react";
 import { useSearchContext } from "../../hooks/context.hook";
 import "./searchbar.scss";
 
 const SearchBar: FC = () => {
-  const { filteredTeachers, setFilteredTeachers, allTeachers, setAllTeachers } =
-    useSearchContext();
-
-  // const filterBySearch = useCallback(
-  //   (searchQuery: string) => {
-  //     let lowerCaseQuery = searchQuery.toLowerCase();
-  //     let filteredData = filteredTeachers.filter(
-  //       (data) =>
-  //         data.userData.firstName.toLowerCase().includes(lowerCaseQuery) ||
-  //         data.userData.lastName.toLowerCase().includes(lowerCaseQuery)
-  //     );
-  //     return filteredData;
-  //   },
-  //   [filteredTeachers]
-  // );
+  const { setFilteredTeachers, allTeachers } = useSearchContext();
 
   const filterBySearch = useCallback(
     (searchQuery: string) => {
@@ -32,15 +18,6 @@ const SearchBar: FC = () => {
     },
     [allTeachers]
   );
-
-  // const handleSearch = (searchQuery: string) => {
-  //   if (searchQuery.length < 1) {
-  //     setFilteredTeachers([...filteredTeachers]);
-  //   } else {
-  //     const updatedNewsItems = filterBySearch(searchQuery);
-  //     setFilteredTeachers(updatedNewsItems);
-  //   }
-  // };
 
   const handleSearch = (searchQuery: string) => {
     if (searchQuery.length < 1) {
@@ -64,7 +41,7 @@ const SearchBar: FC = () => {
         sx={{
           "& .MuiOutlinedInput-root": {
             "&.Mui-focused fieldset": {
-              borderColor: "rgba(0, 0, 0, 0.23)", // Adjust the border color if needed
+              borderColor: "rgba(0, 0, 0, 0.23)",
             },
           },
           "& .MuiOutlinedInput-input": {

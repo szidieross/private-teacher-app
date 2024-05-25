@@ -10,10 +10,15 @@ import {
   ToggleButton,
   Typography,
   Snackbar,
+  Paper,
+  Box,
 } from "@mui/material";
 import "./signup.scss";
 import useUsersService from "@/app/(client)/services/user.service";
 import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
+import { colors } from "@/app/(client)/constants/color.constant";
+import { UserModel } from "@/app/api/models/user.model";
+import useNavigation from "@/app/(client)/hooks/navigation.hook";
 
 export interface ContactUsRequest {
   username: string;
@@ -22,7 +27,6 @@ export interface ContactUsRequest {
   password: string;
   email: string;
   phone: string;
-  //   profilePicture: string;
   role: string;
   price: number | string;
   bio: string;
@@ -37,7 +41,6 @@ const initContactForm: ContactUsRequest = {
   password: "",
   email: "",
   phone: "",
-  //   profilePicture: "",
   role: "",
   price: 0,
   bio: "",
@@ -47,11 +50,12 @@ const initContactForm: ContactUsRequest = {
 
 const Signup = () => {
   const [isTeacher, setIsTeacher] = useState<boolean>(false);
-  const { createUser } = useUsersService();
+  const { createUser, getUsers } = useUsersService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const { to } = useNavigation();
 
   const handleToggeleButtonChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -124,17 +128,54 @@ const Signup = () => {
     if (!isValid) return;
 
     try {
+      const users: UserModel[] = await getUsers();
+      const usernameExists = users.some(
+        (user) => user.username === form?.username
+      );
+      const emailExists = users.some((user) => user.email === form?.email);
+      if (usernameExists) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          username: "This username is already used, please choose another one.",
+        }));
+        return;
+      }
+      if (emailExists) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "This email is already used.",
+        }));
+        return;
+      }
+
+      // const users: UserModel[] = await getUsers();
+      // console.log("userssssss", users);
+      // const usernameExists = users.filter(
+      //   (user) => user.username === form?.username
+      // );
+      // const emailExists = users.filter((user) => user.email === form?.email);
+      // if (usernameExists) {
+      //   setErrors({
+      //     username: "Username already exists, please chose another one",
+      //   });
+      //   return;
+      // }
+      // if (emailExists) {
+      //   setErrors({
+      //     email: "Email already exists.",
+      //   });
+      //   return;
+      // }
+
       let result = null;
-      
+
       if (!form) return;
-      // if (form?.price && form?.bio && form?.qualification && form?.location) {
       if (isTeacher) {
         result = await createUser(
           form.username,
           form.password,
           form.email,
           form.phone,
-          // form.profilePicture,
           form.firstName,
           form.lastName,
           isTeacher ? "teacher" : "user",
@@ -144,13 +185,11 @@ const Signup = () => {
           form.location
         );
       } else {
-        // if (!form) return;
         result = await createUser(
           form.username,
           form.password,
           form.email,
           form.phone,
-          // form.profilePicture,
           form.firstName,
           form.lastName,
           isTeacher ? "teacher" : "user",
@@ -179,221 +218,280 @@ const Signup = () => {
     <Container maxWidth="sm">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <ToggleButtonGroup
-              value={isTeacher}
-              exclusive
-              onChange={handleToggeleButtonChange}
-              aria-label="user-type"
+          <Grid
+            item
+            xs={12}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Box
+              sx={{ bgcolor: colors.background, borderRadius: 5 }}
+              p={2}
+              m={3}
             >
-              <ToggleButton
-                value={false}
-                aria-label="left aligned"
-                disableRipple
+              <ToggleButtonGroup
+                value={isTeacher}
+                exclusive
+                onChange={handleToggeleButtonChange}
+                aria-label="user-type"
+                sx={{
+                  width: "fit-content",
+                  maxHeight: "fit-content",
+                }}
               >
-                User
-              </ToggleButton>
-              <ToggleButton value={true} aria-label="centered" disableRipple>
-                Teacher
-              </ToggleButton>
-            </ToggleButtonGroup>
+                <ToggleButton
+                  value={false}
+                  aria-label="left aligned"
+                  disableRipple
+                  sx={{
+                    "&.Mui-selected": {
+                      bgcolor: colors.primary,
+                      color: "#fff",
+                    },
+                    "&:hover": {
+                      bgcolor: colors.mediumPurple,
+                    },
+                  }}
+                >
+                  User
+                </ToggleButton>
+                <ToggleButton
+                  value={true}
+                  aria-label="centered"
+                  disableRipple
+                  sx={{
+                    "&.Mui-selected": {
+                      bgcolor: colors.primary,
+                      color: "#fff",
+                    },
+                    "&:hover": {
+                      bgcolor: colors.mediumPurple,
+                    },
+                  }}
+                >
+                  Teacher
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="First Name*"
-              variant="outlined"
-              fullWidth
-              // required
-              name="firstName"
-              error={!!errors.firstName}
-              value={form?.firstName}
-              onChange={(e) =>
-                handleContactFormChange("firstName", e.target.value)
-              }
-            />{" "}
-            {errors.firstName && (
-              <Typography className="error-message">
-                {errors.firstName}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Last Name*"
-              variant="outlined"
-              fullWidth
-              // required
-              name="lastName"
-              error={!!errors.lastName}
-              value={form?.lastName}
-              onChange={(e) =>
-                handleContactFormChange("lastName", e.target.value)
-              }
-            />{" "}
-            {errors.lastName && (
-              <Typography className="error-message">
-                {errors.lastName}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Username*"
-              variant="outlined"
-              fullWidth
-              name="username"
-              error={!!errors.username}
-              value={form?.username}
-              // required
-              onChange={(e) =>
-                handleContactFormChange("username", e.target.value)
-              }
-            />
-            {errors.username && (
-              <Typography className="error-message">
-                {errors.username}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              type="password"
-              label="Password*"
-              variant="outlined"
-              name="password"
-              fullWidth
-              error={!!errors.password}
-              value={form?.password}
-              // required
-              onChange={(e) =>
-                handleContactFormChange("password", e.target.value)
-              }
-            />
-            {errors.password && (
-              <Typography className="error-message">
-                {errors.password}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              type="email"
-              label="Email*"
-              variant="outlined"
-              name="email"
-              fullWidth
-              value={form?.email}
-              error={!!errors.email}
-              // required
-              onChange={(e) => handleContactFormChange("email", e.target.value)}
-            />{" "}
-            {errors.email && (
-              <Typography className="error-message">{errors.email}</Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Phone*"
-              variant="outlined"
-              fullWidth
-              name="phone"
-              error={!!errors.phone}
-              value={form?.phone}
-              onChange={(e) => handleContactFormChange("phone", e.target.value)}
-            />{" "}
-            {errors.phone && (
-              <Typography className="error-message">{errors.phone}</Typography>
-            )}
-          </Grid>
-          {/* <Grid item xs={12}>
-            <TextField
-              type="file"
-              label="Profile Picture"
-              variant="outlined"
-              name="profilePicture"
-              fullWidth
-              onChange={(e) =>
-                handleContactFormChange("profilePicture", e.target.value)
-              }
-            />
-          </Grid> */}
-          {isTeacher && (
-            <>
-              <Grid item xs={6}>
+        </Grid>
+        <Paper>
+          <Box p={3}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
                 <TextField
-                  label="Location"
+                  label="First Name*"
                   variant="outlined"
                   fullWidth
-                  name="location"
-                  value={form?.location}
+                  name="firstName"
+                  error={!!errors.firstName}
+                  value={form?.firstName}
                   onChange={(e) =>
-                    handleContactFormChange("location", e.target.value)
-                  }
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  type="number"
-                  label="Price"
-                  variant="outlined"
-                  name="price"
-                  fullWidth
-                  error={!!errors.price}
-                  value={form?.price}
-                  onChange={(e) =>
-                    handleContactFormChange("price", e.target.value)
+                    handleContactFormChange("firstName", e.target.value)
                   }
                 />{" "}
-                {errors.price && (
+                {errors.firstName && (
                   <Typography className="error-message">
-                    {errors.price}
+                    {errors.firstName}
                   </Typography>
                 )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  label="Qualification"
+                  label="Last Name*"
                   variant="outlined"
                   fullWidth
-                  name="qualification"
-                  value={form?.qualification}
+                  name="lastName"
+                  error={!!errors.lastName}
+                  value={form?.lastName}
                   onChange={(e) =>
-                    handleContactFormChange("qualification", e.target.value)
+                    handleContactFormChange("lastName", e.target.value)
                   }
-                />
+                />{" "}
+                {errors.lastName && (
+                  <Typography className="error-message">
+                    {errors.lastName}
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  label="Bio"
+                  label="Username*"
                   variant="outlined"
                   fullWidth
-                  multiline
-                  value={form?.bio}
-                  name="bio"
+                  name="username"
+                  error={!!errors.username}
+                  value={form?.username}
                   onChange={(e) =>
-                    handleContactFormChange("bio", e.target.value)
+                    handleContactFormChange("username", e.target.value)
                   }
                 />
+                {errors.username && (
+                  <Typography className="error-message">
+                    {errors.username}
+                  </Typography>
+                )}
               </Grid>
-            </>
-          )}
-          {/* Hibaüzenetek */}
-          {/* <Grid item xs={12}>
-            {!!Object.keys(errors).length && (
-              <div>
-                {Object.entries(errors).map(([key, value]) => (
-                  <span key={key}>{value}</span>
-                ))}
-              </div>
-            )}
-          </Grid> */}
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Register
-            </Button>
-          </Grid>
-        </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="password"
+                  label="Password*"
+                  variant="outlined"
+                  name="password"
+                  fullWidth
+                  error={!!errors.password}
+                  value={form?.password}
+                  onChange={(e) =>
+                    handleContactFormChange("password", e.target.value)
+                  }
+                />
+                {errors.password && (
+                  <Typography className="error-message">
+                    {errors.password}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="email"
+                  label="Email*"
+                  variant="outlined"
+                  name="email"
+                  fullWidth
+                  value={form?.email}
+                  error={!!errors.email}
+                  onChange={(e) =>
+                    handleContactFormChange("email", e.target.value)
+                  }
+                />{" "}
+                {errors.email && (
+                  <Typography className="error-message">
+                    {errors.email}
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Phone*"
+                  variant="outlined"
+                  fullWidth
+                  name="phone"
+                  error={!!errors.phone}
+                  value={form?.phone}
+                  onChange={(e) =>
+                    handleContactFormChange("phone", e.target.value)
+                  }
+                />{" "}
+                {errors.phone && (
+                  <Typography className="error-message">
+                    {errors.phone}
+                  </Typography>
+                )}
+              </Grid>
+              {isTeacher && (
+                <>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="Location"
+                      variant="outlined"
+                      fullWidth
+                      name="location"
+                      value={form?.location}
+                      onChange={(e) =>
+                        handleContactFormChange("location", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      type="number"
+                      label="Price"
+                      variant="outlined"
+                      name="price"
+                      fullWidth
+                      error={!!errors.price}
+                      value={form?.price}
+                      onChange={(e) =>
+                        handleContactFormChange("price", e.target.value)
+                      }
+                    />{" "}
+                    {errors.price && (
+                      <Typography className="error-message">
+                        {errors.price}
+                      </Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Qualification"
+                      variant="outlined"
+                      fullWidth
+                      name="qualification"
+                      value={form?.qualification}
+                      onChange={(e) =>
+                        handleContactFormChange("qualification", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Bio"
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      value={form?.bio}
+                      name="bio"
+                      onChange={(e) =>
+                        handleContactFormChange("bio", e.target.value)
+                      }
+                    />
+                  </Grid>
+                </>
+              )}
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  sx={{
+                    bgcolor: colors.primary,
+                    "&:hover": {
+                      bgcolor: colors.mediumPurple,
+                    },
+                  }}
+                >
+                  Register
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Paper>
       </form>
+
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        marginY={4}
+      >
+        <Typography fontSize={14}>Already have an account?</Typography>
+        <Button
+          onClick={() => to("/login")}
+          variant="contained"
+          sx={{
+            marginTop: "16px",
+            bgcolor: colors.primary,
+            "&:hover": {
+              bgcolor: colors.mediumPurple,
+            },
+          }}
+        >
+          Login
+        </Button>
+      </Box>
 
       <Snackbar
         open={openSnackbar}
