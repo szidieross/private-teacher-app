@@ -18,8 +18,6 @@ import Image from "next/image";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import Link from "next/link";
 import useUsersService from "@/app/(client)/services/user.service";
-import { logout } from "@/app/actions";
-import PersonIcon from "@mui/icons-material/Person";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 
 type Props = {
@@ -37,11 +35,6 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
     setAnchorEl(null);
   };
 
-  const handleProfileClick = () => {
-    handleCloseMenu();
-    to("/profile");
-  };
-
   const handleLoginClick = () => {
     handleCloseMenu();
     to("/login");
@@ -50,11 +43,6 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
   const handleSignupClick = () => {
     handleCloseMenu();
     to("/signup");
-  };
-
-  const handleLogout = () => {
-    handleCloseMenu();
-    logout();
   };
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
