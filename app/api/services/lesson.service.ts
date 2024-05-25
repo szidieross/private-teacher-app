@@ -144,8 +144,8 @@ export const createLesson = async (teacherId: string, categoryId: Date) => {
 //   try {
 //     const db = await pool.getConnection();
 //     const query = `
-//     DELETE FROM Lessons 
-//     WHERE lesson_id = ?  
+//     DELETE FROM Lessons
+//     WHERE lesson_id = ?
 //       `;
 //     const [result] = await db.execute(query, [lessonId]);
 //     db.release();
@@ -209,7 +209,7 @@ export const createLesson = async (teacherId: string, categoryId: Date) => {
 // export const deleteLessonsByTeacherId = async (db: any, teacherId: number) => {
 //   try {
 //     const query = `
-//     DELETE FROM Lessons WHERE teacher_id = ?  
+//     DELETE FROM Lessons WHERE teacher_id = ?
 //       `;
 //     const [result] = await db.execute(query, [teacherId]);
 //     db.release();
@@ -231,7 +231,7 @@ export const createLesson = async (teacherId: string, categoryId: Date) => {
 //     const appointments = await getAppointmentsByLessonId(lessonId);
 
 //     await db.beginTransaction();
-    
+
 //     for (const item of appointments) {
 //       await copyAppointmentsToArchive(db, item.appointmentId);
 //       await deleteAppointment(db, item.appointmentId);
@@ -249,39 +249,24 @@ export const createLesson = async (teacherId: string, categoryId: Date) => {
 //   }
 // };
 
-// const copyLessonToArchive = async (db: any, lessonId: number) => {
-//   try {
-//     const query = `
-//       INSERT INTO Lessons_Archive (lesson_id, teacher_id, category_id, deleted_at)
-//       SELECT lesson_id, teacher_id, category_id, NOW()
-//       FROM Lessons WHERE lesson_id = ?
-//     `;
-//     const [result] = await db.execute(query, [lessonId]);
-
-//     return result;
-//   } catch (error) {
-//     console.error("Error copying lesson to archive:", error);
-//     throw error;
-//   }
-// };
-
 export const deleteLessonsByLessonId = async (lessonId: number) => {
   const db = await pool.getConnection();
   try {
     await db.beginTransaction();
-    
-    // Először töröld az Appointments tábla sorait a megadott tanárhoz tartozó órák alapján
+
     const appointmentsQuery = `
     DELETE FROM Appointments 
     WHERE lesson_id IN (SELECT lesson_id FROM Lessons WHERE lesson_id = ?)
       `;
     await db.execute(appointmentsQuery, [lessonId]);
 
-    // Ezután töröld a Lessons tábla sorait a megadott tanárhoz tartozó órák alapján
+    await copyLessonToArchive(db, lessonId);
+    
     const lessonsQuery = `
     DELETE FROM Lessons WHERE lesson_id = ?  
       `;
     const [result] = await db.execute(lessonsQuery, [lessonId]);
+
 
     await db.commit();
     return result;
@@ -292,4 +277,18 @@ export const deleteLessonsByLessonId = async (lessonId: number) => {
   }
 };
 
+const copyLessonToArchive = async (db: any, lessonId: number) => {
+  try {
+    const query = `
+      INSERT INTO Lessons_Archive (lesson_id, teacher_id, category_id, deleted_at)
+      SELECT lesson_id, teacher_id, category_id, NOW()
+      FROM Lessons WHERE lesson_id = ?
+    `;
+    const [result] = await db.execute(query, [lessonId]);
 
+    return result;
+  } catch (error) {
+    console.error("Error copying lesson to archive:", error);
+    throw error;
+  }
+};
