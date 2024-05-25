@@ -225,7 +225,9 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
         +form.price!,
         form.qualification,
         form.bio,
-        form.location
+        form.location,
+        form.street,
+        form.houseNumber
       );
 
       if (result) {

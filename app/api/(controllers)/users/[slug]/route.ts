@@ -36,6 +36,8 @@ export async function POST(request: NextRequest) {
       qualification,
       bio,
       location,
+      street,
+      houseNumber,
     } = await request.json();
 
     const result = await updateUserData(
@@ -48,7 +50,9 @@ export async function POST(request: NextRequest) {
       price,
       qualification,
       bio,
-      location
+      location,
+      street,
+      houseNumber
     );
 
     return NextResponse.json({ id: result }, { status: 201 });
