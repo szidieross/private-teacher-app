@@ -97,6 +97,8 @@ const Profile: FC<Props> = ({ userId }) => {
       <Paper
         sx={{
           padding: 4,
+          paddingTop: 7,
+          marginTop: -3,
           marginBottom: 4,
           borderRadius: 3,
           boxShadow: 3,
@@ -206,15 +208,19 @@ const Profile: FC<Props> = ({ userId }) => {
 
       <CustomModal open={open} onClose={handleClose} />
       {teacher && (
-        <Box mt={4}>
-          <AddLesson
-            teacherId={teacher.teacherId}
-            onLessonsUpdate={handleLessonsUpdate}
-          />
-          {showAddAppointment && (
-            <AddAppointment teacherId={teacher.teacherId} />
-          )}
-        </Box>
+        <>
+          <Box mt={4}>
+            <AddLesson
+              teacherId={teacher.teacherId}
+              onLessonsUpdate={handleLessonsUpdate}
+            />
+          </Box>
+          <Box mt={2}>
+            {showAddAppointment && (
+              <AddAppointment teacherId={teacher.teacherId} />
+            )}
+          </Box>
+        </>
       )}
     </Container>
   );

@@ -4,21 +4,15 @@ import React, { FC, useEffect, useState } from "react";
 import { Card, Typography, Grid, CardMedia, Box, Paper } from "@mui/material";
 import { LessonModel } from "@/app/api/models/lesson.model";
 import {
-  AccountCircle,
-  Settings as SettingsIcon,
-  PhotoCameraRounded as PhotoCameraRoundedIcon,
   AlternateEmailOutlined as AlternateEmailOutlinedIcon,
   EmailRounded as EmailRoundedIcon,
   LocalPhoneRounded as LocalPhoneRoundedIcon,
-  CalendarMonthTwoTone as CalendarMonthTwoToneIcon,
-  LogoutRounded as LogoutRoundedIcon,
   LocationOnRounded as LocationOnRoundedIcon,
   SchoolRounded as SchoolRoundedIcon,
   MoneyRounded as MoneyRoundedIcon,
 } from "@mui/icons-material";
 import "./personal-data.scss";
 import { colors } from "@/app/(client)/constants/color.constant";
-import { formatDate } from "@/app/api/utils/user.util";
 
 type Props = {
   teacher: TeacherModel;

@@ -69,6 +69,7 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
           alignItems="center"
           bgcolor={colors.background}
           padding={2}
+          sx={{ borderRadius: 3, mb: 2 }}
         >
           <Card
             sx={{
@@ -80,7 +81,7 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
             }}
           >
             <Typography variant="h5" align="center" gutterBottom>
-              Schedule an Appointment
+              Schedule Appointments
             </Typography>
             <form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
               <Grid container spacing={3}>
