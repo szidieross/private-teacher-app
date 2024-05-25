@@ -86,7 +86,7 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
 
             <a href={`tel:${teacher.userData.phone}`}>
               <Typography variant="subtitle1">
-                {teacher.userData.phone}
+                {teacher.userData.phone ? teacher.userData.phone : " - "}
               </Typography>
             </a>
           </Box>
@@ -101,7 +101,7 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
               <Typography variant="body1" color={colors.secondary}>
                 {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
                     ${teacher.street ? teacher.street + ", " : ""}
-                    ${teacher.location}`}
+                    ${teacher.location ? teacher.location : " - "}`}
               </Typography>
             </a>
           </Box>
@@ -115,8 +115,10 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
             <MoneyRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
             <Typography variant="subtitle1">{teacher.price}</Typography>
           </Box>
-          <Box display="flex" alignItems="center" mb={1}>
-            <Typography variant="subtitle1">{teacher.bio}</Typography>
+          <Box display="flex" alignItems="center" mt={4}>
+            <Typography fontSize={15} variant="subtitle1">
+              {teacher.bio}
+            </Typography>
           </Box>
         </Grid>
       </Grid>
