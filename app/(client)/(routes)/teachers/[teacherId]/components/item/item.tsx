@@ -46,7 +46,7 @@ const Item: FC<Props> = ({ teacherId }) => {
           <KeyboardBackspaceIcon />
         </IconButton>
       </Box>
-      <PersonalData teacher={teacher} lessons={lessons} />
+      <PersonalData teacher={teacher} />
       <Box mt={2}>
         {lessons && lessons.length > 0 ? (
           <Booking teacherId={teacherId} teacher={teacher} lessons={lessons} />

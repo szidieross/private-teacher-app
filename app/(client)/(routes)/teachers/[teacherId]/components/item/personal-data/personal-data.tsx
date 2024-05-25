@@ -16,18 +16,9 @@ import { colors } from "@/app/(client)/constants/color.constant";
 
 type Props = {
   teacher: TeacherModel;
-  lessons: LessonModel[] | null;
 };
 
-const PersonalData: FC<Props> = ({ teacher, lessons }) => {
-  const [image, setImage] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    if (teacher && teacher.userData.profilePicture) {
-      setImage(teacher.userData.profilePicture);
-    }
-  }, [teacher]);
-
+const PersonalData: FC<Props> = ({ teacher }) => {
   if (!teacher) return <></>;
 
   return (
@@ -47,8 +38,8 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
               component="img"
               width="auto"
               image={
-                image
-                  ? `/images/uploads/${image}`
+                teacher.userData.profilePicture
+                  ? `/images/uploads/${teacher.userData.profilePicture}`
                   : "/images/default/person.jpg"
               }
               alt="Profile"

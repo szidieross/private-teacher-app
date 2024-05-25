@@ -1,12 +1,26 @@
 "use client";
 
 import React, { FC, useEffect, useState } from "react";
-import { Container, IconButton, Typography } from "@mui/material";
-import { LessonModel } from "@/app/api/models/lesson.model";
+import {
+  Box,
+  Card,
+  CardMedia,
+  Container,
+  Grid,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import useUsersService from "@/app/(client)/services/user.service";
 import { UserModel } from "@/app/api/models/user.model";
+import {
+  AlternateEmailOutlined as AlternateEmailOutlinedIcon,
+  EmailRounded as EmailRoundedIcon,
+  LocalPhoneRounded as LocalPhoneRoundedIcon,
+} from "@mui/icons-material";
+import { colors } from "@/app/(client)/constants/color.constant";
 
 type Props = {
   userId: number;
@@ -36,12 +50,71 @@ const UserItem: FC<Props> = ({ userId }) => {
 
   return (
     <Container>
-      <IconButton onClick={() => to("/teachers")}>
+      <IconButton
+        onClick={() => {
+          window.history.back();
+        }}
+      >
         <KeyboardBackspaceIcon />
       </IconButton>
-      <Typography>
-        {user.firstName} {user.lastName}
-      </Typography>
+      <Paper
+        sx={{
+          padding: 4,
+          marginBottom: 4,
+          borderRadius: 3,
+          boxShadow: 3,
+          bgcolor: colors.background,
+        }}
+      >
+        <Grid container alignItems="center" spacing={3}>
+          <Grid item xs={12} md={4} display="flex" justifyContent="center">
+            <Card className="card">
+              <CardMedia
+                component="img"
+                width="auto"
+                image={
+                  user.profilePicture
+                    ? `/images/uploads/${user.profilePicture}`
+                    : "/images/default/person.jpg"
+                }
+                alt="Profile"
+                className="img"
+              />
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={8} position="relative">
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{ color: colors.secondary }}
+            >
+              {user.firstName} {user.lastName}
+            </Typography>
+            <Box display="flex" alignItems="center" mb={1}>
+              <AlternateEmailOutlinedIcon
+                sx={{ mr: 1, color: colors.darkPurple }}
+              />
+              <Typography variant="subtitle1">{user.username}</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" mb={1}>
+              <EmailRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
+
+              <a href={`mailto:${user.email}`}>
+                <Typography variant="subtitle1">{user.email}</Typography>
+              </a>
+            </Box>
+            <Box display="flex" alignItems="center" mb={1}>
+              <LocalPhoneRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
+
+              <a href={`tel:${user.phone}`}>
+                <Typography variant="subtitle1">
+                  {user.phone ? user.phone : " - "}
+                </Typography>
+              </a>
+            </Box>
+          </Grid>
+        </Grid>
+      </Paper>
     </Container>
   );
 };
