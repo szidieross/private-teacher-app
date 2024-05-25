@@ -246,7 +246,6 @@ export const getTeacherByUserId = async (
 
 export const updateTeacherData = async (
   userId: number,
-  // teacherId?: number,
   price: number | undefined,
   qualification: string | undefined,
   bio: string | undefined,
