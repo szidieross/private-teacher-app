@@ -2,13 +2,7 @@
 
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import React, { FC, useEffect, useState } from "react";
-import {
-  Container,
-  IconButton,
-  Typography,
-  Paper,
-  Box,
-} from "@mui/material";
+import { Container, IconButton, Typography, Paper, Box } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
@@ -47,16 +41,12 @@ const Item: FC<Props> = ({ teacherId }) => {
 
   return (
     <Container>
-      <Box mb={2} display="flex" alignItems="center">
-        <IconButton onClick={() => to("/teachers")} aria-label="Go back">
+      <Box display="flex" alignItems="center">
+        <IconButton onClick={() => to("/teachers")} title="Back to Homepage">
           <KeyboardBackspaceIcon />
         </IconButton>
       </Box>
-      <Paper elevation={3} variant="outlined">
-        <Box p={3}>
-          <PersonalData teacher={teacher} lessons={lessons} />
-        </Box>
-      </Paper>
+      <PersonalData teacher={teacher} lessons={lessons} />
       <Box mt={2}>
         {lessons && lessons.length > 0 ? (
           <Booking teacherId={teacherId} teacher={teacher} lessons={lessons} />

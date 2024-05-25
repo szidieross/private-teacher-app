@@ -20,10 +20,10 @@ import {
   LocalPhoneRounded as LocalPhoneRoundedIcon,
   CalendarMonthTwoTone as CalendarMonthTwoToneIcon,
   LogoutRounded as LogoutRoundedIcon,
+  LocationOnRounded as LocationOnRoundedIcon,
+  SchoolRounded as SchoolRoundedIcon,
+  MoneyRounded as MoneyRoundedIcon,
 } from "@mui/icons-material";
-import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
-import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
-import MoneyRoundedIcon from "@mui/icons-material/MoneyRounded";
 import { UserModel } from "@/app/api/models/user.model";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import useUsersService from "@/app/(client)/services/user.service";

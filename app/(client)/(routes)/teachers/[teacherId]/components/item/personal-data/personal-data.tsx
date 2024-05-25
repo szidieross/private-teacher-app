@@ -1,14 +1,24 @@
 "use client";
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import React, { FC, useEffect, useState } from "react";
-import { Card, Typography, Grid, CardMedia, Box } from "@mui/material";
+import { Card, Typography, Grid, CardMedia, Box, Paper } from "@mui/material";
 import { LessonModel } from "@/app/api/models/lesson.model";
-import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
-import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
-import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
-import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
+import {
+  AccountCircle,
+  Settings as SettingsIcon,
+  PhotoCameraRounded as PhotoCameraRoundedIcon,
+  AlternateEmailOutlined as AlternateEmailOutlinedIcon,
+  EmailRounded as EmailRoundedIcon,
+  LocalPhoneRounded as LocalPhoneRoundedIcon,
+  CalendarMonthTwoTone as CalendarMonthTwoToneIcon,
+  LogoutRounded as LogoutRoundedIcon,
+  LocationOnRounded as LocationOnRoundedIcon,
+  SchoolRounded as SchoolRoundedIcon,
+  MoneyRounded as MoneyRoundedIcon,
+} from "@mui/icons-material";
 import "./personal-data.scss";
 import { colors } from "@/app/(client)/constants/color.constant";
+import { formatDate } from "@/app/api/utils/user.util";
 
 type Props = {
   teacher: TeacherModel;
@@ -27,97 +37,96 @@ const PersonalData: FC<Props> = ({ teacher, lessons }) => {
   if (!teacher) return <></>;
 
   return (
-    <Grid
-      container
-      spacing={6}
-      justifyContent="center"
-      className="grid-container"
+    <Paper
+      sx={{
+        padding: 4,
+        marginBottom: 4,
+        borderRadius: 3,
+        boxShadow: 3,
+        bgcolor: colors.background,
+      }}
     >
-      <Grid item xs={12} sm={6} md={5} className="grid-item">
-        <Card className="card">
-          <CardMedia
-            component="img"
-            width="auto"
-            image={
-              image ? `/images/uploads/${image}` : "/images/default/person.jpg"
-            }
-            alt="Profile"
-            className="img"
-          />
-        </Card>
-      </Grid>
-      <Grid item xs={12} sm={6} md={7} className="grid-item">
-        <Typography variant="h4" gutterBottom className="name">
-          {teacher.userData.firstName} {teacher.userData.lastName}
-        </Typography>
-        {/* <Box display="flex" alignItems="center" className="location">
-          <LocationOnRoundedIcon
-            sx={{ marginRight: 1, color: colors.darkPurple }}
-          />
-          <Typography variant="body1" color={colors.secondary}>
-            {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
-            ${teacher.street ? teacher.street + ", " : ""}
-            ${teacher.location}`}
-          </Typography>
-        </Box> */}
-        <Box display="flex" alignItems="center" className="location" mt={2}>
-          <LocationOnRoundedIcon
-            sx={{ marginRight: 1, color: colors.darkPurple }}
-          />
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${teacher.location}`}
-            target="_blank"
-          >
-            <Typography variant="body1" color={colors.secondary}>
-              {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
-            ${teacher.street ? teacher.street + ", " : ""}
-            ${teacher.location}`}
-            </Typography>
-          </a>
-        </Box>
-        <Box display="flex" alignItems="center" className="school" mt={1}>
-          <SchoolRoundedIcon
-            sx={{ marginRight: 1, color: colors.darkPurple }}
-          />
-          <Typography variant="body1" color="textSecondary">
-            {teacher.qualification}
-          </Typography>
-        </Box>
-        <Box display="flex" alignItems="center" className="email" mt={1}>
-          <EmailRoundedIcon sx={{ marginRight: 1, color: colors.darkPurple }} />
-          <a href={`mailto:${teacher.userData.email}`}>
-            <Typography variant="body1" color="textSecondary">
-              {teacher.userData.email}
-            </Typography>
-          </a>
-        </Box>
-        <Box display="flex" alignItems="center" className="phone" mt={1}>
-          <LocalPhoneRoundedIcon
-            sx={{ marginRight: 1, color: colors.darkPurple }}
-          />
-          <a href={`tel:${teacher.userData.phone}`}>
-            <Typography variant="body1" color="textSecondary">
-              {teacher.userData.phone}
-            </Typography>
-          </a>
-        </Box>
-        {/* <Box display="flex" alignItems="center" className="phone" mt={1}>
+      <Grid container alignItems="center" spacing={3}>
+        <Grid item xs={12} md={4} display="flex" justifyContent="center">
+          <Card className="card">
+            <CardMedia
+              component="img"
+              width="auto"
+              image={
+                image
+                  ? `/images/uploads/${image}`
+                  : "/images/default/person.jpg"
+              }
+              alt="Profile"
+              className="img"
+            />
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={8} position="relative">
           <Typography
-            variant="body1"
-            color="textSecondary"
+            variant="h4"
             gutterBottom
-            className="price"
+            sx={{ color: colors.secondary }}
           >
-            Price/hour: {teacher.price}
+            {teacher.userData.firstName} {teacher.userData.lastName}
           </Typography>
-        </Box> */}
-        <Box display="flex" alignItems="center" className="phone" mt={3}>
-          <Typography variant="body1" color="textSecondary" className="bio">
-            {teacher.bio}
-          </Typography>
-        </Box>
+          <Box display="flex" alignItems="center" mb={1}>
+            <AlternateEmailOutlinedIcon
+              sx={{ mr: 1, color: colors.darkPurple }}
+            />
+            <Typography variant="subtitle1">
+              {teacher.userData.username}
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" mb={1}>
+            <EmailRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
+
+            <a href={`mailto:${teacher.userData.email}`}>
+              <Typography variant="subtitle1">
+                {teacher.userData.email}
+              </Typography>
+            </a>
+          </Box>
+          <Box display="flex" alignItems="center" mb={1}>
+            <LocalPhoneRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
+
+            <a href={`tel:${teacher.userData.phone}`}>
+              <Typography variant="subtitle1">
+                {teacher.userData.phone}
+              </Typography>
+            </a>
+          </Box>
+          <Box display="flex" alignItems="center" mb={1}>
+            <LocationOnRoundedIcon
+              sx={{ marginRight: 1, color: colors.darkPurple }}
+            />
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${teacher.location}`}
+              target="_blank"
+            >
+              <Typography variant="body1" color={colors.secondary}>
+                {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
+                    ${teacher.street ? teacher.street + ", " : ""}
+                    ${teacher.location}`}
+              </Typography>
+            </a>
+          </Box>
+          <Box display="flex" alignItems="center" mb={1}>
+            <SchoolRoundedIcon
+              sx={{ marginRight: 1, color: colors.darkPurple }}
+            />
+            <Typography variant="body1">{teacher.qualification}</Typography>
+          </Box>
+          <Box display="flex" alignItems="center" mb={1}>
+            <MoneyRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
+            <Typography variant="subtitle1">{teacher.price}</Typography>
+          </Box>
+          <Box display="flex" alignItems="center" mb={1}>
+            <Typography variant="subtitle1">{teacher.bio}</Typography>
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+    </Paper>
   );
 };
 
