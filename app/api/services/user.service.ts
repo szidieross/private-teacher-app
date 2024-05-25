@@ -255,7 +255,6 @@ export const updateUserData = async (
   lastName: string,
   email: string,
   phone: string,
-  // teacherId?: number,
   price?: number | undefined,
   qualification?: string | undefined,
   bio?: string | undefined,
