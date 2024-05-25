@@ -17,23 +17,26 @@ const useCategoriesService = () => {
     return Promise.resolve([]);
   }, []);
 
-  const getCategoryById = useCallback(
-    async (categoryId: number): Promise<CategoryModel | null> => {
-      try {
-        const { data } = await api.get<CategoryModel>(
-          `/categories/${categoryId}`,
-          "The request for categoriy failed, please reload the page!"
-        );
-        return Promise.resolve(data);
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-    },
-    []
-  );
+  // const getCategoryById = useCallback(
+  //   async (categoryId: number): Promise<CategoryModel | null> => {
+  //     try {
+  //       const { data } = await api.get<CategoryModel>(
+  //         `/categories/${categoryId}`,
+  //         "The request for categoriy failed, please reload the page!"
+  //       );
+  //       return Promise.resolve(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //       return null;
+  //     }
+  //   },
+  //   []
+  // );
 
-  return { getCategories, getCategoryById };
+  return { 
+    getCategories, 
+    // getCategoryById
+   };
 };
 
 export default useCategoriesService;
