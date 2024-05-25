@@ -18,6 +18,7 @@ import useUsersService from "@/app/(client)/services/user.service";
 import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
 import { colors } from "@/app/(client)/constants/color.constant";
 import { UserModel } from "@/app/api/models/user.model";
+import useNavigation from "@/app/(client)/hooks/navigation.hook";
 
 export interface ContactUsRequest {
   username: string;
@@ -54,6 +55,7 @@ const Signup = () => {
   const [errors, setErrors] = useState<Partial<ContactUsRequest>>({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const { to } = useNavigation();
 
   const handleToggeleButtonChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -467,6 +469,29 @@ const Signup = () => {
           </Box>
         </Paper>
       </form>
+
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        marginY={4}
+      >
+        <Typography fontSize={14}>Already have an account?</Typography>
+        <Button
+          onClick={() => to("/login")}
+          variant="contained"
+          sx={{
+            marginTop: "16px",
+            bgcolor: colors.primary,
+            "&:hover": {
+              bgcolor: colors.mediumPurple,
+            },
+          }}
+        >
+          Login
+        </Button>
+      </Box>
 
       <Snackbar
         open={openSnackbar}
