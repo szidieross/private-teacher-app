@@ -123,7 +123,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       width: 160,
       renderCell: (params) => (
         <IconButton
-          sx={{color:colors.error}}
+          sx={{ color: colors.error }}
           onClick={() => handleDelete(params.row.appointmentId)}
         >
           <DeleteRoundedIcon />
@@ -158,8 +158,8 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
         Your Appointments
       </Typography>
       <Box>
-        <Paper elevation={2}>
-          {rows && (
+        {rows && rows?.length > 0 ? (
+          <Paper elevation={2}>
             <DataGrid
               rows={rows}
               columns={columns}
@@ -170,8 +170,10 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
               autosizeOnMount
               sx={{ maxWidth: "90vw", backgroundColor: colors.background }}
             />
-          )}
-        </Paper>
+          </Paper>
+        ) : (
+          <Typography>No appointments yet.</Typography>
+        )}
       </Box>
       <Snackbar
         open={snackbarOpen}

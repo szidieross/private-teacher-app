@@ -75,7 +75,7 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
   return (
     <Container
       className="mobile-container"
-      sx={{ display: { xs: "block", md: "none" } }}
+      sx={{ display: { xs: "block", sm: "none" } }}
     >
       <Grid
         container
