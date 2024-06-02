@@ -162,11 +162,11 @@ const Profile: FC<Props> = ({ userId }) => {
             </Box>
             <Box display="flex" alignItems="center" mb={1}>
               <EmailRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
-              <Typography variant="subtitle1">{user.email}</Typography>
+              <Typography className="personal-data" variant="subtitle1">{user.email}</Typography>
             </Box>
             <Box display="flex" alignItems="center" mb={1}>
               <LocalPhoneRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
-              <Typography variant="subtitle1">{user.phone}</Typography>
+              <Typography className="personal-data" variant="subtitle1">{user.phone}</Typography>
             </Box>
             {teacher && (
               <>
@@ -174,7 +174,7 @@ const Profile: FC<Props> = ({ userId }) => {
                   <LocationOnRoundedIcon
                     sx={{ marginRight: 1, color: colors.darkPurple }}
                   />
-                  <Typography variant="body1" color={colors.secondary}>
+                  <Typography className="personal-data" variant="body1" color={colors.darkPurple}>
                     {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
                     ${teacher.street ? teacher.street + ", " : ""}
                     ${teacher.location}`}
@@ -184,16 +184,16 @@ const Profile: FC<Props> = ({ userId }) => {
                   <SchoolRoundedIcon
                     sx={{ marginRight: 1, color: colors.darkPurple }}
                   />
-                  <Typography variant="body1">
+                  <Typography className="personal-data" variant="body1">
                     {teacher.qualification}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" mb={1}>
                   <MoneyRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
-                  <Typography variant="subtitle1">{teacher.price}</Typography>
+                  <Typography className="personal-data" variant="subtitle1">{teacher.price}</Typography>
                 </Box>
                 <Box display="flex" alignItems="center" mb={1}>
-                  <Typography variant="subtitle1">{teacher.bio}</Typography>
+                  <Typography className="personal-data" variant="subtitle1">{teacher.bio}</Typography>
                 </Box>
               </>
             )}

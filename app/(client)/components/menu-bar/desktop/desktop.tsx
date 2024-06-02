@@ -83,92 +83,54 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
           </Link>
         </Box>
         <Box justifyContent={"flex-end"}>
-          <Box display={"flex"} alignItems={"center"} sx={{ gap: "20px" }}>
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            sx={{ gap: { xs: "14px", lg: "16px" } }}
+          >
             <Link href={"/teachers"} style={{ color: colors.secondary }}>
-              <Typography sx={{ fontWeight: 600, fontSize: 16 }}>
+              <Typography
+                sx={{ fontWeight: 600, fontSize: { xs: 14, lg: 16 } }}
+              >
                 Teachers
               </Typography>
             </Link>
-            <Link
-              href={"/profile/appointments"}
-              style={{ color: colors.secondary }}
-            >
-              <Typography sx={{ fontWeight: 600, fontSize: 16 }}>
-                My Appointments
-              </Typography>
-            </Link>
             {userInfo.isLoggedIn ? (
-              <Box>
-                <IconButton
-                  // onClick={handleOpenMenu}
-                  onClick={() => to("/profile")}
-                  edge="start"
-                  color="inherit"
-                  aria-label="menu"
-                  disableRipple
+              <>
+                <Link
+                  href={"/profile/appointments"}
+                  style={{ color: colors.secondary }}
                 >
-                  <Image
-                    width={60}
-                    height={60}
-                    src={
-                      profilePicture
-                        ? `/images/uploads/${profilePicture}`
-                        : `/images/default/person.jpg`
-                    }
-                    alt="Profile"
-                    className="profile-img"
-                  />
-                </IconButton>
-                {/* <IconButton
-                  onClick={handleOpenMenu}
-                  edge="start"
-                  color="inherit"
-                  aria-label="menu"
-                  disableRipple
-                >
-                  <PersonIcon
-                    sx={{
-                      color: colors.darkPurple,
-                      height: "35px",
-                      width: "35px",
-                    }}
-                  />
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleCloseMenu}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  PaperProps={{
-                    style: {
-                      backgroundColor: "pink",
-                    },
-                  }}
-                  disableScrollLock={false}
-                >
-                  <MenuItem onClick={handleProfileClick}>Login</MenuItem>
-                  <MenuItem onClick={handleSettingsClick}>Signup</MenuItem>
-                </Menu> */}
-              </Box>
-            ) : (
-              <Box>
-                {/* <Link href={"/login"} style={{ color: colors.darkPurple }}>
-                  <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
-                    Login
+                  <Typography
+                    sx={{ fontWeight: 600, fontSize: { xs: 13, md: 16 } }}
+                  >
+                    My Appointments
                   </Typography>
                 </Link>
-                <Link href={"/signup"} style={{ color: colors.darkPurple }}>
-                  <Typography sx={{ fontWeight: 600, fontSize: 14 }}>
-                    Signup
-                  </Typography>
-                </Link> */}
+                <Box>
+                  <IconButton
+                    onClick={() => to("/profile")}
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    disableRipple
+                  >
+                    <Image
+                      width={60}
+                      height={60}
+                      src={
+                        profilePicture
+                          ? `/images/uploads/${profilePicture}`
+                          : `/images/default/person.jpg`
+                      }
+                      alt="Profile"
+                      className="profile-img"
+                    />
+                  </IconButton>
+                </Box>
+              </>
+            ) : (
+              <Box>
                 <IconButton
                   onClick={handleOpenMenu}
                   edge="start"

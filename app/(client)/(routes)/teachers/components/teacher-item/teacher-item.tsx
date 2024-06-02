@@ -24,7 +24,7 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
       sx={{
         borderRadius: 2,
         "&:hover": {
-          backgroundColor: colors.background,
+          backgroundColor: colors.lightPurple,
         },
       }}
     >
@@ -62,20 +62,6 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
                   ))
                 : " - "}
             </Typography>
-
-            {/* <Typography
-              variant="body2"
-              color="text.secondary"
-              className="teacher-info-item"
-            >
-              <AutoStoriesIcon sx={{ fontSize: 16, marginRight: 1 }} />{" "}
-              {teacher.lessons && teacher.lessons.length > 0
-                ? `${teacher.lessons[0].categoryName} and ${
-                    teacher.lessons.length - 1
-                  } more`
-                : " - "}
-            </Typography> */}
-
             <Typography
               variant="body2"
               color="text.secondary"

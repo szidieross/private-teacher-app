@@ -4,6 +4,7 @@ export const colors = {
   background: "rgb(240, 245, 252)",
   darkPurple: "#44354b",
   mediumPurple: "#8484ae",
+  lightPurple: "#e1e1ea",
   white: "#ffffff",
   black: "#000000",
   error: "#d1003f",

@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import "./signup.scss";
 import useUsersService from "@/app/(client)/services/user.service";
-import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
+import { isStrongPassword, isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
 import { colors } from "@/app/(client)/constants/color.constant";
 import { UserModel } from "@/app/api/models/user.model";
 import useNavigation from "@/app/(client)/hooks/navigation.hook";
@@ -104,6 +104,9 @@ const Signup = () => {
     }
     if (!form.password) {
       newErrors.password = "Password is required.";
+    }
+    if(!isStrongPassword(form.password)){
+      newErrors.password = "Password is weak.";
     }
     if (!form.email) {
       newErrors.email = "Email is required.";
@@ -456,6 +459,8 @@ const Signup = () => {
                       multiline
                       value={form?.bio}
                       name="bio"
+                      placeholder="Tell us about yourself..."
+                      rows={8}
                       onChange={(e) =>
                         handleContactFormChange("bio", e.target.value)
                       }

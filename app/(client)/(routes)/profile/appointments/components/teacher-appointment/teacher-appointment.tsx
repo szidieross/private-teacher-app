@@ -114,7 +114,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     {
       field: "date",
       headerName: "Date",
-      width: 150,
+      width: 200,
       editable: false,
     },
     {
