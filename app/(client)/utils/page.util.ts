@@ -1,6 +1,7 @@
 import { pages, unknowPage } from "@/app/(client)/constants/page.constant";
 import PageModel from "../models/page.model";
 
+
 const findPageByLabels = (labels: string[]): PageModel[] => {
   const results: PageModel[] = [];
   labels.forEach((label) => {

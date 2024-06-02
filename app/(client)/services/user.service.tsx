@@ -47,7 +47,9 @@ const useUsersService = () => {
       price: number,
       bio: string,
       qualification: string,
-      location: string
+      location: string,
+      street: string,
+      houseNumber: string
     ): Promise<UserModel | TeacherModel | null> => {
       try {
         const { data } = await api.post<UserModel>(
@@ -64,6 +66,8 @@ const useUsersService = () => {
             bio,
             qualification,
             location,
+            street,
+            houseNumber,
           },
           "Error while creating user!"
         );
@@ -123,12 +127,14 @@ const useUsersService = () => {
       price?: number,
       qualification?: string,
       bio?: string,
-      location?: string
+      location?: string,
+      street?: string,
+      houseNumber?: string
     ) => {
       const session = await getSession();
       const userId = session.userId;
       try {
-        const { data } = await api.post<UserModel>(
+        const { data } = await api.put<UserModel>(
           `/users/${userId}`,
           {
             userId,
@@ -141,6 +147,8 @@ const useUsersService = () => {
             qualification,
             bio,
             location,
+            street,
+            houseNumber,
           },
           "Couldn't update user data.!"
         );
@@ -152,7 +160,7 @@ const useUsersService = () => {
     },
     []
   );
-  
+
   const deleteUserById = async (userId: number) => {
     try {
       const { data } = await api.delete<UserModel>(
@@ -172,7 +180,8 @@ const useUsersService = () => {
     createUser,
     loginUser,
     updateUserImage,
-    updateUserData,deleteUserById
+    updateUserData,
+    deleteUserById,
   };
 };
 

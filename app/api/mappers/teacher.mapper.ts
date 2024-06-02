@@ -21,6 +21,8 @@ const toTeacherModel = (dto: TeacherDto): TeacherModel => ({
     bio: dto.bio,
     qualification: dto.qualification,
     location: dto.location,
+    street: dto.street,
+    houseNumber: dto.house_number,
     lessons: dto.lessons
     ? dto.lessons.map((lessonDto: LessonDto) => ({
         lessonId: lessonDto.lesson_id,

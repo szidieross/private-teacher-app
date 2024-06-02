@@ -9,5 +9,7 @@ export interface TeacherDto {
   bio: string;
   qualification: string;
   location: string;
+  street: string;
+  house_number: string;
   lessons?: LessonDto[];
 }

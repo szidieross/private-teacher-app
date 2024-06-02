@@ -32,6 +32,8 @@ export interface ContactUsRequest {
   bio: string;
   qualification: string;
   location: string;
+  street: string;
+  houseNumber: string;
 }
 
 const initContactForm: ContactUsRequest = {
@@ -46,6 +48,8 @@ const initContactForm: ContactUsRequest = {
   bio: "",
   qualification: "",
   location: "",
+  street: "",
+  houseNumber: "",
 };
 
 const Signup = () => {
@@ -163,7 +167,9 @@ const Signup = () => {
           +form.price,
           form.bio,
           form.qualification,
-          form.location
+          form.location,
+          form.street,
+          form.houseNumber
         );
       } else {
         result = await createUser(
@@ -177,6 +183,8 @@ const Signup = () => {
           0,
           "",
           "",
+          "",
+          "",
           ""
         );
       }
@@ -185,6 +193,7 @@ const Signup = () => {
 
       setOpenSnackbar(true);
       setSnackbarMessage("Registration successful!");
+      to("/login");
     } catch (error) {
       setOpenSnackbar(true);
       setSnackbarMessage("Registration failed. Please try again.");
@@ -372,7 +381,7 @@ const Signup = () => {
               </Grid>
               {isTeacher && (
                 <>
-                  <Grid item xs={6}>
+                  <Grid item xs={12}>
                     <TextField
                       label="Location"
                       variant="outlined"
@@ -381,6 +390,30 @@ const Signup = () => {
                       value={form?.location}
                       onChange={(e) =>
                         handleContactFormChange("location", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <TextField
+                      label="Street"
+                      variant="outlined"
+                      fullWidth
+                      name="street"
+                      value={form?.street}
+                      onChange={(e) =>
+                        handleContactFormChange("street", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      label="Nr"
+                      variant="outlined"
+                      fullWidth
+                      name="houseNumber"
+                      value={form?.houseNumber}
+                      onChange={(e) =>
+                        handleContactFormChange("houseNumber", e.target.value)
                       }
                     />
                   </Grid>

@@ -2,20 +2,25 @@ import pool from "@/app/libs/mysql";
 import { TeacherModel } from "../models/teacher.model";
 import { TeacherDto } from "../dtos/teacher.dto";
 import { toTeacherModel } from "../mappers/teacher.mapper";
+import { deleteAppointmentsByTeacherId } from "./appointment.service";
+import { deleteLessonsByTeacherId } from "./lesson.service";
+import { deleteUser } from "./user.service";
 
 export const createTeacher = async (
   userId: number,
   price: number | undefined,
   bio: string | undefined,
   qualification: string | undefined,
-  location: string | undefined
+  location: string | undefined,
+  street: string | undefined,
+  houseNumber: string | undefined
 ) => {
   try {
     const db = await pool.getConnection();
     const query = `
         INSERT INTO Teachers 
-          (user_id, price, bio, qualification, location)  
-        VALUES (?, ?, ?, ?, ?)
+          (user_id, price, bio, qualification, location, street, house_number)  
+        VALUES (?, ?, ?, ?, ?, ?, ?)
       `;
     const [result] = await db.execute(query, [
       userId,
@@ -23,6 +28,8 @@ export const createTeacher = async (
       bio,
       qualification,
       location,
+      street,
+      houseNumber,
     ]);
 
     return result;
@@ -87,6 +94,8 @@ export const getTeachers = async (): Promise<TeacherModel[]> => {
           bio: row.bio,
           qualification: row.qualification,
           location: row.location,
+          street: row.street,
+          houseNumber: row.house_number,
           lessons: [],
         };
       }
@@ -125,11 +134,7 @@ export const getTeacherById = async (
     const query = `
             SELECT
                 u.*,
-                t.teacher_id,
-                t.price,
-                t.bio,
-                t.qualification,
-                t.location
+                t.*
             FROM
                 Users u
             INNER JOIN
@@ -167,6 +172,8 @@ export const getTeacherById = async (
         bio: row.bio,
         qualification: row.qualification,
         location: row.location,
+        street: row.street,
+        house_number: row.house_number,
       };
     });
 
@@ -188,11 +195,7 @@ export const getTeacherByUserId = async (
     const query = `
             SELECT
                 u.*,
-                t.teacher_id,
-                t.price,
-                t.bio,
-                t.qualification,
-                t.location
+                t.*
             FROM
                 Users u
             INNER JOIN
@@ -230,6 +233,8 @@ export const getTeacherByUserId = async (
         bio: row.bio,
         qualification: row.qualification,
         location: row.location,
+        street: row.street,
+        house_number: row.house_number,
       };
     });
 
@@ -244,11 +249,12 @@ export const getTeacherByUserId = async (
 
 export const updateTeacherData = async (
   userId: number,
-  // teacherId?: number,
   price: number | undefined,
   qualification: string | undefined,
   bio: string | undefined,
-  location: string | undefined
+  location: string | undefined,
+  street: string | undefined,
+  houseNumber: string | undefined
 ) => {
   try {
     const db = await pool.getConnection();
@@ -257,7 +263,9 @@ export const updateTeacherData = async (
         SET price = ?,
         qualification = ?,
         bio = ?,
-        location = ?
+        location = ?,
+        street = ?,
+        house_number = ?
         WHERE user_id = ?
     `;
 
@@ -266,6 +274,8 @@ export const updateTeacherData = async (
       qualification,
       bio,
       location,
+      street,
+      houseNumber,
       userId,
     ]);
     db.release();
@@ -298,25 +308,25 @@ export const handleDeleteTeacher = async (
   }
 };
 
-const deleteAppointmentsByTeacherId = async (db: any, teacherId: number) => {
-  try {
-    const query = `DELETE FROM Appointments WHERE teacher_id = ?`;
-    await db.execute(query, [teacherId]);
-  } catch (error) {
-    console.error("Error deleting appointments:", error);
-    throw error;
-  }
-};
+// const deleteAppointmentsByTeacherId = async (db: any, teacherId: number) => {
+//   try {
+//     const query = `DELETE FROM Appointments WHERE teacher_id = ?`;
+//     await db.execute(query, [teacherId]);
+//   } catch (error) {
+//     console.error("Error deleting appointments:", error);
+//     throw error;
+//   }
+// };
 
-const deleteLessonsByTeacherId = async (db: any, teacherId: number) => {
-  try {
-    const query = `DELETE FROM Lessons WHERE teacher_id = ?`;
-    await db.execute(query, [teacherId]);
-  } catch (error) {
-    console.error("Error deleting lessons:", error);
-    throw error;
-  }
-};
+// const deleteLessonsByTeacherId = async (db: any, teacherId: number) => {
+//   try {
+//     const query = `DELETE FROM Lessons WHERE teacher_id = ?`;
+//     await db.execute(query, [teacherId]);
+//   } catch (error) {
+//     console.error("Error deleting lessons:", error);
+//     throw error;
+//   }
+// };
 
 const deleteTeacher = async (db: any, teacherId: number) => {
   try {
@@ -328,12 +338,12 @@ const deleteTeacher = async (db: any, teacherId: number) => {
   }
 };
 
-export const deleteUser = async (db: any, userId: number) => {
-  try {
-    const query = `DELETE FROM Users WHERE user_id = ?`;
-    await db.execute(query, [userId]);
-  } catch (error) {
-    console.error("Error deleting user:", error);
-    throw error;
-  }
-};
+// export const deleteUser = async (db: any, userId: number) => {
+//   try {
+//     const query = `DELETE FROM Users WHERE user_id = ?`;
+//     await db.execute(query, [userId]);
+//   } catch (error) {
+//     console.error("Error deleting user:", error);
+//     throw error;
+//   }
+// };
