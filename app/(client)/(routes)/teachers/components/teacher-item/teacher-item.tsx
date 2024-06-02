@@ -24,7 +24,7 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
       sx={{
         borderRadius: 2,
         "&:hover": {
-          backgroundColor: colors.background,
+          backgroundColor: colors.lightPurple,
         },
       }}
     >
