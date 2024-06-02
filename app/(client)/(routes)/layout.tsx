@@ -18,10 +18,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* <script
-          src="https://www.google.com/recaptcha/api.js?render=6LfAjcYeAAAAAJTxnTgx_JVndCSmQgU1gqzEIwoL"
-          defer
-        /> */}
         <Providers>
         <MenuBar />
         <Container className="layout-container">

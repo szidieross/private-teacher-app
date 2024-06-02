@@ -20,6 +20,9 @@ import {
   LocalPhoneRounded as LocalPhoneRoundedIcon,
   CalendarMonthTwoTone as CalendarMonthTwoToneIcon,
   LogoutRounded as LogoutRoundedIcon,
+  LocationOnRounded as LocationOnRoundedIcon,
+  SchoolRounded as SchoolRoundedIcon,
+  MoneyRounded as MoneyRoundedIcon,
 } from "@mui/icons-material";
 import { UserModel } from "@/app/api/models/user.model";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
@@ -33,6 +36,8 @@ import useNavigation from "@/app/(client)/hooks/navigation.hook";
 import { colors } from "@/app/(client)/constants/color.constant";
 import "./profile.scss";
 import { logout } from "@/app/actions";
+import { LessonModel } from "@/app/api/models/lesson.model";
+import { formatDate } from "@/app/api/utils/user.util";
 
 type Props = {
   userId?: number;
@@ -44,9 +49,10 @@ const Profile: FC<Props> = ({ userId }) => {
   const [open, setOpen] = useState(false);
   const { getUserById } = useUsersService();
   const { getTeacherByUserId } = useTeachersService();
-  const [formattedDate, setFormattedDate] = useState<string | null>(null);
   const { userInfo } = useUserContext();
   const { to } = useNavigation();
+  const [lessons, setLessons] = useState<LessonModel[] | null>(null);
+  const [showAddAppointment, setShowAddAppointment] = useState<boolean>(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -63,16 +69,6 @@ const Profile: FC<Props> = ({ userId }) => {
           const user = await getUserById(userId);
           if (user) {
             setUser(user);
-            if (user.createdAt) {
-              const date = new Date(user.createdAt);
-              setFormattedDate(
-                date.toLocaleDateString("en-GB", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })
-              );
-            }
             if (user.role === "teacher" && user.userId) {
               const teacher = await getTeacherByUserId(user.userId);
               if (teacher) {
@@ -89,6 +85,11 @@ const Profile: FC<Props> = ({ userId }) => {
     fetchData();
   }, [getUserById, userId, getTeacherByUserId]);
 
+  const handleLessonsUpdate = (updatedLessons: LessonModel[] | null) => {
+    setLessons(updatedLessons);
+    setShowAddAppointment(updatedLessons !== null && updatedLessons.length > 0);
+  };
+
   if (!user) return <>Loading...</>;
 
   return (
@@ -96,6 +97,8 @@ const Profile: FC<Props> = ({ userId }) => {
       <Paper
         sx={{
           padding: 4,
+          paddingTop: 7,
+          marginTop: -3,
           marginBottom: 4,
           borderRadius: 3,
           boxShadow: 3,
@@ -165,9 +168,38 @@ const Profile: FC<Props> = ({ userId }) => {
               <LocalPhoneRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
               <Typography variant="subtitle1">{user.phone}</Typography>
             </Box>
-            {formattedDate && (
+            {teacher && (
+              <>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <LocationOnRoundedIcon
+                    sx={{ marginRight: 1, color: colors.darkPurple }}
+                  />
+                  <Typography variant="body1" color={colors.secondary}>
+                    {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
+                    ${teacher.street ? teacher.street + ", " : ""}
+                    ${teacher.location}`}
+                  </Typography>{" "}
+                </Box>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <SchoolRoundedIcon
+                    sx={{ marginRight: 1, color: colors.darkPurple }}
+                  />
+                  <Typography variant="body1">
+                    {teacher.qualification}
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <MoneyRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
+                  <Typography variant="subtitle1">{teacher.price}</Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <Typography variant="subtitle1">{teacher.bio}</Typography>
+                </Box>
+              </>
+            )}
+            {user.createdAt && (
               <Typography variant="subtitle2" color="textSecondary">
-                Member since: {formattedDate}
+                Member since: {formatDate(user.createdAt)}
               </Typography>
             )}
           </Grid>
@@ -176,10 +208,19 @@ const Profile: FC<Props> = ({ userId }) => {
 
       <CustomModal open={open} onClose={handleClose} />
       {teacher && (
-        <Box mt={4}>
-          <AddLesson teacherId={teacher.teacherId} />
-          <AddAppointment teacherId={teacher.teacherId} />
-        </Box>
+        <>
+          <Box mt={4}>
+            <AddLesson
+              teacherId={teacher.teacherId}
+              onLessonsUpdate={handleLessonsUpdate}
+            />
+          </Box>
+          <Box mt={2}>
+            {showAddAppointment && (
+              <AddAppointment teacherId={teacher.teacherId} />
+            )}
+          </Box>
+        </>
       )}
     </Container>
   );

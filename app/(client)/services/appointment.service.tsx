@@ -4,35 +4,35 @@ import { AppointmentModel } from "@/app/api/models/appointment.model";
 import { getSession } from "@/app/actions";
 
 const useAppointmentsService = () => {
-  const getAppointments = useCallback(async (): Promise<AppointmentModel[]> => {
-    try {
-      const { data } = await api.get<AppointmentModel[]>(
-        "/appointments",
-        "The request for appointments failed, please reload the page!"
-      );
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
+  // const getAppointments = useCallback(async (): Promise<AppointmentModel[]> => {
+  //   try {
+  //     const { data } = await api.get<AppointmentModel[]>(
+  //       "/appointments",
+  //       "The request for appointments failed, please reload the page!"
+  //     );
+  //     return data;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
 
-    return Promise.resolve([]);
-  }, []);
+  //   return Promise.resolve([]);
+  // }, []);
 
-  const getAppointmentById = useCallback(
-    async (appointmentId: number): Promise<AppointmentModel | null> => {
-      try {
-        const { data } = await api.get<AppointmentModel>(
-          `/appointments/${appointmentId}`,
-          "The request for appointment failed, please reload the page!"
-        );
-        return Promise.resolve(data);
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-    },
-    []
-  );
+  // const getAppointmentById = useCallback(
+  //   async (appointmentId: number): Promise<AppointmentModel | null> => {
+  //     try {
+  //       const { data } = await api.get<AppointmentModel>(
+  //         `/appointments/${appointmentId}`,
+  //         "The request for appointment failed, please reload the page!"
+  //       );
+  //       return Promise.resolve(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //       return null;
+  //     }
+  //   },
+  //   []
+  // );
 
   const getAppointmentByTeacherId = useCallback(
     async (teacherId: number): Promise<AppointmentModel[] | null> => {
@@ -133,9 +133,6 @@ const useAppointmentsService = () => {
     try {
       const { data } = await api.delete<AppointmentModel>(
         `/appointments/${appointmentId}`,
-        // {
-        //   appointmentId,
-        // },
         "Couldn't delete appointment!"
       );
       return data;
@@ -145,51 +142,39 @@ const useAppointmentsService = () => {
     }
   };
 
-  const deleteAppointmentByTeacherId = async (teacherId: number) => {
-    console.log("teacherId", teacherId);
-    try {
-      const { data } = await api.delete<AppointmentModel>(
-        `/teachers/${teacherId}/appointments`,
-        // {
-        //   appointmentId,
-        // },
-        "Couldn't delete appointments!"
-      );
-      return data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
+  // const deleteAppointmentByTeacherId = async (teacherId: number) => {
+  //   try {
+  //     const { data } = await api.delete<AppointmentModel>(
+  //       `/teachers/${teacherId}/appointments`,
+  //       "Couldn't delete appointments!"
+  //     );
+  //     return data;
+  //   } catch (error) {
+  //     console.error(error);
+  //     return null;
+  //   }
+  // };
 
-  const cancelAppointmentsByUserId = async (teacherId: number) => {
-    console.log("teacherId", teacherId);
-    try {
-      const { data } = await api.delete<AppointmentModel>(
-        `/users/${teacherId}/appointments`,
-        // {
-        //   appointmentId,
-        // },
-        "Couldn't delete appointments!"
-      );
-      return data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
+  // const cancelAppointmentsByUserId = async (teacherId: number) => {
+  //   try {
+  //     const { data } = await api.delete<AppointmentModel>(
+  //       `/users/${teacherId}/appointments`,
+  //       "Couldn't delete appointments!"
+  //     );
+  //     return data;
+  //   } catch (error) {
+  //     console.error(error);
+  //     return null;
+  //   }
+  // };
 
   return {
-    getAppointments,
-    getAppointmentById,
     getAppointmentByTeacherId,
     createAppointment,
     bookAppointment,
     getAppointmentByUserId,
     cancelAppointment,
     deleteAppointment,
-    deleteAppointmentByTeacherId,
-    cancelAppointmentsByUserId,
   };
 };
 

@@ -16,6 +16,7 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 import "./user-appointment";
 import { colors } from "@/app/(client)/constants/color.constant";
+import { formatDate } from "@/app/api/utils/user.util";
 
 type Props = {
   userId: number;
@@ -65,54 +66,48 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     fetchData();
   }, [getAppointmentByUserId, userId]);
 
-  const formatDate = (date: string) => {
-    const dateObj = new Date(date);
-    return (
-      dateObj.toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }) +
-      " " +
-      dateObj.toLocaleTimeString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    );
-  };
-
   const columns: GridColDef[] = [
     {
       field: "id",
       headerName: "#",
-      width: 90,
+      width: 1,
       editable: false,
     },
-    { field: "subject", headerName: "Subject", width: 180 },
+    {
+      field: "subject",
+      headerName: "Subject",
+      width: 140,
+    },
     {
       field: "name",
       headerName: "Teacher",
-      width: 200,
+      width: 140,
       renderCell: (params) => (
         <Link
           href={`/teachers/${params.row.teacherId}`}
-          underline="hover"
-          color="primary"
+          underline="none"
+          color={colors.mediumPurple}
+          fontWeight={"bold"}
         >
           {`${params.row.name}`}
         </Link>
       ),
     },
-    { field: "date", headerName: "Date", width: 200 },
+    {
+      field: "date",
+      headerName: "Date",
+      width: 150,
+    },
     {
       field: "action",
-      headerName: "Action",
+      headerName: "",
       sortable: false,
-      width: 120,
+      width: 60,
       renderCell: (params) => (
         <IconButton
           sx={{ color: colors.error }}
           onClick={() => handleCancel(params.row.appointmentId)}
+          title="Cancel appointment"
         >
           <CancelRoundedIcon />
         </IconButton>

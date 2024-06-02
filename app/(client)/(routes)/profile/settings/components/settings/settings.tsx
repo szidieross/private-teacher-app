@@ -23,7 +23,6 @@ import { TeacherModel } from "@/app/api/models/teacher.model";
 import { isValidEmail, isValidPhoneNumber } from "@/app/api/utils/user.util";
 import "./settings.scss";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
-import useLessonsService from "@/app/(client)/services/lesson.service";
 import { logout } from "@/app/actions";
 import { colors } from "@/app/(client)/constants/color.constant";
 
@@ -42,6 +41,8 @@ export interface ContactUsRequest {
   qualification?: string;
   bio?: string;
   location?: string;
+  street?: string;
+  houseNumber?: string;
 }
 
 const initContactForm: ContactUsRequest = {
@@ -54,13 +55,13 @@ const initContactForm: ContactUsRequest = {
   qualification: "",
   bio: "",
   location: "",
+  street: "",
+  houseNumber: "",
 };
 
 const Settings: FC<Props> = ({ userId, teacherId }) => {
   const { getUserById, updateUserData, deleteUserById } = useUsersService();
   const { getTeacherByUserId, deleteTeacherById } = useTeachersService();
-  const { cancelAppointmentsByUserId } =
-    useAppointmentsService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [user, setUser] = useState<UserModel | null>(null);
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
@@ -71,7 +72,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
 
   const handleDeleteUser = async (userId: number) => {
     try {
-      await cancelAppointmentsByUserId(userId);
       await deleteUserById(userId);
       logout();
     } catch (error) {
@@ -81,10 +81,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
 
   const handleDeleteTeacher = async (userId: number, teacherId: number) => {
     try {
-      // await deleteAppointmentByTeacherId(teacherId);
-      // await deleteLessonsByTeacherId(teacherId);
       await deleteTeacherById(teacherId);
-      // await deleteUserById(userId);
       logout();
     } catch (error) {
       console.error("Failed deleting teacher", error);
@@ -92,12 +89,10 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
   };
 
   const openDeleteDialog = () => {
-    // setDeleteType(type);
     setOpenDeleteModal(true);
   };
 
   const closeDeleteDialog = () => {
-    // setDeleteType(null);
     setOpenDeleteModal(false);
   };
 
@@ -153,6 +148,11 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               lastName: userData.lastName,
               email: userData.email,
               phone: userData.phone,
+              qualification: "",
+              bio: "",
+              location: "",
+              street: "",
+              houseNumber: "",
             });
           }
           if (teacherId) {
@@ -165,6 +165,8 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 qualification: teacherData.qualification,
                 bio: teacherData.bio,
                 location: teacherData.location,
+                street: teacherData.street,
+                houseNumber: teacherData.houseNumber,
               }));
             }
           }
@@ -221,7 +223,9 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
         +form.price!,
         form.qualification,
         form.bio,
-        form.location
+        form.location,
+        form.street,
+        form.houseNumber
       );
 
       if (result) {
@@ -288,7 +292,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
       </Dialog>
 
       <Paper sx={{ backgroundColor: colors.background }}>
-        {" "}
         <Box p={3} m={3}>
           <form onSubmit={handleSubmit} className="settings-form">
             <Grid container spacing={2}>
@@ -363,9 +366,9 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     handleContactFormChange("email", e.target.value)
                   }
                 />
-                {errors.phone && (
+                {errors.email && (
                   <Typography className="error-message">
-                    {errors.phone}
+                    {errors.email}
                   </Typography>
                 )}
               </Grid>
@@ -382,6 +385,11 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     handleContactFormChange("phone", e.target.value)
                   }
                 />
+                {errors.phone && (
+                  <Typography className="error-message">
+                    {errors.phone}
+                  </Typography>
+                )}
               </Grid>
               {teacherId && (
                 <>
@@ -423,12 +431,14 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                   <Grid item xs={12}>
                     <Typography className="input-label">Bio</Typography>
                     <TextField
+                    placeholder="Tell us about yourself..."
                       defaultValue={teacher?.bio}
                       variant="outlined"
                       fullWidth
                       multiline
                       className="text-field"
                       name="bio"
+                      rows={8}
                       onChange={(e) =>
                         handleContactFormChange("bio", e.target.value)
                       }
@@ -444,6 +454,32 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                       className="text-field"
                       onChange={(e) =>
                         handleContactFormChange("location", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <Typography className="input-label">Street</Typography>
+                    <TextField
+                      defaultValue={teacher?.street}
+                      variant="outlined"
+                      fullWidth
+                      name="location"
+                      className="text-field"
+                      onChange={(e) =>
+                        handleContactFormChange("street", e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography className="input-label">Nr.</Typography>
+                    <TextField
+                      defaultValue={teacher?.houseNumber}
+                      variant="outlined"
+                      fullWidth
+                      name="location"
+                      className="text-field"
+                      onChange={(e) =>
+                        handleContactFormChange("houseNumber", e.target.value)
                       }
                     />
                   </Grid>

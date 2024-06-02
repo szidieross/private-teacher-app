@@ -19,6 +19,7 @@ import {
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import AddTaskRoundedIcon from "@mui/icons-material/AddTaskRounded";
+import { formatDate } from "@/app/api/utils/user.util";
 
 type Props = {
   teacherId: number;
@@ -49,7 +50,6 @@ const AppointmentsTable: FC<Props> = ({
       const filteredAppointments = fetchedAppointments.filter(
         (appointment) => new Date(appointment.startTime) >= currentDate
       );
-      console.log("filteredAppointments", filteredAppointments);
       setAppointments(filteredAppointments);
     } catch (error) {
       console.error("Error fetching appointments:", error);
@@ -65,7 +65,7 @@ const AppointmentsTable: FC<Props> = ({
     try {
       await bookAppointment(appointmentId, lessonId);
       setSnackbarMessage("Appointment successfully booked.");
-      await fetchAppointments(); // Fetch updated appointments
+      await fetchAppointments();
     } catch (error) {
       setSnackbarMessage("Error booking appointment.");
       console.error("Error booking appointment:", error);
@@ -80,22 +80,6 @@ const AppointmentsTable: FC<Props> = ({
   useEffect(() => {
     fetchAppointments();
   }, [teacherId]);
-
-  const formatDate = (date: string) => {
-    const dateObj = new Date(date);
-    return (
-      dateObj.toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }) +
-      " " +
-      dateObj.toLocaleTimeString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    );
-  };
 
   return (
     <Container sx={{ mt: 4, mb: 4, maxHeight: "50vh" }}>

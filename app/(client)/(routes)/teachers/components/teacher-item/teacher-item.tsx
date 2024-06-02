@@ -63,13 +63,26 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
                 : " - "}
             </Typography>
 
+            {/* <Typography
+              variant="body2"
+              color="text.secondary"
+              className="teacher-info-item"
+            >
+              <AutoStoriesIcon sx={{ fontSize: 16, marginRight: 1 }} />{" "}
+              {teacher.lessons && teacher.lessons.length > 0
+                ? `${teacher.lessons[0].categoryName} and ${
+                    teacher.lessons.length - 1
+                  } more`
+                : " - "}
+            </Typography> */}
+
             <Typography
               variant="body2"
               color="text.secondary"
               className="teacher-info-item"
             >
               <SchoolRoundedIcon sx={{ fontSize: 16, marginRight: 1 }} />{" "}
-              {teacher.qualification}
+              {teacher.qualification ? teacher.qualification : " - "}
             </Typography>
             <Typography
               variant="body2"
@@ -77,7 +90,7 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
               className="teacher-info-item"
             >
               <LocationOnRoundedIcon sx={{ fontSize: 16, marginRight: 1 }} />{" "}
-              {teacher.location}
+              {teacher.location ? teacher.location : " - "}
             </Typography>
           </div>
         </Box>

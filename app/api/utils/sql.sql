@@ -24,6 +24,8 @@ CREATE TABLE Teachers (
     bio TEXT,
     qualification VARCHAR(100),
     location VARCHAR(255),
+    street VARCHAR(100),
+    house_number VARCHAR(10),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 

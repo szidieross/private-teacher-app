@@ -3,7 +3,7 @@ import { AppointmentModel } from "../models/appointment.model";
 import { AppointmentDto } from "../dtos/appointment.dto";
 import { toAppointmentModel } from "../mappers/appointment.mapper";
 
-export const getAppointmentByUserId = async (
+export const getAppointmentsByUserId = async (
   userId: number
 ): Promise<AppointmentModel[]> => {
   try {
@@ -24,7 +24,10 @@ export const getAppointmentByUserId = async (
         INNER JOIN Lessons ON Appointments.lesson_id = Lessons.lesson_id
         INNER JOIN Categories ON Lessons.category_id = Categories.category_id
     WHERE
-        Appointments.user_id = ?;
+        Appointments.user_id = ?
+        AND Appointments.start_time >= CURRENT_TIMESTAMP
+    ORDER BY
+        Appointments.start_time ASC;
     `;
     const [rows] = await db.execute(query, [userId]);
     db.release();
@@ -56,7 +59,7 @@ export const getAppointmentByUserId = async (
   }
 };
 
-export const getAppointmentByTeacherId = async (
+export const getAppointmentsByTeacherId = async (
   teacherId: number
 ): Promise<AppointmentModel[]> => {
   try {
@@ -77,7 +80,10 @@ export const getAppointmentByTeacherId = async (
         LEFT JOIN Lessons ON Appointments.lesson_id = Lessons.lesson_id
         LEFT JOIN Categories ON Lessons.category_id = Categories.category_id
     WHERE
-        Teachers.teacher_id = ?;
+        Teachers.teacher_id = ?
+        AND Appointments.start_time >= CURRENT_TIMESTAMP
+    ORDER BY
+        Appointments.start_time ASC;
     `;
     const [rows] = await db.execute(query, [teacherId]);
     db.release();
@@ -109,43 +115,43 @@ export const getAppointmentByTeacherId = async (
   }
 };
 
-export const getAppointmentsByLessonId = async (
-  lessonId: number
-): Promise<AppointmentModel[]> => {
-  try {
-    const db = await pool.getConnection();
-    const query = `
-    SELECT * FROM Appointments WHERE lesson_id = ?;
-    `;
-    const [rows] = await db.execute(query, [lessonId]);
-    db.release();
+// export const getAppointmentsByLessonId = async (
+//   lessonId: number
+// ): Promise<AppointmentModel[]> => {
+//   try {
+//     const db = await pool.getConnection();
+//     const query = `
+//     SELECT * FROM Appointments WHERE lesson_id = ?;
+//     `;
+//     const [rows] = await db.execute(query, [lessonId]);
+//     db.release();
 
-    if (!Array.isArray(rows)) {
-      throw new Error("Query result is not an array");
-    }
+//     if (!Array.isArray(rows)) {
+//       throw new Error("Query result is not an array");
+//     }
 
-    const data: AppointmentDto[] = (rows as any).map((row: any) => {
-      return {
-        appointment_id: row.appointment_id,
-        user_id: row.user_id,
-        teacher_id: row.teacher_id,
-        first_name: row.first_name,
-        last_name: row.last_name,
-        category_name: row.category_name,
-        start_time: row.start_time,
-      };
-    });
+//     const data: AppointmentDto[] = (rows as any).map((row: any) => {
+//       return {
+//         appointment_id: row.appointment_id,
+//         user_id: row.user_id,
+//         teacher_id: row.teacher_id,
+//         first_name: row.first_name,
+//         last_name: row.last_name,
+//         category_name: row.category_name,
+//         start_time: row.start_time,
+//       };
+//     });
 
-    const appointments: AppointmentModel[] = data.map((row: AppointmentDto) => {
-      return toAppointmentModel(row);
-    });
+//     const appointments: AppointmentModel[] = data.map((row: AppointmentDto) => {
+//       return toAppointmentModel(row);
+//     });
 
-    return appointments;
-  } catch (error) {
-    console.error("Error fetching appointments:", error);
-    throw error;
-  }
-};
+//     return appointments;
+//   } catch (error) {
+//     console.error("Error fetching appointments:", error);
+//     throw error;
+//   }
+// };
 
 export const createAppointment = async (teacherId: string, startTime: Date) => {
   try {
@@ -205,7 +211,7 @@ export const cancelAppointment = async (appointmentId: number) => {
   }
 };
 
-export const cancelAppointmentsByUserId = async (teacherId: number) => {
+export const cancelAppointmentByUserId = async (teacherId: number) => {
   try {
     const db = await pool.getConnection();
     const query = `
@@ -223,30 +229,28 @@ export const cancelAppointmentsByUserId = async (teacherId: number) => {
   }
 };
 
-export const deleteAppointmentsByTeacherId = async (
-  db: any,
-  teacherId: number
-) => {
-  try {
-    const query = `
-    DELETE FROM Appointments 
-    WHERE teacher_id = ?  
-    `;
-    const [result] = await db.execute(query, [teacherId]);
-    db.release();
+// export const deleteAppointmentsByTeacherId = async (
+//   db: any,
+//   teacherId: number
+// ) => {
+//   try {
+//     const query = `
+//     DELETE FROM Appointments
+//     WHERE teacher_id = ?
+//     `;
+//     const [result] = await db.execute(query, [teacherId]);
+//     db.release();
 
-    return result;
-  } catch (error) {
-    console.error("Error deleting appointments:", error);
-    throw error;
-  }
-};
+//     return result;
+//   } catch (error) {
+//     console.error("Error deleting appointments:", error);
+//     throw error;
+//   }
+// };
 
 export const handleDeleteAppointment = async (appointmentId: number) => {
   const db = await pool.getConnection();
-console.log("helou")
   try {
-    console.log("helou2")
     await db.beginTransaction();
 
     await copyAppointmentsToArchive(db, appointmentId);
@@ -298,6 +302,36 @@ export const deleteAppointment = async (db: any, appointmentId: number) => {
     return result;
   } catch (error) {
     console.error("Error deleting appointments:", error);
+    throw error;
+  }
+};
+
+export const deleteAppointmentsByTeacherId = async (
+  db: any,
+  teacherId: number
+) => {
+  try {
+    const query = `DELETE FROM Appointments WHERE teacher_id = ?`;
+    await db.execute(query, [teacherId]);
+  } catch (error) {
+    console.error("Error deleting appointments:", error);
+    throw error;
+  }
+};
+
+export const cancelAppointments = async (db: any, teacherId: number) => {
+  try {
+    const query = `
+    UPDATE Appointments 
+    SET user_id = NULL, lesson_id = NULL 
+    WHERE user_id = ?
+      `;
+    const [result] = await db.execute(query, [teacherId]);
+    db.release();
+
+    return result;
+  } catch (error) {
+    console.error("Error cancelling appointments:", error);
     throw error;
   }
 };

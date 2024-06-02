@@ -15,6 +15,8 @@ export async function POST(request: NextRequest) {
       bio,
       qualification,
       location,
+      street,
+      houseNumber,
     } = await request.json();
 
     const result = await createUser(
@@ -28,7 +30,9 @@ export async function POST(request: NextRequest) {
       price,
       bio,
       qualification,
-      location
+      location,
+      street,
+      houseNumber
     );
 
     return NextResponse.json({ id: result }, { status: 201 });

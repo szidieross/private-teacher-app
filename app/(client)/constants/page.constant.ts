@@ -4,7 +4,7 @@ const pages: PageModel[] = [
     {
         label: "Home",
         route: "/",
-        title: "",
+        title: "Private Teacher App",
         description:
             "",
         keywords: ["idk", "idk",],
@@ -12,7 +12,15 @@ const pages: PageModel[] = [
     {
         label: "Teachers",
         route: "/teachers",
-        title: "",
+        title: "Teachers",
+        description:
+            "",
+        keywords: ["idk", "stb",],
+    },
+    {
+        label: "Users",
+        route: "/users",
+        title: "Users",
         description:
             "",
         keywords: ["idk", "stb",],
@@ -20,7 +28,7 @@ const pages: PageModel[] = [
     {
         label: "Signup",
         route: "/signup",
-        title: "",
+        title: "Signup",
         description:
             "",
         keywords: ["idk", "stb",],
@@ -28,7 +36,7 @@ const pages: PageModel[] = [
     {
         label: "Login",
         route: "/login",
-        title: "",
+        title: "Login",
         description:
             "",
         keywords: ["idk", "stb",],
@@ -36,7 +44,7 @@ const pages: PageModel[] = [
     {
         label: "Profile",
         route: "/profile",
-        title: "",
+        title: "Profile",
         description:
             "",
         keywords: ["idk", "stb",],
@@ -44,15 +52,15 @@ const pages: PageModel[] = [
     {
         label: "Settings",
         route: "/profile/settings",
-        title: "",
+        title: "Settings",
         description:
             "",
         keywords: ["idk", "stb",],
     },
     {
-        label: "My Appointments",
+        label: "appointments",
         route: "/profile/appointments",
-        title: "",
+        title: "My Appointments",
         description:
             "",
         keywords: ["idk", "stb",],
