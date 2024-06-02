@@ -83,9 +83,15 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
           </Link>
         </Box>
         <Box justifyContent={"flex-end"}>
-          <Box display={"flex"} alignItems={"center"} sx={{ gap: "20px" }}>
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            sx={{ gap: { xs: "14px", lg: "16px" } }}
+          >
             <Link href={"/teachers"} style={{ color: colors.secondary }}>
-              <Typography sx={{ fontWeight: 600, fontSize: 16 }}>
+              <Typography
+                sx={{ fontWeight: 600, fontSize: { xs: 14, lg: 16 } }}
+              >
                 Teachers
               </Typography>
             </Link>
@@ -95,7 +101,9 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                   href={"/profile/appointments"}
                   style={{ color: colors.secondary }}
                 >
-                  <Typography sx={{ fontWeight: 600, fontSize: 16 }}>
+                  <Typography
+                    sx={{ fontWeight: 600, fontSize: { xs: 13, md: 16 } }}
+                  >
                     My Appointments
                   </Typography>
                 </Link>

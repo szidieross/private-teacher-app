@@ -2,14 +2,9 @@ import { SessionOptions } from "iron-session";
 import { UserModel } from "./api/models/user.model";
 
 export interface SessionData {
-  userData?: UserModel;
   userId?: number;
   teacherId?: number;
-  username?: string;
-  img?: string;
   role: "user" | "teacher";
-  isPro?: boolean;
-  isBlocked?: boolean;
   isLoggedIn: boolean;
 }
 
@@ -24,5 +19,6 @@ export const sessionOptions: SessionOptions = {
   cookieOptions: {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
+    maxAge: 86400,
   },
 };
