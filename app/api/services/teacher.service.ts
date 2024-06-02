@@ -308,26 +308,6 @@ export const handleDeleteTeacher = async (
   }
 };
 
-// const deleteAppointmentsByTeacherId = async (db: any, teacherId: number) => {
-//   try {
-//     const query = `DELETE FROM Appointments WHERE teacher_id = ?`;
-//     await db.execute(query, [teacherId]);
-//   } catch (error) {
-//     console.error("Error deleting appointments:", error);
-//     throw error;
-//   }
-// };
-
-// const deleteLessonsByTeacherId = async (db: any, teacherId: number) => {
-//   try {
-//     const query = `DELETE FROM Lessons WHERE teacher_id = ?`;
-//     await db.execute(query, [teacherId]);
-//   } catch (error) {
-//     console.error("Error deleting lessons:", error);
-//     throw error;
-//   }
-// };
-
 const deleteTeacher = async (db: any, teacherId: number) => {
   try {
     const query = `DELETE FROM Teachers WHERE teacher_id = ?`;
@@ -337,13 +317,3 @@ const deleteTeacher = async (db: any, teacherId: number) => {
     throw error;
   }
 };
-
-// export const deleteUser = async (db: any, userId: number) => {
-//   try {
-//     const query = `DELETE FROM Users WHERE user_id = ?`;
-//     await db.execute(query, [userId]);
-//   } catch (error) {
-//     console.error("Error deleting user:", error);
-//     throw error;
-//   }
-// };
