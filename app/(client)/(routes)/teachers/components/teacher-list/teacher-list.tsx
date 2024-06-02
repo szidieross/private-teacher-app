@@ -28,6 +28,7 @@ import Link from "next/link";
 import { colors } from "@/app/(client)/constants/color.constant";
 import TeacherItem from "../teacher-item/teacher-item";
 import SkeletonList from "../skeleton-list/skeleton-list";
+import { wrap } from "module";
 
 type Props = {
   isSession: boolean;
@@ -144,7 +145,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
         <SearchBar />
       </Grid>
       <Grid item xs={12}>
-        <Box display={"flex"} gap={4}>
+        <Box display={"flex"} flexWrap={"wrap"} gap={4} rowGap={1}>
           <Box>
             <InputLabel
               id="category-select-label"
@@ -160,9 +161,8 @@ const TeacherList: FC<Props> = ({ isSession }) => {
             <Select
               value={selectedCategory}
               onChange={handleChange}
-              style={{ width: "200px", marginBottom: "16px" }}
               sx={{
-                width: "200px",
+                width: { xs: "80vw", sm: "200px" },
                 marginBottom: "16px",
                 backgroundColor: "background.paper",
                 borderRadius: 1,
@@ -205,7 +205,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
           <Box>
             <InputLabel
               id="location-select-label"
-              style={{
+              sx={{
                 marginBottom: "8px",
                 fontWeight: "bold",
                 fontSize: "16px",
@@ -220,9 +220,8 @@ const TeacherList: FC<Props> = ({ isSession }) => {
               onChange={handleLocationChange}
               input={<OutlinedInput />}
               renderValue={(selected) => selected.join(", ")}
-              style={{ width: "200px", marginBottom: "16px" }}
               sx={{
-                width: "200px",
+                width: { xs: "80vw", sm: "200px" },
                 marginBottom: "16px",
                 backgroundColor: "background.paper",
                 borderRadius: 1,

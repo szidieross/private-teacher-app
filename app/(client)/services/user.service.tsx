@@ -134,7 +134,7 @@ const useUsersService = () => {
       const session = await getSession();
       const userId = session.userId;
       try {
-        const { data } = await api.post<UserModel>(
+        const { data } = await api.put<UserModel>(
           `/users/${userId}`,
           {
             userId,

@@ -62,7 +62,12 @@ const useTeachersService = () => {
     }
   };
 
-  return { getTeachers, getTeacherById, getTeacherByUserId, deleteTeacherById };
+  return {
+    getTeachers,
+    getTeacherById,
+    getTeacherByUserId,
+    deleteTeacherById,
+  };
 };
 
 export default useTeachersService;

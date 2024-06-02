@@ -10,6 +10,7 @@ import {
   isValidEmail,
   isValidPhoneNumber,
 } from "../utils/user.util";
+import { cancelAppointments } from "./appointment.service";
 
 interface UserId {
   user_id: number;
@@ -255,7 +256,6 @@ export const updateUserData = async (
   lastName: string,
   email: string,
   phone: string,
-  // teacherId?: number,
   price?: number | undefined,
   qualification?: string | undefined,
   bio?: string | undefined,
@@ -318,25 +318,25 @@ export const updateUserData = async (
   }
 };
 
-export const cancelAppointmentsByUserId = async (
-  db: any,
-  teacherId: number
-) => {
-  try {
-    const query = `
-    UPDATE Appointments 
-    SET user_id = NULL, lesson_id = NULL 
-    WHERE user_id = ?
-      `;
-    const [result] = await db.execute(query, [teacherId]);
-    db.release();
+// export const cancelAppointmentsByUserId = async (
+//   db: any,
+//   teacherId: number
+// ) => {
+//   try {
+//     const query = `
+//     UPDATE Appointments 
+//     SET user_id = NULL, lesson_id = NULL 
+//     WHERE user_id = ?
+//       `;
+//     const [result] = await db.execute(query, [teacherId]);
+//     db.release();
 
-    return result;
-  } catch (error) {
-    console.error("Error cancelling appointments:", error);
-    throw error;
-  }
-};
+//     return result;
+//   } catch (error) {
+//     console.error("Error cancelling appointments:", error);
+//     throw error;
+//   }
+// };
 
 export const handleDeleteUser = async (userId: number) => {
   const db = await pool.getConnection();
@@ -344,8 +344,8 @@ export const handleDeleteUser = async (userId: number) => {
   try {
     await db.beginTransaction();
 
-    await cancelAppointmentsByUserId(db, userId);
-    await deleteUserById(db, userId);
+    await cancelAppointments(db, userId);
+    await deleteUser(db, userId);
 
     await db.commit();
   } catch (error) {
@@ -356,7 +356,17 @@ export const handleDeleteUser = async (userId: number) => {
   }
 };
 
-const deleteUserById = async (db: any, userId: number) => {
+// const deleteUserById = async (db: any, userId: number) => {
+//   try {
+//     const query = `DELETE FROM Users WHERE user_id = ?`;
+//     await db.execute(query, [userId]);
+//   } catch (error) {
+//     console.error("Error deleting user:", error);
+//     throw error;
+//   }
+// };
+
+export const deleteUser = async (db: any, userId: number) => {
   try {
     const query = `DELETE FROM Users WHERE user_id = ?`;
     await db.execute(query, [userId]);
@@ -364,4 +374,4 @@ const deleteUserById = async (db: any, userId: number) => {
     console.error("Error deleting user:", error);
     throw error;
   }
-};
+}

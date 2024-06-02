@@ -62,7 +62,6 @@ const initContactForm: ContactUsRequest = {
 const Settings: FC<Props> = ({ userId, teacherId }) => {
   const { getUserById, updateUserData, deleteUserById } = useUsersService();
   const { getTeacherByUserId, deleteTeacherById } = useTeachersService();
-  const { cancelAppointmentsByUserId } = useAppointmentsService();
   const [form, setContactForm] = useState<ContactUsRequest | null>(null);
   const [user, setUser] = useState<UserModel | null>(null);
   const [teacher, setTeacher] = useState<TeacherModel | null>(null);
@@ -73,7 +72,6 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
 
   const handleDeleteUser = async (userId: number) => {
     try {
-      await cancelAppointmentsByUserId(userId);
       await deleteUserById(userId);
       logout();
     } catch (error) {

@@ -34,31 +34,31 @@ export const getCategories = async (): Promise<CategoryModel[]> => {
 };
 
 
-export const getCategoryById = async (categoryId: number
-): Promise<CategoryModel> => {
-    try {
-        const db = await pool.getConnection();
-        const query = 'SELECT * FROM categories WHERE category_id = ?';
-        const [rows] = await db.execute(query, [categoryId]);
-        db.release();
+// export const getCategoryById = async (categoryId: number
+// ): Promise<CategoryModel> => {
+//     try {
+//         const db = await pool.getConnection();
+//         const query = 'SELECT * FROM categories WHERE category_id = ?';
+//         const [rows] = await db.execute(query, [categoryId]);
+//         db.release();
 
-        if (!Array.isArray(rows)) {
-            throw new Error('Query result is not an array');
-        }
+//         if (!Array.isArray(rows)) {
+//             throw new Error('Query result is not an array');
+//         }
 
-        const data: CategoryDto[] = (rows as any).map((row: any) => {
-            return {
-                category_id: row.category_id,
-                parent_category_id: row.parent_category_id,
-                name: row.name,
-            };
-        });
+//         const data: CategoryDto[] = (rows as any).map((row: any) => {
+//             return {
+//                 category_id: row.category_id,
+//                 parent_category_id: row.parent_category_id,
+//                 name: row.name,
+//             };
+//         });
 
-        const category: CategoryModel = toCategoryModel(data[0]);
+//         const category: CategoryModel = toCategoryModel(data[0]);
 
-        return category;
-    } catch (error) {
-        console.error('Error fetching category:', error);
-        throw error;
-    }
-};
+//         return category;
+//     } catch (error) {
+//         console.error('Error fetching category:', error);
+//         throw error;
+//     }
+// };
