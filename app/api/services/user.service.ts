@@ -116,10 +116,6 @@ export const createUser = async (
       throw new Error("Missing required fields.");
     }
 
-    // if (!isStrongPassword(password)) {
-    //   throw new Error("Password is not strong enough.");
-    // }
-
     if (!isValidEmail(email)) {
       throw new Error("Invalid email address.");
     }
@@ -264,10 +260,6 @@ export const updateUserData = async (
   houseNumber?: string | undefined
 ) => {
   try {
-    // if (!isStrongPassword(password)) {
-    //   throw new Error("Password is not strong enough.");
-    // }
-
     if (!isValidEmail(email)) {
       throw new Error("Invalid email address.");
     }

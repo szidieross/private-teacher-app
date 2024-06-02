@@ -76,12 +76,12 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     {
       field: "subject",
       headerName: "Subject",
-      width: 140,
+      width: 160,
     },
     {
       field: "name",
       headerName: "Teacher",
-      width: 140,
+      width: 160,
       renderCell: (params) => (
         <Link
           href={`/teachers/${params.row.teacherId}`}
@@ -96,7 +96,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     {
       field: "date",
       headerName: "Date",
-      width: 150,
+      width: 200,
     },
     {
       field: "action",
