@@ -25,7 +25,9 @@ export const getAppointmentsByUserId = async (
         INNER JOIN Categories ON Lessons.category_id = Categories.category_id
     WHERE
         Appointments.user_id = ?
-        AND Appointments.start_time >= CURRENT_TIMESTAMP;
+        AND Appointments.start_time >= CURRENT_TIMESTAMP
+    ORDER BY
+        Appointments.start_time ASC;
     `;
     const [rows] = await db.execute(query, [userId]);
     db.release();
@@ -79,7 +81,9 @@ export const getAppointmentsByTeacherId = async (
         LEFT JOIN Categories ON Lessons.category_id = Categories.category_id
     WHERE
         Teachers.teacher_id = ?
-        AND Appointments.start_time >= CURRENT_TIMESTAMP;
+        AND Appointments.start_time >= CURRENT_TIMESTAMP
+    ORDER BY
+        Appointments.start_time ASC;
     `;
     const [rows] = await db.execute(query, [teacherId]);
     db.release();
