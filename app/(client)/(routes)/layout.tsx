@@ -4,6 +4,7 @@ import FooterBar from "../components/footer/footer-bar";
 import "./globals.scss";
 import { Container } from "@mui/material";
 import Providers from "../utils/providers.util";
+import "@/app/api/utils/scheduler";
 
 export const metadata: Metadata = {
   title: "Private Teacher App",
@@ -19,11 +20,9 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-        <MenuBar />
-        <Container className="layout-container">
-          {children}
-        </Container>
-        <FooterBar />
+          <MenuBar />
+          <Container className="layout-container">{children}</Container>
+          <FooterBar />
         </Providers>
       </body>
     </html>

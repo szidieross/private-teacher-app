@@ -278,3 +278,17 @@ export const cancelAppointments = async (db: any, teacherId: number) => {
     throw error;
   }
 };
+
+export const deleteOldAppointments = async (): Promise<void> => {
+  try {
+    const db = await pool.getConnection();
+    
+    const query = `CALL delete_old_appointments()`;
+
+    await db.execute(query);
+    db.release();
+  } catch (error) {
+    console.error("Error deleting old appointments:", error);
+    throw error;
+  }
+};
