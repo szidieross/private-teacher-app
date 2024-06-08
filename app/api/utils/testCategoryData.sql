@@ -20,3 +20,8 @@ VALUES
     ('Political Science'),
     ('Psychology'),
     ('Sociology');
+
+
+    USE private_teacher_app;
+
+CALL delete_old_appointments();
