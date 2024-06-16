@@ -471,7 +471,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     />
                   </Grid>
                   <Grid item xs={4}>
-                    <Typography className="input-label">Házszám</Typography>
+                    <Typography className="input-label">Szám</Typography>
                     <TextField
                       defaultValue={teacher?.houseNumber}
                       variant="outlined"

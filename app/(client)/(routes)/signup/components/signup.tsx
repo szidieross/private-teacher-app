@@ -410,7 +410,7 @@ const Signup = () => {
                   </Grid>
                   <Grid item xs={4}>
                     <TextField
-                      label="Házszám"
+                      label="Szám"
                       variant="outlined"
                       fullWidth
                       name="houseNumber"
