@@ -64,14 +64,14 @@ const LoginForm: FC = () => {
             }}
           >
             <Typography variant="h5" gutterBottom>
-              Login
+              Bejelentkezés
             </Typography>
             <TextField
               fullWidth
               type="text"
               name="username"
               required
-              label="Username"
+              label="Felhasználónév"
               margin="normal"
               variant="outlined"
             />
@@ -80,7 +80,7 @@ const LoginForm: FC = () => {
               fullWidth
               name="password"
               required
-              label="Password"
+              label="Jelszó"
               margin="normal"
               variant="outlined"
               InputProps={{
@@ -106,7 +106,7 @@ const LoginForm: FC = () => {
                 },
               }}
             >
-              Login
+              Bejelentkezés
             </Button>
           </Box>
         </Paper>
@@ -118,7 +118,7 @@ const LoginForm: FC = () => {
         justifyContent={"center"}
         marginY={4}
       >
-        <Typography fontSize={14}>Don&apos;t have an account yet?</Typography>
+        <Typography fontSize={14}>Még nincs fiókja?</Typography>
 
         <Button
           onClick={() => to("/signup")}
@@ -131,7 +131,7 @@ const LoginForm: FC = () => {
             },
           }}
         >
-          Signup
+          Regisztráció
         </Button>
       </Box>
       <Snackbar

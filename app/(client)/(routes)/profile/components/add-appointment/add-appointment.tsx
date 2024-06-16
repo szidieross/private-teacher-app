@@ -81,25 +81,14 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
             }}
           >
             <Typography variant="h5" align="center" gutterBottom>
-              Schedule Appointments
+              Időpont létrehozása
             </Typography>
             <form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                  {/* <TextField
-                    fullWidth
-                    label="Date and Time"
-                    type="datetime-local"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    InputLabelProps={{ shrink: true }}
-                    variant="outlined"
-                    sx={{ cursor: "pointer" }}
-                  /> */}
                   <TextField
                     fullWidth
-                    label="Date and Time"
+                    label="Dátum és idő"
                     type="datetime-local"
                     name="date"
                     value={formData.date}
@@ -112,6 +101,7 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
                 </Grid>
                 <Grid item xs={12}>
                   <Button
+                    disabled={formData.date === ""}
                     type="submit"
                     variant="contained"
                     color="primary"
@@ -125,7 +115,7 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
                       },
                     }}
                   >
-                    Create Appointment
+                    Hozzáad
                   </Button>
                 </Grid>
               </Grid>

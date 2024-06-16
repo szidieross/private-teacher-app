@@ -90,7 +90,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     },
     {
       field: "name",
-      headerName: "Name",
+      headerName: "Diák",
       width: 140,
       editable: false,
       renderCell: (params) =>
@@ -107,13 +107,13 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
     },
     {
       field: "subject",
-      headerName: "Subject",
+      headerName: "Tantárgy",
       width: 140,
       editable: false,
     },
     {
       field: "date",
-      headerName: "Date",
+      headerName: "Dátum",
       width: 200,
       editable: false,
     },
@@ -126,7 +126,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
         <IconButton
           sx={{ color: colors.error }}
           onClick={() => handleDelete(params.row.appointmentId)}
-          title="Delete appointment"
+          title="Időpont törlése"
         >
           <DeleteRoundedIcon />
         </IconButton>
@@ -157,7 +157,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
         variant="h5"
         sx={{ mb: 2, fontWeight: "bold", color: colors.primary }}
       >
-        Your Appointments
+        Időpontjaim
       </Typography>
       <Box>
         {rows && rows?.length > 0 ? (
@@ -174,7 +174,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
             />
           </Paper>
         ) : (
-          <Typography>No appointments yet.</Typography>
+          <Typography>Még nincsenek időpontok.</Typography>
         )}
       </Box>
       <Snackbar

@@ -59,7 +59,7 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
         }}
       >
         <Typography variant="h5" align="center" gutterBottom>
-          Upload Profile Picture
+        Töltsön fel profilképet
         </Typography>
         <form
           onSubmit={onSubmit}
@@ -90,7 +90,7 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
                 },
               }}
             >
-              Choose Image
+              Kép kiválasztása
             </Button>
           </label>
           {file && (
@@ -99,7 +99,7 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
                 variant="body1"
                 style={{ marginBottom: "20px", fontSize: 12 }}
               >
-                Selected File: {file.name}
+                Kiválasztott fájl: {file.name}
               </Typography>
               <Button
                 type="submit"
@@ -112,7 +112,7 @@ const UploadForm: React.FC<Props> = ({ open, onClose }) => {
                   },
                 }}
               >
-                Upload
+                Feltöltés
               </Button>
             </>
           )}

@@ -156,7 +156,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                 color: colors.primary,
               }}
             >
-              Choose a category
+              Tantárgy választása
             </InputLabel>
             <Select
               value={selectedCategory}
@@ -194,7 +194,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                 },
               }}
             >
-              <MenuItem value="">All categories</MenuItem>
+              <MenuItem value="">Minden</MenuItem>
               {categories.map((category) => (
                 <MenuItem key={category.categoryId} value={category.name}>
                   {category.name}
@@ -212,7 +212,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                 color: colors.primary,
               }}
             >
-              Choose locations
+              Helység választása
             </InputLabel>
             <Select
               multiple

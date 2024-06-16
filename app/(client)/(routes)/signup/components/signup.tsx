@@ -508,7 +508,7 @@ const Signup = () => {
             },
           }}
         >
-          Login
+          Bejelentkezés
         </Button>
       </Box>
 

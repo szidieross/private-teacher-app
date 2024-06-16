@@ -123,21 +123,21 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
               </IconButton>
               <List>
                 <ListItem button onClick={handleTeachersClick}>
-                  <ListItemText primary="Teachers" />
+                  <ListItemText primary="Tanárok" />
                 </ListItem>
                 {userInfo.isLoggedIn ? (
                   <>
                     <ListItem button onClick={handleProfileClick}>
-                      <ListItemText primary="Profile" />
+                      <ListItemText primary="Fiók" />
                     </ListItem>
                     <ListItem button onClick={handleAppointmentsClick}>
-                      <ListItemText primary="My Appointments" />
+                      <ListItemText primary="Időpontjaim" />
                     </ListItem>
                     <ListItem button onClick={handleSettingsClick}>
-                      <ListItemText primary="Settings" />
+                      <ListItemText primary="Beállítások" />
                     </ListItem>
                     <ListItem button onClick={handleLogout}>
-                      <ListItemText primary="Logout" />
+                      <ListItemText primary="Kijelentkezés" />
                     </ListItem>
                   </>
                 ) : (
@@ -146,7 +146,7 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
                       <ListItemText primary="Login" />
                     </ListItem>
                     <ListItem button onClick={() => to("/signup")}>
-                      <ListItemText primary="Signup" />
+                      <ListItemText primary="Regisztráció" />
                     </ListItem>
                   </>
                 )}

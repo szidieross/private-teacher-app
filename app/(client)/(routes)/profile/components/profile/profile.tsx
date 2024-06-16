@@ -133,17 +133,17 @@ const Profile: FC<Props> = ({ userId }) => {
             <Box display="flex" justifyContent="flex-end" mb={2}>
               <IconButton
                 onClick={() => to("/profile/appointments")}
-                title="My Appointments"
+                title="Időpontjaim"
               >
                 <CalendarMonthTwoToneIcon sx={{ color: colors.darkPurple }} />
               </IconButton>
               <IconButton
                 onClick={() => to("/profile/settings")}
-                title="Settings"
+                title="Beállítások"
               >
                 <SettingsIcon sx={{ color: colors.darkPurple }} />
               </IconButton>
-              <IconButton onClick={() => logout()} title="Logout">
+              <IconButton onClick={() => logout()} title="Kijelentkezés">
                 <LogoutRoundedIcon sx={{ color: colors.darkPurple }} />
               </IconButton>
             </Box>
@@ -152,7 +152,7 @@ const Profile: FC<Props> = ({ userId }) => {
               gutterBottom
               sx={{ color: colors.secondary }}
             >
-              {user.firstName} {user.lastName}
+              {user.lastName} {user.firstName}
             </Typography>
             <Box display="flex" alignItems="center" mb={1}>
               <AlternateEmailOutlinedIcon
@@ -162,11 +162,15 @@ const Profile: FC<Props> = ({ userId }) => {
             </Box>
             <Box display="flex" alignItems="center" mb={1}>
               <EmailRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
-              <Typography className="personal-data" variant="subtitle1">{user.email}</Typography>
+              <Typography className="personal-data" variant="subtitle1">
+                {user.email}
+              </Typography>
             </Box>
             <Box display="flex" alignItems="center" mb={1}>
               <LocalPhoneRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
-              <Typography className="personal-data" variant="subtitle1">{user.phone}</Typography>
+              <Typography className="personal-data" variant="subtitle1">
+                {user.phone}
+              </Typography>
             </Box>
             {teacher && (
               <>
@@ -174,7 +178,11 @@ const Profile: FC<Props> = ({ userId }) => {
                   <LocationOnRoundedIcon
                     sx={{ marginRight: 1, color: colors.darkPurple }}
                   />
-                  <Typography className="personal-data" variant="body1" color={colors.darkPurple}>
+                  <Typography
+                    className="personal-data"
+                    variant="body1"
+                    color={colors.darkPurple}
+                  >
                     {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
                     ${teacher.street ? teacher.street + ", " : ""}
                     ${teacher.location}`}
@@ -190,16 +198,20 @@ const Profile: FC<Props> = ({ userId }) => {
                 </Box>
                 <Box display="flex" alignItems="center" mb={1}>
                   <MoneyRoundedIcon sx={{ mr: 1, color: colors.darkPurple }} />
-                  <Typography className="personal-data" variant="subtitle1">{teacher.price}</Typography>
+                  <Typography className="personal-data" variant="subtitle1">
+                    {teacher.price}
+                  </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" mb={1}>
-                  <Typography className="personal-data" variant="subtitle1">{teacher.bio}</Typography>
+                  <Typography className="personal-data" variant="subtitle1">
+                    {teacher.bio}
+                  </Typography>
                 </Box>
               </>
             )}
             {user.createdAt && (
               <Typography variant="subtitle2" color="textSecondary">
-                Member since: {formatDate(user.createdAt)}
+                Tag {formatDate(user.createdAt)} óta
               </Typography>
             )}
           </Grid>
