@@ -38,6 +38,7 @@ import "./profile.scss";
 import { logout } from "@/app/actions";
 import { LessonModel } from "@/app/api/models/lesson.model";
 import { formatDate } from "@/app/api/utils/user.util";
+import { CircularProgress } from "@mui/material";
 
 type Props = {
   userId?: number;
@@ -90,7 +91,17 @@ const Profile: FC<Props> = ({ userId }) => {
     setShowAddAppointment(updatedLessons !== null && updatedLessons.length > 0);
   };
 
-  if (!user) return <>Loading...</>;
+  if (!user)
+    return (
+      <Box
+        display={"flex"}
+        justifyContent={"center"}
+        paddingTop="200px"
+        width={"100%"}
+      >
+        <CircularProgress />
+      </Box>
+    );
 
   return (
     <Container maxWidth="md">

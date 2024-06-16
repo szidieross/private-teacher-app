@@ -94,31 +94,31 @@ const Signup = () => {
     if (!form) return false;
 
     if (!form.firstName) {
-      newErrors.firstName = "Firstname is required.";
+      newErrors.firstName = "A keresztnév kötelező.";
     }
     if (!form.lastName) {
-      newErrors.lastName = "Lastname is required.";
+      newErrors.lastName = "A vezetéknév kötelező.";
     }
     if (!form.username) {
-      newErrors.username = "Username is required.";
+      newErrors.username = "A felhasználónév kötelező.";
     }
     if (!form.password) {
-      newErrors.password = "Password is required.";
+      newErrors.password = "A jelszó kötelező.";
     }
     if(!isStrongPassword(form.password)){
-      newErrors.password = "Password is weak.";
+      newErrors.password = "A jelszó gyenge.";
     }
     if (!form.email) {
-      newErrors.email = "Email is required.";
+      newErrors.email = "Az e-mail cím kötelező.";
     } else if (!isValidEmail(form.email)) {
-      newErrors.email = "Invalid email address.";
+      newErrors.email = "Érvénytelen e-mail cím.";
     }
     if (!isValidPhoneNumber(form.phone)) {
-      newErrors.phone = "Phone number is invalid.";
+      newErrors.phone = "A telefonszám érvénytelen.";
     }
 
     if (isTeacher && form.price && +form.price <= 0) {
-      newErrors.price = "Price must be a positive number.";
+      newErrors.price = "Az árnak pozitív számnak kell lennie.";
     }
 
     setErrors(newErrors);
@@ -143,14 +143,14 @@ const Signup = () => {
       if (usernameExists) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          username: "This username is already used, please choose another one.",
+          username: "Ez a felhasználónév már foglalt. Kérem, válasszon másikat.",
         }));
         return;
       }
       if (emailExists) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          email: "This email is already used.",
+          email: "Ez az e-mail cím már használatban van.",
         }));
         return;
       }
@@ -247,7 +247,7 @@ const Signup = () => {
                     },
                   }}
                 >
-                  User
+                  Diák
                 </ToggleButton>
                 <ToggleButton
                   value={true}
@@ -263,7 +263,7 @@ const Signup = () => {
                     },
                   }}
                 >
-                  Teacher
+                  Tanár
                 </ToggleButton>
               </ToggleButtonGroup>
             </Box>
@@ -274,7 +274,7 @@ const Signup = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  label="First Name*"
+                  label="Keresztnév*"
                   variant="outlined"
                   fullWidth
                   name="firstName"
@@ -292,7 +292,7 @@ const Signup = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  label="Last Name*"
+                  label="Vezetéknév*"
                   variant="outlined"
                   fullWidth
                   name="lastName"
@@ -310,7 +310,7 @@ const Signup = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  label="Username*"
+                  label="Felhasználónév*"
                   variant="outlined"
                   fullWidth
                   name="username"
@@ -329,7 +329,7 @@ const Signup = () => {
               <Grid item xs={12}>
                 <TextField
                   type="password"
-                  label="Password*"
+                  label="Jelszó*"
                   variant="outlined"
                   name="password"
                   fullWidth
@@ -348,7 +348,7 @@ const Signup = () => {
               <Grid item xs={12}>
                 <TextField
                   type="email"
-                  label="Email*"
+                  label="E-mail cím*"
                   variant="outlined"
                   name="email"
                   fullWidth
@@ -366,7 +366,7 @@ const Signup = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  label="Phone*"
+                  label="Telefonszám*"
                   variant="outlined"
                   fullWidth
                   name="phone"
@@ -386,7 +386,7 @@ const Signup = () => {
                 <>
                   <Grid item xs={12}>
                     <TextField
-                      label="Location"
+                      label="Helység"
                       variant="outlined"
                       fullWidth
                       name="location"
@@ -398,7 +398,7 @@ const Signup = () => {
                   </Grid>
                   <Grid item xs={8}>
                     <TextField
-                      label="Street"
+                      label="Utca"
                       variant="outlined"
                       fullWidth
                       name="street"
@@ -410,7 +410,7 @@ const Signup = () => {
                   </Grid>
                   <Grid item xs={4}>
                     <TextField
-                      label="Nr"
+                      label="Házszám"
                       variant="outlined"
                       fullWidth
                       name="houseNumber"
@@ -423,7 +423,7 @@ const Signup = () => {
                   <Grid item xs={6}>
                     <TextField
                       type="number"
-                      label="Price"
+                      label="Ár"
                       variant="outlined"
                       name="price"
                       fullWidth
@@ -441,7 +441,7 @@ const Signup = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      label="Qualification"
+                      label="Végzettség"
                       variant="outlined"
                       fullWidth
                       name="qualification"
@@ -453,13 +453,13 @@ const Signup = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      label="Bio"
+                      label="Rövid bemutatkozás"
                       variant="outlined"
                       fullWidth
                       multiline
                       value={form?.bio}
                       name="bio"
-                      placeholder="Tell us about yourself..."
+                      placeholder="Beszéljen szakmai tapasztalatairól..."
                       rows={8}
                       onChange={(e) =>
                         handleContactFormChange("bio", e.target.value)
@@ -481,7 +481,7 @@ const Signup = () => {
                     },
                   }}
                 >
-                  Register
+                  Regisztrácó
                 </Button>
               </Grid>
             </Grid>
@@ -496,7 +496,7 @@ const Signup = () => {
         justifyContent={"center"}
         marginY={4}
       >
-        <Typography fontSize={14}>Already have an account?</Typography>
+        <Typography fontSize={14}>Már van fiókja?</Typography>
         <Button
           onClick={() => to("/login")}
           variant="contained"

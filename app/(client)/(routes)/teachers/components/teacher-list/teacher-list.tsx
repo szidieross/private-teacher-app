@@ -194,7 +194,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
                 },
               }}
             >
-              <MenuItem value="">Minden</MenuItem>
+              <MenuItem value="">Összes</MenuItem>
               {categories.map((category) => (
                 <MenuItem key={category.categoryId} value={category.name}>
                   {category.name}

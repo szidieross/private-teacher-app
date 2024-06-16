@@ -139,7 +139,7 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       id: index + 1,
       appointmentId: item.appointmentId,
       userId: item.userId,
-      name: item.userId ? `${item.firstName} ${item.lastName}` : "-",
+      name: item.userId ? `${item.lastName} ${item.firstName}` : "-",
       subject: item.categoryName ? item.categoryName : "-",
       date: formatDate(item.startTime),
       action: "",

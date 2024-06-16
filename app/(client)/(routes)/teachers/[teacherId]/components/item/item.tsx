@@ -2,7 +2,7 @@
 
 import { TeacherModel } from "@/app/api/models/teacher.model";
 import React, { FC, useEffect, useState } from "react";
-import { Container, IconButton, Typography, Paper, Box } from "@mui/material";
+import { Container, IconButton, Typography, Paper, Box, CircularProgress } from "@mui/material";
 import useTeachersService from "@/app/(client)/services/teacher.service";
 import useLessonsService from "@/app/(client)/services/lesson.service";
 import { LessonModel } from "@/app/api/models/lesson.model";
@@ -37,7 +37,17 @@ const Item: FC<Props> = ({ teacherId }) => {
     fetchData();
   }, [getTeacherById, teacherId, getLessonsByTeacherId]);
 
-  if (!teacher) return <>No data found.</>;
+  if (!teacher)
+    return (
+      <Box
+        display={"flex"}
+        justifyContent={"center"}
+        paddingTop="200px"
+        width={"100%"}
+      >
+        <CircularProgress />
+      </Box>
+    );
 
   return (
     <Container>

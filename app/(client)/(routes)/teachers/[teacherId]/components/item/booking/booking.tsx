@@ -70,14 +70,20 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
       {teacher && (
         <Grid item xs={12}>
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h6" color={colors.mediumPurple} fontWeight={"bold"} align="center">
-            Időpont foglalás
+            <Typography
+              variant="h6"
+              color={colors.mediumPurple}
+              fontWeight={"bold"}
+              align="center"
+            >
+              Időpont foglalás
             </Typography>
           </Box>
           <Box
             sx={{
               display: "flex",
               flexDirection: "row",
+              justifyContent: "center",
               gap: 1.5,
               flexWrap: "wrap",
             }}

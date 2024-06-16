@@ -53,7 +53,7 @@ const PersonalData: FC<Props> = ({ teacher }) => {
             gutterBottom
             sx={{ color: colors.secondary }}
           >
-            {teacher.userData.firstName} {teacher.userData.lastName}
+            {teacher.userData.lastName} {teacher.userData.firstName}
           </Typography>
           <Box display="flex" alignItems="center" mb={1}>
             <AlternateEmailOutlinedIcon

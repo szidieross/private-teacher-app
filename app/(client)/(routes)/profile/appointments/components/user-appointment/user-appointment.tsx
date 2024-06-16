@@ -121,7 +121,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       appointmentId: item.appointmentId,
       subject: item.categoryName,
       teacherId: item.teacherId,
-      name: `${item.firstName} ${item.lastName}`,
+      name: `${item.lastName} ${item.firstName}`,
       date: formatDate(item.startTime),
     })) || [];
 
