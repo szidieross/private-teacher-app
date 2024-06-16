@@ -97,8 +97,8 @@ const AppointmentsTable: FC<Props> = ({
         >
           <TableHead>
             <TableRow>
-              <TableCell align="center">Start Time</TableCell>
-              <TableCell align="center">Status</TableCell>
+              <TableCell align="center">Kezdési időpont</TableCell>
+              <TableCell align="center">Állapot</TableCell>
               <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
@@ -113,7 +113,7 @@ const AppointmentsTable: FC<Props> = ({
                     {formatDate(item.startTime)}
                   </TableCell>
                   <TableCell align="center">
-                    {item.userId ? "Taken" : "Available"}
+                    {item.userId ? "Foglalt" : "Elérhető "}
                   </TableCell>
                   <TableCell align="center">
                     <IconButton

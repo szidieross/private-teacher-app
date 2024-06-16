@@ -251,7 +251,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
           color="secondary"
           sx={{ fontSize: 12 }}
         >
-          Delete account
+          Fiók törlése
         </Button>
       </Box>
 
@@ -261,11 +261,11 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
         aria-labelledby="delete-dialog-title"
         aria-describedby="delete-dialog-description"
       >
-        <DialogTitle id="delete-dialog-title">Confirm Delete</DialogTitle>
+        <DialogTitle id="delete-dialog-title">Fiók törlésének megerősítése</DialogTitle>
         <DialogContent>
           <DialogContentText id="delete-dialog-description">
-            Are you sure you want to delete this account? This action cannot be
-            undone.
+            Biztosan törölni szeretné ezt a fiókot? Ez a művelet nem
+            visszavonható.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -274,7 +274,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
             variant="outlined"
             color="primary"
           >
-            Cancel
+            Mégse
           </Button>
           <Button
             onClick={confirmDelete}
@@ -286,7 +286,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               },
             }}
           >
-            Confirm
+            Megerősítés
           </Button>
         </DialogActions>
       </Dialog>
@@ -296,7 +296,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
           <form onSubmit={handleSubmit} className="settings-form">
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <Typography className="input-label">First Name</Typography>
+                <Typography className="input-label">Keresztnév</Typography>
                 <TextField
                   defaultValue={user?.firstName}
                   variant="outlined"
@@ -315,7 +315,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 )}
               </Grid>
               <Grid item xs={6}>
-                <Typography className="input-label">Last Name</Typography>
+                <Typography className="input-label">Vezetéknév</Typography>
                 <TextField
                   defaultValue={user?.lastName}
                   variant="outlined"
@@ -334,7 +334,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 )}
               </Grid>
               <Grid item xs={12}>
-                <Typography className="input-label">Username</Typography>
+                <Typography className="input-label">Felhasználónév</Typography>
                 <TextField
                   defaultValue={user?.username || ""}
                   variant="outlined"
@@ -353,7 +353,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 )}
               </Grid>
               <Grid item xs={12}>
-                <Typography className="input-label">Email</Typography>
+                <Typography className="input-label">E-mail cím</Typography>
                 <TextField
                   defaultValue={user?.email}
                   type="email"
@@ -373,7 +373,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                 )}
               </Grid>
               <Grid item xs={12}>
-                <Typography className="input-label">Phone</Typography>
+                <Typography className="input-label">Telefonszám</Typography>
                 <TextField
                   defaultValue={user?.phone}
                   variant="outlined"
@@ -394,7 +394,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
               {teacherId && (
                 <>
                   <Grid item xs={6}>
-                    <Typography className="input-label">Price</Typography>
+                    <Typography className="input-label">Ár</Typography>
                     <TextField
                       defaultValue={teacher?.price}
                       type="number"
@@ -415,7 +415,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                   </Grid>
                   <Grid item xs={6}>
                     <Typography className="input-label">
-                      Qualification
+                    Végzettség
                     </Typography>
                     <TextField
                       defaultValue={teacher?.qualification}
@@ -445,7 +445,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography className="input-label">Location</Typography>
+                    <Typography className="input-label">Helység</Typography>
                     <TextField
                       defaultValue={teacher?.location}
                       variant="outlined"
@@ -458,7 +458,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     />
                   </Grid>
                   <Grid item xs={8}>
-                    <Typography className="input-label">Street</Typography>
+                    <Typography className="input-label">Utca</Typography>
                     <TextField
                       defaultValue={teacher?.street}
                       variant="outlined"
@@ -471,7 +471,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     />
                   </Grid>
                   <Grid item xs={4}>
-                    <Typography className="input-label">Nr.</Typography>
+                    <Typography className="input-label">Szám</Typography>
                     <TextField
                       defaultValue={teacher?.houseNumber}
                       variant="outlined"
@@ -497,7 +497,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
                     },
                   }}
                 >
-                  Update
+                  Adatok mentése
                 </Button>
               </Grid>
             </Grid>

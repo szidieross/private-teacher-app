@@ -5,6 +5,7 @@ import {
   Box,
   Card,
   CardMedia,
+  CircularProgress,
   Container,
   Grid,
   IconButton,
@@ -46,7 +47,17 @@ const UserItem: FC<Props> = ({ userId }) => {
     fetchData();
   }, [getUserById, userId]);
 
-  if (!user) return <>No data found.</>;
+  if (!user)
+    return (
+      <Box
+        display={"flex"}
+        justifyContent={"center"}
+        paddingTop="200px"
+        width={"100%"}
+      >
+        <CircularProgress />
+      </Box>
+    );
 
   return (
     <Container>

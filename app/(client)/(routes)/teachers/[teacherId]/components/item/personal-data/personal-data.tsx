@@ -53,7 +53,7 @@ const PersonalData: FC<Props> = ({ teacher }) => {
             gutterBottom
             sx={{ color: colors.secondary }}
           >
-            {teacher.userData.firstName} {teacher.userData.lastName}
+            {teacher.userData.lastName} {teacher.userData.firstName}
           </Typography>
           <Box display="flex" alignItems="center" mb={1}>
             <AlternateEmailOutlinedIcon
@@ -90,9 +90,11 @@ const PersonalData: FC<Props> = ({ teacher }) => {
               target="_blank"
             >
               <Typography variant="body1" color={colors.secondary}>
-                {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
-                    ${teacher.street ? teacher.street + ", " : ""}
-                    ${teacher.location ? teacher.location : " - "}`}
+                {`
+                    ${teacher.location ? teacher.location + ", " : " - "}
+                    ${teacher.street ? teacher.street + " " : ""}${
+                  teacher.houseNumber ? teacher.houseNumber : ""
+                }`}
               </Typography>
             </a>
           </Box>

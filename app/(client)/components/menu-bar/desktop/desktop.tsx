@@ -78,7 +78,7 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
         <Box>
           <Link href={"/teachers"} style={{ color: colors.secondary }}>
             <Typography sx={{ fontWeight: "bold", fontSize: 24 }}>
-              Private Teacher App
+            MagánTanár
             </Typography>
           </Link>
         </Box>
@@ -92,7 +92,7 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
               <Typography
                 sx={{ fontWeight: 600, fontSize: { xs: 14, lg: 16 } }}
               >
-                Teachers
+                Tanárok
               </Typography>
             </Link>
             {userInfo.isLoggedIn ? (
@@ -104,7 +104,7 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                   <Typography
                     sx={{ fontWeight: 600, fontSize: { xs: 13, md: 16 } }}
                   >
-                    My Appointments
+                    Időpontjaim
                   </Typography>
                 </Link>
                 <Box>
@@ -165,8 +165,8 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
                   }}
                   disableScrollLock={false}
                 >
-                  <MenuItem onClick={handleLoginClick}>Login</MenuItem>
-                  <MenuItem onClick={handleSignupClick}>Signup</MenuItem>
+                  <MenuItem onClick={handleLoginClick}>Bejelentkezés</MenuItem>
+                  <MenuItem onClick={handleSignupClick}>Regisztráció</MenuItem>
                 </Menu>
               </Box>
             )}

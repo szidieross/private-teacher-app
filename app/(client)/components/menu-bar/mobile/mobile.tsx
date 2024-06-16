@@ -113,40 +113,81 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
             anchor="left"
             open={isDrawerOpen}
             onClose={toggleDrawer}
+            sx={{
+              "& .drawer-box": {
+                backgroundColor: colors.secondary,
+                height: "100%",
+              },
+            }}
           >
             <Box
               className="drawer-box"
               sx={{ backgroundColor: colors.background, height: "100%" }}
             >
               <IconButton onClick={toggleDrawer} sx={{ padding: "16px" }}>
-                <MenuIcon />
+                <MenuIcon sx={{ color: "white" }}/>
               </IconButton>
               <List>
                 <ListItem button onClick={handleTeachersClick}>
-                  <ListItemText primary="Teachers" />
+                  <ListItemText
+                    primary="Tanárok"
+                    primaryTypographyProps={{
+                      sx: { fontWeight: "bold", color: colors.white },
+                    }}
+                  />
                 </ListItem>
                 {userInfo.isLoggedIn ? (
                   <>
                     <ListItem button onClick={handleProfileClick}>
-                      <ListItemText primary="Profile" />
+                      <ListItemText
+                        primary="Fiók"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                     <ListItem button onClick={handleAppointmentsClick}>
-                      <ListItemText primary="My Appointments" />
+                      <ListItemText
+                        primary="Időpontjaim"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                     <ListItem button onClick={handleSettingsClick}>
-                      <ListItemText primary="Settings" />
+                      <ListItemText
+                        primary="Beállítások"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                     <ListItem button onClick={handleLogout}>
-                      <ListItemText primary="Logout" />
+                      <ListItemText
+                        primary="Kijelentkezés"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                   </>
                 ) : (
                   <>
                     <ListItem button onClick={() => to("/login")}>
-                      <ListItemText primary="Login" />
+                      <ListItemText
+                        primary="Login"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                     <ListItem button onClick={() => to("/signup")}>
-                      <ListItemText primary="Signup" />
+                      <ListItemText
+                        primary="Regisztráció"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                   </>
                 )}
@@ -165,7 +206,7 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
             className="mobile-title"
             variant="h6"
           >
-            Private Teacher App
+            MagánTanár
           </Typography>
         </Grid>
         {userInfo.isLoggedIn ? (

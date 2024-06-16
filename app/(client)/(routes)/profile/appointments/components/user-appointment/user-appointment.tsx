@@ -75,12 +75,12 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     },
     {
       field: "subject",
-      headerName: "Subject",
+      headerName: "Tantárgy",
       width: 160,
     },
     {
       field: "name",
-      headerName: "Teacher",
+      headerName: "Tanár",
       width: 160,
       renderCell: (params) => (
         <Link
@@ -95,7 +95,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
     },
     {
       field: "date",
-      headerName: "Date",
+      headerName: "Dátum",
       width: 200,
     },
     {
@@ -107,7 +107,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
         <IconButton
           sx={{ color: colors.error }}
           onClick={() => handleCancel(params.row.appointmentId)}
-          title="Cancel appointment"
+          title="Időpont törlése"
         >
           <CancelRoundedIcon />
         </IconButton>
@@ -121,7 +121,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       appointmentId: item.appointmentId,
       subject: item.categoryName,
       teacherId: item.teacherId,
-      name: `${item.firstName} ${item.lastName}`,
+      name: `${item.lastName} ${item.firstName}`,
       date: formatDate(item.startTime),
     })) || [];
 
@@ -140,7 +140,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
         variant="h5"
         sx={{ mb: 2, fontWeight: "bold", color: colors.primary }}
       >
-        Your Appointments
+        Időpontjaim
       </Typography>
       <Box>
         {rows && rows?.length > 0 ? (
@@ -159,7 +159,7 @@ const UserAppointments: FC<Props> = ({ userId }) => {
             )}
           </Paper>
         ) : (
-          <Typography>No appointments yet.</Typography>
+          <Typography>Még nincsenek időpontok.</Typography>
         )}
       </Box>
       <Snackbar

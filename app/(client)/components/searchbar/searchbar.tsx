@@ -33,7 +33,7 @@ const SearchBar: FC = () => {
       <TextField
         className="search-input"
         variant="outlined"
-        placeholder="Search..."
+        placeholder="Keresés..."
         onKeyUp={(event) => {
           handleSearch((event.target as HTMLTextAreaElement).value);
         }}

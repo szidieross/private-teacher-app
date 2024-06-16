@@ -34,16 +34,17 @@ export const isValidPhoneNumber = (phoneNumber: string): boolean => {
 export const formatDate = (date: string | Date): string => {
   const parsedDate = typeof date === "string" ? new Date(date) : date;
   
-  const formattedDate = parsedDate.toLocaleDateString("en-GB", {
+  const formattedDate = parsedDate.toLocaleDateString("hu-HU", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 
-  const formattedTime = parsedDate.toLocaleTimeString("en-GB", {
+  const formattedTime = parsedDate.toLocaleTimeString("hu-HU", {
     hour: "2-digit",
     minute: "2-digit",
   });
 
   return `${formattedDate}, ${formattedTime}`;
 };
+

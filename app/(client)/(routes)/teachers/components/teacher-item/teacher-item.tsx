@@ -34,7 +34,7 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
           component="img"
           image={imageSrc}
           sx={{ borderRadius: 2, aspectRatio: "1 / 1" }}
-          alt={`${teacher.userData.firstName} ${teacher.userData.lastName}`}
+          alt={`${teacher.userData.lastName} ${teacher.userData.firstName}`}
         />
         <Box className="teacher-details" pt={2}>
           <Typography
@@ -44,7 +44,7 @@ const TeacherItem: FC<Props> = ({ teacher }) => {
             className="teacher-name"
             fontSize={21}
           >
-            {teacher.userData.firstName} {teacher.userData.lastName}
+            {teacher.userData.lastName} {teacher.userData.firstName}
           </Typography>
           <div className="teacher-info">
             <Typography

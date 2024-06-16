@@ -4,7 +4,7 @@ const pages: PageModel[] = [
   {
     label: "Home",
     route: "/",
-    title: "Private Teacher App",
+    title: "MagánTanár",
     description:
       "Welcome to Private Teacher App. Find the best teachers for your subjects.",
     keywords: ["private teacher app", "teachers", "education"],
@@ -12,7 +12,7 @@ const pages: PageModel[] = [
   {
     label: "Teachers",
     route: "/teachers",
-    title: "Teachers",
+    title: "Tanárok",
     description:
       "Explore our list of qualified teachers covering various subjects.",
     keywords: ["teachers", "education", "subjects"],
@@ -20,7 +20,7 @@ const pages: PageModel[] = [
   {
     label: "Signup",
     route: "/signup",
-    title: "Signup",
+    title: "Regisztráció",
     description:
       "Create an account to access all features of Private Teacher App.",
     keywords: ["signup", "register", "account"],
@@ -28,28 +28,28 @@ const pages: PageModel[] = [
   {
     label: "Login",
     route: "/login",
-    title: "Login",
+    title: "Bejelentkezés",
     description: "Login to your Private Teacher App account.",
     keywords: ["login", "signin", "authentication"],
   },
   {
     label: "Profile",
     route: "/profile",
-    title: "Profile",
+    title: "Fiók",
     description: "View and manage your profile information.",
     keywords: ["profile", "user profile", "account"],
   },
   {
     label: "Settings",
     route: "/profile/settings",
-    title: "Settings",
+    title: "Beállítások",
     description: "Adjust your account settings and preferences.",
     keywords: ["settings", "preferences", "account settings"],
   },
   {
     label: "appointments",
     route: "/profile/appointments",
-    title: "My Appointments",
+    title: "Időpontjaim",
     description: "View and manage your upcoming appointments.",
     keywords: ["appointments", "schedule", "agenda"],
   },

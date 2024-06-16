@@ -11,13 +11,17 @@ import {
   Paper,
   Snackbar,
   Alert,
+  IconButton,
 } from "@mui/material";
 import { FC, useState, useEffect } from "react";
 import { useFormState } from "react-dom";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 
 const LoginForm: FC = () => {
   const [state, formAction] = useFormState<any, FormData>(login, undefined);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { to } = useNavigation();
 
   useEffect(() => {
@@ -34,6 +38,10 @@ const LoginForm: FC = () => {
       return;
     }
     setSnackbarOpen(false);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -56,23 +64,36 @@ const LoginForm: FC = () => {
             }}
           >
             <Typography variant="h5" gutterBottom>
-              Login
+              Bejelentkezés
             </Typography>
             <TextField
+              fullWidth
               type="text"
               name="username"
               required
-              label="Username"
+              label="Felhasználónév"
               margin="normal"
               variant="outlined"
             />
             <TextField
-              type="password"
+              type={showPassword ? "text" : "password"}
+              fullWidth
               name="password"
               required
-              label="Password"
+              label="Jelszó"
               margin="normal"
               variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <IconButton onClick={togglePasswordVisibility}>
+                    {showPassword ? (
+                      <VisibilityRoundedIcon />
+                    ) : (
+                      <VisibilityOffRoundedIcon />
+                    )}
+                  </IconButton>
+                ),
+              }}
             />
             <Button
               type="submit"
@@ -85,7 +106,7 @@ const LoginForm: FC = () => {
                 },
               }}
             >
-              Login
+              Bejelentkezés
             </Button>
           </Box>
         </Paper>
@@ -97,7 +118,7 @@ const LoginForm: FC = () => {
         justifyContent={"center"}
         marginY={4}
       >
-        <Typography fontSize={14}>Don&apos;t have an account yet?</Typography>
+        <Typography fontSize={14}>Még nincs fiókja?</Typography>
 
         <Button
           onClick={() => to("/signup")}
@@ -110,7 +131,7 @@ const LoginForm: FC = () => {
             },
           }}
         >
-          Signup
+          Regisztráció
         </Button>
       </Box>
       <Snackbar

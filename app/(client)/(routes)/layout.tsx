@@ -6,8 +6,8 @@ import { Container } from "@mui/material";
 import Providers from "../utils/providers.util";
 
 export const metadata: Metadata = {
-  title: "Private Teacher App",
-  description: "Private teacher app",
+  title: "MagánTanár",
+  description: "MagánTanár",
 };
 
 export default async function RootLayout({

@@ -106,7 +106,7 @@ const AddLesson: FC<Props> = ({ teacherId, onLessonsUpdate }) => {
             },
           }}
         >
-          New Lesson <PlaylistAddCircleRoundedIcon sx={{ ml: 1 }} />
+          Új tantárgy <PlaylistAddCircleRoundedIcon sx={{ ml: 1 }} />
         </Button>
       ) : (
         <Paper
@@ -132,7 +132,7 @@ const AddLesson: FC<Props> = ({ teacherId, onLessonsUpdate }) => {
                   name="categoryId"
                   renderValue={(selected) => {
                     if (!selected) {
-                      return <em>None</em>;
+                      return <em></em>;
                     }
                     const selectedCategory = categoryOptions.find(
                       (category) => category.categoryId === selected
@@ -140,12 +140,12 @@ const AddLesson: FC<Props> = ({ teacherId, onLessonsUpdate }) => {
                     return selectedCategory ? (
                       selectedCategory.name
                     ) : (
-                      <em>None</em>
+                      <em></em>
                     );
                   }}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em></em>
                   </MenuItem>
                   {categoryOptions
                     .filter(
@@ -181,7 +181,7 @@ const AddLesson: FC<Props> = ({ teacherId, onLessonsUpdate }) => {
                     },
                   }}
                 >
-                  Add Lesson
+                  Tantárgy hozzáadása
                 </Button>
               </Grid>
             </Grid>
@@ -191,7 +191,7 @@ const AddLesson: FC<Props> = ({ teacherId, onLessonsUpdate }) => {
       {lessons && lessons.length > 0 ? (
         <>
           <Typography variant="h4" fontSize={18} color={colors.secondary}>
-            Your lessons
+          Tantárgyaim
           </Typography>
           <Box
             sx={{
@@ -224,7 +224,7 @@ const AddLesson: FC<Props> = ({ teacherId, onLessonsUpdate }) => {
         </>
       ) : (
         <Typography variant="body1" fontSize={14} color={colors.secondary}>
-          No lesson yet.
+          Nincs megadott tantárgy.
         </Typography>
       )}
     </Container>
