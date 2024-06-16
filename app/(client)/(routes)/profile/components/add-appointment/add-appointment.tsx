@@ -86,6 +86,17 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
             <form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
+                  {/* <TextField
+                    fullWidth
+                    label="Date and Time"
+                    type="datetime-local"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    InputLabelProps={{ shrink: true }}
+                    variant="outlined"
+                    sx={{ cursor: "pointer" }}
+                  /> */}
                   <TextField
                     fullWidth
                     label="Date and Time"
@@ -96,6 +107,7 @@ const AddAppointment: FC<Props> = ({ teacherId }) => {
                     InputLabelProps={{ shrink: true }}
                     variant="outlined"
                     sx={{ cursor: "pointer" }}
+                    inputProps={{ min: new Date().toISOString().slice(0, 16) }}
                   />
                 </Grid>
                 <Grid item xs={12}>
