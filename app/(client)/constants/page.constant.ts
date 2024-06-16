@@ -4,7 +4,7 @@ const pages: PageModel[] = [
   {
     label: "Home",
     route: "/",
-    title: "Private Teacher App",
+    title: "MagánTanár",
     description:
       "Welcome to Private Teacher App. Find the best teachers for your subjects.",
     keywords: ["private teacher app", "teachers", "education"],

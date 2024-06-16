@@ -10,14 +10,14 @@ const FooterBar: FC = () => {
       sx={{
         backgroundColor: colors.primary,
         color: colors.secondary,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '16px 0',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "16px 0",
       }}
     >
-      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-        Private Teacher App
+      <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+        MagánTanár
       </Typography>
     </Box>
   );

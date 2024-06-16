@@ -78,7 +78,7 @@ const Desktop: FC<Props> = ({ profilePicture }) => {
         <Box>
           <Link href={"/teachers"} style={{ color: colors.secondary }}>
             <Typography sx={{ fontWeight: "bold", fontSize: 24 }}>
-              Private Teacher App
+            MagánTanár
             </Typography>
           </Link>
         </Box>

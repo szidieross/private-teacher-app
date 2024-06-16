@@ -165,7 +165,7 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
             className="mobile-title"
             variant="h6"
           >
-            Private Teacher App
+            MagánTanár
           </Typography>
         </Grid>
         {userInfo.isLoggedIn ? (
