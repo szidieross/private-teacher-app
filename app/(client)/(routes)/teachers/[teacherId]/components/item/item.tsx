@@ -61,7 +61,7 @@ const Item: FC<Props> = ({ teacherId }) => {
         {lessons && lessons.length > 0 ? (
           <Booking teacherId={teacherId} teacher={teacher} lessons={lessons} />
         ) : (
-          <Typography>No lesson yet.</Typography>
+          <Typography>Nincs megadott tantárgy.</Typography>
         )}
       </Box>
     </Container>

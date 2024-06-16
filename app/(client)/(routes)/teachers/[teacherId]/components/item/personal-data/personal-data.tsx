@@ -90,9 +90,11 @@ const PersonalData: FC<Props> = ({ teacher }) => {
               target="_blank"
             >
               <Typography variant="body1" color={colors.secondary}>
-                {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
-                    ${teacher.street ? teacher.street + ", " : ""}
-                    ${teacher.location ? teacher.location : " - "}`}
+                {`
+                    ${teacher.location ? teacher.location + ", " : " - "}
+                    ${teacher.street ? teacher.street + " " : ""}${
+                  teacher.houseNumber ? teacher.houseNumber : ""
+                }`}
               </Typography>
             </a>
           </Box>

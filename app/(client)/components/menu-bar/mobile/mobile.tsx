@@ -113,40 +113,81 @@ const Mobile: FC<Props> = ({ profilePicture }) => {
             anchor="left"
             open={isDrawerOpen}
             onClose={toggleDrawer}
+            sx={{
+              "& .drawer-box": {
+                backgroundColor: colors.secondary,
+                height: "100%",
+              },
+            }}
           >
             <Box
               className="drawer-box"
               sx={{ backgroundColor: colors.background, height: "100%" }}
             >
               <IconButton onClick={toggleDrawer} sx={{ padding: "16px" }}>
-                <MenuIcon />
+                <MenuIcon sx={{ color: "white" }}/>
               </IconButton>
               <List>
                 <ListItem button onClick={handleTeachersClick}>
-                  <ListItemText primary="Tanárok" />
+                  <ListItemText
+                    primary="Tanárok"
+                    primaryTypographyProps={{
+                      sx: { fontWeight: "bold", color: colors.white },
+                    }}
+                  />
                 </ListItem>
                 {userInfo.isLoggedIn ? (
                   <>
                     <ListItem button onClick={handleProfileClick}>
-                      <ListItemText primary="Fiók" />
+                      <ListItemText
+                        primary="Fiók"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                     <ListItem button onClick={handleAppointmentsClick}>
-                      <ListItemText primary="Időpontjaim" />
+                      <ListItemText
+                        primary="Időpontjaim"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                     <ListItem button onClick={handleSettingsClick}>
-                      <ListItemText primary="Beállítások" />
+                      <ListItemText
+                        primary="Beállítások"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                     <ListItem button onClick={handleLogout}>
-                      <ListItemText primary="Kijelentkezés" />
+                      <ListItemText
+                        primary="Kijelentkezés"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                   </>
                 ) : (
                   <>
                     <ListItem button onClick={() => to("/login")}>
-                      <ListItemText primary="Login" />
+                      <ListItemText
+                        primary="Login"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                     <ListItem button onClick={() => to("/signup")}>
-                      <ListItemText primary="Regisztráció" />
+                      <ListItemText
+                        primary="Regisztráció"
+                        primaryTypographyProps={{
+                          sx: { fontWeight: "bold", color: colors.white },
+                        }}
+                      />
                     </ListItem>
                   </>
                 )}

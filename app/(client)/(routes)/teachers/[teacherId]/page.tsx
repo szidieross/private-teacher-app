@@ -14,7 +14,7 @@ export const generateMetadata = async (props: Props) => {
   const page = findPageByLabel("teacher");
 
   return {
-    title: `${user.firstName} ${user.lastName}`,
+    title: `${user.lastName} ${user.firstName}`,
     description: page.description,
     keywords: page.keywords,
   };

@@ -144,7 +144,7 @@ const Booking: FC<Props> = ({ teacherId, teacher, lessons }) => {
             component="h2"
             sx={{ mb: 2 }}
           >
-            {selectedLesson.lesson?.categoryName} Appointment
+            {selectedLesson.lesson?.categoryName} időpontok
           </Typography>
           {selectedLesson && selectedLesson.lesson?.lessonId && (
             <AppointmentsTable

@@ -194,9 +194,11 @@ const Profile: FC<Props> = ({ userId }) => {
                     variant="body1"
                     color={colors.darkPurple}
                   >
-                    {`${teacher.houseNumber ? teacher.houseNumber + " " : ""}
-                    ${teacher.street ? teacher.street + ", " : ""}
-                    ${teacher.location}`}
+                    {`
+                    ${teacher.location ? teacher.location + ", " : " - "}
+                    ${teacher.street ? teacher.street + " " : ""}${
+                      teacher.houseNumber ? teacher.houseNumber : ""
+                    }`}
                   </Typography>{" "}
                 </Box>
                 <Box display="flex" alignItems="center" mb={1}>

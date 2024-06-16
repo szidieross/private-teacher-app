@@ -224,7 +224,7 @@ const AddLesson: FC<Props> = ({ teacherId, onLessonsUpdate }) => {
         </>
       ) : (
         <Typography variant="body1" fontSize={14} color={colors.secondary}>
-          No lesson yet.
+          Nincs megadott tantárgy.
         </Typography>
       )}
     </Container>

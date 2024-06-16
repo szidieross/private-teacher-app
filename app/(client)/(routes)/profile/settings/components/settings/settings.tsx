@@ -261,7 +261,7 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
         aria-labelledby="delete-dialog-title"
         aria-describedby="delete-dialog-description"
       >
-        <DialogTitle id="delete-dialog-title">Törlés megerősítése</DialogTitle>
+        <DialogTitle id="delete-dialog-title">Fiók törlésének megerősítése</DialogTitle>
         <DialogContent>
           <DialogContentText id="delete-dialog-description">
             Biztosan törölni szeretné ezt a fiókot? Ez a művelet nem

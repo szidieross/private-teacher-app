@@ -315,7 +315,7 @@ const TeacherList: FC<Props> = ({ isSession }) => {
               ))}
           {filteredTeachers.length === 0 && (
             <Grid item xs={12}>
-              <Typography textAlign={"center"}>No items found</Typography>
+              <Typography textAlign={"center"}>Nincs találat.</Typography>
             </Grid>
           )}
         </>
