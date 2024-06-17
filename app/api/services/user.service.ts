@@ -19,7 +19,7 @@ interface UserId {
 export const getUsers = async (): Promise<UserModel[]> => {
   try {
     const db = await pool.getConnection();
-    const query = "SELECT * FROM users";
+    const query = "SELECT * FROM users WHERE role='user'";
     const [rows] = await db.execute(query);
     db.release();
 
