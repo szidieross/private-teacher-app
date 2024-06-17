@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Box,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
@@ -32,7 +33,9 @@ const UserList: FC<Props> = ({ isSession }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState<UserModel | null>(null);
-  const [teacherIdToDelete, setTeacherIdToDelete] = useState<number | undefined>(undefined);
+  const [teacherIdToDelete, setTeacherIdToDelete] = useState<
+    number | undefined
+  >(undefined);
 
   useEffect(() => {
     setUserInfo((prevState) => ({
@@ -44,12 +47,6 @@ const UserList: FC<Props> = ({ isSession }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (isSession) {
-          const session = await getSession();
-          if (session.userId) {
-            // Handle session-based logic here if needed
-          }
-        }
         const fetchedTeachers = await getTeachers();
         const teacherUsers = fetchedTeachers.map((teacher) => ({
           ...teacher.userData,
@@ -93,7 +90,9 @@ const UserList: FC<Props> = ({ isSession }) => {
   const handleDeleteUser = async (userId: number) => {
     try {
       await deleteUserById(userId);
-      setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
+      setUsers((prevUsers) =>
+        prevUsers.filter((user) => user.userId !== userId)
+      );
     } catch (error) {
       console.error("Failed deleting user", error);
     }
@@ -102,7 +101,9 @@ const UserList: FC<Props> = ({ isSession }) => {
   const handleDeleteTeacher = async (userId: number, teacherId: number) => {
     try {
       await deleteTeacherById(teacherId);
-      setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
+      setUsers((prevUsers) =>
+        prevUsers.filter((user) => user.userId !== userId)
+      );
     } catch (error) {
       console.error("Failed deleting teacher", error);
     }
@@ -121,7 +122,7 @@ const UserList: FC<Props> = ({ isSession }) => {
     {
       field: "name",
       headerName: "Felhasználó",
-      width: 140,
+      width: 300,
       editable: false,
       renderCell: (params) =>
         params.row.teacherId ? (
@@ -172,16 +173,18 @@ const UserList: FC<Props> = ({ isSession }) => {
 
   return (
     <Container>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        checkboxSelection={false}
-        disableRowSelectionOnClick
-        onCellClick={handleCellClick}
-        autoHeight
-        autosizeOnMount
-        sx={{ maxWidth: "90vw", backgroundColor: colors.background }}
-      />
+      <Box display={"flex"} justifyContent={"center"}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          checkboxSelection={false}
+          disableRowSelectionOnClick
+          onCellClick={handleCellClick}
+          autoHeight
+          autosizeOnMount
+          sx={{ maxWidth: "fit-content", backgroundColor: colors.background }}
+        />
+      </Box>
       <Dialog
         open={openDeleteModal}
         onClose={closeDeleteDialog}
@@ -193,7 +196,8 @@ const UserList: FC<Props> = ({ isSession }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="delete-dialog-description">
-            Biztosan törölni szeretné ezt a fiókot? Ez a művelet nem visszavonható.
+            Biztosan törölni szeretné ezt a fiókot? Ez a művelet nem
+            visszavonható.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

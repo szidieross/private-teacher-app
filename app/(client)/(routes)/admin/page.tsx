@@ -1,6 +1,7 @@
-import { isLoggedIn } from "@/app/actions";
+import { getSession, isLoggedIn } from "@/app/actions";
 import { findPageByLabel } from "../../utils/page.util";
 import UserList from "./components/user-list/user-list";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: { slug: string };
@@ -19,6 +20,11 @@ export const generateMetadata = async (props: Props) => {
 
 export default async function Home() {
   const isSession = await isLoggedIn();
+  console.log("isSession", isSession);
+  const session = await getSession();
+  if (session.userId !== 73) {
+    redirect("/teachers");
+  }
 
   return (
     <main>
