@@ -39,12 +39,12 @@ const TeacherAppointments: FC<Props> = ({ userId }) => {
       if (teacherId) {
         const updatedAppointments = await getAppointmentByTeacherId(teacherId);
         setAppointments(updatedAppointments);
-        setSnackbarMessage("Appointment successfully deleted.");
+        setSnackbarMessage("Az időpont sikeresen törölve.");
         setSnackbarOpen(true);
       }
     } catch (error) {
-      console.error("Error deleting appointment:", error);
-      setSnackbarMessage("Error deleting appointment.");
+      console.error("Hiba az időpont törlése során.:", error);
+      setSnackbarMessage("Hiba az időpont törlése során.");
       setSnackbarOpen(true);
     }
   };

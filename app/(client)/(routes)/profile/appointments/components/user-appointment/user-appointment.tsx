@@ -36,10 +36,10 @@ const UserAppointments: FC<Props> = ({ userId }) => {
       await cancelAppointment(appointmentId);
       const updatedAppointments = await getAppointmentByUserId(userId);
       setAppointments(updatedAppointments);
-      setSnackbarMessage("Appointment successfully canceled.");
+      setSnackbarMessage("Az időpnt sikeresen lemondva.");
     } catch (error) {
-      setSnackbarMessage("Error canceling appointment.");
-      console.error("Error canceling appointment:", error);
+      setSnackbarMessage("Hiba az időpont lemondásakor.");
+      console.error("Hiba az időpont lemondásakor:", error);
     }
     setSnackbarOpen(true);
   };

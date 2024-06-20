@@ -230,11 +230,11 @@ const Settings: FC<Props> = ({ userId, teacherId }) => {
 
       if (result) {
         setOpenSnackbar(true);
-        setSnackbarMessage("User data updated!");
+        setSnackbarMessage("Adatok sikeresen frissítve!");
       }
     } catch (error) {
       setOpenSnackbar(true);
-      setSnackbarMessage("User data update failed.");
+      setSnackbarMessage("Hiba az adatok frissítése során.");
     }
   };
 

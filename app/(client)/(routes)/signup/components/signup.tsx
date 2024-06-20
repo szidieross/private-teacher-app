@@ -195,11 +195,11 @@ const Signup = () => {
       setContactForm(initContactForm);
 
       setOpenSnackbar(true);
-      setSnackbarMessage("Registration successful!");
+      setSnackbarMessage("Sikeres regisztráció!");
       to("/login");
     } catch (error) {
       setOpenSnackbar(true);
-      setSnackbarMessage("Registration failed. Please try again.");
+      setSnackbarMessage("Hiba a regisztráció során. Próbalja újra később.");
     }
   };
 

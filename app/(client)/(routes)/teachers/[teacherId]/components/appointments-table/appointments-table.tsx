@@ -10,12 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { AppointmentModel } from "@/app/api/models/appointment.model";
 import useAppointmentsService from "@/app/(client)/services/appointment.service";
-import {
-  Container,
-  Snackbar,
-  Alert,
-  IconButton,
-} from "@mui/material";
+import { Container, Snackbar, Alert, IconButton } from "@mui/material";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import { useUserContext } from "@/app/(client)/hooks/context.hook";
 import AddTaskRoundedIcon from "@mui/icons-material/AddTaskRounded";
@@ -57,18 +52,18 @@ const AppointmentsTable: FC<Props> = ({
   };
 
   const handleBooking = async (appointmentId: number) => {
-    if (ownTeacherId == teacherId) {
-      setSnackbarMessage("You can't book your own appointments!");
+    if (ownTeacherId) {
+      setSnackbarMessage("Tanárként nem lehet időpontot foglalni.");
       setSnackbarOpen(true);
       return;
     }
     try {
       await bookAppointment(appointmentId, lessonId);
-      setSnackbarMessage("Appointment successfully booked.");
+      setSnackbarMessage("Az időpont sikeresen lefoglalva.");
       await fetchAppointments();
     } catch (error) {
-      setSnackbarMessage("Error booking appointment.");
-      console.error("Error booking appointment:", error);
+      setSnackbarMessage("Az időpont foglalás sikertelen.");
+      console.error("Az időpont foglalás sikertelen:", error);
     }
     setSnackbarOpen(true);
   };
